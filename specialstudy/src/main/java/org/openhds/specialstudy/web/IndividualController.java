@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.stereotype.Controller;
 
-@RooWebScaffold(path = "individual", automaticallyMaintainView = true, update = true, formBackingObject = Individual.class)
+@RooWebScaffold(path = "individual", automaticallyMaintainView = true, update = false, formBackingObject = Individual.class)
 @RequestMapping("/individual/**")
 @Controller
 public class IndividualController {

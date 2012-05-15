@@ -4,6 +4,8 @@ Instructions for integrating the Special Study module into the OpenHDS Core
 
 2. Configure the Special Study to point to the Open HDS Special Study web service by going to the file located at:
   openhds-core\specialstudy\src\main\resources\webservice.properties
+  
+3. Add usernames/passwords to the 'end_user' table of the special study database.
 		
 4. Open up the command line and go to the Special Study project folder (openhds-core\specialstudy) and execute the following command:
 

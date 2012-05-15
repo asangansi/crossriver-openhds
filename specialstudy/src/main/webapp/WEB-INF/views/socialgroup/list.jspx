@@ -11,7 +11,11 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Ext Id</th>
+                        <th>Household Id</th>
+                        <th>Interview Time Start</th>
+                        <th>Interview Time End</th>
+                        <th>Forms Checked By</th>
+                        <th>Forms Received By</th>
                         <th/>
                         <th/>
                         <th/>
@@ -21,7 +25,19 @@
                     <tr>
                         <td>${socialGroup.id}</td>
                         <td>
-                            <c:out value="${fn:substring(socialGroup.extId, 0, 10)}"/>
+                            <c:out value="${fn:substring(socialGroup.householdId, 0, 10)}"/>
+                        </td>
+                        <td>
+                            <c:out value="${fn:substring(socialGroup.interviewTimeStart, 0, 10)}"/>
+                        </td>
+                        <td>
+                            <c:out value="${fn:substring(socialGroup.interviewTimeEnd, 0, 10)}"/>
+                        </td>
+                        <td>
+                            <c:out value="${fn:substring(socialGroup.formsCheckedBy, 0, 10)}"/>
+                        </td>
+                        <td>
+                            <c:out value="${fn:substring(socialGroup.formsReceivedBy, 0, 10)}"/>
                         </td>
                         <td>
                             <spring:url value="/socialgroup/${socialGroup.id}" var="show_form_url"/>
@@ -56,15 +72,7 @@
                     </tr>
                 </c:forEach>
                 <tr class="footer">
-                    <td colspan="5">
-                        <span class="new">
-                            <spring:url value="/socialgroup/form" var="create_url"/>
-                            <a href="${create_url}">
-                                <spring:url value="/static/images/add.png" var="create_img_url"/>
-                                <spring:message arguments="${entity_label}" code="global.menu.new" var="add_message"/>
-                                <img alt="${add_message}" src="${create_img_url}" title="${add_message}"/>
-                            </a>
-                        </span>
+                    <td colspan="10">
                         <c:if test="${not empty maxPages}">
                             <roo:pagination maxPages="${maxPages}" page="${param.page}" size="${param.size}"/>
                         </c:if>

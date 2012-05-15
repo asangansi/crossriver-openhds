@@ -11,7 +11,5 @@
         <put-attribute name="body" value="/WEB-INF/views/individual/create.jspx"/>
     </definition>
     
-<definition extends="default" name="individual/update">
-        <put-attribute name="body" value="/WEB-INF/views/individual/update.jspx"/>
-    </definition>
+
 </tiles-definitions>

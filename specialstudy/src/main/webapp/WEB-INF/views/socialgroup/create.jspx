@@ -1,6 +1,6 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    <script type="text/javascript">dojo.require('dijit.TitlePane');</script>
+    <script type="text/javascript">dojo.require('dijit.TitlePane');dojo.require('dijit.form.FilteringSelect');</script>
     <div id="_title_div">
         <spring:message code="label.socialgroup" var="entity_label"/>
         <spring:message arguments="${entity_label}" code="entity.create" var="title_msg"/>
@@ -8,15 +8,462 @@
         <spring:url value="/socialgroup" var="form_url"/>
         <form:form action="${form_url}" method="POST" modelAttribute="socialGroup">
             <form:errors cssClass="errors" delimiter="&lt;p/&gt;"/>
-            <div id="roo_socialGroup_extId">
-                <label for="_extId_id">Ext Id:</label>
-                <form:input cssStyle="width:250px" id="_extId_id" maxlength="30" path="extId" size="0"/>
+            <div id="roo_socialGroup_householdId">
+                <label for="_householdId_id">Household Id:</label>
+                <form:input cssStyle="width:250px" id="_householdId_id" maxlength="30" path="householdId" size="0" />
                 <br/>
-                <form:errors cssClass="errors" id="_extId_error_id" path="extId"/>
-                <spring:message arguments="Ext Id" code="field.invalid" var="field_invalid"/>
+                <form:errors cssClass="errors" id="_householdId_error_id" path="householdId"/>
+                <spring:message arguments="Household Id" code="field.invalid" var="field_invalid"/>
                 <spring:message code="field.required" var="field_required"/>
-                <spring:message argumentSeparator="," arguments="Ext Id,(${field_required})" code="field.simple.validation" var="field_validation"/>
-                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_extId_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+                <spring:message argumentSeparator="," arguments="Household Id,(${field_required})" code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_householdId_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            
+            <div id="roo_socialGroup_interviewTimeStart">
+                <label for="_interviewTimeStart_id">Interview Time Started:</label>
+                <form:input cssStyle="width:250px" id="_interviewTimeStart_id" maxlength="30" path="interviewTimeStart" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_interviewTimeStart_error_id" path="interviewTimeStart"/>
+                <spring:message arguments="Interview Time Start" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Interview Time Start," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_interviewTimeStart_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            
+            <h3><b>A: General Household Characteristics</b></h3> <br />           
+            <b>What is the main source of drinking water for members of your household?</b> <br /><br />
+            <div id="roo_socialGroup_water">
+                <label for="_water_id">Source of Drinking Water:</label>
+                <form:errors cssClass="errors" id="_water_error_id" path="water"/>
+                <form:select cssStyle="width:250px" id="_water_id" items="${drinkingWater}" path="water"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_water_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>What kind of toilet facility does your household use?</b> <br /><br />
+            <div id="roo_socialGroup_toilet">
+                <label for="_toilet_id">Toilet Facility:</label>
+                <form:errors cssClass="errors" id="_toilet_error_id" path="toilet"/>
+                <form:select cssStyle="width:250px" id="_toilet_id" items="${toiletFacility}" path="toilet"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_toilet_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>How many rooms does your household occupy?</b> <br /><br />
+            <div id="roo_socialGroup_rooms">
+                <label for="_rooms_id">Rooms Occupied By Household:</label>
+                <form:input cssStyle="width:250px" id="_rooms_id" maxlength="30" path="rooms" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_rooms_error_id" path="rooms"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Rooms," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_rooms_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            
+            <b>How many rooms in your household are usually used for sleeping?</b> <br /><br />
+            <div id="roo_socialGroup_srooms">
+                <label for="_srooms_id">Rooms used for Sleeping:</label>
+                <form:input cssStyle="width:250px" id="_srooms_id" maxlength="30" path="srooms" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_srooms_error_id" path="srooms"/>
+                <spring:message arguments="Srooms" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Srooms," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_srooms_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_floor">
+                <label for="_floor_id">Main Material of the Floor:</label>
+                <form:errors cssClass="errors" id="_floor_error_id" path="floor"/>
+                <form:select cssStyle="width:250px" id="_floor_id" items="${floorMaterial}" path="floor"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_floor_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_roof">
+                <label for="_roof_id">Main Material of the Roof:</label>
+                <form:errors cssClass="errors" id="_roof_error_id" path="roof"/>
+                <form:select cssStyle="width:250px" id="_roof_id" items="${roofMaterial}" path="roof"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_roof_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_wall">
+                <label for="_wall_id">Main Material of the Wall:</label>
+                <form:errors cssClass="errors" id="_wall_error_id" path="wall"/>
+                <form:select cssStyle="width:250px" id="_wall_id" items="${wallMaterial}" path="wall"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_wall_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>What is the main source of cooking fuel used by the household?</b> <br /><br />
+            <div id="roo_socialGroup_cfuel">
+                <label for="_cfuel_id">Type of Cooking Fuel:</label>
+                <form:errors cssClass="errors" id="_cfuel_error_id" path="cfuel"/>
+                <form:select cssStyle="width:250px" id="_cfuel_id" items="${cookingFuel}" path="cfuel"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_cfuel_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>What is the main source of lighting for this household?</b> <br /><br />
+            <div id="roo_socialGroup_light">
+                <label for="_light_id">Lighting Source:</label>
+                <form:errors cssClass="errors" id="_light_error_id" path="light"/>
+                <form:select cssStyle="width:250px" id="_light_id" items="${lightingSource}" path="light"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_light_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>Durable Household Goods: Does your household have?</b> <br /><br />
+            <div id="roo_socialGroup_haveCar">
+                <label for="_haveCar_id">A Car:</label>
+                <form:checkbox id="_haveCar_id" path="haveCar"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveMotorcycle">
+                <label for="_haveMotorcycle_id">A Motorcycle:</label>
+                <form:checkbox id="_haveMotorcycle_id" path="haveMotorcycle"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveBicycle">
+                <label for="_haveBicycle_id">A Bicycle:</label>
+                <form:checkbox id="_haveBicycle_id" path="haveBicycle"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveElectricity">
+                <label for="_haveElectricity_id">Electricity:</label>
+                <form:checkbox id="_haveElectricity_id" path="haveElectricity"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveSolar">
+                <label for="_haveSolar_id">Solar light:</label>
+                <form:checkbox id="_haveSolar_id" path="haveSolar"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveRefrigerator">
+                <label for="_haveRefrigerator_id">A Refrigerator:</label>
+                <form:checkbox id="_haveRefrigerator_id" path="haveRefrigerator"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveTelevision">
+                <label for="_haveTelevision_id">A Television:</label>
+                <form:checkbox id="_haveTelevision_id" path="haveTelevision"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveDvdVcrVcd">
+                <label for="_haveDvdVcrVcd_id">A DVD/VCR/VCD:</label>
+                <form:checkbox id="_haveDvdVcrVcd_id" path="haveDvdVcrVcd"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveRadio">
+                <label for="_haveRadio_id">A Radio:</label>
+                <form:checkbox id="_haveRadio_id" path="haveRadio"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveSewingMachine">
+                <label for="_haveSewingMachine_id">A Sewing Machine:</label>
+                <form:checkbox id="_haveSewingMachine_id" path="haveSewingMachine"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveStereo">
+                <label for="_haveStereo_id">A Stereo System:</label>
+                <form:checkbox id="_haveStereo_id" path="haveStereo"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveIron">
+                <label for="_haveIron_id">An Electric iron/box iron:</label>
+                <form:checkbox id="_haveIron_id" path="haveIron"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveFan">
+                <label for="_haveFan_id">A Fan:</label>
+                <form:checkbox id="_haveFan_id" path="haveFan"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveTelephone">
+                <label for="_haveTelephone_id">A Telephone:</label>
+                <form:checkbox id="_haveTelephone_id" path="haveTelephone"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveElectricGasStove">
+                <label for="_haveElectricGasStove_id">An Electric/Gas Stove:</label>
+                <form:checkbox id="_haveElectricGasStove_id" path="haveElectricGasStove"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_havePushTruck">
+                <label for="_havePushTruck_id">A Push Truck:</label>
+                <form:checkbox id="_havePushTruck_id" path="havePushTruck"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveTractor">
+                <label for="_haveTractor_id">A Tractor:</label>
+                <form:checkbox id="_haveTractor_id" path="haveTractor"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveGrindingMill">
+                <label for="_haveGrindingMill_id">A Grinding Mill:</label>
+                <form:checkbox id="_haveGrindingMill_id" path="haveGrindingMill"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveKeroseneStove">
+                <label for="_haveKeroseneStove_id">A Kerosene Stove:</label>
+                <form:checkbox id="_haveKeroseneStove_id" path="haveKeroseneStove"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_havePersonalComputer">
+                <label for="_havePersonalComputer_id">A Personal Computer:</label>
+                <form:checkbox id="_havePersonalComputer_id" path="havePersonalComputer"/>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_haveGenerator">
+                <label for="_haveGenerator_id">A Generator:</label>
+                <form:checkbox id="_haveGenerator_id" path="haveGenerator"/>
+            </div>
+            <br/>
+            
+            <b>Who owns the land where this compound is built?</b> <br /><br />
+            <div id="roo_socialGroup_land">
+                <label for="_land_id">Land Ownership:</label>
+                <form:errors cssClass="errors" id="_land_error_id" path="land"/>
+                <form:select cssStyle="width:250px" id="_land_id" items="${landOwnership}" path="land"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_land_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>Is your household renting or does it own this dwelling unit?</b> <br /><br />
+            <div id="roo_socialGroup_tenure">
+                <label for="_tenure_id">Tenure of Dwelling Unit:</label>
+                <form:errors cssClass="errors" id="_tenure_error_id" path="tenure"/>
+                <form:select cssStyle="width:250px" id="_tenure_id" items="${tenure}" path="tenure"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_tenure_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>What is the main method of waste/garbage disposal used by your household?</b> <br /><br />
+            <div id="roo_socialGroup_waste">
+                <label for="_waste_id">Waste/Garbage Disposal:</label>
+                <form:errors cssClass="errors" id="_waste_error_id" path="waste"/>
+                <form:select cssStyle="width:250px" id="_waste_id" items="${waste}" path="waste"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_waste_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <h3><b>B: Food Security and Animal Possessions</b></h3> <br />
+            <b>Does your household own any farming land?</b> <br /><br />
+            <div id="roo_socialGroup_owland">
+                <label for="_owland_id">Owland:</label>
+                <form:errors cssClass="errors" id="_owland_error_id" path="owland"/>
+                <form:select cssStyle="width:250px" id="_owland_id" items="${owland}" path="owland"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_owland_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>Is this land enough to grow food to feed members of your household?</b> <br /><br />
+            <div id="roo_socialGroup_enland">
+                <label for="_enland_id">Enland:</label>
+                <form:errors cssClass="errors" id="_enland_error_id" path="enland"/>
+                <form:select cssStyle="width:250px" id="_enland_id" items="${enland}" path="enland"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_enland_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>Did your household grow enough food to feed members of your household during the last farming season?</b> <br /><br />
+            <div id="roo_socialGroup_enfood">
+                <label for="_enfood_id">Enfood:</label>
+                <form:errors cssClass="errors" id="_enfood_error_id" path="enfood"/>
+                <form:select cssStyle="width:250px" id="_enfood_id" items="${enfood}" path="enfood"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_enfood_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>If no, how did you supplement your food requirements?</b> <br /><br />
+            <div id="roo_socialGroup_faid">
+                <label for="_faid_id">Faid:</label>
+                <form:errors cssClass="errors" id="_faid_error_id" path="faid"/>
+                <form:select cssStyle="width:250px" id="_faid_id" items="${faid}" path="faid"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_faid_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>What is the main staple food crop for your household?</b> <br /><br />
+            <div id="roo_socialGroup_mstaple">
+                <label for="_mstaple_id">Mstaple:</label>
+                <form:errors cssClass="errors" id="_mstaple_error_id" path="mstaple"/>
+                <form:select cssStyle="width:250px" id="_mstaple_id" items="${mstaple}" path="mstaple"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_mstaple_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>How many meals did this household take yesterday?</b> <br /><br />
+            <div id="roo_socialGroup_meals">
+                <label for="_meals_id">Meals:</label>
+                <form:errors cssClass="errors" id="_meals_error_id" path="meals"/>
+                <form:select cssStyle="width:250px" id="_meals_id" items="${meals}" path="meals"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_meals_id', widgetType: 'dijit.form.ComboBox', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>In the past one month or so, how many days did your household not have food to eat?</b> <br /><br />
+            <div id="roo_socialGroup_dfood">
+                <label for="_dfood_id">Dfood:</label>
+                <form:input cssStyle="width:250px" id="_dfood_id" maxlength="30" path="dfood" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_dfood_error_id" path="dfood"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Dfood," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_dfood_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            
+            <b>In the past 12 months, how many months did your household not have enough food to eat?</b> <br /><br />
+            <div id="roo_socialGroup_mfood">
+                <label for="_mfood_id">Mfood:</label>
+                <form:input cssStyle="width:250px" id="_mfood_id" maxlength="30" path="mfood" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_mfood_error_id" path="mfood"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Mfood," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_mfood_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            
+            <b>Do you think that this household has enough food to eat for the next three or four months?</b> <br /><br />
+            <div id="roo_socialGroup_adfood">
+                <label for="_adfood_id">Adfood:</label>
+                <form:errors cssClass="errors" id="_adfood_error_id" path="adfood"/>
+                <form:select cssStyle="width:250px" id="_adfood_id" items="${adfood}" path="adfood"/>
+                <br/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_adfood_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); </script>
+            </div>
+            <br/>
+            
+            <b>Does your household possess any of the following animals? If yes, enter the number. Otherwise enter 0.</b> <br /><br />
+            <div id="roo_socialGroup_numFouls">
+                <label for="_numFouls_id">Fouls:</label>
+                <form:input cssStyle="width:250px" id="_numFouls_id" maxlength="30" path="numFouls" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numFouls_error_id" path="numFouls"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Fouls," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numFouls_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_numSheep">
+                <label for="_numSheep_id">Sheep:</label>
+                <form:input cssStyle="width:250px" id="_numSheep_id" maxlength="30" path="numSheep" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numSheep_error_id" path="numSheep"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Sheep," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numSheep_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_numDogs">
+                <label for="_numDogs_id">Dogs:</label>
+                <form:input cssStyle="width:250px" id="_numDogs_id" maxlength="30" path="numDogs" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numDogs_error_id" path="numDogs"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Dogs," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numDogs_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_numGoats">
+                <label for="_numGoats_id">Goats:</label>
+                <form:input cssStyle="width:250px" id="_numGoats_id" maxlength="30" path="numGoats" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numGoats_error_id" path="numGoats"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Goats," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numGoats_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_numPigs">
+                <label for="_numPigs_id">Pigs:</label>
+                <form:input cssStyle="width:250px" id="_numPigs_id" maxlength="30" path="numPigs" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numPigs_error_id" path="numPigs"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Pigs," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numPigs_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_numRabbits">
+                <label for="_numRabbits_id">Rabbits:</label>
+                <form:input cssStyle="width:250px" id="_numRabbits_id" maxlength="30" path="numRabbits" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_numRabbits_error_id" path="numRabbits"/>
+                <spring:message code="field.invalid.integer" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Num Rabbits," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numRabbits_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_otherAnimals">
+                <label for="_otherAnimals_id">Other Animals (Specify):</label>
+                <form:input cssStyle="width:250px" id="_otherAnimals_id" maxlength="30" path="otherAnimals" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_otherAnimals_error_id" path="otherAnimals"/>
+                <spring:message argumentSeparator="," arguments="Other Animals," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_numRabbits_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', regExp: '-?[0-9]*', required : false}})); </script>
+            </div>
+            <br />
+            <div id="roo_socialGroup_formsCheckedBy">
+                <label for="_formsCheckedBy_id">Forms Checked By:</label>
+                <form:input cssStyle="width:250px" id="_formsCheckedBy_id" maxlength="30" path="formsCheckedBy" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_formsCheckedBy_error_id" path="formsCheckedBy"/>
+                <spring:message arguments="Forms Checked By" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Forms Checked By," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_formsCheckedBy_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_formsReceivedBy">
+                <label for="_formsReceivedBy_id">Forms Received By:</label>
+                <form:input cssStyle="width:250px" id="_formsReceivedBy_id" maxlength="30" path="formsReceivedBy" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_formsReceivedBy_error_id" path="formsReceivedBy"/>
+                <spring:message arguments="Forms Received By" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Forms Received By," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_formsReceivedBy_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            <div id="roo_socialGroup_interviewTimeEnd">
+                <label for="_interviewTimeEnd_id">Interview Time End:</label>
+                <form:input cssStyle="width:250px" id="_interviewTimeEnd_id" maxlength="30" path="interviewTimeEnd" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="_interviewTimeEnd_error_id" path="interviewTimeEnd"/>
+                <spring:message arguments="Interview Time End" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <spring:message argumentSeparator="," arguments="Interview Time End," code="field.simple.validation" var="field_validation"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_interviewTimeEnd_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
             </div>
             <br/>
             <div class="submit" id="roo_socialGroup_submit">

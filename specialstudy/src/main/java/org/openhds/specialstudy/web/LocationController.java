@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.stereotype.Controller;
 
-@RooWebScaffold(path = "location", automaticallyMaintainView = true, update = true, formBackingObject = Location.class)
+@RooWebScaffold(path = "location", automaticallyMaintainView = true, update = false, formBackingObject = Location.class)
 @RequestMapping("/location/**")
 @Controller
 public class LocationController {
@@ -25,8 +25,8 @@ public class LocationController {
     public String create(@Valid Location location, BindingResult result, ModelMap modelMap) {
     	
     	Response response;
-    	webClient.reset();
-		
+		webClient.reset();
+    	
     	try {
     		response = webClient.path("/location/{id}", location.getExtId().trim()).get();
     	} catch (Exception e) {

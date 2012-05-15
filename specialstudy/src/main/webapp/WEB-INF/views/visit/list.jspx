@@ -32,14 +32,6 @@
                             </form:form>
                         </td>
                         <td>
-                            <spring:url value="/visit/${visit.id}/form" var="update_form_url"/>
-                            <spring:url value="/static/images/update.png" var="update_image_url"/>
-                            <form:form action="${update_form_url}" method="GET">
-                                <spring:message arguments="${entity_label}" code="entity.update" var="update_label"/>
-                                <input alt="${update_label}" class="image" src="${update_image_url}" title="${update_label}" type="image" value="${update_label}"/>
-                            </form:form>
-                        </td>
-                        <td>
                             <spring:url value="/visit/${visit.id}" var="delete_form_url"/>
                             <spring:url value="/static/images/delete.png" var="delete_image_url"/>
                             <form:form action="${delete_form_url}" method="DELETE">

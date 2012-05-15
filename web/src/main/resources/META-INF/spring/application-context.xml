@@ -28,6 +28,9 @@
     <import resource="classpath*:/META-INF/spring/daoApplicationContext.xml" />
     <import resource="classpath*:/META-INF/spring/controllerSecurityContext.xml" />
     <import resource="classpath*:/META-INF/spring/reportApplicationContext.xml" />
+    <import resource="classpath*:/META-INF/spring/webserviceApplicationContext.xml" />
+    <import resource="classpath*:/META-INF/spring/ddiApplicationContext.xml" />
+    <import resource="classpath*:/META-INF/spring/communityApplicationContext.xml" />
                                            
     <bean id="authSuccessHandler" parent="baseTransactionBean">
     	<property name="target">

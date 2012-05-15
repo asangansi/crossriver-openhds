@@ -2,10 +2,8 @@ package org.openhds.specialstudy.web;
 
 import java.lang.Long;
 import java.lang.String;
-import javax.validation.Valid;
 import org.openhds.specialstudy.domain.Visit;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,24 +35,6 @@ privileged aspect VisitController_Roo_Controller {
             modelMap.addAttribute("visits", Visit.findAllVisits());
         }
         return "visit/list";
-    }
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public String VisitController.update(@Valid Visit visit, BindingResult result, ModelMap modelMap) {
-        if (visit == null) throw new IllegalArgumentException("A visit is required");
-        if (result.hasErrors()) {
-            modelMap.addAttribute("visit", visit);
-            return "visit/update";
-        }
-        visit.merge();
-        return "redirect:/visit/" + visit.getId();
-    }
-    
-    @RequestMapping(value = "/visit/{id}/form", method = RequestMethod.GET)
-    public String VisitController.updateForm(@PathVariable("id") Long id, ModelMap modelMap) {
-        if (id == null) throw new IllegalArgumentException("An Identifier is required");
-        modelMap.addAttribute("visit", Visit.findVisit(id));
-        return "visit/update";
     }
     
     @RequestMapping(value = "/visit/{id}", method = RequestMethod.DELETE)

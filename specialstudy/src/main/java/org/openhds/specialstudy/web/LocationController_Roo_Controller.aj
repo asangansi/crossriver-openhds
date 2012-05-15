@@ -2,10 +2,8 @@ package org.openhds.specialstudy.web;
 
 import java.lang.Long;
 import java.lang.String;
-import javax.validation.Valid;
 import org.openhds.specialstudy.domain.Location;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,24 +35,6 @@ privileged aspect LocationController_Roo_Controller {
             modelMap.addAttribute("locations", Location.findAllLocations());
         }
         return "location/list";
-    }
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public String LocationController.update(@Valid Location location, BindingResult result, ModelMap modelMap) {
-        if (location == null) throw new IllegalArgumentException("A location is required");
-        if (result.hasErrors()) {
-            modelMap.addAttribute("location", location);
-            return "location/update";
-        }
-        location.merge();
-        return "redirect:/location/" + location.getId();
-    }
-    
-    @RequestMapping(value = "/location/{id}/form", method = RequestMethod.GET)
-    public String LocationController.updateForm(@PathVariable("id") Long id, ModelMap modelMap) {
-        if (id == null) throw new IllegalArgumentException("An Identifier is required");
-        modelMap.addAttribute("location", Location.findLocation(id));
-        return "location/update";
     }
     
     @RequestMapping(value = "/location/{id}", method = RequestMethod.DELETE)

@@ -1,8 +1,5 @@
 package org.openhds.specialstudy.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -15,6 +12,9 @@ import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
+import java.lang.Integer;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @RooJavaBean
@@ -31,23 +31,133 @@ public class SocialGroup {
     private Long id;
 
     @NotNull
-    private String extId;
+    private String householdId;
+    
+    @NotNull
+    private String interviewTimeStart;
+        
+    private String water;
+
+    private String toilet;
+
+    private Integer rooms = 0;
+
+    private Integer srooms = 0;
+
+    private String floor;
+
+    private String roof;
+
+    private String wall;
+
+    private String cfuel;
+
+    private String light;
+
+    private Boolean haveCar;
+
+    private Boolean haveMotorcycle;
+
+    private Boolean haveBicycle;
+
+    private Boolean haveElectricity;
+
+    private Boolean haveSolar;
+
+    private Boolean haveRefrigerator;
+
+    private Boolean haveTelevision;
+
+    private Boolean haveDvdVcrVcd;
+
+    private Boolean haveRadio;
+
+    private Boolean haveSewingMachine;
+
+    private Boolean haveStereo;
+
+    private Boolean haveIron;
+
+    private Boolean haveFan;
+
+    private Boolean haveTelephone;
+
+    private Boolean haveElectricGasStove;
+
+    private Boolean havePushTruck;
+
+    private Boolean haveTractor;
+
+    private Boolean haveGrindingMill;
+
+    private Boolean haveKeroseneStove;
+
+    private Boolean havePersonalComputer;
+
+    private Boolean haveGenerator;
+
+    private String land;
+
+    private String tenure;
+
+    private String waste;
+
+    private String owland;
+
+    private String enland;
+
+    private String enfood;
+
+    private String faid;
+
+    private String mstaple;
+
+    private String meals;
+
+    private Integer dfood = 0;
+
+    private Integer mfood = 0;
+
+    private String adfood;
+
+    private Integer numFouls = 0;
+
+    private Integer numSheep = 0;
+
+    private Integer numDogs = 0;
+
+    private Integer numGoats = 0;
+
+    private Integer numPigs = 0;
+
+    private Integer numRabbits = 0;
+    
+    private String otherAnimals;
+    
+    @NotNull
+    private String formsCheckedBy;
+    
+    @NotNull
+    private String formsReceivedBy;
+    
+    @NotNull
+    private String interviewTimeEnd;
 
     public Long getId() {
-		return id;
-	}
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getExtId() {
-		return extId;
-	}
+    public String getHouseholdId() {
+        return householdId;
+    }
 
-	public void setExtId(String extId) {
-		this.extId = extId;
-	}
+    public void setHouseholdId(String householdId) {
+        this.householdId = householdId;
+    }
 
     @Transactional
     public void persist() {
@@ -87,7 +197,7 @@ public class SocialGroup {
 		List<SocialGroup> filteredList = new ArrayList<SocialGroup>();
 		
 		for (SocialGroup item : list) {
-			if (item.getExtId().equals(id.toUpperCase())) 
+			if (item.getHouseholdId().equals(id.toUpperCase())) 
 				filteredList.add(item);
 		}
 		return filteredList;

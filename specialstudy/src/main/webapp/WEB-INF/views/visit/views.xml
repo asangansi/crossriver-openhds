@@ -11,7 +11,5 @@
         <put-attribute name="body" value="/WEB-INF/views/visit/create.jspx"/>
     </definition>
     
-<definition extends="default" name="visit/update">
-        <put-attribute name="body" value="/WEB-INF/views/visit/update.jspx"/>
-    </definition>
+
 </tiles-definitions>

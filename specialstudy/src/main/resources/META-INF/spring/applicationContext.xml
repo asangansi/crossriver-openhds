@@ -24,7 +24,7 @@
 		${propertyKey}.
 	-->
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties"/>
-
+	
 	<!--
 		Turn on AspectJ @Configurable support. As a result, any time you
 		instantiate an object, Spring will attempt to perform dependency
@@ -66,18 +66,23 @@
 		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 	</context:component-scan>
 	
+	<jee:jndi-lookup jndi-name="java:comp/env/databaseUsername" id="databaseUsername" default-value="${database.username}" />
+	<jee:jndi-lookup jndi-name="java:comp/env/databasePassword" id="databasePassword" default-value="${database.password}" />
+	<jee:jndi-lookup jndi-name="java:comp/env/databaseName" id="databaseName" default-value="${database.url}" />		
+	<jee:jndi-lookup jndi-name="java:comp/env/openhdsDatabaseName" id="openhdsDatabaseName" default-value="${openhds.database.url}" />
+	
 	<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
         <property name="driverClassName" value="${database.driverClassName}"/>
-        <property name="url" value="${database.url}"/>
-        <property name="username" value="${database.username}"/>
-        <property name="password" value="${database.password}"/>
+        <property name="url" ref="databaseName"/>
+        <property name="username" ref="databaseUsername"/>
+        <property name="password" ref="databasePassword"/>
     </bean>
 
 	<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="openhdsDataSource">
         <property name="driverClassName" value="${openhds.database.driverClassName}"/>
-        <property name="url" value="${openhds.database.url}"/>
-        <property name="username" value="${database.username}"/>
-        <property name="password" value="${database.password}"/>
+        <property name="url" ref="openhdsDatabaseName"/>
+        <property name="username" ref="databaseUsername"/>
+        <property name="password" ref="databasePassword"/>
     </bean>
     
     <bean class="org.openhds.specialstudy.dao.OpenHdsUserDao" id="openHdsUserDao">
@@ -91,4 +96,5 @@
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    
 </beans>

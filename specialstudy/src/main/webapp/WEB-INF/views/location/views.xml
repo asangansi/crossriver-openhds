@@ -12,7 +12,5 @@
     </definition>
     
 
-<definition extends="default" name="location/update">
-        <put-attribute name="body" value="/WEB-INF/views/location/update.jspx"/>
-    </definition>
+
 </tiles-definitions>

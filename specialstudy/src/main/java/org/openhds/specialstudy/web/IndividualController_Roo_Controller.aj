@@ -2,10 +2,8 @@ package org.openhds.specialstudy.web;
 
 import java.lang.Long;
 import java.lang.String;
-import javax.validation.Valid;
 import org.openhds.specialstudy.domain.Individual;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,24 +35,6 @@ privileged aspect IndividualController_Roo_Controller {
             modelMap.addAttribute("individuals", Individual.findAllIndividuals());
         }
         return "individual/list";
-    }
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public String IndividualController.update(@Valid Individual individual, BindingResult result, ModelMap modelMap) {
-        if (individual == null) throw new IllegalArgumentException("A individual is required");
-        if (result.hasErrors()) {
-            modelMap.addAttribute("individual", individual);
-            return "individual/update";
-        }
-        individual.merge();
-        return "redirect:/individual/" + individual.getId();
-    }
-    
-    @RequestMapping(value = "/individual/{id}/form", method = RequestMethod.GET)
-    public String IndividualController.updateForm(@PathVariable("id") Long id, ModelMap modelMap) {
-        if (id == null) throw new IllegalArgumentException("An Identifier is required");
-        modelMap.addAttribute("individual", Individual.findIndividual(id));
-        return "individual/update";
     }
     
     @RequestMapping(value = "/individual/{id}", method = RequestMethod.DELETE)
