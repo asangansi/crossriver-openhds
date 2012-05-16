@@ -20,7 +20,7 @@ import com.sun.codemodel.JWhileLoop;
 public class IndividualTemplateBuilder implements ExtensionTemplate {
 	
 	JCodeModel jCodeModel;
-	boolean individualTemplateBuilt = false;
+	boolean templateBuilt = false;
 	
 	JFieldVar jfResidencies;
 	
@@ -40,7 +40,7 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		buildFieldsAndMethods(jc);
 		buildAdditionalMethods(jc);
 		
-		individualTemplateBuilt = true;
+		templateBuilt = true;
 	}
 	
 	public void buildFieldsAndMethods(JDefinedClass jc) {

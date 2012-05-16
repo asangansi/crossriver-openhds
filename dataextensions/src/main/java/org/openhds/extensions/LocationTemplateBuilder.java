@@ -22,7 +22,7 @@ import com.sun.codemodel.JVar;
 public class LocationTemplateBuilder implements ExtensionTemplate {
 	
 	JCodeModel jCodeModel;
-	boolean locationTemplateBuilt = false;
+	boolean templateBuilt = false;
 	
 	LocationTemplateBuilder(JCodeModel jCodeModel) {
 		this.jCodeModel = jCodeModel;
@@ -39,7 +39,7 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		buildClassAnnotations(jc);	
 		buildFieldsAndMethods(jc);
 		
-		locationTemplateBuilt = true;
+		templateBuilt = true;
 	}
 	
 	public void buildFieldsAndMethods(JDefinedClass jc) {

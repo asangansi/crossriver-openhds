@@ -23,7 +23,7 @@ import com.sun.codemodel.JVar;
 public class VisitTemplateBuilder implements ExtensionTemplate {
 	
 	JCodeModel jCodeModel;
-	boolean visitTemplateBuilt = false;
+	boolean templateBuilt = false;
 	
 	VisitTemplateBuilder(JCodeModel jCodeModel) {
 		this.jCodeModel = jCodeModel;
@@ -40,7 +40,7 @@ public class VisitTemplateBuilder implements ExtensionTemplate {
 		buildClassAnnotations(jc);
 		buildFieldsAndMethods(jc);
 		
-		visitTemplateBuilt = true;
+		templateBuilt = true;
 	}
 	
 	public void buildClassAnnotations(JDefinedClass jc) {

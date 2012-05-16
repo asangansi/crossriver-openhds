@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.openhds.domain.util.CalendarAdapter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -37,7 +39,9 @@ public class ExtensionLoader {
 	final String STRING_TYPE = "String";
 	final String BOOLEAN_TYPE = "Boolean";
 	final String INTEGER_TYPE = "Integer";
+	final String CALENDAR_TYPE = "Calendar";
 	final String NONE_TYPE = "none";
+	final String PAST_TYPE = "past";
 	
 	static JCodeModel jCodeModel = null;
 	
@@ -110,7 +114,7 @@ public class ExtensionLoader {
 			
 			// constraints are optional attributes
 			String constraint = NONE_TYPE;
-			if (type.equals(STRING_TYPE) || type.equals(INTEGER_TYPE))
+			if (type.equals(STRING_TYPE) || type.equals(INTEGER_TYPE) || type.equals(CALENDAR_TYPE))
 				constraint = element.getElementsByTagName("constraint").item(0).getChildNodes().item(0).getNodeValue();
 				
 			attrMap.put("entity", entity);
@@ -118,7 +122,8 @@ public class ExtensionLoader {
 			attrMap.put("description", description);
 			
 			if ((type.equals(STRING_TYPE) && !constraint.equals(NONE_TYPE)) ||
-				(type.equals(INTEGER_TYPE) && !constraint.equals(NONE_TYPE))) 
+				(type.equals(INTEGER_TYPE) && !constraint.equals(NONE_TYPE)) ||
+				(type.equals(CALENDAR_TYPE) && constraint.equals(PAST_TYPE))) 
 				attrMap.put("constraint", constraint);
 			
 			listAttributes.put(name, attrMap);		
@@ -141,6 +146,7 @@ public class ExtensionLoader {
 			IndividualTemplateBuilder individualTemplateBuilder = new IndividualTemplateBuilder(jCodeModel);
 			VisitTemplateBuilder visitTemplateBuilder = new VisitTemplateBuilder(jCodeModel);
 			SocialGroupTemplateBuilder socialGroupTemplateBuilder = new SocialGroupTemplateBuilder(jCodeModel);
+			AdultVPMTemplateBuilder adultVPMTemplateBuilder = new AdultVPMTemplateBuilder(jCodeModel);
 			
 			JPackage jp = jCodeModel._package("org.openhds.domain.model");					
 			JDefinedClass jc = null;
@@ -148,22 +154,17 @@ public class ExtensionLoader {
 			Set<String> keys = map.keySet();
 			
 			if (keys.size() == 0) {
-				if (entityName.equals("Location")) {
-					jc = jp._class(entityName);
+				jc = jp._class(entityName);
+				if (entityName.equals("Location")) 
 					locationTemplateBuilder.buildTemplate(jc);
-				}
-				else if (entityName.equals("Individual")) {
-					jc = jp._class(entityName);
+				else if (entityName.equals("Individual")) 
 					individualTemplateBuilder.buildTemplate(jc);
-				}
-				else if (entityName.equals("Visit")) {
-					jc = jp._class(entityName);
+				else if (entityName.equals("Visit")) 
 					visitTemplateBuilder.buildTemplate(jc);
-				}
-				else if (entityName.equals("SocialGroup")) {
-					jc = jp._class(entityName);
+				else if (entityName.equals("SocialGroup")) 
 					socialGroupTemplateBuilder.buildTemplate(jc);
-				}
+				else if (entityName.equals("AdultVPM")) 
+					adultVPMTemplateBuilder.buildTemplate(jc);
 			}
 			
 			Iterator<String> keysItr = keys.iterator();
@@ -171,7 +172,7 @@ public class ExtensionLoader {
 			while (keysItr.hasNext()) {
 				
 				String attribute = keysItr.next();
-				String formattedAttr = attribute.substring(0, 1).toUpperCase() + attribute.substring(1).toLowerCase();
+				String formattedAttr = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
 				
 				String entity = map.get(attribute).get("entity");
 				String type = map.get(attribute).get("type");
@@ -185,20 +186,23 @@ public class ExtensionLoader {
 				if (jc == null)
 					jc = jp._class(entity);
 				
-				if (entity.equals("Location") && locationTemplateBuilder.locationTemplateBuilt == false)
+				if (entity.equals("Location") && locationTemplateBuilder.templateBuilt == false)
 					locationTemplateBuilder.buildTemplate(jc);
-				else if (entity.equals("Individual") && individualTemplateBuilder.individualTemplateBuilt == false)
+				else if (entity.equals("Individual") && individualTemplateBuilder.templateBuilt == false)
 					individualTemplateBuilder.buildTemplate(jc);
-				else if (entity.equals("Visit") && visitTemplateBuilder.visitTemplateBuilt == false)
+				else if (entity.equals("Visit") && visitTemplateBuilder.templateBuilt == false)
 					visitTemplateBuilder.buildTemplate(jc);
-				else if (entity.equals("SocialGroup") && socialGroupTemplateBuilder.socialGroupTemplateBuilt == false)
+				else if (entity.equals("SocialGroup") && socialGroupTemplateBuilder.templateBuilt == false)
 					socialGroupTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("AdultVPM") && adultVPMTemplateBuilder.templateBuilt == false)
+					adultVPMTemplateBuilder.buildTemplate(jc);
 				
 				// build extended fields
 				JFieldVar jf = jc.field(JMod.PRIVATE , 			
 					(type.equals("String") ? java.lang.String.class :
 					type.equals("Integer") ? java.lang.Integer.class :
 					type.equals("Boolean") ? java.lang.Boolean.class :
+					type.equals("Calendar") ? java.util.Calendar.class :
 					java.lang.Float.class), attribute);
 				JAnnotationUse jaDesc = jf.annotate(org.openhds.domain.annotations.Description.class);
 				jaDesc.param("description", desc);	
@@ -216,6 +220,12 @@ public class ExtensionLoader {
 					ja.param("message", "Invalid Value for " + attribute);
 					ja.param("allowNull", true);
 				}
+				else if (type.equals("Calendar")) {
+					JAnnotationUse jaTemporal = jf.annotate(javax.persistence.Temporal.class);
+					jaTemporal.param("value", javax.persistence.TemporalType.DATE);
+					if (constraint.equals("past"))
+						jf.annotate(javax.validation.constraints.Past.class);
+				}
 
 				// getters
 				String methodGetName = "get" + formattedAttr;
@@ -223,7 +233,14 @@ public class ExtensionLoader {
 					(type.equals("String") ? java.lang.String.class :
 					type.equals("Integer") ? java.lang.Integer.class :
 					type.equals("Boolean") ? java.lang.Boolean.class :
+					type.equals("Calendar") ? java.util.Calendar.class :
 					java.lang.Float.class), methodGetName);
+				
+				if (type.equals("Calendar")) {
+					JAnnotationUse jaXmlDob = jmg.annotate(javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.class);
+					jaXmlDob.param("value", CalendarAdapter.class);
+				}
+				
 				JBlock jmgBlock = jmg.body();
 				jmgBlock._return(jf);
 				
@@ -234,6 +251,7 @@ public class ExtensionLoader {
 					(type.equals("String") ? java.lang.String.class :
 					type.equals("Integer") ? java.lang.Integer.class :
 					type.equals("Boolean") ? java.lang.Boolean.class :
+					type.equals("Calendar") ? java.util.Calendar.class :
 					java.lang.Float.class), "data");
 				JBlock jmsBlock = jms.body();
 				jmsBlock.assign(jf, jvar);

@@ -23,7 +23,7 @@ import com.sun.codemodel.JVar;
 public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 	
 	JCodeModel jCodeModel;
-	boolean socialGroupTemplateBuilt = false;
+	boolean templateBuilt = false;
 	
 	SocialGroupTemplateBuilder(JCodeModel jCodeModel) {
 		this.jCodeModel = jCodeModel;
@@ -40,7 +40,7 @@ public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 		buildClassAnnotations(jc);	
 		buildFieldsAndMethods(jc);
 		
-		socialGroupTemplateBuilt = true;
+		templateBuilt = true;
 	}
 
 	
