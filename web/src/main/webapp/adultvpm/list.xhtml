@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		        xmlns:h="http://java.sun.com/jsf/html"
+		        xmlns:f="http://java.sun.com/jsf/core"
+		        xmlns:ui="http://java.sun.com/jsf/facelets"
+		        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		        xmlns:c="http://java.sun.com/jstl/core">
+	<h:form>
+		<div style="text-align:right;margin-bottom:8px;">
+			<div style="float:left;">
+				<h:commandButton immediate="true" action="#{adultVPMCrud.createSetup}" value="#{msg.lblAddNew}" id="button1" />
+
+				<!-- Paging -->	
+				<ui:include src="/snippets/paging.xhtml">
+				     <ui:param name="currentCrud" value="#{adultVPMCrud}"/>
+				</ui:include>			
+			</div>
+		</div>
+		
+		<!-- Search Widget -->	
+		<ui:include src="/search/searchBox.xhtml">
+		     <ui:param name="crud" value="#{adultVPMCrud}"/>
+		</ui:include>	
+		
+		<div>
+		    <h:outputText escape="false" value="(No Verbal Autopsy Records Found)" rendered="#{fn:length(adultVPMCrud.pagedItems) == 0}" />
+		    
+		    <h:panelGroup rendered="#{fn:length(adultVPMCrud.pagedItems) > 0}">
+		        <h:dataTable value="#{adultVPMCrud.pagedItems}" var="item" 
+		        	columnClasses="center,center,center,center,width3" width="100%" cellspacing="0" cellpadding="0"  >
+		            <h:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Name of deceased"/>
+		                </f:facet>
+		                <h:outputText value="#{item.nameOfDeceased}" />
+		            </h:column>
+		            <h:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Individual Id"/>
+		                </f:facet>
+		                <h:outputText value="#{item.individual.extId}" />
+		            </h:column>
+		            <h:column>
+		                <f:facet name="header">
+		                    <h:outputText value="House Id"/>
+		                </f:facet>
+		                <h:outputText value="#{item.house.extId}" />
+		            </h:column>
+		             <h:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Visit"/>
+		                </f:facet>
+		                <h:outputText value="#{item.visit.extId}" />
+		            </h:column>
+		            <h:column>
+		                <f:facet name="header">
+		                    <h:outputText escape="false" value=""/>
+		                </f:facet> 
+		                <h:outputLink value="#{request.contextPath}/amendment/adultvpm/details/#{item.uuid}">
+                        	<h:graphicImage style="border: 0;" title="details" value="/resources/icons/details.ico" />
+                        </h:outputLink>
+                        <h:outputText value=" "/>
+		                <h:commandLink  action="#{adultVPMCrud.editSetup}">
+		                    <h:graphicImage title="edit" style="border: 0;" value="/resources/icons/edit.ico"/>
+		                    <f:param name="itemId" value="#{item.uuid}"/>
+		                </h:commandLink>
+		                <h:outputText value=" "/>
+		                <h:commandLink  action="#{adultVPMCrud.delete}">
+		                    <h:graphicImage title="delete" style="border: 0;" value="/resources/icons/delete.ico"/>
+		                    <f:param name="itemId" value="#{item.uuid}"/>
+		                </h:commandLink>
+		            </h:column>
+		        </h:dataTable>
+		    </h:panelGroup>
+		</div>
+	</h:form>
+</ui:composition>

@@ -31,7 +31,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JCheckBox;
 
 public class Main {

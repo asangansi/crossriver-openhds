@@ -275,4 +275,664 @@
 			</ul>
 	   	</div>
 	</o:popupLayer>	
+		<o:popupLayer id="popupWindowForMaritalStatusOfDeceased"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForMaritalStatusOfDeceased').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.maritalStatusOfDeceasedConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForHighestEducationOfDeceased"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForHighestEducationOfDeceased').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.highestEducationOfDeceasedConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForOccupationOfDeceased"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForOccupationOfDeceased').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.occupationOfDeceasedConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForRelationshipOfRespondent"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForRelationshipOfRespondent').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.relationshipOfRespondentConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForWhereDied"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForWhereDied').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.whereDiedConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForSymptomSeverity"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForSymptomSeverity').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.symptomSeverityConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForYesNoDontKnow"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForYesNoDontKnow').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.yesNoDontKnowConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForAccidentType"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForAccidentType').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.accidentTypeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForAnimalBiteType"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForAnimalBiteType').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.animalBiteTypeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForInjuryType"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForInjuryType').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.injuryTypeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForYesNoDontKnowNA"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForYesNoDontKnowNA').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.yesNoDontKnowNAConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForSurvivedBeforeDeath"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForSurvivedBeforeDeath').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.survivedBeforeDeathConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForSuicide"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForSuicide').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.suicideConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForRashLookLike"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForRashLookLike').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.rashLookLikeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForLoseWeightHowLong"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForLoseWeightHowLong').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.loseWeightHowLongConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForLoseWeightSeverity"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForLoseWeightSeverity').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.loseWeightSeverityConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForLookEndOfLife"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForLookEndOfLife').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.lookEndOfLifeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForCoughWorst"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForCoughWorst').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.coughWorstConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForChestPainStart"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForChestPainStart').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.chestPainStartConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForChestPainResting"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForChestPainResting').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.chestPainRestingConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForLengthOfChestPain"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForLengthOfChestPain').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.lengthOfChestPainConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForStoolConsistency"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForStoolConsistency').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.stoolConsistencyConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForVomitLookLike"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForVomitLookLike').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.vomitLookLikeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForAbdominalPainType"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForAbdominalPainType').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.abdominalPainTypeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForDistentionOfAbdomen"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDistentionOfAbdomen').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.distentionOfAbdomenConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForNeckPain"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForNeckPain').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.neckPainConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForConsciousness"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForConsciousness').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.consciousnessConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForConsciousnessStart"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForConsciousnessStart').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.consciousnessStartConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForFitsAwareness"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForFitsAwareness').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.fitsAwarenessConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForFitsOpeningMouth"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForFitsOpeningMouth').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.fitsOpeningMouthConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForParalysisDevelopment"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForParalysisDevelopment').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.paralysisDevelopmentConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForUrineColor"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForUrineColor').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.urineColorConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForUrinePassedAmount"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForUrinePassedAmount').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.urinePassedAmountConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDifficultyPassingUrine"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDifficultyPassingUrine').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.difficultyPassingUrineConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForSurgeryLocation"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForSurgeryLocation').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.surgeryLocationConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDeliveryLocation"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDeliveryLocation').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.deliveryLocationConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForManagedDelivery"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForManagedDelivery').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.managedDeliveryConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDeliveryMode"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDeliveryMode').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.deliveryModeConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForBabyHealthNow"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForBabyHealthNow').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.babyHealthNowConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForWhichAntiMalariaDrug"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForWhichAntiMalariaDrug').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.whichAntiMalariaDrugConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDidDrinkAlcoholLength"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDidDrinkAlcoholLength').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.didDrinkAlcoholLengthConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDidDrinkAlcoholHowOften"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDidDrinkAlcoholHowOften').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.didDrinkAlcoholHowOftenConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDidSmokeHowOften"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDidSmokeHowOften').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.didSmokeHowOftenConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 
+	<o:popupLayer id="popupWindowForDidSmokeHowMuch"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForDidSmokeHowMuch').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.didSmokeHowMuchConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer> 	
 </html>
