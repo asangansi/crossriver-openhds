@@ -25,35 +25,76 @@
 		        <h1><h:outputText value="#{msg.deathEdit}" /></h1>
 		        <h:messages id="errors" globalOnly="true" />
 		        <h:form id="form">		
-		            <h:panelGrid columns="3">
-		              
+		            <h:panelGrid columns="3">   
+		            
+		            	                    	<h:outputText value="#{msg.fieldWorkerId}:"/>
+                    	<h:outputText />
+                        <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
+                        <h:message for="fieldWorker" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    
+                    	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat}):" />
+                        <h:outputText />
+                        <o:dateChooser id="recordedDate" value="#{deathCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+                        <h:message for="recordedDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>		
+                    	
 		            	<h:outputText value="#{msg.individualId}:"/>
-		                <h:inputText styleClass="individual" autocomplete="off" id="indiv" value="#{deathCrud.item.individual}" converter="#{individualExtIdConverter}" disabled="true"/>
+		            	 <h:outputText />
+		                <h:inputText styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" autocomplete="off"/>
 		            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-		
-		                <h:outputText value="#{msg.deathPlace}:"/>
-		                <h:inputText id="deathPlace" value="#{deathCrud.item.deathPlace}" converter="#{defaultConverter}"/>
-		                <h:message for="deathPlace" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-		
-		                <h:outputText value="#{msg.deathCause}:"/>
-		                <h:inputText id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}"/>
-		                <h:message for="deathCause" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-		
-		                <h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat})" />
-		                <o:dateChooser id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" />
-		                <h:message for="deathDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-		            	
-		            	<h:outputText value="#{msg.fieldWorkerId}:"/>
-		                <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
-		                <h:message for="fieldWorker" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-		            	
-		               	<h:outputText value="#{msg.visitId}:"/>
-		               	<h:inputText styleClass="visit" autocomplete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" />
-		           		<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="House Id:"/>
+		            	<h:outputText />
+		                <h:inputText styleClass="location" id="loc" value="#{deathCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		            	<h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="Household Id:"/>
+		            	<h:outputText />
+		                <h:inputText styleClass="socialGroup" id="sg" value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		            	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="Household Name:" />
+						<h:outputText />
+						<h:inputText id="householdName" value="#{deathCrud.item.householdName}" converter="#{defaultConverter}" />
+						<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="Deceased Name:" />
+						<h:outputText />
+						<h:inputText id="deceasedName" value="#{deathCrud.item.deceasedName}" converter="#{defaultConverter}" />
+						<h:message for="deceasedName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="Deceased Gender:"/>
+	                	<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                	<h:inputText id="gender" value="#{deathCrud.item.gender}" converter="#{genderCodesConverter}" /> 
+	                	<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+                        <h:outputText value="#{msg.deathPlace}:"/>
+                        <h:outputText />
+                        <h:inputText id="deathPlace" value="#{deathCrud.item.deathPlace}" converter="#{defaultConverter}"/>
+                        <h:message for="deathPlace" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="Other:"/>
+	                    <h:outputText />
+	                    <h:inputText id="placeOfDeathOther" value="#{deathCrud.item.placeOfDeathOther}" converter="#{defaultConverter}" />
+	                    <h:message for="placeOfDeathOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+                        <h:outputText value="#{msg.deathCause}:"/>
+                        <h:outputText />
+                        <h:inputText id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}"/>
+                        <h:message for="deathCause" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+                        <h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat})" />
+                        <h:outputText />
+                        <o:dateChooser id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" />
+                        <h:message for="deathDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+	                   	<h:outputText value="#{msg.visitId}:"/>
+	                   	<h:outputText />
+	                   	<h:inputText styleClass="visit" autocomlete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" disabled="#{flowScope != null}"/>
+	            		<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 		           
 		         	</h:panelGrid>
 		        	<script>
-		 				document.getElementById('form:deathPlace').focus();
+		 				document.getElementById('form:collectedBy').focus();
 		 			</script>
 					<br />
 		 		    <h:commandButton action="#{deathCrud.edit}" value="#{msg.lblSave}">

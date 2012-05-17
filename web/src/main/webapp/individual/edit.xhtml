@@ -24,7 +24,7 @@
                      	
                 <h:outputText value="#{msg.individualId}:"/>
                 <h:outputText />
-                <h:inputText styleClass="individual" autocomplete="off" id="extId" value="#{individualCrud.item.extId}" required="true" converter="#{defaultConverter}" disabled="true"/>
+                <h:inputText styleClass="individual" autocomplete="off" id="extId" value="#{individualCrud.item.extId}" title="#{msg.tipIndivExtId}" required="true" converter="#{defaultConverter}" disabled="true"/>
                 <h:message for="extId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                 
                 <h:outputText value="#{msg.individualFirstName}:"/>
@@ -47,6 +47,16 @@
                 <h:inputText id="gender" value="#{individualCrud.item.gender}" converter="#{defaultConverter}" /> 
                 <h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 				
+				<h:outputText value="Work Status:"/>
+                <img class="clickable" onclick="O$('popupWindowForWorkStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText id="workStatus" value="#{individualCrud.item.workStatus}" converter="#{defaultConverter}" />
+                <h:message for="workStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                   
+                <h:outputText value="Marital status:"/>
+                <img class="clickable" onclick="O$('popupWindowForMaritalStatusOfDeceased').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText id="maritalStatus" value="#{individualCrud.item.maritalStatus}" converter="#{defaultConverter}"/>
+                <h:message for="maritalStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					       	  
                 <h:outputText value="#{msg.individualDob} (#{siteProperties.dateFormat})"/>
                 <h:outputText />
                 <o:dateChooser id="date_B" value="#{individualCrud.dateOfBirth}" pattern="#{siteProperties.dateFormat}" />
@@ -69,7 +79,7 @@
 
                 <h:outputText value="#{msg.fieldWorkerId}:"/>
                 <h:outputText />
-                <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" disabled="#{flowScope.updating or flowScope.pregnancyOutcome}" value="#{individualCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
+                <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" disabled="#{flowScope.updating or flowScope.pregnancyOutcome}" value="#{individualCrud.item.collectedBy}" title="#{msg.tipFWExtId}" converter="#{fieldWorkerExtIdConverter}"/>
                 <h:message for="fieldWorker" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
             </h:panelGrid>
             <script>

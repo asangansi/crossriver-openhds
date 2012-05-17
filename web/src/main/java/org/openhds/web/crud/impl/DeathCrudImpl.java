@@ -21,6 +21,7 @@ public class DeathCrudImpl extends EntityCrudImpl<Death, String> {
 	
     // used for manual conversion between Date and Calendar since the openFaces Calendar doesn't support JSF Converters
     Date deathDate;
+    Date recordedDate;
 
 	public DeathCrudImpl(Class<Death> entityClass) {
         super(entityClass);
@@ -101,6 +102,19 @@ public class DeathCrudImpl extends EntityCrudImpl<Death, String> {
 		cal.setTime(deathDate);
 		entityItem.setDeathDate(cal);
 	}
+	
+	 public Date getRecordedDate() { 	
+    	if (entityItem.getRecordedDate() == null)
+    		return new Date();
+    	
+    	return entityItem.getRecordedDate().getTime();
+	 }
+
+	 public void setRecordedDate(Date recordedDate) throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(recordedDate);
+		entityItem.setRecordedDate(cal);
+	 }
 		    
     public DeathService getService() {
 		return service;

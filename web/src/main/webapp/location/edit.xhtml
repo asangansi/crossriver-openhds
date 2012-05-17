@@ -36,6 +36,11 @@
 	           	<h:inputText id="locationName" value="#{locationCrud.item.locationName}" converter="#{defaultConverter}" />
 	            <h:message for="locationName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
+				<h:outputText value="Location Head:"/>
+				<h:outputText />
+	            <h:inputText styleClass="individual" autocomplete="off" id="locationHead" value="#{locationCrud.item.locationHead}" converter="#{individualExtIdConverter}" />
+	            <h:message for="locationHead" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
 			    <h:outputText value="#{msg.locationType}:"/>
              	<img class="clickable" onclick="O$('popupWindowForLocType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                 <h:inputText id="locationType" value="#{locationCrud.item.locationType}" converter="#{defaultConverter}" />

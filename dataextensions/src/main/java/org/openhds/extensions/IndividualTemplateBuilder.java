@@ -23,6 +23,7 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 	boolean templateBuilt = false;
 	
 	JFieldVar jfResidencies;
+	JMethod jmgRelationship2;
 	
 	IndividualTemplateBuilder(JCodeModel jCodeModel) {
 		this.jCodeModel = jCodeModel;
@@ -57,6 +58,8 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		
 		// getter
 		JMethod jmgExtId = jc.method(JMod.PUBLIC, java.lang.String.class, "getExtId");
+		JAnnotationUse jaXmlElement = jmgExtId.annotate(javax.xml.bind.annotation.XmlElement.class);
+		jaXmlElement.param("name", "extid");
 		JBlock jmgExtIdBlock = jmgExtId.body();
 		jmgExtIdBlock._return(jfExtId);
 		
@@ -305,7 +308,7 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		jaRelationships2Desc.param("description", "The set of all relationships where another individual may have with this individual.");
 		
 		// getter
-		JMethod jmgRelationship2 = jc.method(JMod.PUBLIC, basicSetRelationships2, "getAllRelationships2");
+		jmgRelationship2 = jc.method(JMod.PUBLIC, basicSetRelationships2, "getAllRelationships2");
 		JBlock jmgRelationship2Block = jmgRelationship2.body();
 		jmgRelationship2Block._return(jfRelationships2);
 		
@@ -367,6 +370,20 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		whileLoopBody.assign(jvResidencies, JExpr.ref(jvIterator, "next()"));
 	
 		jBlock._return(jvResidencies);	
+		
+		// getAllRelationships
+		JClass basicSetRelationships = jCodeModel.ref(java.util.Set.class);
+		basicSetRelationships = basicSetRelationships.narrow(org.openhds.domain.model.Relationship.class);
+		JMethod jmgAllRelationships = jc.method(JMod.PUBLIC, basicSetRelationships, "getAllRelationships");
+		
+		JBlock jRelationshipBody = jmgAllRelationships.body();
+		JClass jRelationshipClassRef = jCodeModel.ref(java.util.HashSet.class);
+		jRelationshipClassRef = jRelationshipClassRef.narrow(org.openhds.domain.model.Relationship.class);
+		JVar jvAll = jRelationshipBody.decl(basicSetRelationships, "all");
+		jvAll.init(JExpr._new(jRelationshipClassRef).arg(JExpr.invoke(jmgRelationship2)));
+		
+		jRelationshipBody.directStatement("all.addAll(allRelationships1);");
+		jRelationshipBody._return(jvAll);
 	}
 	
 	public void buildClassAnnotations(JDefinedClass jc) {
@@ -386,5 +403,8 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		
 		JAnnotationUse jat = jc.annotate(javax.persistence.Table.class);
 		jat.param("name", "individual");
+		
+		JAnnotationUse jxmlRoot = jc.annotate(javax.xml.bind.annotation.XmlRootElement.class);
+		jxmlRoot.param("name", "individual");
 	}
 }

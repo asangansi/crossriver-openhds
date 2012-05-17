@@ -43,7 +43,15 @@
                 <h:outputText value="#{msg.individualGender}:"/>
 	            <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
 	            <h:outputText value="#{individualCrud.item.gender}" />
-                                                     	   
+                
+                <h:outputText value="Work Status:"/>
+                <img class="clickable" onclick="O$('popupWindowForWorkStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{individualCrud.item.workStatus}" />
+                
+                <h:outputText value="Marital status:"/>
+                <img class="clickable" onclick="O$('popupWindowForMaritalStatusOfDeceased').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{individualCrud.item.maritalStatus}" />
+                     	   
                 <h:outputText value="#{msg.individualDob}:"/>
                 <h:outputText />
                 <h:outputText value="#{individualCrud.item.dob}" converter="#{calendarConverter}" />
@@ -54,15 +62,15 @@
                 
                 <h:outputText value="#{msg.individualMotherId}:"/>
                 <h:outputText />
-                <h:outputText value="#{individualCrud.item.mother}" converter="#{individualExtIdConverter}" />
+                <h:outputText value="#{individualCrud.item.mother}" title="#{msg.tipIndivExtId}" converter="#{individualExtIdConverter}" />
                 
                 <h:outputText value="#{msg.individualFatherId}:"/>
                 <h:outputText />
-                <h:outputText value="#{individualCrud.item.father}" converter="#{individualExtIdConverter}" />
+                <h:outputText value="#{individualCrud.item.father}" title="#{msg.tipIndivExtId}" converter="#{individualExtIdConverter}" />
                 
                 <h:outputText value="#{msg.fieldWorkerId}:"/>
                 <h:outputText />
-                <h:outputText value="#{individualCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
+                <h:outputText value="#{individualCrud.item.collectedBy}" title="#{msg.tipFWExtId}" converter="#{fieldWorkerExtIdConverter}"/>
                 
                 <h:outputText value="#{msg.insertDate}:"/>
                 <h:outputText />

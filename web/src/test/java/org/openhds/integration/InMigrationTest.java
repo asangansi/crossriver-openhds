@@ -75,8 +75,8 @@ public class InMigrationTest {
 		 inmig.setCollectedBy(fieldWorker);
 		 inmig.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1990));
 		 inmig.setMigTypeInternal();
-		 inmig.setOrigin("place");
-		 inmig.setReason("reason");
+		 inmig.setOrigin(1);
+		 inmig.setReason(1);
 		 inmig.setUnknownIndividual(false);
 		 inmig.setVisit(visit);
 		 

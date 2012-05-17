@@ -30,10 +30,34 @@
 		            	<h:outputText value="#{msg.individualId}:" />
 		            	<h:outputText />
 		            	<h:outputText value="#{deathCrud.item.individual}" converter="#{individualExtIdConverter}"/>
+		            	
+		            	 <h:outputText value="House Id:"/>
+			           	<h:outputText />
+			            <h:outputText value="#{deathCrud.item.house}" converter="#{locationExtIdConverter}" />
+							
+						<h:outputText value="Household Id:"/>
+			            <h:outputText />
+			            <h:outputText value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+			            
+			            <h:outputText value="Household Name:" />
+						<h:outputText />
+						<h:outputText value="#{deathCrud.item.householdName}" />
+						
+						<h:outputText value="Deceased Name:" />
+						<h:outputText />
+						<h:outputText value="#{deathCrud.item.deceasedName}" />
+						
+						<h:outputText value="Deceased Gender:"/>
+		                <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:outputText value="#{deathCrud.item.gender}" /> 	
 		                
 		                <h:outputText value="#{msg.deathPlace}:"/>
 		                <h:outputText />
 		                <h:outputText value="#{deathCrud.item.deathPlace}"/>
+		                
+		                <h:outputText value="Other:"/>
+		                <h:outputText />
+		                <h:outputText value="#{deathCrud.item.placeOfDeathOther}" />
 	                	
 	                	<h:outputText value="#{msg.deathCause}:" />
 		                <h:outputText />
@@ -42,6 +66,10 @@
 	                	<h:outputText value="#{msg.deathDate}:" />
 		                <h:outputText />
 		                <h:outputText value= "#{deathCrud.item.deathDate}" converter="#{calendarConverter}" />
+		                
+		                <h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
+	                	<h:outputText />
+	                	<h:outputText value="#{deathCrud.item.recordedDate}" converter="#{calendarConverter}" />
 	           			
 	           			<h:outputText value="#{msg.visitId}:"/>
 		                <h:outputText />

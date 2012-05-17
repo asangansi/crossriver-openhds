@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
@@ -23,6 +25,7 @@ import org.openhds.domain.constraint.CheckIndividualGenderFemale;
 import org.openhds.domain.constraint.CheckIndividualGenderMale;
 import org.openhds.domain.constraint.CheckIndividualParentAge;
 import org.openhds.domain.constraint.CheckMotherFatherNotIndividual;
+import org.openhds.domain.constraint.ExtensionIntegerConstraint;
 import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
 
@@ -35,6 +38,7 @@ import org.openhds.domain.constraint.Searchable;
 @CheckMotherFatherNotIndividual
 @Entity
 @Table(name = "individual")
+@XmlRootElement(name = "individual")
 public class Individual
     extends AuditableCollectedEntity
     implements Serializable
@@ -96,7 +100,14 @@ public class Individual
     @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL)
     @Description(description = "The set of all memberships the individual is participating in.")
     private Set<Membership> allMemberships = new HashSet<Membership>();
+    @Description(description = "The work status of the individual")
+    @ExtensionIntegerConstraint(constraint = "workStatusConstraint", message = "Invalid Value for workStatus", allowNull = true)
+    private Integer workStatus;
+    @Description(description = "Marital status of the individual")
+    @ExtensionIntegerConstraint(constraint = "maritalStatusOfDeceasedConstraint", message = "Invalid Value for maritalStatus", allowNull = true)
+    private Integer maritalStatus;
 
+    @XmlElement(name = "extid")
     public String getExtId() {
         return extId;
     }
@@ -212,6 +223,28 @@ public class Individual
             residency = itr.next();
         }
         return residency;
+    }
+
+    public Set<Relationship> getAllRelationships() {
+        Set<Relationship> all = new HashSet<Relationship>(getAllRelationships2());
+        all.addAll(allRelationships1);
+        return all;
+    }
+
+    public Integer getWorkStatus() {
+        return workStatus;
+    }
+
+    public void setWorkStatus(Integer data) {
+        workStatus = data;
+    }
+
+    public Integer getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(Integer data) {
+        maritalStatus = data;
     }
 
 }

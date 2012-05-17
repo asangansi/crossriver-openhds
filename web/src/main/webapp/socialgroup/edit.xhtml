@@ -50,6 +50,15 @@
 	                <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{socialGroupCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
 	           		<h:message for="fieldWorker" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	           
+	           		<h:outputText value="Respondent Id:"/>
+					<h:outputText />
+					<h:inputText id="idOfRespondent" styleClass="individual" autocomplete="off" title="#{msg.tipIndivExtId}" value="#{socialGroupCrud.respondentId}" converter="#{defaultConverter}" />
+					<h:message for="idOfRespondent" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+					<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})"/>
+					<h:outputText />
+                    <o:dateChooser id="dateOfInterview" value="#{socialGroupCrud.dateOfInterview}" pattern="#{siteProperties.dateFormat}" converter="#{defaultConverter}" />
+                    <h:message for="dateOfInterview" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            </h:panelGrid>
 	            <script>
   					document.getElementById('form:name').focus();

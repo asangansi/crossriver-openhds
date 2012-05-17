@@ -124,6 +124,25 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		JBlock jmsLocationTypeBlock = jmsLocationType.body();
 		jmsLocationTypeBlock.assign(jfLocationType, jvarLocationType);
 		
+		// location head
+		JFieldVar jfHead = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "locationHead");
+		jfHead.annotate(javax.persistence.ManyToOne.class);
+		jfHead.annotate(org.openhds.domain.constraint.CheckEntityNotVoided.class);
+		jfHead.annotate(org.openhds.domain.constraint.CheckIndividualNotUnknown.class);
+		JAnnotationUse jaFatherDesc = jfHead.annotate(org.openhds.domain.annotations.Description.class);
+		jaFatherDesc.param("description", "The head of the location.");
+		
+		// getter
+		JMethod jmgHead = jc.method(JMod.PUBLIC, org.openhds.domain.model.Individual.class, "getLocationHead");
+		JBlock jmgHeadBlock = jmgHead.body();
+		jmgHeadBlock._return(jfHead);
+		
+		// setter
+		JMethod jmsHead = jc.method(JMod.PUBLIC, void.class, "setLocationHead");
+		JVar jvarHead = jmsHead.param(org.openhds.domain.model.Individual.class, "head");
+		JBlock jmsHeadBlock = jmsHead.body();
+		jmsHeadBlock.assign(jfHead, jvarHead);
+		
 		// longitude
 		JFieldVar jfLongitude = jc.field(JMod.PRIVATE, java.lang.String.class, "longitude");
 		JAnnotationUse jaLongitudeDesc = jfLongitude.annotate(org.openhds.domain.annotations.Description.class);
@@ -223,5 +242,8 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		
 		JAnnotationUse jat = jc.annotate(javax.persistence.Table.class);
 		jat.param("name", "location");
+		
+		JAnnotationUse jxmlRoot = jc.annotate(javax.xml.bind.annotation.XmlRootElement.class);
+		jxmlRoot.param("name", "location");
 	}
 }

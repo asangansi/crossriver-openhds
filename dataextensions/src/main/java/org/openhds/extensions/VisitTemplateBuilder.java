@@ -57,6 +57,9 @@ public class VisitTemplateBuilder implements ExtensionTemplate {
 		
 		JAnnotationUse jat = jc.annotate(javax.persistence.Table.class);
 		jat.param("name", "visit");
+		
+		JAnnotationUse jxmlRoot = jc.annotate(javax.xml.bind.annotation.XmlRootElement.class);
+		jxmlRoot.param("name", "visit");
 	}
 
 	public void buildFieldsAndMethods(JDefinedClass jc) {

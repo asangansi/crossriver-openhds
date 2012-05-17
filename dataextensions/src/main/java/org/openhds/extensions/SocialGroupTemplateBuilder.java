@@ -58,6 +58,9 @@ public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 		
 		JAnnotationUse jat = jc.annotate(javax.persistence.Table.class);
 		jat.param("name", "socialgroup");
+		
+		JAnnotationUse jxmlRoot = jc.annotate(javax.xml.bind.annotation.XmlRootElement.class);
+		jxmlRoot.param("name", "socialgroup");
 	}
 
 	public void buildFieldsAndMethods(JDefinedClass jc) {
@@ -103,6 +106,8 @@ public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 		
 		// groupHead
 		JFieldVar jfGroupHead = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "groupHead");
+		JClass jIndividualRef = jCodeModel.ref(org.openhds.domain.model.Individual.class);
+		jfGroupHead.init(JExpr._new(jIndividualRef));
 		jfGroupHead.annotate(org.openhds.domain.constraint.Searchable.class);
 		jfGroupHead.annotate(org.openhds.domain.constraint.CheckEntityNotVoided.class);
 		jfGroupHead.annotate(org.openhds.domain.constraint.CheckIndividualNotUnknown.class);
@@ -125,6 +130,30 @@ public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 		JVar jvarGroupHead = jmsGroupHead.param(org.openhds.domain.model.Individual.class, "head");
 		JBlock jmsGroupHeadBlock = jmsGroupHead.body();
 		jmsGroupHeadBlock.assign(jfGroupHead, jvarGroupHead);
+		
+		// respondent
+		JFieldVar jfRespondent = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "respondent");
+		jfRespondent.annotate(org.openhds.domain.constraint.Searchable.class);
+		jfRespondent.annotate(org.openhds.domain.constraint.CheckEntityNotVoided.class);
+		jfRespondent.annotate(org.openhds.domain.constraint.CheckIndividualNotUnknown.class);
+		JAnnotationUse jfRespondentCascade = jfRespondent.annotate(javax.persistence.ManyToOne.class);
+		JAnnotationArrayMember respondentArray = jfRespondentCascade.paramArray("cascade");
+		respondentArray.param(javax.persistence.CascadeType.MERGE);
+		respondentArray.param(javax.persistence.CascadeType.PERSIST);
+		jfRespondentCascade.param("targetEntity", org.openhds.domain.model.Individual.class);
+		JAnnotationUse jaRespondentDesc = jfRespondent.annotate(org.openhds.domain.annotations.Description.class);
+		jaRespondentDesc.param("description", "Individual who supplied the information for this social group.");
+		
+		// getter
+		JMethod jmgRespondent = jc.method(JMod.PUBLIC, org.openhds.domain.model.Individual.class, "getRespondent");
+		JBlock jmgRespondentBlock = jmgRespondent.body();
+		jmgRespondentBlock._return(jfRespondent);
+		
+		// setter
+		JMethod jmsRespondent = jc.method(JMod.PUBLIC, void.class, "setRespondent");
+		JVar jvarRespondent = jmsRespondent.param(org.openhds.domain.model.Individual.class, "resp");
+		JBlock jmsRespondentBlock = jmsRespondent.body();
+		jmsRespondentBlock.assign(jfRespondent, jvarRespondent);
 		
 		// groupType
 		JFieldVar jfGroupType = jc.field(JMod.PRIVATE , java.lang.String.class, "groupType");

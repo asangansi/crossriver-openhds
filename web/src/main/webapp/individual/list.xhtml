@@ -31,7 +31,7 @@
 		                <f:facet name="header">
 		                    <h:outputText value="#{msg.individualId}"/>
 		                </f:facet>
-		                <h:outputText value="#{item.extId}"/>
+		                <h:outputText value="#{item.extId}" title="#{msg.tipIndivExtId}"/>
 		            </h:column>
 		            <h:column>
 		                <f:facet name="header">
@@ -55,7 +55,7 @@
 		                <f:facet name="header">
 		                    <h:outputText escape="false" value=""/>
 		                </f:facet> 
-		                <h:outputLink value="/openhds/amendment/individual/details/#{item.uuid}">
+		                <h:outputLink value="#{request.contextPath}/amendment/individual/details/#{item.uuid}">
                         	<h:graphicImage style="border: 0;" title="details" value="/resources/icons/details.ico" />
                         </h:outputLink>
                         <h:outputText value=" "/>

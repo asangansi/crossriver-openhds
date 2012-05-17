@@ -47,6 +47,14 @@
 	                <h:outputText />
 	                <h:outputText value="#{socialGroupCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
 	                
+	                <h:outputText value="Date of Interview:"/>
+                    <h:outputText />
+                    <h:outputText value="#{socialGroupCrud.item.dateOfInterview}" converter="#{calendarConverter}" />
+					
+					<h:outputText value="Id of Respondent:"/>
+					<h:outputText />
+					<h:outputText value="#{socialGroupCrud.item.respondent}" converter="#{individualExtIdConverter}" />
+	                
 	                <h:outputText value="#{msg.insertDate}:"/>
 	                <h:outputText />
 	                <h:outputText value="#{socialGroupCrud.item.insertDate}" converter="#{calendarConverter}" />

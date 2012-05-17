@@ -9,10 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
+import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
 
@@ -24,6 +27,7 @@ import org.openhds.domain.constraint.Searchable;
 @Description(description = "All distinct Locations within the area of study are represented here. A Location is identified by a uniquely generated identifier that the system uses internally. Each Location has a name associated with it and resides at a particular level within the Location Hierarchy.")
 @Entity
 @Table(name = "location")
+@XmlRootElement(name = "location")
 public class Location
     extends AuditableCollectedEntity
     implements Serializable
@@ -45,6 +49,11 @@ public class Location
     @ExtensionStringConstraint(constraint = "locationTypeConstraint", message = "Invalid Value for location type", allowNull = true)
     @Description(description = "The type of Location.")
     private String locationType;
+    @ManyToOne
+    @CheckEntityNotVoided
+    @CheckIndividualNotUnknown
+    @Description(description = "The head of the location.")
+    private Individual locationHead;
     @Description(description = "The longitude for the Location")
     private String longitude;
     @Description(description = "The latitude for the Location")
@@ -56,6 +65,8 @@ public class Location
     @OneToMany(targetEntity = org.openhds.domain.model.Residency.class)
     @JoinColumn(name = "location_uuid")
     private List<Residency> residencies;
+    @Description(description = "Number of Households for Locatione")
+    private Integer numberOfHouseholds;
 
     public String getExtId() {
         return extId;
@@ -87,6 +98,14 @@ public class Location
 
     public void setLocationType(String type) {
         locationType = type;
+    }
+
+    public Individual getLocationHead() {
+        return locationHead;
+    }
+
+    public void setLocationHead(Individual head) {
+        locationHead = head;
     }
 
     public String getLongitude() {
@@ -127,6 +146,14 @@ public class Location
 
     public void setResidencies(List<Residency> list) {
         residencies = list;
+    }
+
+    public Integer getNumberOfHouseholds() {
+        return numberOfHouseholds;
+    }
+
+    public void setNumberOfHouseholds(Integer data) {
+        numberOfHouseholds = data;
     }
 
 }

@@ -146,6 +146,9 @@ public class ExtensionLoader {
 			IndividualTemplateBuilder individualTemplateBuilder = new IndividualTemplateBuilder(jCodeModel);
 			VisitTemplateBuilder visitTemplateBuilder = new VisitTemplateBuilder(jCodeModel);
 			SocialGroupTemplateBuilder socialGroupTemplateBuilder = new SocialGroupTemplateBuilder(jCodeModel);
+			DeathTemplateBuilder deathTemplateBuilder = new DeathTemplateBuilder(jCodeModel);
+			PregnancyObservationTemplateBuilder pregnancyObservationTemplateBuilder = new PregnancyObservationTemplateBuilder(jCodeModel);
+			InMigrationTemplateBuilder inMigrationTemplateBuilder = new InMigrationTemplateBuilder(jCodeModel);
 			AdultVPMTemplateBuilder adultVPMTemplateBuilder = new AdultVPMTemplateBuilder(jCodeModel);
 			
 			JPackage jp = jCodeModel._package("org.openhds.domain.model");					
@@ -165,6 +168,12 @@ public class ExtensionLoader {
 					socialGroupTemplateBuilder.buildTemplate(jc);
 				else if (entityName.equals("AdultVPM")) 
 					adultVPMTemplateBuilder.buildTemplate(jc);
+				else if (entityName.equals("Death"))
+					deathTemplateBuilder.buildTemplate(jc);
+				else if (entityName.equals("PregnancyObservation"))
+					pregnancyObservationTemplateBuilder.buildTemplate(jc);
+				else if (entityName.equals("InMigration"))
+					inMigrationTemplateBuilder.buildTemplate(jc);
 			}
 			
 			Iterator<String> keysItr = keys.iterator();
@@ -194,9 +203,15 @@ public class ExtensionLoader {
 					visitTemplateBuilder.buildTemplate(jc);
 				else if (entity.equals("SocialGroup") && socialGroupTemplateBuilder.templateBuilt == false)
 					socialGroupTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("Death") && deathTemplateBuilder.templateBuilt == false)
+					deathTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("PregnancyObservation") && pregnancyObservationTemplateBuilder.templateBuilt == false)
+					pregnancyObservationTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("InMigration") && inMigrationTemplateBuilder.templateBuilt == false)
+					inMigrationTemplateBuilder.buildTemplate(jc);
 				else if (entity.equals("AdultVPM") && adultVPMTemplateBuilder.templateBuilt == false)
 					adultVPMTemplateBuilder.buildTemplate(jc);
-				
+								
 				// build extended fields
 				JFieldVar jf = jc.field(JMod.PRIVATE , 			
 					(type.equals("String") ? java.lang.String.class :
@@ -228,7 +243,12 @@ public class ExtensionLoader {
 				}
 
 				// getters
-				String methodGetName = "get" + formattedAttr;
+				String methodGetName;
+				if (type.equals("Boolean"))
+					methodGetName = "is" + formattedAttr;
+				else
+					methodGetName = "get" + formattedAttr;
+				
 				JMethod jmg = jc.method(JMod.PUBLIC, 
 					(type.equals("String") ? java.lang.String.class :
 					type.equals("Integer") ? java.lang.Integer.class :
