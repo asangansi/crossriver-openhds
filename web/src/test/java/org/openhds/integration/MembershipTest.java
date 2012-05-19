@@ -64,8 +64,8 @@ public class MembershipTest extends AbstractTransactionalJUnit4SpringContextTest
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 individual = genericDao.findByProperty(Individual.class, "extId", "NBAS1I", false);
-		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "MBI1", false);
+		 individual = genericDao.findByProperty(Individual.class, "extId", "BRIHA001", false);
+		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "SG01", false);
 	 }
 	 
 	 @Test

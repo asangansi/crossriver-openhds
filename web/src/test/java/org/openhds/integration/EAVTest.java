@@ -68,7 +68,7 @@ public class EAVTest {
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 location = genericDao.findByProperty(Location.class, "extId", "NJA001");
+		 location = genericDao.findByProperty(Location.class, "extId", "MBI01");
 	 }
 	 
 	 @Test
@@ -96,7 +96,7 @@ public class EAVTest {
 		 extension.setClassExtension(classExtension);
 		 extension.setEntity(visit);
 		 extension.setExtensionValue("Taps");
-		 extension.setEntityExtId("NJA001");
+		 extension.setEntityExtId("MBI01");
 		 extensions.add(extension);
 		 
 		 visit.setExtensions(extensions);

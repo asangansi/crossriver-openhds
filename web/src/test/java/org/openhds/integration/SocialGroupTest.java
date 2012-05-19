@@ -69,7 +69,7 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 		 createLocationHierarchy();
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 individual = genericDao.findByProperty(Individual.class, "extId", "NBAS1I");
+		 individual = genericDao.findByProperty(Individual.class, "extId", "BRIHA001");
 	 }
 	 	 
 	 @Test
@@ -80,6 +80,7 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 		 socialGroup.setGroupName("Group");
 		 socialGroup.setGroupType("FAM");
 		 socialGroup.setCollectedBy(fieldWorker);
+		 socialGroup.setRespondent(individual);
 		 
 		 socialGroupCrud.setItem(socialGroup);
 		 socialGroupCrud.create();

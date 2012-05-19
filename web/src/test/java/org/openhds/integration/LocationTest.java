@@ -10,6 +10,7 @@ import org.openhds.controller.service.CurrentUser;
 import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.domain.model.FieldWorker;
+import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Location;
 import org.openhds.domain.model.LocationHierarchy;
 import org.openhds.domain.service.SitePropertiesService;
@@ -60,6 +61,7 @@ public class LocationTest extends AbstractTransactionalJUnit4SpringContextTests 
 	 LocationHierarchy locH2;
 	 LocationHierarchy item;
 	 FieldWorker fieldWorker;
+	 Individual individual;
 	 JsfServiceMock jsfServiceMock;
 	 
 	 @Before
@@ -69,6 +71,7 @@ public class LocationTest extends AbstractTransactionalJUnit4SpringContextTests 
 		 createLocationHierarchy();
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
+		 individual = genericDao.findByProperty(Individual.class, "extId", "BRIHA001", false);
 	 }
 	 
 	 @Test
@@ -78,6 +81,7 @@ public class LocationTest extends AbstractTransactionalJUnit4SpringContextTests 
 		 location.setLocationName("locationName");
 		 location.setLocationType("RUR");
 		 location.setLocationLevel(item);
+		 location.setLocationHead(individual);
 		 location.setCollectedBy(fieldWorker);
 		 locationCrud.setItem(location);
 	     locationCrud.create();
