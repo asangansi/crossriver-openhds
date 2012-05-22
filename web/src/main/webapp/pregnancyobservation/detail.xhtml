@@ -29,30 +29,82 @@
 					<h:outputText styleClass="error" value="#{pregnancyObservationCrud.item.statusMessage}" />
 					
 		            <h:panelGrid columns="3">
-		                <h:outputText value="#{msg.pregnancyObservationMotherId}:"/>
+		            	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+		            	<h:outputText />
+		            	<h:outputText />
+		            	
+		            	<h:outputText value="#{msg.fieldWorkerId}:"/>
+		                <h:outputText />
+		                <h:outputText value="#{pregnancyObservationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+		                
+		            	<h:outputText value="#{msg.pregnancyObservationRecordedDate}:"/>
+		                <h:outputText />
+		                <h:outputText value="#{pregnancyObservationCrud.item.recordedDate}" converter="#{calendarConverter}" />
+		                
+		                <h:outputText value="Permanent ID of pregnant woman:"/>
 		                <h:outputText />
 		                <h:outputText value="#{pregnancyObservationCrud.item.mother}" converter="#{individualExtIdConverter}" />
 		                
+		                <h:outputText value="Name of Pregnant Woman:"/>
+		                <h:outputText />
+		                <h:outputText value="#{pregnancyObservationCrud.item.pregWomanName}" />
+		                
+		                <h:outputText value="Number of months of pregnancy:"/>
+		                <h:outputText />
+		                <h:outputText id="numMonthsPreg" value="#{pregnancyObservationCrud.item.numMonthsOfPregnancy}" />
+		                
+		                <h:outputText value="Have you ever attended any Anti-Natal Clinic?:" />
+		             	<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		             	<h:outputText value="#{pregnancyObservationCrud.item.attendedAnteNatalClinic}" />
+		                
+		                <h:outputText value="Which health facility did you attend?:"/>
+		                <img class="clickable" onclick="O$('popupWindowForHealthFacility').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:outputText id="healthFacility" value="#{pregnancyObservationCrud.item.healthFacility}" />
+		
+		            	<h:outputText value="If other, please specify the health facility:"/>
+		                <h:outputText />
+		                <h:outputText id="healthFacilityOther" value="#{pregnancyObservationCrud.item.healthFacilityOther}" />
+		                
+		                <h:outputText value="Have you received TT injection?:" />
+		             	<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		             	<h:outputText value="#{pregnancyObservationCrud.item.receivedTTInjection}" />
+		                
+		                <h:outputText value="Estimated Date of Conception:"/>
+		                <h:outputText />
+		                <h:outputText value="#{pregnancyObservationCrud.item.estimatedDateOfConception}" converter="#{calendarConverter}" />
+
 		                <h:outputText value="#{msg.pregnancyObservationEDD}:"/>
 		                <h:outputText />
 		                <h:outputText value="#{pregnancyObservationCrud.item.expectedDeliveryDate}" converter="#{calendarConverter}" />
 		                
-		                <h:outputText value="#{msg.pregnancyObservationRecordedDate}:"/>
-		                <h:outputText />
-		                <h:outputText value="#{pregnancyObservationCrud.item.recordedDate}" converter="#{calendarConverter}" />
-		                
-		                <h:outputText value="#{msg.fieldWorkerId}:"/>
-		                <h:outputText />
-		                <h:outputText value="#{pregnancyObservationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+		                <h:outputText value="Is this your first pregnancy?:" />
+             			<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+             			<h:outputText value="#{pregnancyObservationCrud.item.firstPregnancy}" />
 		                
 		                <h:outputText value="#{msg.visitId}:"/>
 						<h:outputText />
 		                <h:outputText value="#{pregnancyObservationCrud.item.visit}" converter="#{visitExtIdConverter}" />
 		             	
-		             	<h:outputText value="#{msg.dataStatus}:" />
-		             	<h:outputText />
-		             	<h:outputText value="#{pregnancyObservationCrud.item.status}" />
-		             	
+		             	<f:verbatim><h3>Source of Information</h3></f:verbatim>
+		            	<h:outputText />
+		            	<h:outputText />
+		                
+		                <h:outputText value="House Id:"/>
+				        <h:outputText />
+				        <h:outputText value="#{pregnancyObservationCrud.item.house}" converter="#{locationExtIdConverter}" />
+								
+						<h:outputText value="Household Id:"/>
+				        <h:outputText />
+				        <h:outputText value="#{pregnancyObservationCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		
+						<h:outputText value="Household Name:"/>
+		                <h:outputText />
+		                <h:outputText id="householdName" value="#{pregnancyObservationCrud.item.householdName}" />
+		
+		             	<h:outputText value="Reported By:"/>
+		                <img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		               	<h:outputText value="#{pregnancyObservationCrud.item.reportedBy}" />  
+	
 		             	<h:outputText value="#{msg.insertDate}:"/>
 			            <h:outputText />
 			            <h:outputText value="#{pregnancyObservationCrud.item.insertDate}" converter="#{calendarConverter}" />

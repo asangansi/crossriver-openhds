@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.CurrentUser;
@@ -131,5 +132,17 @@ public class EntityServiceImpl implements EntityService {
 			((AuditableCollectedEntity)entityItem).setStatus(siteProperties.getDataStatusPendingCode());
 			((AuditableCollectedEntity)entityItem).setStatusMessage("");
 		}	
+	}
+	
+	public <T> void validateEntity(T entityItem) throws ConstraintViolations {
+    	List<String> violations = classValidator.validateType(entityItem);
+    	
+    	if (violations.size() > 0) {
+    		ConstraintViolations ex = new ConstraintViolations();
+    		for(String violation : violations) {
+    			ex.addViolations(violation);
+    		}
+    		throw ex;
+    	}
 	}
 }

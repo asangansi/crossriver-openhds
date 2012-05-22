@@ -47,28 +47,25 @@ INSERT INTO locationhierarchy(uuid,name,extId,level_uuid,parent_uuid) VALUES('hi
 INSERT INTO fieldworker (uuid, extid, firstname, lastname, deleted) VALUES ('UnknownFieldWorker','UNK', 'Unknown', 'FieldWorker', false)
 INSERT INTO fieldworker (uuid, extid, firstname, lastname, deleted) VALUES ('FieldWorker1','FWEK1D', 'Editha', 'Kaweza', false)
 
+-- Location Hierarchy Levels, these must be configured
+INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel1',1,'LGA')
+INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel2',2,'Ward')
+INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel3',3,'Village')
+
 -- Unknown Individual: This should always be pre-populated
-INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES('Unknown Individual','UNK','Unknown',NULL,'UNKNOWN','1', '1900-12-19', NULL, NULL,'User 1','2009-12-19','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
+INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES('Unknown Individual','UNK','Unknown','','UNKNOWN','1', '1900-12-19', NULL, NULL,'User 1','2009-12-19','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 1','BRIHA001','Brian','','Harold','1','1987-09-02','Unknown Individual','Unknown Individual','User 1','2012-02-28','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 2','CHRHA001','Chris','','Harold','1','1989-02-21','Unknown Individual','Unknown Individual','User 1','2012-02-28','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
-INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 3','SARRO001','Sarah','','Ross','2','1993-01-02','Unknown Individual','Unknown Individual','User 1','2012-02-28','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
+INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 3','SARRO001','Sarah','','Ross','2','1980-01-02','Unknown Individual','Unknown Individual','User 1','2012-02-28','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 4','JESMA001','Jessica','','Marsh','2','2011-01-03','Indiv 1','Indiv 3','User 1','2012-03-19','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 5','TONMA001','Tony','','Marsh','1','1988-03-19','Unknown Individual','Unknown Individual','User 1','2012-03-19','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 6','HENMA001','Henry','','Marsh','1','1998-03-20','Unknown Individual','Unknown Individual','User 1','2012-03-20','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 7','ABBHA001','Abby','','Harold','2','2011-04-15','Unknown Individual','Unknown Individual','User 1','2012-03-22','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 8','PETBA001','Peter','','Bash','1','2009-01-01','Unknown Individual','Unknown Individual','User 1','2012-04-17','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 
--- Location Hierarchy Levels, these must be configured
-INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel1',1,'LGA')
-INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel2',2,'Ward')
-INSERT INTO locationhierarchylevel(uuid,keyIdentifier,name) VALUES('HierarchyLevel3',3,'Village')
+INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location1','MBI01','Harolds House',NULL,'RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 1')
 
-INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location1','MBI01','Harolds House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 1')
-INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location2','MBI02','Ross House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 3')
-INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location3','MBI03','Marsh House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 5')
-INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location4','MBI04','Bash House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 8')
-
-INSERT INTO round(uuid,roundNumber,startDate,endDate) VALUES('ROUND 1',1,'2010-06-30 15:07:43','2010-07-31 15:07:43')
+INSERT INTO round(uuid,roundNumber,startDate,endDate) VALUES('ROUND 1',1,'2010-06-30','2010-07-31')
 INSERT INTO visit(uuid,extId,visitDate,status,insertDate,collectedBy_uuid,visitLocation_uuid,deleted,roundNumber,insertBy_uuid) VALUES ('Visit1','VMBI01','2012-02-28','P','2012-03-28','FieldWorker1','Location1',false,1,'User 1')
 
 INSERT INTO residency(uuid,location_uuid,individual_uuid,startDate,startType,endDate,endType,collectedBy_uuid,deleted,status,insertDate,insertBy_uuid) VALUES ('Residency1','Location1','Indiv 2','1989-02-21','BIR',NULL,'NA','FieldWorker1',false,'A','2012-04-17','User 1')
@@ -82,6 +79,8 @@ INSERT INTO socialgroup(uuid, extId, deleted, insertdate, groupName, collectedby
 INSERT INTO socialgroup(uuid, extId, deleted, insertdate, groupName, collectedby_uuid, insertby_uuid, grouphead_uuid,groupType,status) VALUES ('SocialGroup2','SG02',false,'2012-04-17','Marsh','FieldWorker1','User 1','Indiv 5','FAM','P')
 INSERT INTO socialgroup(uuid, extId, deleted, insertdate, groupName, collectedby_uuid, insertby_uuid, grouphead_uuid,groupType,status) VALUES ('SocialGroup3','SG03',false,'2012-04-17','Ross','FieldWorker1','User 1','Indiv 3','FAM','P')
 INSERT INTO socialgroup(uuid, extId, deleted, insertdate, groupName, collectedby_uuid, insertby_uuid, grouphead_uuid,groupType,status) VALUES ('SocialGroup4','SG04',false,'2012-04-17','Bash','FieldWorker1','User 1','Indiv 8','FAM','P')
+
+INSERT INTO death (uuid,deleted,insertDate,status,voidDate,voidReason,deathCause,deathDate,deathPlace,collectedBy_uuid,insertBy_uuid,voidBy_uuid,individual_uuid,visitDeath_uuid,house_uuid,household_uuid) VALUES ('death1','','2010-06-09','P',NULL,NULL,'Cause','2010-06-01','Place','FieldWorker1','User 1',NULL,'Indiv 8','Visit1','Location1','SocialGroup1')
 
 INSERT INTO inmigration(uuid,deleted,insertDate,recordedDate,voidDate,voidReason,status,origin,reason,migType,insertBy_uuid,voidBy_uuid,collectedBy_uuid,house_uuid,household_uuid,individual_uuid,residency_uuid,visit_uuid) VALUES ('Inmigration1',false,'2012-04-17','2011-01-05',NULL,NULL,'P',1,1,'INTERNAL_INMIGRATION','User 1',NULL,'FieldWorker1','Location1','SocialGroup1','Indiv 5','Residency6','Visit1')
 INSERT INTO outmigration(uuid,deleted,insertDate,voidDate,voidReason,status,destination,reason,recordedDate,insertBy_uuid,voidBy_uuid,collectedBy_uuid,individual_uuid,residency_uuid,visit_uuid) VALUES ('Outmigration1',false,'2012-04-17',NULL,NULL,'P','name','reason','1997-05-05','User 1',NULL,'FieldWorker1','Indiv 5','Residency6','Visit1')

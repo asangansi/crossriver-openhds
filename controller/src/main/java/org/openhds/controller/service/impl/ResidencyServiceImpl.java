@@ -53,7 +53,10 @@ public class ResidencyServiceImpl implements ResidencyService {
         
         Individual indiv = candidateResidency.getIndividual();
 
-        checkIndividualEligibleForNewResdency(indiv);
+        if (candidateResidency.getEndDate() == null) {
+        	// opening a new residency for the individual
+        	checkIndividualEligibleForNewResdency(indiv);
+        }
         
         Set<Residency> res = indiv.getAllResidencies();
 

@@ -24,27 +24,98 @@
                 <h1>#{msg.pregnancyObservationEdit}</h1>
                 <h:messages id="errors" globalOnly="true" />
                 <h:form id="form">
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="4">
                        
-                        <h:outputText value="#{msg.pregnancyObservationMotherId}:"/>
-                        <h:inputText styleClass="individual" autocomplete="off" id="mother" value="#{pregnancyObservationCrud.item.mother}" converter="#{individualExtIdConverter}" disabled="true"/>
-                        <h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.pregnancyObservationEDD} (#{siteProperties.dateFormat})" />
-                        <o:dateChooser id="deliveryDate" value="#{pregnancyObservationCrud.edd}" pattern="#{siteProperties.dateFormat}" />
-                        <h:message for="deliveryDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.pregnancyObservationRecordedDate} (#{siteProperties.dateFormat})" />
-                        <o:dateChooser id="recordedDate" value="#{pregnancyObservationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
-                        <h:message for="recordedDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.fieldWorkerId}:"/>
-                        <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" converter="#{fieldWorkerExtIdConverter}" title="#{msg.tipFWExtId}" value="#{pregnancyObservationCrud.item.collectedBy}" />
-                        <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    	<h:outputText value="#{msg.fieldWorkerId}:"/>
+		            	<h:outputText />
+		                <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" converter="#{fieldWorkerExtIdConverter}" value="#{pregnancyObservationCrud.item.collectedBy}" />
+		                <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		            	
+						<h:outputText value="#{msg.pregnancyObservationRecordedDate} (#{siteProperties.dateFormat})" />
+		                <h:outputText />
+		                <o:dateChooser id="recordedDate" value="#{pregnancyObservationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+		                <h:message for="recordedDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+		                <h:outputText value="Permanent ID of pregnant woman:"/>
+		                <h:outputText />
+		                <h:inputText styleClass="individual" autocomplete="off" id="mother" value="#{pregnancyObservationCrud.item.mother}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}"/>
+		                <h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+						<h:outputText value="Name of Pregnant Woman:"/>
+		                <h:outputText />
+		                <h:inputText id="pregWomanName" value="#{pregnancyObservationCrud.item.pregWomanName}" converter="#{defaultConverter}" />
+		                <h:message for="pregWomanName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		                
+						<h:outputText value="Number of months of pregnancy:"/>
+		                <h:outputText />
+		                <h:inputText id="numMonthsPreg" value="#{pregnancyObservationCrud.item.numMonthsOfPregnancy}" />
+		                <h:message for="numMonthsPreg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		                
+		                <h:outputText value="Have you ever attended any Ante-Natal Clinic?:"/>
+		                <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:inputText id="attendedAnteNatalClinic" value="#{pregnancyObservationCrud.item.attendedAnteNatalClinic}" converter="#{defaultConverter}" />
+		                <h:message for="attendedAnteNatalClinic" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		            
+		            	<h:outputText value="Which health facility did you attend?:"/>
+		                <img class="clickable" onclick="O$('popupWindowForHealthFacility').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:inputText id="healthFacility" value="#{pregnancyObservationCrud.item.healthFacility}" converter="#{defaultConverter}" />
+		                <h:message for="healthFacility" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+		            	<h:outputText value="If other, please specify the health facility:"/>
+		                <h:outputText />
+		                <h:inputText id="healthFacilityOther" value="#{pregnancyObservationCrud.item.healthFacilityOther}" converter="#{defaultConverter}" />
+		                <h:message for="healthFacilityOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+		            	<h:outputText value="Have you received TT injection?:"/>
+		                <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:inputText id="receivedTTInjection" value="#{pregnancyObservationCrud.item.receivedTTInjection}" converter="#{defaultConverter}" />
+		                <h:message for="receivedTTInjection" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		            	
+		                <h:outputText value="Estimated Date of Conception (#{siteProperties.dateFormat})" />
+		                <h:outputText />
+		                <o:dateChooser id="conceptionDate" value="#{pregnancyObservationCrud.edConception}" pattern="#{siteProperties.dateFormat}" />
+		                <h:message for="conceptionDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+		                <h:outputText value="#{msg.pregnancyObservationEDD} (#{siteProperties.dateFormat})" />
+		                <h:outputText />
+		                <o:dateChooser id="deliveryDate" value="#{pregnancyObservationCrud.edd}" pattern="#{siteProperties.dateFormat}" />
+		                <h:message for="deliveryDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		
+						<h:outputText value="Is this your first pregnancy?:"/>
+		                <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:inputText id="firstPregnancy" value="#{pregnancyObservationCrud.item.firstPregnancy}" converter="#{defaultConverter}" />
+		                <h:message for="firstPregnancy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 		                
 		                <h:outputText value="#{msg.visitId}:"/>
-		                <h:inputText styleClass="visit" autocomplete="off" id="visit" converter="#{visitExtIdConverter}" value="#{pregnancyObservationCrud.item.visit}" />
+		                <h:outputText />
+		                <h:inputText styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" converter="#{visitExtIdConverter}" value="#{pregnancyObservationCrud.item.visit}" />
 		                <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		                
+		                <f:verbatim><h3>Source of Information</h3></f:verbatim>
+				        <h:outputText />
+		                <h:outputText />
+		                <h:outputText />
+		                
+		                <h:outputText value="House Id:"/>
+				        <h:outputText />
+				        <h:inputText styleClass="location" id="loc" value="#{pregnancyObservationCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+				        <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+								
+					    <h:outputText value="Household Id:"/>
+				        <h:outputText />
+				        <h:inputText styleClass="socialGroup" id="sg" value="#{pregnancyObservationCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+				       	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				       	
+				       	<h:outputText value="Household Name:"/>
+		                <h:outputText />
+		                <h:inputText id="householdName" value="#{pregnancyObservationCrud.item.householdName}" converter="#{defaultConverter}" />
+		                <h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		            	
+		            	<h:outputText value="Reported By:"/>
+		                <img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+		                <h:inputText id="reportedBy" value="#{pregnancyObservationCrud.item.reportedBy}" converter="#{defaultConverter}" />
+		                <h:message for="reportedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+		           
                     </h:panelGrid>
                     <script>
   						document.getElementById('form:deliveryDate').focus();

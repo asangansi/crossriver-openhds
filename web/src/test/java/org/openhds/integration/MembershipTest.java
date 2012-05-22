@@ -90,7 +90,7 @@ public class MembershipTest extends AbstractTransactionalJUnit4SpringContextTest
 	 @Test
 	 public void testMembershipDeath() {
 		 
-		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "CBLA1H", false);
+		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "PETBA001", false);
 		 
 		 Membership membership = new Membership();
 	     membership.setSocialGroup(socialGroup);

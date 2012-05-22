@@ -400,6 +400,8 @@
         <property name="dao" ref="inMigrationDao" />
         <property name="converter" ref="inMigrationConverter" />
         <property name="service" ref="inMigrationService" />
+        <property name="individualService" ref="individualService" />
+        <property name="individualIdGenerator" ref="individualIdGenerator" />
     </bean>
     
     <bean id="locationCrud" parent="baseCrud" class="org.openhds.web.crud.impl.LocationCrudImpl">
@@ -957,6 +959,7 @@
 		        <constructor-arg ref="residencyService" />
 		        <constructor-arg ref="entityService" />
 		        <constructor-arg ref="individualService" />
+		        <constructor-arg ref="membershipService" />
 		        <constructor-arg ref="genericDao" />
 		        <constructor-arg ref="siteProperties" />
 		    </bean>

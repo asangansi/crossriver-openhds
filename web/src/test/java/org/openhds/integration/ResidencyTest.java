@@ -81,7 +81,7 @@ public class ResidencyTest extends AbstractTransactionalJUnit4SpringContextTests
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 individual = genericDao.findByProperty(Individual.class, "extId", "NBAS1I", false);
+		 individual = genericDao.findByProperty(Individual.class, "extId", "HENMA001", false);
 		 
 		 createLocationHierarchy();
 		 createLocation();
@@ -165,6 +165,7 @@ public class ResidencyTest extends AbstractTransactionalJUnit4SpringContextTests
 		 location = new Location();
 		 location.setLocationName("locationName");
 		 location.setLocationType("RUR");
+		 location.setLocationHead(individual);
 		 location.setLocationLevel(item);
 		 location.setCollectedBy(fieldWorker);
 		 locationCrud.setItem(location);

@@ -22,53 +22,185 @@
 		
 	    	<h:outputText value="#{navController.breadcrumbTrail}" />	
 		
-	        <h1>#{msg.inmigrationDetail}</h1>
+	        <h1>Migration Details</h1>
 	        <h:form>
 	        
 	        	<h:outputText styleClass="error" value="#{inMigrationCrud.item.statusMessage}" />
 	        
 	            <h:panelGrid columns="3">
-	                <h:outputText value="#{msg.individualId}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
-	                
-	                <h:outputText value="#{msg.locationId}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.residency.location}" converter="#{locationExtIdConverter}"/>
-	                
-	                <h:outputText value="#{msg.inmigrationDate} (#{siteProperties.dateFormat})"/>
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.recordedDate}" converter="#{calendarConverter}" />
-	                
-	                <h:outputText value="#{msg.inmigrationOrigin}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.origin}" />
-	                
-	                <h:outputText value="#{msg.inmigrationReason}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.reason}" />
-	                
-	                <h:outputText value="#{msg.inmigrationTemporaryIndividualId}:" />
-	                <h:outputText />
-	                <h:outputText value="#{inMigrationCrud.unknownIndividual ? msg.yes : msg.no}" />
-                    
-                    <h:outputText value="#{msg.fieldWorkerId}:"/>
+        			<f:verbatim><h3>Basic Information</h3></f:verbatim>
+     	    	  	<h:outputText />
+     	    	  	<h:outputText />
+            
+            		<h:outputText value="#{msg.fieldWorkerId}:"  />
                     <h:outputText />
                     <h:outputText value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
-                   	
-                   	<h:outputText value="#{msg.visitId}:"/>
+                   
+	            	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <h:outputText value="#{inMigrationCrud.item.dateOfInterview}" converter="#{calendarConverter}"/>
+                   
+	            	<h:outputText value="Date of Migration (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <h:outputText value="#{inMigrationCrud.item.recordedDate}" converter="#{calendarConverter}" />
+                   
+	            	<h:outputText value="House Id:"/>
+		            <h:outputText />
+		            <h:outputText value="#{inMigrationCrud.item.house}" converter="#{locationExtIdConverter}" />
+		            
+	            	<h:outputText value="House Name:"/>
+                    <h:outputText />
+                    <h:outputText id="houseName" value="#{inMigrationCrud.item.houseName}" />
+						
+					<h:outputText value="Household Id:"/>
+		            <h:outputText />
+		            <h:outputText value="#{inMigrationCrud.item.household}" converter="#{socialGroupExtIdConverter}" />
+		           	
+					<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.householdName}" />
+
+					<h:outputText value="#{msg.visitId}:" />
                     <h:outputText />
                     <h:outputText value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
-				    
-				    <h:outputText value="#{msg.insertDate}:"/>
+  
+					<h:outputText value="Has the member ever been registered in the CRHDSS?:" />
+					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:outputText value="#{inMigrationCrud.item.everRegistered}" />
+						
+	            	<h:outputText value="#{msg.individualId}:"/>
+	            	<h:outputText />
+	                <h:outputText value="#{inMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
+	            	
+	            	<h:outputText value="Current Individual Number:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.currentIndividualNumber}" />
+				
+					<f:verbatim><h3>Reason For Migration</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+            		<h:outputText value="Reason:"/>
+                    <img class="clickable" onclick="O$('popupWindowForReasonForInmigration').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:outputText value="#{inMigrationCrud.item.reason}" />
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:outputText value="#{inMigrationCrud.item.reasonOther}" />
+                
+               	    <f:verbatim><h3>Information On Where Member Has Moved From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+               		<h:outputText value="Origin:"/>
+                    <img class="clickable" onclick="O$('popupWindowForOrigin').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:outputText value="#{inMigrationCrud.item.origin}" />
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:outputText value="#{inMigrationCrud.item.originOther}" />
+                
+                	<f:verbatim><h3>Information On Place Where Member Is Moving From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+               		<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.oldNameMovingFrom}" />
+					
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.houseNameMovingFrom}" />
+					
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.householdNameMovingFrom}" />
+					
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.sectionMovingFrom}" />
+					
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.villageMovingFrom}" />
+	      
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.cellPhoneNumberMovingFrom}"/>
+               	
+               		<f:verbatim><h3>Information On Place Where Member Was First Registered</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+               		<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.oldNameFirstReg}" />
+					
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.houseNameFirstReg}" />
+					
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.householdNameFirstReg}" />
+					
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.sectionFirstReg}" />
+					
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.villageFirstReg}" />
+					
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.cellPhoneNumberFirstReg}" />
+				
+					<f:verbatim><h3>Detailed Information On Moved In Person</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+					<h:outputText value="First Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.movedInPersonFirstName}" />
+					
+	      			<h:outputText value="Last Name:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.movedInPersonLastName}" />
+					
+	      			<h:outputText value="Gender:" />
+					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:outputText value="#{inMigrationCrud.item.movedInPersonGender}" />
+					
+	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <h:outputText value="#{inMigrationCrud.item.movedInPersonDob}" converter="#{calendarConverter}" />
+	            		
+	            	<h:outputText value="Mother Id:"/>
+	            	<h:outputText />
+	                <h:outputText value="#{inMigrationCrud.item.movedInPersonMother}" converter="#{individualExtIdConverter}" />
+	            	
+	            	<h:outputText value="Father Id:"/>
+	            	<h:outputText />
+	                <h:outputText value="#{inMigrationCrud.item.movedInPersonFather}" converter="#{individualExtIdConverter}" />
+	           	
+	           		<h:outputText value="Number of years of formal education:" />
+					<h:outputText />
+					<h:outputText value="#{inMigrationCrud.item.formalEducationYears}" converter="#{defaultConverter}" />
+                	
+                	<f:verbatim><h3>Source of Information</h3></f:verbatim>
+                	<h:outputText />
+                	<h:outputText />
+                		
+				    <h:outputText value="#{msg.insertDate}"/>
 	                <h:outputText />
 	                <h:outputText value="#{inMigrationCrud.item.insertDate}" converter="#{calendarConverter}" />
 					
-					<h:outputText value="#{msg.insertBy}:"/>
+					<h:outputText value="#{msg.insertBy}"/>
 					<h:outputText />
 					<h:outputText value="#{inMigrationCrud.item.insertBy.fullName}" />
 					
-					<h:outputText value="#{msg.dataStatus}:"/>
+					<h:outputText value="#{msg.dataStatus}"/>
 		    		<img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
 					<h:outputText value="#{inMigrationCrud.item.status}" />	
 				</h:panelGrid>

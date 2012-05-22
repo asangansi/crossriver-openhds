@@ -20,6 +20,7 @@ public class PregnancyObservationCrudImpl extends EntityCrudImpl<PregnancyObserv
     // used for manual conversion between Date and Calendar since the openFaces Calendar doesn't support JSF Converters
     Date edd;
     Date recordedDate;
+    Date edConception;
 	
 	public PregnancyObservationCrudImpl(Class<PregnancyObservation> entityClass) {
         super(entityClass);
@@ -93,6 +94,19 @@ public class PregnancyObservationCrudImpl extends EntityCrudImpl<PregnancyObserv
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(edd);
 		entityItem.setExpectedDeliveryDate(cal);
+	}
+	
+	public Date getEdConception() {
+		if (entityItem.getEstimatedDateOfConception() == null)
+    		return new Date();
+    	
+    	return entityItem.getEstimatedDateOfConception().getTime();
+	}
+
+	public void setEdConception(Date edConception) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(edConception);
+		entityItem.setEstimatedDateOfConception(cal);
 	}
     
 	public EntityValidationService<PregnancyObservation> getEntityValidator() {

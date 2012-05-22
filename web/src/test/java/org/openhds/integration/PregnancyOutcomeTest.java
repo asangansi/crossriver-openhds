@@ -92,6 +92,7 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 	 CurrentUser currentUser;
 	 
 	 Individual mother;
+	 Individual head;
 	 Individual unknownIndiv;
 	 FieldWorker fieldWorker;
 	 SocialGroup socialGroup;
@@ -106,15 +107,16 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
     	 jsfServiceMock = (JsfServiceMock)jsfService;
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
-		 mother = genericDao.findByProperty(Individual.class, "extId", "NBAS1I", false);
+		 mother = genericDao.findByProperty(Individual.class, "extId", "SARRO001", false);
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
 		 unknownIndiv = genericDao.findByProperty(Individual.class, "extId", "UNK", false);
-		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "MBI1", false);
+		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "SG01", false);
+		 head = genericDao.findByProperty(Individual.class, "extId", "ABBHA001", false);
 		 		 
 		 createLocationHierarchy();
 		 createLocation();
 		 
-		 visit = genericDao.findByProperty(Visit.class, "extId", "VLOCMBI11J");
+		 visit = genericDao.findByProperty(Visit.class, "extId", "VMBI01");
 		 
 		 createResidency();
      }
@@ -127,9 +129,9 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 		 po.setFather(unknownIndiv);
 		 po.setVisit(visit);
 		 po.setNumberOfLiveBirths(0);
-		 po.setOutcomeDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1980));
+		 po.setOutcomeDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));
 		 po.setCollectedBy(fieldWorker);
-		 
+		 		 
 		 List<Outcome> outcomes = po.getOutcomes();
 		 Outcome outcome = new Outcome();
 		 outcome.setType(siteProperties.getMarriageCode());
@@ -140,7 +142,7 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 		 pregnancyOutcomeCrud.setItem(po);
 		 pregnancyOutcomeCrud.create();
 		 
-		 PregnancyOutcome savedPO = genericDao.findByProperty(PregnancyOutcome.class, "outcomeDate", calendarUtil.getCalendar(Calendar.JANUARY, 4, 1980));
+		 PregnancyOutcome savedPO = genericDao.findByProperty(PregnancyOutcome.class, "outcomeDate", calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));
 		 assertNotNull(savedPO);
 	 }
 	 
@@ -164,6 +166,7 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 		 
 		 Residency residency = new Residency();
 		 residency.setStartDate(calendarUtil.getCalendar(Calendar.DECEMBER, 19, 1959));
+		 residency.setEndDate(calendarUtil.getCalendar(Calendar.DECEMBER, 19, 1965));
 		 residency.setIndividual(mother);
 		 residency.setLocation(location);
 		 residency.setStartType(siteProperties.getBirthCode());
@@ -172,14 +175,12 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 		 
 		 Set<Residency> residencies = new HashSet<Residency>();
 		 residencies.add(residency);
-		 
-		 mother.setAllResidencies(residencies);
-		 
+		 		 		 
 		 residencyCrud.setItem(residency);
 		 residencyCrud.create();
-		 
-		 Residency savedResidency = genericDao.findByProperty(Residency.class, "individual", mother);
-		 assertNotNull(savedResidency);
+		 		 		 
+		 List<Residency> savedResidencies = genericDao.findListByProperty(Residency.class, "individual", mother);
+		 assertNotNull(savedResidencies);
 	 }
 	 
 	 private void createLocationHierarchy() {
@@ -214,6 +215,7 @@ public class PregnancyOutcomeTest extends AbstractTransactionalJUnit4SpringConte
 		 location = new Location();
 		 location.setLocationName("locationName");
 		 location.setLocationType("RUR");
+		 location.setLocationHead(head);
 		 location.setLocationLevel(item);
 		 location.setCollectedBy(fieldWorker);
 		 locationCrud.setItem(location);

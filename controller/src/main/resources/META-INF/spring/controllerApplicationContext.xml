@@ -153,6 +153,7 @@
 		        <constructor-arg ref="residencyService" />
 		        <constructor-arg ref="entityService" />
 		        <constructor-arg ref="individualService" />
+		        <constructor-arg ref="membershipService" />
 		        <constructor-arg ref="genericDao" />
 		        <constructor-arg ref="siteProperties" />
 		    </bean>

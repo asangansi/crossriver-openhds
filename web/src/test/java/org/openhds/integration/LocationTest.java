@@ -1,7 +1,6 @@
 package org.openhds.integration;
 
 import static org.junit.Assert.*;
-
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;

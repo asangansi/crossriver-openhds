@@ -92,7 +92,7 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 	 @Test
 	 public void testSocialGroupDeath() {
 		 
-		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "CBLA1H", false);
+		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "PETBA001", false);
 		 
 		 SocialGroup socialGroup = new SocialGroup();
 		 socialGroup.setGroupHead(indiv);

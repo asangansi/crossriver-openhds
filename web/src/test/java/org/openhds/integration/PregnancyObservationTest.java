@@ -12,7 +12,9 @@ import org.openhds.controller.service.PregnancyService;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.PregnancyObservation;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.util.CalendarUtil;
 import org.openhds.integration.util.JsfServiceMock;
@@ -56,6 +58,8 @@ public class PregnancyObservationTest extends AbstractTransactionalJUnit4SpringC
 	 
 	 Individual mother;
 	 FieldWorker fieldWorker;
+	 SocialGroup socialGroup;
+	 Location location;
 	 Visit visit;
 	 JsfServiceMock jsfServiceMock;
 	 
@@ -65,9 +69,11 @@ public class PregnancyObservationTest extends AbstractTransactionalJUnit4SpringC
     	 jsfServiceMock = (JsfServiceMock)jsfService;
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
-		 mother = genericDao.findByProperty(Individual.class, "extId", "NBAS1I", false);
+		 mother = genericDao.findByProperty(Individual.class, "extId", "SARRO001", false);
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 visit = genericDao.findByProperty(Visit.class, "extId", "VLOCMBI11J");
+		 visit = genericDao.findByProperty(Visit.class, "extId", "VMBI01");
+		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "SG01");
+		 location = genericDao.findByProperty(Location.class, "extId", "MBI01");
      }
 	 
 	 @Test
@@ -77,8 +83,10 @@ public class PregnancyObservationTest extends AbstractTransactionalJUnit4SpringC
 		 pregnancyObservation.setMother(mother);
 		 pregnancyObservation.setCollectedBy(fieldWorker);
 		 pregnancyObservation.setVisit(visit);
-		 pregnancyObservation.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1980));
-		 pregnancyObservation.setExpectedDeliveryDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1981));
+		 pregnancyObservation.setHouse(location);
+		 pregnancyObservation.setHousehold(socialGroup);
+		 pregnancyObservation.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));
+		 pregnancyObservation.setExpectedDeliveryDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2001));
 		 
 		 pregnancyObservationCrud.setItem(pregnancyObservation);
 		 pregnancyObservationCrud.create();

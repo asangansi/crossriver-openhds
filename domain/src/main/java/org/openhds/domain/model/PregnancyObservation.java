@@ -10,12 +10,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualGenderFemale;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
+import org.openhds.domain.constraint.ExtensionIntegerConstraint;
 import org.openhds.domain.constraint.Searchable;
 
 
@@ -64,6 +66,33 @@ public class PregnancyObservation
     @ManyToOne
     @Description(description = "The visit this pregnancy observation was registered during.")
     private Visit visit;
+    @Description(description = "Name of the household in which this pregnany observation occurred")
+    private String householdName;
+    @Description(description = "If other, please specify the health facility")
+    private String healthFacilityOther;
+    @Description(description = "Estimated date of conception of the pregnancy observation")
+    @Temporal(TemporalType.DATE)
+    @Past
+    private Calendar estimatedDateOfConception;
+    @Description(description = "Name of pregnant woman")
+    private String pregWomanName;
+    @Description(description = "Who reported this pregnancy observaton")
+    @ExtensionIntegerConstraint(constraint = "reportedByConstraint", message = "Invalid Value for reportedBy", allowNull = true)
+    private Integer reportedBy;
+    @Description(description = "Number of months of pregnancy")
+    private Integer numMonthsOfPregnancy;
+    @Description(description = "Is this the mother's first pregnancy?")
+    @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for firstPregnancy", allowNull = true)
+    private Integer firstPregnancy;
+    @Description(description = "Did the mother attend an anti-natal clinic?")
+    @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for attendedAnteNatalClinic", allowNull = true)
+    private Integer attendedAnteNatalClinic;
+    @Description(description = "Which health facility did the mother attend?")
+    @ExtensionIntegerConstraint(constraint = "healthFacilityConstraint", message = "Invalid Value for healthFacility", allowNull = true)
+    private Integer healthFacility;
+    @Description(description = "Did the mother receive a TT injection?")
+    @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for receivedTTInjection", allowNull = true)
+    private Integer receivedTTInjection;
 
     public Individual getMother() {
         return mother;
@@ -113,6 +142,87 @@ public class PregnancyObservation
 
     public void setVisit(Visit vis) {
         visit = vis;
+    }
+
+    public String getHouseholdName() {
+        return householdName;
+    }
+
+    public void setHouseholdName(String data) {
+        householdName = data;
+    }
+
+    public String getHealthFacilityOther() {
+        return healthFacilityOther;
+    }
+
+    public void setHealthFacilityOther(String data) {
+        healthFacilityOther = data;
+    }
+
+    @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
+    public Calendar getEstimatedDateOfConception() {
+        return estimatedDateOfConception;
+    }
+
+    public void setEstimatedDateOfConception(Calendar data) {
+        estimatedDateOfConception = data;
+    }
+
+    public String getPregWomanName() {
+        return pregWomanName;
+    }
+
+    public void setPregWomanName(String data) {
+        pregWomanName = data;
+    }
+
+    public Integer getReportedBy() {
+        return reportedBy;
+    }
+
+    public void setReportedBy(Integer data) {
+        reportedBy = data;
+    }
+
+    public Integer getNumMonthsOfPregnancy() {
+        return numMonthsOfPregnancy;
+    }
+
+    public void setNumMonthsOfPregnancy(Integer data) {
+        numMonthsOfPregnancy = data;
+    }
+
+    public Integer getFirstPregnancy() {
+        return firstPregnancy;
+    }
+
+    public void setFirstPregnancy(Integer data) {
+        firstPregnancy = data;
+    }
+
+    public Integer getAttendedAnteNatalClinic() {
+        return attendedAnteNatalClinic;
+    }
+
+    public void setAttendedAnteNatalClinic(Integer data) {
+        attendedAnteNatalClinic = data;
+    }
+
+    public Integer getHealthFacility() {
+        return healthFacility;
+    }
+
+    public void setHealthFacility(Integer data) {
+        healthFacility = data;
+    }
+
+    public Integer getReceivedTTInjection() {
+        return receivedTTInjection;
+    }
+
+    public void setReceivedTTInjection(Integer data) {
+        receivedTTInjection = data;
     }
 
 }

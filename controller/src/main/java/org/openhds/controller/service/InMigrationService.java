@@ -62,4 +62,11 @@ public interface InMigrationService {
 	 */
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	void createInMigration(InMigration inMigration) throws ConstraintViolations, SQLException, Exception;
+	
+	/**
+	 * Generates, and assigns an extId to the individual (migrant) for <code>migration</code>
+	 * @param migration
+	 */
+	@Authorized({PrivilegeConstants.CREATE_ENTITY})
+	boolean generateIdForMigrant(InMigration migration);
 }

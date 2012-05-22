@@ -27,11 +27,23 @@
 		            <h:outputText styleClass="error" value="#{deathCrud.item.statusMessage}" />
 		    
 		            <h:panelGrid columns="3">
+		            	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+	            		<h:outputText />
+	            		<h:outputText />
+	            		
+	            		<h:outputText value="#{msg.fieldWorker}:"/>
+                		<h:outputText />
+                		<h:outputText value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
+                
+                		<h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
+	                	<h:outputText />
+	                	<h:outputText value="#{deathCrud.item.recordedDate}" converter="#{calendarConverter}" />
+	           			
 		            	<h:outputText value="#{msg.individualId}:" />
 		            	<h:outputText />
 		            	<h:outputText value="#{deathCrud.item.individual}" converter="#{individualExtIdConverter}"/>
 		            	
-		            	 <h:outputText value="House Id:"/>
+		            	<h:outputText value="House Id:"/>
 			           	<h:outputText />
 			            <h:outputText value="#{deathCrud.item.house}" converter="#{locationExtIdConverter}" />
 							
@@ -66,14 +78,14 @@
 	                	<h:outputText value="#{msg.deathDate}:" />
 		                <h:outputText />
 		                <h:outputText value= "#{deathCrud.item.deathDate}" converter="#{calendarConverter}" />
-		                
-		                <h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
-	                	<h:outputText />
-	                	<h:outputText value="#{deathCrud.item.recordedDate}" converter="#{calendarConverter}" />
-	           			
+		               
 	           			<h:outputText value="#{msg.visitId}:"/>
 		                <h:outputText />
 		                <h:outputText value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}"/>
+						
+						<f:verbatim><h3>Source of Information</h3></f:verbatim>
+		            	<h:outputText />
+		            	<h:outputText />
 						
 						<h:outputText value="#{msg.insertDate}:"/>
 	                	<h:outputText />

@@ -17,15 +17,360 @@
 	</ui:define>
 	<ui:define name="display">
     	<h:outputText value="#{navController.breadcrumbTrail}" />	
-		<h1>#{msg.inmigrationSelectType}</h1>
+		<h1>Create Migration</h1>   
+        <div id="loading-div">
+            <img src="#{request.contextPath}/resources/images/ajax-loader.gif" /> Working...
+        </div>
+		<h:messages id="error" globalOnly="true" styleClass="error" />     
+        <h:form id="form">
         
-        <h:form id="inmigration">
-	     	<h:commandButton id="internalBtn" value="#{msg.inmigrationInternalType}" action="#{inMigrationCrud.startInternal}" />
-	     	<h:commandButton id="internalNoIdBtn" value="#{msg.inmigrationInternalUnknownId}" action="internalWithNoId" />
-	     	<h:commandButton id="externalBtn" value="#{msg.inmigrationExternalType}" action="external" />
+     	    <h:panelGrid columns="4">
+     	    
+     	    	  	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+     	    	  	<h:outputText />
+     	    	  	<h:outputText />
+     	    	  	<h:outputText />
+     	    	  	    	    
+	            	<h:outputText value="#{msg.fieldWorkerId}"  />
+                    <h:outputText />
+                    <h:inputText tabindex="1" styleClass="collectedBy handle-change" autocomplete="off" id="collectedBy" 
+                                 disabled="#{flowScope != null or inMigrationCrud.phase > 1}"
+                                 value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" 
+                                 title="collected by" valueChangeListener="#{inMigrationCrud.fieldWorkerChange}" />
+                    <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            
+	            	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="2" id="interviewDate" disabled="#{inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" value="#{inMigrationCrud.dateOfInterview}" pattern="#{siteProperties.dateFormat}" />
+                    <h:message for="interviewDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+	            	<h:outputText value="Date of Migration (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="3" id="rec_date" disabled="#{inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+                    <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+                    <h:outputText value="House Name:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="4" id="houseName" disabled="#{inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" value="#{inMigrationCrud.item.houseName}" converter="#{defaultConverter}"/>
+                    <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+	            	<h:outputText value="House Id:"/>
+		            <h:outputText />
+		            <h:inputText tabindex="5" styleClass="location handle-change" id="loc" value="#{inMigrationCrud.item.house}" 
+		                         disabled="#{flowScope != null or inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" 
+		                         converter="#{locationExtIdConverter}" valueChangeListener="#{inMigrationCrud.houseChange}" 
+		                         autocomplete="off"/>
+		            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+                    <h:outputText value="Household Name:" />
+                    <h:outputText />
+                    <h:inputText tabindex="6" id="householdName" value="#{inMigrationCrud.item.householdName}" disabled="#{inMigrationCrud.item.house == null or inMigrationCrud.phase > 3}" converter="#{defaultConverter}" />
+                    <h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="Household Id:"/>
+		            <h:outputText />
+		            <h:inputText tabindex="7" id="sg" value="#{inMigrationCrud.item.household}" styleClass="socialGroup handle-change" valueChangeListener="#{inMigrationCrud.householdChange}" 
+		                          disabled="#{inMigrationCrud.item.house == null or inMigrationCrud.phase > 3}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="#{msg.visitId}:" />
+                    <h:outputText />
+                    <h:inputText tabindex="8" styleClass="visit handle-change" autocomplete="off" id="visit" 
+                                 disabled="#{flowScope != null or inMigrationCrud.item.household == null or inMigrationCrud.phase > 4}" 
+                                 value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" title="Visit"
+                                 valueChangeListener="#{inMigrationCrud.visitChange}"/>
+                    <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="Has the member ever been registered in the CRHDSS?:" />
+					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="9" id="everReg" value="#{inMigrationCrud.item.everRegistered}" 
+					             disabled="#{inMigrationCrud.item.visit == null or not (inMigrationCrud.phase == 5)}" 
+					             converter="#{defaultConverter}" styleClass="handle-change" 
+					             valueChangeListener="#{inMigrationCrud.registeredChange}"/>
+					<h:message for="everReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+					<h:outputText value="Is the Individual Id Known?:" />
+					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="10" id="known" converter="#{defaultConverter}" styleClass="handle-change"
+					             valueChangeListener="#{inMigrationCrud.knownIdChange}" 
+					             disabled="#{not inMigrationCrud.everRegisteredComplete or inMigrationCrud.phase > 6}" />
+					<h:message for="known" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+	            	<h:outputText value="#{msg.individualId}:"/>
+	            	<h:outputText />
+	                <h:inputText tabindex="11" id="indiv" value="#{inMigrationCrud.item.individual.extId}" 
+	                             disabled="#{not inMigrationCrud.idKnown or inMigrationCrud.phase > 7}" styleClass="handle-change" 
+	                             valueChangeListener="#{inMigrationCrud.extIdChange}"  title="Individual #" 
+	                             converter="#{defaultConverter}" />
+	            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+	            	<h:outputText value="Current Individual Number:" />
+					<h:outputText />
+					<h:inputText tabindex="12" id="currentIndivNumber" value="#{inMigrationCrud.item.currentIndividualNumber}" 
+					             converter="#{defaultConverter}" disabled="#{not (inMigrationCrud.phase == 8)}"/>
+					<h:message for="currentIndivNumber" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+			        <h:outputText value="Relationship to Group Head:" />
+			        <img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" disabled="#{not (inMigrationCrud.phase == 8)}" />
+			        <h:message for="relationshipType1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Reason For Migration</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Reason:"/>
+                    <img class="clickable" onclick="O$('popupWindowForReasonForInmigration').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:inputText tabindex="13" id="reason" value="#{inMigrationCrud.item.reason}" converter="#{defaultConverter}" disabled="#{not (inMigrationCrud.phase == 8)}"/>
+                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="14" id="reasonOther" value="#{inMigrationCrud.item.reasonOther}" converter="#{defaultConverter}" disabled="#{not (inMigrationCrud.phase == 8)}"/>
+                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    	            
+	            	<f:verbatim><h3>Information On Where Member Has Moved From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Origin:"/>
+                    <img class="clickable" onclick="O$('popupWindowForOrigin').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:inputText tabindex="15" id="origin" value="#{inMigrationCrud.item.origin}" converter="#{defaultConverter}" styleClass="handle-change" valueChangeListener="#{inMigrationCrud.originChange}" disabled="#{not (inMigrationCrud.phase == 8)}"/>
+                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="16" id="originOther" value="#{inMigrationCrud.item.originOther}" 
+                                 converter="#{defaultConverter}" disabled="#{not (inMigrationCrud.phase == 9)}"/>
+                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            
+	            	<f:verbatim><h3>Information On Place Where Member Is Moving From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:inputText tabindex="17" id="oldName" value="#{inMigrationCrud.item.oldNameMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}" />
+					<h:message for="oldName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:inputText tabindex="18" id="oldHouseName" value="#{inMigrationCrud.item.houseNameMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}"/>
+					<h:message for="oldHouseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:inputText tabindex="19" id="oldHouseholdName" value="#{inMigrationCrud.item.householdNameMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}" />
+					<h:message for="oldHouseholdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:inputText tabindex="20" id="oldSection" value="#{inMigrationCrud.item.sectionMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}"/>
+					<h:message for="oldSection" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:inputText tabindex="21" id="oldVillage" value="#{inMigrationCrud.item.villageMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}"/>
+					<h:message for="oldVillage" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:inputText tabindex="22" id="oldCellPhone" value="#{inMigrationCrud.item.cellPhoneNumberMovingFrom}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegistered}"/>
+					<h:message for="oldCellPhone" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Information On Place Where Member Was First Registered</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:inputText tabindex="23" id="oldNameFirstReg" value="#{inMigrationCrud.item.oldNameFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}"/>
+					<h:message for="oldNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:inputText tabindex="24" id="oldHouseNameFirstReg" value="#{inMigrationCrud.item.houseNameFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}"/>
+					<h:message for="oldHouseNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:inputText tabindex="25" id="oldHouseholdNameFirstReg" value="#{inMigrationCrud.item.householdNameFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}" />
+					<h:message for="oldHouseholdNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:inputText tabindex="26" id="oldSectionFirstReg" value="#{inMigrationCrud.item.sectionFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}"/>
+					<h:message for="oldSectionFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:inputText tabindex="27" id="oldVillageFirstReg" value="#{inMigrationCrud.item.villageFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}"/>
+					<h:message for="oldVillageFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:inputText tabindex="28" id="oldCellPhoneFirstReg" value="#{inMigrationCrud.item.cellPhoneNumberFirstReg}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.everRegistered or not (inMigrationCrud.phase > 8)}"/>
+					<h:message for="oldCellPhoneFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Detailed Information On Moved In Person</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="First Name:" />
+					<h:outputText />
+					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.movedInPersonFirstName}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegisteredComplete}" />
+					<h:message for="firstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Last Name:" />
+					<h:outputText />
+					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.movedInPersonLastName}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"/>
+					<h:message for="lastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Gender:" />
+					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.movedInPersonGender}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"/>
+					<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="32" id="dob" value="#{inMigrationCrud.movedInPersonDob}" pattern="#{siteProperties.dateFormat}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"/>
+                    <h:message for="dob" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            		
+	            	<h:outputText value="Mother Id:"/>
+	            	<h:outputText />
+	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.movedInPersonMother}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"  title="Individual #" converter="#{individualExtIdConverter}" />
+	            	<h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+	            	<h:outputText value="Father Id:"/>
+	            	<h:outputText />
+	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.movedInPersonFather}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"  title="Individual #" converter="#{individualExtIdConverter}" />
+	            	<h:message for="father" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
+	           	
+	           		<h:outputText value="Number of years of formal education:" />
+					<h:outputText />
+					<h:inputText tabindex="35" id="formalEducation" value="#{inMigrationCrud.item.formalEducationYears}" converter="#{defaultConverter}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"/>
+					<h:message for="formalEducation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+				</h:panelGrid>
+	            <br />
+	            <h:commandButton tabindex="36" action="#{inMigrationCrud.create}" value="#{msg.lblCreate}" disabled="#{not inMigrationCrud.firstRegisteredComplete}"/>
+
 	     	<c:if test="#{flowScope != null}">
-	     		<h:commandButton value="#{msg.lblCancel}" action="cancel" />
+	     	     <h:outputText value=" " />
+	     		<h:commandButton value="Cancel" immediate="true" action="cancel" />
+	     	</c:if>
+	     	<c:if test="#{flowScope == null}">
+	     	 <h:outputText value=" " />
+	     	 <h:commandButton value="Reset Form" immediate="true" action="#{inMigrationCrud.createSetup}" />
 	     	</c:if>
         </h:form>
+        <script type="text/javascript">
+          function scrollToElement(ele) {
+              var offset = $(ele).offset();
+              var viewport = $(window).height();
+              $(window).scrollTop(offset.top - (viewport / 2));
+          }
+          (function() {
+              function submitForm() {
+                  $('#loading-div').css('visibility', 'visible');
+                  setTimeout("$('#form').submit()", 200);
+              }
+              
+              $('.handle-change').change(function(evt) {
+                  submitForm();
+              });
+          })();
+        </script>
+		<c:choose>
+            <c:when test="#{inMigrationCrud.phase == 1}">
+                <script type="text/javascript">
+                  $('#form\\:collectedBy').focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 2}">
+                <script type="text/javascript">
+                  // the implementation of the date chooser is the reason for this
+                  // hack. the date chooser text field is not reliably present in the DOM
+                  // when page execution hits this point. This will continuously check
+                  // for the date chooser element, and when found give it focus
+                  var interval = setInterval(function() {
+                    if ($('#form\\:interviewDate\\:\\:field').length > 0) {
+                        $('#form\\:interviewDate\\:\\:field').select();
+                        clearInterval(interval);
+                    }                                
+                }, 25);
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 2}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:householdName");
+                  $("#form\\:householdName").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 3}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:householdName");
+                  $("#form\\:householdName").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 4}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:visit");
+                  $("#form\\:visit").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 5}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:everReg");
+                  $("#form\\:everReg").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 6}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:known");
+                  $("#form\\:known").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 7}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:indiv");
+                  $("#form\\:indiv").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 8}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:currentIndivNumber");
+                  $("#form\\:currentIndivNumber").focus();
+                </script>
+            </c:when>originOther
+            <c:when test="#{inMigrationCrud.phase == 9}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:originOther");
+                  $("#form\\:originOther").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 10}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:oldName");
+                  $("#form\\:oldName").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 11}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:oldNameFirstReg");
+                  $("#form\\:oldNameFirstReg").focus();
+                </script>
+            </c:when>
+            <c:when test="#{inMigrationCrud.phase == 12}">
+                <script type="text/javascript">
+                  scrollToElement("#form\\:firstName");
+                  $("#form\\:firstName").focus();
+                </script>
+            </c:when>
+		</c:choose>
 	</ui:define>
 </ui:composition>

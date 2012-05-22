@@ -63,8 +63,8 @@ public class OutMigrationTest {
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 individual = genericDao.findByProperty(Individual.class, "extId", "BHAR1K", false);
-		 visit = genericDao.findByProperty(Visit.class, "extId", "VLOCMBI11J");
+		 individual = genericDao.findByProperty(Individual.class, "extId", "TONMA001", false);
+		 visit = genericDao.findByProperty(Visit.class, "extId", "VMBI01");
 	 }
 	 
 	 @Test

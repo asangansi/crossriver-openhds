@@ -11,6 +11,8 @@ import org.openhds.dao.service.GenericDao;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.InMigration;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
@@ -53,6 +55,8 @@ public class InMigrationTest {
 	 
 	 FieldWorker fieldWorker;
 	 Individual individual;
+	 SocialGroup socialGroup;
+	 Location location;
 	 Visit visit;
 	 JsfServiceMock jsfServiceMock;
 	 
@@ -65,16 +69,23 @@ public class InMigrationTest {
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
 		 individual = genericDao.findByProperty(Individual.class, "extId", "BRIHA001", false);
 		 visit = genericDao.findByProperty(Visit.class, "extId", "VMBI01");
+		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "SG01");
+		 location = genericDao.findByProperty(Location.class, "extId", "MBI01");
 	 }
 	 
 	 @Test
 	 public void testInMigrationCreate() {
-		 
+		 		 
 		 InMigration inmig = new InMigration();
 		 inmig.setIndividual(individual);
 		 inmig.setCollectedBy(fieldWorker);
 		 inmig.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1990));
 		 inmig.setMigTypeInternal();
+		 inmig.setHouse(location);
+		 inmig.setHousehold(socialGroup);
+		 inmig.setEverRegistered(2);
+		 inmig.setReferencesTemporaryIndividual(false);
+		 inmig.setBIsToA("3");
 		 inmig.setOrigin(1);
 		 inmig.setReason(1);
 		 inmig.setUnknownIndividual(false);

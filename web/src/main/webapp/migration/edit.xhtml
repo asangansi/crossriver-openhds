@@ -22,37 +22,222 @@
 		
 	    	<h:outputText value="#{navController.breadcrumbTrail}" />	
 		
-	        <h1>#{msg.inmigrationEdit}</h1>
+	        <h1>Edit Migration</h1>
 	        <h:messages id="errors" globalOnly="true"/>
 	        <h:form id="form">
-	            <h:panelGrid columns="3">
+      	    	<h:panelGrid columns="4">
+     	    
+   				  	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+     	    	  	<h:outputText />
+     	    	  	<h:outputText />
+     	    	  	<h:outputText />
+     	    	  	    	    
+	            	<h:outputText value="#{msg.fieldWorkerId}:"  />
+                    <h:outputText />
+                    <h:inputText tabindex="1" styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" title="collected by" />
+                    <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            
+	            	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="2" id="interviewDate" value="#{inMigrationCrud.dateOfInterview}" pattern="#{siteProperties.dateFormat}" />
+                    <h:message for="interviewDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+	            	<h:outputText value="Date of Migration (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="3" id="rec_date" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+                    <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+	            	<h:outputText value="House Id:"/>
+		            <h:outputText />
+		            <h:inputText tabindex="4" styleClass="location" id="loc" value="#{inMigrationCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+	            	<h:outputText value="House Name:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="5" id="houseName" value="#{inMigrationCrud.item.houseName}" converter="#{defaultConverter}"/>
+                    <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+					<h:outputText value="Household Id:"/>
+		            <h:outputText />
+		            <h:inputText tabindex="6" styleClass="socialGroup" id="sg" value="#{inMigrationCrud.item.household}" disabled="#{flowScope != null}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+					<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:inputText tabindex="7" id="householdName" value="#{inMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+					<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="#{msg.visitId}:" />
+                    <h:outputText />
+                    <h:inputText tabindex="8" styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" title="Visit"/>
+                    <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="Has the member ever been registered in the CRHDSS?:" />
+					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="9" id="everReg" value="#{inMigrationCrud.item.everRegistered}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.registeredChange}"/>
+					<h:message for="everReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+					<h:outputText value="Is the Individual Id Known?:" />
+					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="10" id="known" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.knownIdChange}" disabled="true" />
+					<h:message for="known" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
 	            	<h:outputText value="#{msg.individualId}:"/>
-	                <h:outputText id="indiv" value="#{inMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
+	            	<h:outputText />
+	                <h:inputText tabindex="11" id="indiv" value="#{inMigrationCrud.item.individual.extId}" title="Individual #" converter="#{defaultConverter}" />
 	            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
-	            	<h:outputText value="#{msg.inmigrationDate} (#{siteProperties.dateFormat})" />
-	               	<o:dateChooser id="endDate" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" /> 
-	            	<h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-					
-	            	<h:outputText value="#{msg.inmigrationOrigin}:"/>
-	                <h:inputText id="origin" value="#{inMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
-	            	<h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-					
-	            	<h:outputText value="#{msg.inmigrationReason}:"/>
-	                <h:inputText id="reason" value="#{inMigrationCrud.item.reason}" converter="#{defaultConverter}"/>
-	            	<h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                    <h:outputText value="#{msg.fieldWorkerId}:"/>
-	                <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
-	            	<h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	<h:outputText value="Current Individual Number:" />
+					<h:outputText />
+					<h:inputText tabindex="12" id="currentIndivNumber" value="#{inMigrationCrud.item.currentIndividualNumber}" converter="#{defaultConverter}"/>
+					<h:message for="currentIndivNumber" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<h:outputText value="Relationship to Group Head:" />
+			        <img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" />
+			        <h:message for="relationshipType1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Reason For Migration</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
 	            	
-                    <h:outputText value="#{msg.visitId}:"/>
-                    <h:inputText styleClass="visit" autocomplete="off" id="visitId" value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
-	            	<h:message for="visitId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-	            </h:panelGrid>
-	            <script>
-  					document.getElementById('form:loc').focus();
-  				</script>
+	            	<h:outputText value="Reason:"/>
+                    <img class="clickable" onclick="O$('popupWindowForReasonForInmigration').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:inputText tabindex="13" id="reason" value="#{inMigrationCrud.item.reason}" converter="#{defaultConverter}" />
+                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="14" id="reasonOther" value="#{inMigrationCrud.item.reasonOther}" converter="#{defaultConverter}" />
+                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    	            
+	            	<f:verbatim><h3>Information On Where Member Has Moved From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Origin:"/>
+                    <img class="clickable" onclick="O$('popupWindowForOrigin').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:inputText tabindex="15" id="origin" value="#{inMigrationCrud.item.origin}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.originChange}" />
+                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                    
+                    <h:outputText value="If other, please specify:"/>
+                    <h:outputText />
+                    <h:inputText tabindex="16" id="originOther" value="#{inMigrationCrud.item.originOther}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.originChange}" />
+                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            
+	            	<f:verbatim><h3>Information On Place Where Member Is Moving From</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:inputText tabindex="17" id="oldName" value="#{inMigrationCrud.item.oldNameMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:inputText tabindex="18" id="oldHouseName" value="#{inMigrationCrud.item.houseNameMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldHouseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:inputText tabindex="19" id="oldHouseholdName" value="#{inMigrationCrud.item.householdNameMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldHouseholdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:inputText tabindex="20" id="oldSection" value="#{inMigrationCrud.item.sectionMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldSection" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:inputText tabindex="21" id="oldVillage" value="#{inMigrationCrud.item.villageMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldVillage" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:inputText tabindex="22" id="oldCellPhone" value="#{inMigrationCrud.item.cellPhoneNumberMovingFrom}" converter="#{defaultConverter}" />
+					<h:message for="oldCellPhone" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Information On Place Where Member Was First Registered</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="Old Name:" />
+					<h:outputText />
+					<h:inputText tabindex="23" id="oldNameFirstReg" value="#{inMigrationCrud.item.oldNameFirstReg}" converter="#{defaultConverter}" />
+					<h:message for="oldNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="House Name:" />
+					<h:outputText />
+					<h:inputText tabindex="24" id="oldHouseNameFirstReg" value="#{inMigrationCrud.item.houseNameFirstReg}" converter="#{defaultConverter}" />
+					<h:message for="oldHouseNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:inputText tabindex="25" id="oldHouseholdNameFirstReg" value="#{inMigrationCrud.item.householdNameFirstReg}" converter="#{defaultConverter}" />
+					<h:message for="oldHouseholdNameFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Section:" />
+					<h:outputText />
+					<h:inputText tabindex="26" id="oldSectionFirstReg" value="#{inMigrationCrud.item.sectionFirstReg}" converter="#{defaultConverter}" />
+					<h:message for="oldSectionFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Village:" />
+					<h:outputText />
+					<h:inputText tabindex="27" id="oldVillageFirstReg" value="#{inMigrationCrud.item.villageFirstReg}" converter="#{defaultConverter}" />
+					<h:message for="oldVillageFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      
+	      			<h:outputText value="Cell Phone Number:" />
+					<h:outputText />
+					<h:inputText tabindex="28" id="oldCellPhoneFirstReg" value="#{inMigrationCrud.item.cellPhoneNumberFirstReg}" converter="#{defaultConverter}"/>
+					<h:message for="oldCellPhoneFirstReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	            
+	            	<f:verbatim><h3>Detailed Information On Moved In Person</h3></f:verbatim>
+	            	<h:outputText />
+	            	<h:outputText />
+	            	<h:outputText />
+	            	
+	            	<h:outputText value="First Name:" />
+					<h:outputText />
+					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.movedInPersonFirstName}" converter="#{defaultConverter}" />
+					<h:message for="firstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Last Name:" />
+					<h:outputText />
+					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.movedInPersonLastName}" converter="#{defaultConverter}" />
+					<h:message for="lastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Gender:" />
+					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.movedInPersonGender}" converter="#{defaultConverter}" />
+					<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+	      			
+	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
+                    <h:outputText />
+                    <o:dateChooser tabindex="32" id="dob" value="#{inMigrationCrud.movedInPersonDob}" pattern="#{siteProperties.dateFormat}" />
+                    <h:message for="dob" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            		
+	            	<h:outputText value="Mother Id:"/>
+	            	<h:outputText />
+	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.movedInPersonMother}" title="Individual #" converter="#{individualExtIdConverter}" />
+	            	<h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+	            	<h:outputText value="Father Id:"/>
+	            	<h:outputText />
+	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.movedInPersonFather}" title="Individual #" converter="#{individualExtIdConverter}" />
+	            	<h:message for="father" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
+	           	
+	           		<h:outputText value="Number of years of formal education:" />
+					<h:outputText />
+					<h:inputText tabindex="35" id="formalEducation" value="#{inMigrationCrud.item.formalEducationYears}" converter="#{defaultConverter}" />
+					<h:message for="formalEducation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
+  
+     	   		</h:panelGrid>
 	            <br />
 	            <h:commandButton action="#{inMigrationCrud.edit}" value="#{msg.lblSave}">
 	                <f:setPropertyActionListener target="#{jsfService.itemId}" value="#{inMigrationCrud.item.uuid}" />

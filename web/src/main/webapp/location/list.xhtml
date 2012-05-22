@@ -94,10 +94,10 @@
                            	<f:facet name="header">
                                	<h:outputText escape="false" value=""/>
                            	</f:facet>  
-                            	<h:commandLink id="detail" action="location_detail">
+                            <h:commandLink id="detail" action="location_detail">
                                	<h:graphicImage title="view" style="border: 0;" value="/resources/icons/details.ico"/>
                                	<f:param name="itemId" value="#{loc.uuid}"/>
-                            	</h:commandLink>
+                            </h:commandLink>
 							<h:outputText value=" "/>
                            	<h:commandLink id="edit" action="location_edit" >
                              		<f:param name="itemId" value="#{loc.uuid}"/>

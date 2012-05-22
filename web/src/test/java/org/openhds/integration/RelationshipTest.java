@@ -62,8 +62,8 @@ public class RelationshipTest extends AbstractTransactionalJUnit4SpringContextTe
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-	     indivA = genericDao.findByProperty(Individual.class, "extId", "NBAS1I", false);
-	     indivB = genericDao.findByProperty(Individual.class, "extId", "BJOH1J", false);
+	     indivA = genericDao.findByProperty(Individual.class, "extId", "TONMA001", false);
+	     indivB = genericDao.findByProperty(Individual.class, "extId", "SARRO001", false);
 	 }
 	 	 
 	 @Test
@@ -119,7 +119,7 @@ public class RelationshipTest extends AbstractTransactionalJUnit4SpringContextTe
 	 @Test
 	 public void testDeathInRelationship() {
 		 
-		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "CBLA1H", false);
+		 Individual indiv = genericDao.findByProperty(Individual.class, "extId", "PETBA001", false);
 		 
 		 Relationship relationship = new Relationship();
 	     relationship.setIndividualA(indiv);
@@ -135,6 +135,4 @@ public class RelationshipTest extends AbstractTransactionalJUnit4SpringContextTe
 		 // errors, individual cannot have a death event
 	     assertTrue(jsfServiceMock.getErrors().size() > 0);
 	 }
-	 
-	 
 }

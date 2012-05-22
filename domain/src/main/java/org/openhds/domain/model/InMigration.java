@@ -3,7 +3,6 @@ package org.openhds.domain.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +16,6 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
-import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.CheckInMigrationAfterDob;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -50,12 +48,10 @@ public class InMigration
     @Description(description = "The residency the individual is inmigrating to.")
     private Residency residency = new Residency();
     @Searchable
-    @CheckFieldNotBlank
     @ExtensionIntegerConstraint(constraint = "placeMovedFromConstraint", message = "Invalid Value for origin", allowNull = true)
     @Description(description = "Name of the social group.")
     private Integer origin;
     @Searchable
-    @CheckFieldNotBlank
     @ExtensionIntegerConstraint(constraint = "reasonForInmigrationConstraint", message = "Invalid Value for reason", allowNull = true)
     @Description(description = "Name of the social group.")
     private Integer reason;
@@ -73,18 +69,12 @@ public class InMigration
     private MigrationType migType = MigrationType.INTERNAL_INMIGRATION;
     @Description(description = "Flag for indicating if the individual who is inmigrating is known or not.")
     private Boolean unknownIndividual;
-    @ManyToOne(cascade = {
-        CascadeType.MERGE,
-        CascadeType.PERSIST
-    })
+    @ManyToOne
     @Description(description = "Mother of the individual inmigrating, identified by external id.")
     private Individual movedInPersonMother;
-    @ManyToOne(cascade = {
-        CascadeType.MERGE,
-        CascadeType.PERSIST
-    })
+    @ManyToOne
     @Description(description = "Father of the individual inmigrating, identified by external id.")
-    private Individual father;
+    private Individual movedInPersonFather;
     @Searchable
     @ManyToOne
     @Description(description = "Moving to house.")
@@ -112,7 +102,7 @@ public class InMigration
     @Description(description = "Old name of the place where the migrant is moving from")
     private String oldNameMovingFrom;
     @Description(description = "Number of years of formal education")
-    private Integer formalEducation;
+    private Integer formalEducationYears;
     @Description(description = "Old household name of the place where the migrant is moving from")
     private String householdNameMovingFrom;
     @Description(description = "Old section of the place where the migrant is moving from")
@@ -143,6 +133,8 @@ public class InMigration
     private Integer movedInPersonGender;
     @Description(description = "Old household name of the place where the migrant was first registered")
     private String householdNameFirstReg;
+    @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
+    private Boolean referencesTemporaryIndividual;
     @Description(description = "If the origin for the inmigration is other, place specify")
     private String originOther;
     @Description(description = "Relationship type to the group head")
@@ -219,16 +211,16 @@ public class InMigration
         return movedInPersonMother;
     }
 
-    public void setMother(Individual mom) {
+    public void setMovedInPersonMother(Individual mom) {
         movedInPersonMother = mom;
     }
 
     public Individual getMovedInPersonFather() {
-        return father;
+        return movedInPersonFather;
     }
 
-    public void setFather(Individual mom) {
-        father = mom;
+    public void setMovedInPersonFather(Individual father) {
+        movedInPersonFather = father;
     }
 
     public Location getHouse() {
@@ -320,12 +312,12 @@ public class InMigration
         oldNameMovingFrom = data;
     }
 
-    public Integer getFormalEducation() {
-        return formalEducation;
+    public Integer getFormalEducationYears() {
+        return formalEducationYears;
     }
 
-    public void setFormalEducation(Integer data) {
-        formalEducation = data;
+    public void setFormalEducationYears(Integer data) {
+        formalEducationYears = data;
     }
 
     public String getHouseholdNameMovingFrom() {
@@ -431,6 +423,14 @@ public class InMigration
 
     public void setHouseholdNameFirstReg(String data) {
         householdNameFirstReg = data;
+    }
+
+    public Boolean isReferencesTemporaryIndividual() {
+        return referencesTemporaryIndividual;
+    }
+
+    public void setReferencesTemporaryIndividual(Boolean data) {
+        referencesTemporaryIndividual = data;
     }
 
     public String getOriginOther() {

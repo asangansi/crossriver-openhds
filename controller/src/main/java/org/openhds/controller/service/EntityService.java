@@ -47,4 +47,6 @@ public interface EntityService {
 	@Authorized({PrivilegeConstants.DELETE_ENTITY})
 	<T> void delete(T entityItem) throws SQLException;
 	
+	public <T> void validateEntity(T entityItem) throws ConstraintViolations;
+	
 }

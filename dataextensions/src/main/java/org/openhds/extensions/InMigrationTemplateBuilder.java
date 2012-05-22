@@ -108,7 +108,6 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		// origin
 		JFieldVar jfOrigin = jc.field(JMod.PRIVATE , java.lang.Integer.class, "origin");
 		jfOrigin.annotate(org.openhds.domain.constraint.Searchable.class);
-		jfOrigin.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
 		JAnnotationUse jaOrigin = jfOrigin.annotate(org.openhds.domain.constraint.ExtensionIntegerConstraint.class);
 		jaOrigin.param("constraint", "placeMovedFromConstraint");
 		jaOrigin.param("message", "Invalid Value for origin");
@@ -130,7 +129,6 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		// reason
 		JFieldVar jfReason = jc.field(JMod.PRIVATE , java.lang.Integer.class, "reason");
 		jfReason.annotate(org.openhds.domain.constraint.Searchable.class);
-		jfReason.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
 		JAnnotationUse jaReason = jfReason.annotate(org.openhds.domain.constraint.ExtensionIntegerConstraint.class);
 		jaReason.param("constraint", "reasonForInmigrationConstraint");
 		jaReason.param("message", "Invalid Value for reason");
@@ -227,10 +225,7 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		
 		// movedInPersonMother
 		JFieldVar jfMother = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "movedInPersonMother");
-		JAnnotationUse jfMotherCascade = jfMother.annotate(javax.persistence.ManyToOne.class);
-		JAnnotationArrayMember motherArray = jfMotherCascade.paramArray("cascade");
-		motherArray.param(javax.persistence.CascadeType.MERGE);
-		motherArray.param(javax.persistence.CascadeType.PERSIST);
+		jfMother.annotate(javax.persistence.ManyToOne.class);
 		JAnnotationUse jaMotherDesc = jfMother.annotate(org.openhds.domain.annotations.Description.class);
 		jaMotherDesc.param("description", "Mother of the individual inmigrating, identified by external id.");
 		
@@ -240,17 +235,14 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		jmgMotherBlock._return(jfMother);
 		
 		// setter
-		JMethod jmsMother = jc.method(JMod.PUBLIC, void.class, "setMother");
+		JMethod jmsMother = jc.method(JMod.PUBLIC, void.class, "setMovedInPersonMother");
 		JVar jvarMother = jmsMother.param(org.openhds.domain.model.Individual.class, "mom");
 		JBlock jmsMotherBlock = jmsMother.body();
 		jmsMotherBlock.assign(jfMother, jvarMother);
 		
 		// movedInPersonFather
-		JFieldVar jfFather = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "father");
-		JAnnotationUse jfFatherCascade = jfFather.annotate(javax.persistence.ManyToOne.class);
-		JAnnotationArrayMember fatherArray = jfFatherCascade.paramArray("cascade");
-		fatherArray.param(javax.persistence.CascadeType.MERGE);
-		fatherArray.param(javax.persistence.CascadeType.PERSIST);
+		JFieldVar jfFather = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "movedInPersonFather");
+		jfFather.annotate(javax.persistence.ManyToOne.class);
 		JAnnotationUse jaFatherDesc = jfFather.annotate(org.openhds.domain.annotations.Description.class);
 		jaFatherDesc.param("description", "Father of the individual inmigrating, identified by external id.");
 		
@@ -260,8 +252,8 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		jmgFatherBlock._return(jfFather);
 		
 		// setter
-		JMethod jmsFather = jc.method(JMod.PUBLIC, void.class, "setFather");
-		JVar jvarFather = jmsFather.param(org.openhds.domain.model.Individual.class, "mom");
+		JMethod jmsFather = jc.method(JMod.PUBLIC, void.class, "setMovedInPersonFather");
+		JVar jvarFather = jmsFather.param(org.openhds.domain.model.Individual.class, "father");
 		JBlock jmsFatherBlock = jmsFather.body();
 		jmsFatherBlock.assign(jfFather, jvarFather);
 		
