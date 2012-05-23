@@ -538,6 +538,18 @@
         <property name="properties" ref="siteProperties" />
     </bean>
     
+    <bean id="baselineBean" class="org.openhds.web.beans.BaselineBean" scope="session">
+        <property name="residencyService" ref="residencyService" />
+        <property name="baselineService" ref="baselineService" />
+        <property name="individualService" ref="individualService" />
+        <property name="locationService" ref="locationHierarchyService" />
+        <property name="genericDao" ref="genericDao" />
+        <property name="socialGroupGenerator" ref="socialGroupIdGenerator" />
+        <property name="locationGenerator" ref="locationIdGenerator" />
+        <property name="individualGenerator" ref="individualIdGenerator" />
+        <property name="properties" ref="siteProperties" />
+    </bean>
+    
     <bean id="individualHistoryBean" class="org.openhds.web.beans.IndividualHistoryBean" scope="session">
     	<property name="genericDao" ref="genericDao" />
     	<property name="membershipService" ref="membershipService" />

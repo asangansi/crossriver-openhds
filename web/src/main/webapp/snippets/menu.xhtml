@@ -21,7 +21,7 @@
 			</li>
 	        <sec:ifAllGranted roles="ACCESS_BASELINE">
 		   		<li>
-		   			<h:commandLink action="baseline_flow" value="#{msg.navBarBaseline}" >
+		   			<h:commandLink action="baseline" value="#{msg.navBarBaseline}" >
 		    			<f:setPropertyActionListener target="#{navController.showBaseline}" value="true" /> 
 		            </h:commandLink>
 		    	</li>

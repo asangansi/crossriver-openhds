@@ -1,0 +1,438 @@
+<ui:composition template="/templates/default.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:o="http://openfaces.org/"
+				xmlns:c="http://java.sun.com/jstl/core"
+				xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+	<ui:define name="title">CRHDS - Baseline</ui:define>
+	
+	<ui:define name="display">
+		
+		<style>
+			.household-schedule {
+				border-collapse:collapse;
+				border-color:#888;
+				table-layout:fixed;
+			}
+			
+			.o_dropdown {
+				width:100%;
+			}
+			
+			.household-schedule th {
+				background-color:#B9D264;
+				font-weight:bold;
+				font-size:.9em;
+				overflow:hidden;
+			}
+			
+			.household-schedule input {
+				width:100%;
+				border:0;
+			}
+			
+			fieldset {
+				background-color:#DEEBB9;
+				border:1px solid #BBB;
+				padding:1em;
+			}
+			
+			legend {
+				font-size:1.2em;
+			}
+			
+			.clickable {
+				cursor:pointer;
+			}
+
+		</style>
+		<sec:ifNotGranted roles="ACCESS_BASELINE">
+    		<h1>Access Denied!</h1>
+    		<p>You do not have the privileges to access this page</p>
+    	</sec:ifNotGranted>
+	
+		<h1>Household Enumeration Questionnaire</h1>
+		
+		<div id="loading-div">
+			<img src="#{request.contextPath}/resources/images/ajax-loader.gif" /> Working...
+		</div>
+
+		<h:form prependId="false" id="houseForm">
+			<fieldset >	
+				<legend>Village Information</legend>
+				
+				Interviewer's Code:<br />
+				<h:inputText id="collectedBy" tabindex="100" required="true" styleClass="collectedBy" value="#{baselineBean.collectedBy}" disabled="#{baselineBean.currentVillage.extId != null}" converter="#{fieldWorkerExtIdConverter}" />
+				<h:message for="collectedBy" />
+				<br />
+			
+				Village Id: <br />
+				<h:inputText tabindex="101" id="villageId" required="true" styleClass="locationName handleChange" disabled="#{baselineBean.currentVillage.extId != null}" value="#{baselineBean.hierarchyId}" converter="#{defaultConverter}" valueChangeListener="#{baselineBean.hierarchyIdChange}" />
+				<h:message for="villageId" />
+				<br />
+				<div tabindex="102" style="width:0;" />
+				
+				Village Name: <br />
+				<h:inputText tabindex="103" id="villageName" disabled="true" value="#{baselineBean.currentVillage.name}" />
+			</fieldset>
+			
+			<a name="houseInformation" />
+			<fieldset>	
+				<legend>House Information</legend>
+				
+				House Id: <br />
+				<h:inputText id="houseId" tabindex="110" styleClass="location handleChange" disabled="#{baselineBean.baselinePhase eq 'PHASE_1' or (baselineBean.houseId != null and baselineBean.houseErrorsFound eq false)}" value="#{baselineBean.houseId}" converter="#{defaultConverter}" valueChangeListener="#{baselineBean.houseIdChange}" />
+				<h:message for="houseId" />
+				<br />
+				<div tabindex="111" style="width:0;" />
+				
+				House Name: <br />
+				<h:inputText tabindex="112" id="houseName" required="true" disabled="#{not baselineBean.isNewHouse}" value="#{baselineBean.currentLocation.locationName}" converter="#{defaultConverter}" />
+				<h:message for="houseName" />
+				<br />
+								
+				Head of House Id: <br />
+				<h:inputText tabindex="113" id="headOfHouseId" required="true" styleClass="handleChange" autocomplete="off" disabled="#{not baselineBean.isNewHouse or (baselineBean.headOfHouseId ne null and baselineBean.indivErrorsHouseFound eq false)}" value="#{baselineBean.headOfHouseId}" valueChangeListener="#{baselineBean.headOfHouseIdChange}" converter="#{defaultConverter}" />
+				<h:message for="headOfHouseId" />
+				<br />
+				<div tabindex="114" style="width:0;"/>
+				
+				<c:if test="#{baselineBean.msgHeadOfHouseNotFound ne null}">
+					<br /><h:outputText value="#{baselineBean.msgHeadOfHouseNotFound}" /><br /><br />
+				</c:if>
+				
+				Head of House First Name: <br />
+				<h:inputText tabindex="115" id="headOfHouseFName" required="true" disabled="#{baselineBean.msgHeadOfHouseNotFound eq null or not baselineBean.isNewHouse}" value="#{baselineBean.headOfHouseFName}" converter="#{defaultConverter}" />
+				<h:message for="headOfHouseFName" />
+				<br />
+				
+				Head of House Last Name: <br />
+				<h:inputText tabindex="116" id="headOfHouseLName" required="true" disabled="#{baselineBean.msgHeadOfHouseNotFound eq null or not baselineBean.isNewHouse}" value="#{baselineBean.headOfHouseLName}" converter="#{defaultConverter}" />
+				<h:message for="headOfHouseLName" />
+				<br />
+				
+				Number of Households in House:<br />
+				<h:inputText tabindex="117" id="numHouseholds" disabled="#{not baselineBean.isNewHouse}" value="#{baselineBean.currentLocation.numberOfHouseholds}" />
+				<br />
+				
+				Location: <img class="clickable" onclick="O$('popupWindowForLocType').showCentered();" src="#{request.contextPath}/resources/images/question.png" /><br />
+				<h:inputText tabindex="118" id="locationType" value="#{baselineBean.currentLocation.locationType}" converter="#{defaultConverter}" disabled="#{not baselineBean.isNewHouse}"/>
+                <br />          
+				<br />
+				<h:commandButton tabindex="119" id="createHouseBtn" styleClass="createBtn" value="Create New House" rendered="#{baselineBean.isNewHouse and baselineBean.houseHeadValid}" action="#{baselineBean.createNewHouse}" />
+				<h:outputText value=" " />
+				<h:commandButton tabindex="120" action="#{baselineBean.clearHouse}" value="Reset" rendered="#{baselineBean.isNewHouse}" />
+			</fieldset>
+			
+			<a name="householdInformation" />
+			<fieldset>
+				<legend>Household Information</legend>
+
+				Household Id:<br />
+				<h:inputText tabindex="121" id="householdId" styleClass="socialGroup" disabled="true" value="#{baselineBean.householdId}" converter="#{defaultConverter}" />
+				<br />
+				
+				Household Name:<br />
+				<h:inputText tabindex="122" id="householdName" required="true" value="#{baselineBean.currentSocialGroup.groupName}" disabled="#{not baselineBean.houseInfoComplete or baselineBean.householdSchedule}" converter="#{defaultConverter}" />
+				<br />
+				
+				Head of Household Id: <br />
+				<h:inputText tabindex="123" id="headOfHouseholdId" styleClass="handleChange" autocomplete="off" disabled="#{not baselineBean.houseInfoComplete or baselineBean.householdSchedule or (baselineBean.headOfHouseholdId ne null and baselineBean.indivErrorsHouseholdFound eq false)}" value="#{baselineBean.headOfHouseholdId}" onchange="submit()" immediate="true" valueChangeListener="#{baselineBean.headOfHouseholdIdChange}" converter="#{defaultConverter}" />
+				<h:message for="headOfHouseholdId" />
+				<br />
+				<div tabindex="124" style="width:0;" />
+				
+				<c:if test="#{baselineBean.msgHouseholdHeadNotFound ne null}">
+					<br /><h:outputText value="#{baselineBean.msgHouseholdHeadNotFound}" /><br /><br />
+				</c:if>
+				
+				Head of Household First Name: <br />												
+				<h:inputText tabindex="125" id="headOfHouseholdFName" disabled="#{baselineBean.msgHouseholdHeadNotFound eq null or baselineBean.householdInfoComplete}" value="#{baselineBean.headOfHouseholdFName}" converter="#{defaultConverter}" />
+				<br />
+				
+				Head of Household Last Name: <br />
+				<h:inputText tabindex="126" id="headOfHouseholdLName" disabled="#{baselineBean.msgHouseholdHeadNotFound eq null or baselineBean.householdInfoComplete}" value="#{baselineBean.headOfHouseholdLName}" converter="#{defaultConverter}" />
+				<br />
+				
+				Date of Interview: (#{siteProperties.dateFormat})<br />
+				<o:dateChooser id="dateOfInterview" tabindex="127" fieldClass="date-chooser" disabled="#{not baselineBean.houseInfoComplete or baselineBean.householdSchedule}" value="#{baselineBean.entryDate}" pattern="#{siteProperties.dateFormat}" validator="#{checkMinimumEnumerationDate.validate}" />
+				<h:message for="dateOfInterview" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				<br />
+				
+				Id of Respondent:<br />																										
+				<h:inputText id="idOfRespondent" autocomplete="off" styleClass="handleChange" tabindex="128" value="#{baselineBean.respondentId}" disabled="#{not baselineBean.householdHeadValid eq true or (baselineBean.respondentId ne null and baselineBean.respondentErrorsFound eq false)}" onchange="submit()" immediate="true" valueChangeListener="#{baselineBean.respondentIdValueChanged}" converter="#{defaultConverter}" />
+				<h:message for="idOfRespondent" />
+				<br />
+				
+				<c:if test="#{baselineBean.msgRespondentNotFound ne null}">
+					<br /><h:outputText value="#{baselineBean.msgRespondentNotFound}" /><br /><br />
+				</c:if>
+				
+				Respondent First Name: <br />													
+				<h:inputText tabindex="129" id="respondentFName" value="#{baselineBean.respondentFName}" disabled="#{baselineBean.msgRespondentNotFound eq null or baselineBean.householdInfoComplete}" converter="#{defaultConverter}" />
+				<br />
+				
+				Respondent Last Name: <br />
+				<h:inputText tabindex="130" id="respondentLName" value="#{baselineBean.respondentLName}" disabled="#{baselineBean.msgRespondentNotFound eq null or baselineBean.householdInfoComplete}" converter="#{defaultConverter}" />
+				<br />
+				<br />
+				<h:commandButton tabindex="130" id="createHouseholdBtn" styleClass="createBtn" value="Create New Household" rendered="#{(baselineBean.houseInfoComplete and baselineBean.householdHeadValid) and not baselineBean.householdSchedule}" action="#{baselineBean.createNewHousehold}" />
+				<h:outputText value=" " />
+				<h:commandButton tabindex="131" action="#{baselineBean.clearHousehold}" value="Reset" rendered="#{baselineBean.houseInfoComplete and not baselineBean.householdSchedule}" />
+			</fieldset>
+			
+			<a name="householdSchedule" />
+			<fieldset>
+				<legend>Household Schedule</legend>
+
+				Household Id:<br />
+				<h:inputText styleClass="socialGroup" disabled="true" value="#{baselineBean.householdId}" converter="#{defaultConverter}" />
+				<br />
+				
+				Household Name:<br />
+				<h:inputText value="#{baselineBean.currentSocialGroup.groupName}" disabled="true" converter="#{defaultConverter}" />
+				<br /><br />
+				
+				<h:messages id="errorMessages" rendered="#{baselineBean.householdInfoComplete}" />
+				
+				<table width="100%" border="1" cellspacing="0" cellpadding="0" class="household-schedule">
+					<tr>
+						<th width="3%">No.</th>
+						<th width="15%">First Name</th>
+						<th width="15%">Last Name</th>
+						<th width="15%">Perm Id</th>
+						<th width="7%">Relship of (name) to the HoH <br /><img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="../resources/images/question.png" /></th> 
+						<th width="12%">DoB (#{siteProperties.dateFormat})</th>
+						<th width="4%" valign="bottom">DoB Aspect <br /><img class="clickable" onclick="O$('popupWindowForDobAspect').showCentered();" src="../resources/images/question.png" /></th>
+						<th width="3%" valign="bottom">Sex <br /><img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="../resources/images/question.png" /></th>
+						<th width="5%" valign="bottom">Marital Status <br /><img class="clickable" onclick="O$('popupWindowForMaritalStatus').showCentered();" src="../resources/images/question.png" /></th>
+						<th width="4%" valign="bottom">Work Status <br /><img class="clickable" onclick="O$('popupWindowForWorkStatus').showCentered();" src="../resources/images/question.png" /></th>
+						<th width="5%">Husb Id</th>
+						<th width="5%">Mother Id</th>
+						<th width="5%">Father Id</th>
+					</tr>
+					
+					<c:forEach var="indiv" varStatus="status" begin="0" end="#{baselineBean.individualCount - 1}" step="1">
+						<tr class="householdScheduleRow">
+							<td style="text-align:center;">
+								#{status.index lt 9 ? '0' : ''}#{status.index + 1}
+							</td>
+							<td><h:inputText styleClass="hs-firstName" value="#{baselineBean.individuals[status.index].firstName}" required="true" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{defaultConverter}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].lastName}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{defaultConverter}" /></td>
+							<td><h:inputText styleClass="individual" autocomplete="off" value="#{baselineBean.individuals[status.index].extId}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{defaultConverter}" /></td>
+							<td><h:inputText value="#{baselineBean.memberships[status.index].bIsToA}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{membershipCodesConverter}" /></td>
+							<td><o:dateChooser fieldClass="date-chooser" value="#{baselineBean.dobList[status.index].date}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" pattern="#{siteProperties.dateFormat}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].dobAspect}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].gender}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{genderCodesConverter}" /> </td>
+							<td><h:inputText value="#{baselineBean.relationships[status.index].aIsToB}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{maritalStatusValueExtensionConverter}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].workStatus}" size="1" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{workStatusConverter}" /></td>
+							<td><h:inputText value="#{baselineBean.relationships[status.index].individualB}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{individualConverterWithoutUnkForHS}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].mother}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{individualConverterForHS}" /></td>
+							<td><h:inputText value="#{baselineBean.individuals[status.index].father}" disabled="#{status.index != (baselineBean.individualCount - 1) or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete}" rendered="#{baselineBean.householdInfoComplete}" converter="#{individualConverterForHS}" /></td>
+						</tr>
+					</c:forEach>
+				</table>
+				<h:commandButton action="#{baselineBean.addIndividual}" style="margin-right:2em" styleClass="createBtn" value="Add Individual" id="addIndividual" disabled="#{!baselineBean.householdInfoComplete or baselineBean.householdScheduleFilled or baselineBean.householdScheduleComplete}" />
+				<h:commandButton action="#{baselineBean.removeLastRow}" immediate="true" styleClass="createBtn" value="Remove Last Row" id="removeLastRow" disabled="#{!baselineBean.householdInfoComplete or baselineBean.currentRowAlreadyPersisted or baselineBean.householdScheduleComplete or baselineBean.individualCount == 1}" />
+				<br />
+				<br />
+				<h:commandButton action="#{baselineBean.createHouseholdSchedule}" styleClass="createBtn" id="completeHouseholdSchedule" value="Complete Household Schedule" disabled="#{!baselineBean.householdInfoComplete or baselineBean.householdScheduleComplete}" />
+			</fieldset>
+						
+			<c:if test="#{baselineBean.householdScheduleComplete}">
+				<fieldset style="background-color:#DEEBB9;border:1px solid #BBB;padding:1em;">
+					<legend style="font-size:1.2em;">Household Characteristics</legend>
+	            	<span id="specialStudySpan">Loading Household Characteristics...</span>
+	            	<iframe id="specialStudyFrame" style="visibility:hidden" name="sgSpecialStudy" width="100%" height="400" />
+		         </fieldset>
+		         
+		        <script src="#{request.contextPath}/resources/scripts/special-study-loader.js" />
+	         	<script>
+					// this onload listener is responsible for enabling the Complete button for the
+					// Baseline form AFTER the user has completed the household characteristics
+					// The completion of the household characteristics is based on the URL that
+					// is found when the load events occur. Currently, when the url is of the form
+					// '/specialstudy/socialgroup/{digits}', this indicates the user has completed
+					// the household characteristics
+         			(function() {
+			        	function iframeLoadListener() {
+			        		var theFrame = $("#specialStudyFrame").get(0);
+			        		var url = theFrame.contentDocument.location.href;
+			        		var regex = /specialstudy\/socialgroup\/[0-9]+/;
+			        		if (url.match(regex)) {
+			        			$("#complete").attr('disabled', '');
+			        		}
+			        	}
+
+						// this listener is invoked by the special study loader function
+						// in the case that special study fails to load properly
+						// In this case, the complete button for the overall baseline form
+						// is enabled so users can proceed to finish the baseline
+			        	var listener = { 
+					        	onLoadFailure: function() {
+			        				$("#complete").attr('disabled', '');
+			        			}
+			        	};
+			        	         		
+			    		$("#specialStudyFrame").load(iframeLoadListener);
+			    		loadSpecialStudy('#{siteProperties.specialStudyLocation}', "#{request.session.id}", 'socialgroup/form', listener);
+		         	})();
+	         	</script>		         
+	         </c:if>
+	         
+	         <br />
+	         <h:commandButton action="#{baselineBean.clear}" value="Complete Baseline Form" id="complete" immediate="true" />
+	         <h:outputText value=" " />
+			 <h:commandButton action="#{baselineBean.clear}" value="Reset Baseline Form" immediate="true" />
+		</h:form>
+		
+		<script>
+			$("#complete").attr('disabled', 'disabled');
+		</script>
+		
+	
+		<script>
+			//<![CDATA[
+			(function() {
+
+				function submitForm() {
+					$('#loading-div').css('visibility', 'visible');
+					// using the setTimeout for 2 reasons:
+					// 1. to allow the loading div to be made visible (letting the browser breath)
+					// 2. a jquery autocomplete widget is attached to the fields. There is a problem
+					// when the user selects an item from the autocomplete list (with mouse) because it causes the
+					// input to lose focus, firing the change event. Submitting the form right away
+					// will prevent the autocomplete widget from filling in the selected value.
+					// The delay in setTimeout allows the autocomplete widget to fill in the selected
+					// value before the form is submitted. This is a hack, a better approach would be
+					// welcomed.
+					setTimeout("$('#houseForm').submit()", 200);
+				}
+				
+				$('.handleChange').change(function(evt) {
+					submitForm();
+				}).keypress(function(evt) {
+					if (evt.keyCode === 13) {
+						evt.preventDefault();
+						submitForm();
+					}
+				});
+
+				$('.createBtn').click(function(evt) {
+					$('#loading-div').css('visibility', 'visible');
+				});
+
+				var openhds = {};
+
+				function inputHasText(jqueryInput) {
+					return jqueryInput.val().length > 0;
+				};
+
+				openhds.giveFocus = function (arrayOfElements) {
+					for(var i = 0; i < arrayOfElements.length; i++) {
+						if (typeof arrayOfElements[i] === 'function') {
+							setTimeout(arrayOfElements[i], 500);
+							continue;
+						}
+
+						if(arrayOfElements[i].attr('disabled') === false) {
+							if ( !inputHasText(arrayOfElements[i]) || i === (arrayOfElements.length - 1) ) {
+								arrayOfElements[i].focus();
+								return;
+							}
+						}
+					}
+				}
+
+				window.openhds = openhds;
+			})();
+			//]]>
+		</script>
+				
+		<c:if test="#{baselineBean.houseInfoComplete}">
+			<script>
+				$('a').each(function() {
+					this.onclick = confirmLeave(this.onclick);
+				})
+				
+				function confirmLeave(oldFunc) {
+					return function() {
+						if (confirm("Are you sure you want to leave the baseline?")) {
+							oldFunc();
+						}
+					};
+				}			
+			</script>		
+		</c:if>
+		
+		<c:choose>
+			<c:when test="#{baselineBean.baselinePhase == 'PHASE_1'}">
+				<script>
+					(function() {
+						openhds.giveFocus([$('#collectedBy')]);
+					})();
+				</script>
+			</c:when>
+			<c:when test="#{baselineBean.baselinePhase == 'PHASE_2'}">
+				<script>
+					window.location.hash = 'houseInformation';
+
+					(function(){
+						openhds.giveFocus([$('#houseId'), $('#houseName'), $('#headOfHouseFName'), $('#numHouseholds')]);
+					})();
+				</script>
+			</c:when>
+			<c:when test="#{baselineBean.baselinePhase == 'PHASE_3'}">
+				<script>
+					window.location.hash = 'householdInformation';
+
+					(function() {
+						function giveDateChooserFocus() {
+							$('.date-chooser').select();
+						}
+
+						$(function() {
+							openhds.giveFocus([$('#householdName'), $('#headHouseholdId'), $('#headOfHouseholdFName'), giveDateChooserFocus]);
+						});
+					})();				
+				</script>
+			</c:when>
+			<c:when test="#{baselineBean.baselinePhase == 'PHASE_4'}">
+				<script>
+					window.location.hash = 'householdSchedule';
+
+					(function() {
+						// gives focus to the first input in the last row in the household schedule table
+						var tableRows = $('.householdScheduleRow');
+						var cellData = $(tableRows[tableRows.length - 1]).children();
+						var cell = cellData.get(1);
+						$(cell).children().focus();
+
+						// openfaces does not allow for explicity changing the width of the date chooser
+						// so the width is otherwise static. This function will override the width set
+						// by openfaces so that it fits in the household schedule properly
+						function resizeDateChooserInput() {
+							var dateChoosers = $('.household-schedule .o_dropdown');
+							var tableRows = $('.householdScheduleRow');
+							if (dateChoosers.length === tableRows.length) {
+								dateChoosers.each(function() {
+									this.style.width = '100%';
+								});
+
+								clearInterval(interval);
+							}
+						}
+						
+						var interval = setInterval(resizeDateChooserInput, 75);
+
+					})();	
+				</script>
+			</c:when>
+		</c:choose>
+	</ui:define>
+</ui:composition>
+	
+	
