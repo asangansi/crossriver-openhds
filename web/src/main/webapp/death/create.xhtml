@@ -27,6 +27,11 @@
                 <h:form id="form">
                     <h:panelGrid columns="4">
                     
+                        <f:verbatim><h3>Basic Information</h3></f:verbatim>
+	            		<h:outputText />
+	            		<h:outputText />
+                    	<h:outputText />
+                    
                     	<h:outputText value="#{msg.fieldWorkerId}:"/>
                     	<h:outputText />
                         <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
@@ -37,7 +42,7 @@
                         <o:dateChooser id="recordedDate" value="#{deathCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
                         <h:message for="recordedDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>		
                     	
-		            	<h:outputText value="#{msg.individualId}:"/>
+		            	<h:outputText value="Permanent Id:"/>
 		            	 <h:outputText />
 		                <h:inputText styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" autocomplete="off"/>
 		            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
@@ -91,6 +96,16 @@
 	                   	<h:outputText />
 	                   	<h:inputText styleClass="visit" autocomlete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" disabled="#{flowScope != null}"/>
 	            		<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            		
+	            		<f:verbatim><h3>Source of Information</h3></f:verbatim>
+						<h:outputText />
+						<h:outputText />
+						<h:outputText />
+
+                    	<h:outputText value="Reported By:"/>
+                		<img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                		<h:inputText id="reportedBy" value="#{deathCrud.item.reportedBy}" converter="#{defaultConverter}" />
+                		<h:message for="reportedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     </h:panelGrid>
                      <script>
                    		if($('#form\\:collectedBy').attr('disabled')) {

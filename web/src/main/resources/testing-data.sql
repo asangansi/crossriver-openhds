@@ -18,6 +18,7 @@ INSERT INTO `location` (uuid,extId,locationName,locationLevel_uuid,locationType,
 INSERT INTO `location` (uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location3','MBI03','Marsh House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 5');
 INSERT INTO `location` (uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location4','MBI04','Bash House','hierarchy3','RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 8');
 
+INSERT INTO `round` (uuid,roundNumber,startDate,endDate) VALUES('ROUND 1',1,'2010-06-30','2010-07-31');
 INSERT INTO `visit` (uuid,extId,visitDate,status,insertDate,collectedBy_uuid,visitLocation_uuid,deleted,roundNumber,insertBy_uuid) VALUES ('Visit1','VMBI01','2012-02-28','P','2012-03-28','FieldWorker1','Location1',false,1,'User 1');
 
 INSERT INTO `residency` (uuid,location_uuid,individual_uuid,startDate,startType,endDate,endType,collectedBy_uuid,deleted,status,insertDate,insertBy_uuid) VALUES ('Residency1','Location1','Indiv 2','1989-02-21','BIR',NULL,'NA','FieldWorker1',false,'A','2012-04-17','User 1');
@@ -33,4 +34,4 @@ INSERT INTO `socialgroup` (uuid, extId, deleted, insertdate, groupName, collecte
 INSERT INTO `socialgroup` (uuid, extId, deleted, insertdate, groupName, collectedby_uuid, insertby_uuid, grouphead_uuid,groupType,status) VALUES ('SocialGroup4','SG04',false,'2012-04-17','Bash','FieldWorker1','User 1','Indiv 8','FAM','P');
 
 INSERT INTO `inmigration` (uuid,deleted,insertDate,recordedDate,voidDate,voidReason,status,origin,reason,migType,insertBy_uuid,voidBy_uuid,collectedBy_uuid,house_uuid,household_uuid,individual_uuid,residency_uuid,visit_uuid) VALUES ('Inmigration1',false,'2012-04-17','2011-01-05',NULL,NULL,'P',1,1,'INTERNAL_INMIGRATION','User 1',NULL,'FieldWorker1','Location1','SocialGroup1','Indiv 5','Residency6','Visit1');
-INSERT INTO `outmigration`(uuid,deleted,insertDate,voidDate,voidReason,status,destination,reason,recordedDate,insertBy_uuid,voidBy_uuid,collectedBy_uuid,individual_uuid,residency_uuid,visit_uuid) VALUES ('Outmigration1',false,'2012-04-17',NULL,NULL,'P','name','reason','1997-05-05','User 1',NULL,'FieldWorker1','Indiv 5','Residency6','Visit1');
+INSERT INTO `outmigration`(uuid,deleted,insertDate,voidDate,voidReason,status,placeMovedTo,reason,recordedDate,insertBy_uuid,voidBy_uuid,collectedBy_uuid,individual_uuid,residency_uuid,visit_uuid) VALUES ('Outmigration1',false,'2012-04-17',NULL,NULL,'P',1,1,'1997-05-05','User 1',NULL,'FieldWorker1','Indiv 5','Residency6','Visit1');

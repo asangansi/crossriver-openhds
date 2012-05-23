@@ -27,30 +27,99 @@
 	        	<h:outputText styleClass="error" value="#{outMigrationCrud.item.statusMessage}" />
 	        
 	            <h:panelGrid columns="3">
-	                <h:outputText value="#{msg.individualId}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{outMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
-                	
-                	<h:outputText value="#{msg.outmigrationDate}:" />
-	                <h:outputText />
-	                <h:outputText value="#{outMigrationCrud.item.recordedDate}" converter="#{calendarConverter}" />
-	                
-	                <h:outputText value="#{msg.outmigrationDestination}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{outMigrationCrud.item.destination}" />
-	                
-	                <h:outputText value="#{msg.outmigrationReason}:"/>
-	                <h:outputText />
-	                <h:outputText value="#{outMigrationCrud.item.reason}" />
-					
-					<h:outputText value="#{msg.fieldWorkerId}:"/>
+	            
+	            	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+	        		<h:outputText />
+	        		<h:outputText />
+	        		
+	        		<h:outputText value="#{msg.fieldWorkerId}:"/>
                     <h:outputText />
                     <h:outputText value="#{outMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
                    	
-                   	<h:outputText value="#{msg.visitId}:"/>
+	            	<h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.dateOfInterview}" converter="#{calendarConverter}" />
+                   	
+	            	<h:outputText value="#{msg.outmigrationDate}:" />
+	                <h:outputText />
+	                <h:outputText value="#{outMigrationCrud.item.recordedDate}" converter="#{calendarConverter}" />
+	                
+	                <h:outputText value="Permanent Id:"/>
+	                <h:outputText />
+	                <h:outputText value="#{outMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
+                	
+                	<h:outputText value="Migrant Name:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.nameOfMigrant}" converter="#{defaultConverter}"/>
+                    
+					<h:outputText value="Migrant Gender:"/>
+                    <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:outputText value="#{outMigrationCrud.item.gender}" converter="#{defaultConverter}"/>
+                	
+                	<h:outputText value="#{msg.visitId}:"/>
                    	<h:outputText />
                    	<h:outputText value="#{outMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
  					
+                	<f:verbatim><h3>Moved Away From</h3></f:verbatim>
+					<h:outputText />
+					<h:outputText />
+					
+					<h:outputText value="House Id:"/>
+		            <h:outputText />
+		            <h:outputText value="#{outMigrationCrud.item.house}" converter="#{locationExtIdConverter}" />
+		            	
+					<h:outputText value="House Name:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
+                    	
+					<h:outputText value="Household Id:"/>
+		            <h:outputText />
+		            <h:outputText  value="#{outMigrationCrud.item.household}" converter="#{socialGroupExtIdConverter}" />
+		            	
+					<h:outputText value="Household Name:" />
+					<h:outputText />
+					<h:outputText value="#{outMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+					
+					<f:verbatim><h3>Moved To</h3></f:verbatim>
+                  	<h:outputText />
+                  	<h:outputText />
+                  	
+                  	<h:outputText value="Place Moved To:"/>
+                    <img class="clickable" onclick="O$('popupWindowForPlaceMovedTo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    <h:outputText value="#{outMigrationCrud.item.placeMovedTo}" converter="#{defaultConverter}"/>
+
+                  	<h:outputText value="Other:"/>
+                    <h:outputText />
+                    <h:outputText id="placeMovedTo" value="#{outMigrationCrud.item.placeMovedToOther}" converter="#{defaultConverter}" />
+                    
+                    <h:outputText value="House Name:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.houseName}" converter="#{defaultConverter}"/>
+                    
+                    <h:outputText value="Section}:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.section}" converter="#{defaultConverter}"/>
+                    
+                    <h:outputText value="Village}:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.village}" converter="#{defaultConverter}"/>
+                    
+                  	<h:outputText value="Phone Number:"/>
+                    <h:outputText />
+                    <h:outputText value="#{outMigrationCrud.item.phoneNumber}" converter="#{defaultConverter}"/>
+                  	
+                  	<h:outputText value="#{msg.outmigrationReason}:"/>
+	              	<img class="clickable" onclick="O$('popupWindowForReason').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                <h:outputText value="#{outMigrationCrud.item.reason}" />
+                  	
+                  	<h:outputText value="Other:"/>
+                    <h:outputText />
+                    <h:outputText id="reasonOther" value="#{outMigrationCrud.item.reasonForMigrationOther}" converter="#{defaultConverter}"/>
+                  	
+                  	<f:verbatim><h3>Audit Information</h3></f:verbatim>
+                  	<h:outputText />
+                  	<h:outputText />					
+                   
  					<h:outputText value="#{msg.insertDate}:"/>
 	                <h:outputText />
 	                <h:outputText value="#{outMigrationCrud.item.insertDate}" converter="#{calendarConverter}" />

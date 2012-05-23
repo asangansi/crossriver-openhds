@@ -10,7 +10,9 @@ import org.openhds.controller.service.CurrentUser;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.OutMigration;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
@@ -53,6 +55,8 @@ public class OutMigrationTest {
 	 
 	 FieldWorker fieldWorker;
 	 Individual individual;
+	 SocialGroup socialGroup;
+	 Location location;
 	 Visit visit;
 	 JsfServiceMock jsfServiceMock;
 	 
@@ -65,6 +69,8 @@ public class OutMigrationTest {
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
 		 individual = genericDao.findByProperty(Individual.class, "extId", "TONMA001", false);
 		 visit = genericDao.findByProperty(Visit.class, "extId", "VMBI01");
+		 socialGroup = genericDao.findByProperty(SocialGroup.class, "extId", "SG01");
+		 location = genericDao.findByProperty(Location.class, "extId", "MBI01");
 	 }
 	 
 	 @Test
@@ -73,9 +79,13 @@ public class OutMigrationTest {
 		 OutMigration outmig = new OutMigration();
 		 outmig.setIndividual(individual);
 		 outmig.setCollectedBy(fieldWorker);
-		 outmig.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 1990));
-		 outmig.setDestination("place");
-		 outmig.setReason("reason");
+		 outmig.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2008));
+		 outmig.setHouse(location);
+		 outmig.setHousehold(socialGroup);
+		 outmig.setGender(1);
+		 outmig.setPlaceMovedTo(1);
+		 outmig.setReason(1);
+		 outmig.setOrigin("place");
 		 outmig.setVisit(visit);
 		 		 		 
 		 outmigrationCrud.setItem(outmig);

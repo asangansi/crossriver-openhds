@@ -950,6 +950,36 @@
 			</ul>
     	</div>
 	</o:popupLayer>
+	<o:popupLayer id="popupWindowForPlaceMovedTo"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForPlaceMovedTo').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.placeMovedToConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForReason"
+             width="30%"
+             height="30%">
+		<div style="position:absolute;right:1%;top:1%">
+			<input type="button" value="Close [X]" onclick="O$('popupWindowForReason').hide();"/>
+		</div>
+		<div style="overflow:auto;padding:.5em;">
+			<h3>Valid values:</h3>
+			<ul>
+				<c:forEach items="#{valueExtensionIterator.reasonForOutmigrationConstraint}" var="dv">
+					<li>#{dv.key} - #{dv.value}</li>
+				</c:forEach>
+			</ul>
+    	</div>
+	</o:popupLayer>
 	<o:popupLayer id="popupWindowForOrigin"
              width="30%"
              height="30%">
@@ -1024,5 +1054,5 @@
 				</c:forEach>
 			</ul>
     	</div>
-	</o:popupLayer>		 
+	</o:popupLayer>	
 </html>

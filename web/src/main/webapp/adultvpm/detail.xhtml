@@ -1245,22 +1245,22 @@
               	<h:outputText value="#{adultVPMCrud.item.correctedBy}" />
             </h:panelGrid> 
             
-            <h3>#{msg.auditInformation}</h3>
+            <h3>Audit Information</h3>
             <h:panelGrid columns="3">
-            	<h:outputText value="#{msg.lblInsertDate}"/>
+            	<h:outputText value="#{msg.insertDate}"/>
 	            <h:outputText />
 	            <h:outputText value="#{adultVPMCrud.item.insertDate}" converter="#{calendarConverter}" />
 					
-				<h:outputText value="#{msg.lblInsertBy}"/>
+				<h:outputText value="#{msg.insertBy}"/>
 				<h:outputText />
 				<h:outputText value="#{adultVPMCrud.item.insertBy.fullName}" />
 					
-				<h:outputText value="#{msg.lblDataStatus}"/>
+				<h:outputText value="#{msg.dataStatus}"/>
 		    	<img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
 				<h:outputText value="#{adultVPMCrud.item.status}" />
             </h:panelGrid>
             <br />
-           <h:commandButton action="#{adultVPMCrud.editSetup}" value="#{msg.btnEdit}">
+           <h:commandButton action="#{adultVPMCrud.editSetup}" value="#{msg.lblEdit}">
                <f:setPropertyActionListener target="#{jsfService.itemId}" value="#{adultVPMCrud.item.uuid}" />
            </h:commandButton>
         </h:form>

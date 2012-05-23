@@ -1,6 +1,9 @@
 package org.openhds.integration;
 
 import static org.junit.Assert.*;
+
+import java.util.Calendar;
+
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +16,7 @@ import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.LocationHierarchy;
 import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.service.SitePropertiesService;
+import org.openhds.domain.util.CalendarUtil;
 import org.openhds.integration.util.JsfServiceMock;
 import org.openhds.web.crud.impl.LocationHierarchyCrudImpl;
 import org.openhds.web.crud.impl.SocialGroupCrudImpl;
@@ -51,6 +55,9 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 	 GenericDao genericDao;
 	 
 	 @Autowired
+	 CalendarUtil calendarUtil;
+	 
+	 @Autowired
 	 SitePropertiesService siteProperties;
 	 	 
 	 @Autowired
@@ -81,7 +88,10 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 		 socialGroup.setGroupType("FAM");
 		 socialGroup.setCollectedBy(fieldWorker);
 		 socialGroup.setRespondent(individual);
+		 socialGroup.setDateOfInterview(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));
 		 
+		 socialGroupCrud.setHeadOfHouseholdId("BRIHA001");
+		 socialGroupCrud.setRespondentId("BRIHA001");
 		 socialGroupCrud.setItem(socialGroup);
 		 socialGroupCrud.create();
 		 
@@ -99,7 +109,11 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 		 socialGroup.setGroupName("Group");
 		 socialGroup.setGroupType("FAM");
 		 socialGroup.setCollectedBy(fieldWorker);
+		 socialGroup.setRespondent(indiv);
+		 socialGroup.setDateOfInterview(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));
 		 
+		 socialGroupCrud.setHeadOfHouseholdId("PETBA001");
+		 socialGroupCrud.setRespondentId("PETBA001");
 		 socialGroupCrud.setItem(socialGroup);
 		 assertNull(socialGroupCrud.create());
 		 

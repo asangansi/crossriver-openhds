@@ -11,6 +11,9 @@ import org.openhds.domain.model.PrivilegeConstants;
 import org.openhds.domain.model.SocialGroup;
 
 public interface SocialGroupService {
+	
+	@Authorized({PrivilegeConstants.CREATE_ENTITY})
+	SocialGroup createSocialGroup(SocialGroup entityItem) throws Exception;
 
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	SocialGroup evaluateSocialGroup(SocialGroup entityItem) throws ConstraintViolations;
@@ -44,4 +47,7 @@ public interface SocialGroupService {
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	SocialGroup getSocialGroupForIndividualByType(Individual individual, String groupType); 
+	
+	@Authorized({PrivilegeConstants.VIEW_ENTITY})
+	List<SocialGroup> getSocialGroupsPrefixedWith(String substring);
 }

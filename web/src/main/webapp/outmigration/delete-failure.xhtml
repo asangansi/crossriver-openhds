@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:o="http://openfaces.org/"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+</head>
+<body>
+    <ui:composition template="/templates/default.xhtml">
+        <ui:define name="title">OpenHDS - Out Migration Delete Failure</ui:define>
+    
+        <ui:param name="crud" value="#{outMigrationCrud}" />
+        
+        <ui:define name="listing">
+            <ui:include src="list.xhtml" />
+        </ui:define>
+        
+        <ui:define name="display">
+            <h:outputText value="#{navController.breadcrumbTrail}" />
+        
+            <h1>Unable to delete Out Migration</h1>
+            <c:if test="#{outMigrationCrud.constraintFailure}">
+				<ul>
+					<c:forEach items="#{outMigrationCrud.deleteFailureMessages}" var="msg">
+						<li>#{msg}</li>
+					</c:forEach>
+				</ul>
+				<br />
+				<c:if test="#{outMigrationCrud.residencyUuid == null}">
+					There was an error getting the residency for this out migration.		
+				</c:if>
+				<c:if test="#{outMigrationCrud.residencyUuid != null and flowScope == null}">
+					If you want to review the residency for this Out Migration,  
+					<h:outputLink value="#{request.contextPath}/amendment/residency/details/#{outMigrationCrud.residencyUuid}">
+						Click Here
+					</h:outputLink>				
+				</c:if>
+				<c:if test="#{flowScope != null}">
+					Please use the amendment forms for further action.
+					<br />
+					<br />
+					<h:form>
+						<h:commandButton action="back" value="Go Back to Out Migration" />
+					</h:form>
+				</c:if>
+			</c:if>
+			<c:if test="#{not outMigrationCrud.constraintFailure}">
+				#{msg}
+			</c:if>
+        </ui:define>
+    </ui:composition>
+  </body>
+</html>

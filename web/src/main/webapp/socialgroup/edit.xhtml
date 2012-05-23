@@ -42,7 +42,7 @@
 										
 					<h:outputText value="#{msg.socialGroupHead}:"/>
 					<h:outputText />
-					<h:inputText styleClass="individual" autocomplete="off" id="head" value="#{socialGroupCrud.item.groupHead}" disabled="#{flowScope.updatingBaseline}" converter="#{individualExtIdConverter}" />
+					<h:inputText styleClass="individual" autocomplete="off" id="head" value="#{socialGroupCrud.item.groupHead}" disabled="true" converter="#{individualExtIdConverter}" />
                   	<h:message for="head2" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                
 	                <h:outputText value="#{msg.fieldWorkerId}:"/>
@@ -52,7 +52,7 @@
 	           
 	           		<h:outputText value="Respondent Id:"/>
 					<h:outputText />
-					<h:inputText id="idOfRespondent" styleClass="individual" autocomplete="off" title="#{msg.tipIndivExtId}" value="#{socialGroupCrud.respondentId}" converter="#{defaultConverter}" />
+					<h:inputText id="idOfRespondent" styleClass="individual" autocomplete="off" value="#{socialGroupCrud.item.respondent}" converter="#{individualExtIdConverter}" />
 					<h:message for="idOfRespondent" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 				
 					<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})"/>

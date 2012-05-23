@@ -73,4 +73,6 @@ public interface GenericDao {
     <T> Map<T,T> getClassMetaData();
     
     Session getSession();
+    
+    <T> List<T> findListByPropertyPrefix(Class<T> entityType, String propertyName, String prefix, int limit, boolean filterDeleted);    
 }

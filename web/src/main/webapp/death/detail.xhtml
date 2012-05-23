@@ -31,7 +31,7 @@
 	            		<h:outputText />
 	            		<h:outputText />
 	            		
-	            		<h:outputText value="#{msg.fieldWorker}:"/>
+	            		<h:outputText value="#{msg.fieldWorkerId}:"/>
                 		<h:outputText />
                 		<h:outputText value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
                 
@@ -86,7 +86,11 @@
 						<f:verbatim><h3>Source of Information</h3></f:verbatim>
 		            	<h:outputText />
 		            	<h:outputText />
-						
+		            	
+		            	<h:outputText value="Reported By:"/>
+                		<img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                		<h:outputText id="reportedBy" value="#{deathCrud.item.reportedBy}" converter="#{defaultConverter}" />
+                	
 						<h:outputText value="#{msg.insertDate}:"/>
 	                	<h:outputText />
 	                	<h:outputText value="#{deathCrud.item.insertDate}" converter="#{calendarConverter}" />

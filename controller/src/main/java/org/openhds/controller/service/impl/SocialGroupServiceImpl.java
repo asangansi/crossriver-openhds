@@ -32,6 +32,45 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 		this.generator = generator;
 	}
 	
+	/**
+	 * Creates a social group. This required be in its own method because its possible
+	 * that a social group refers to a nonexistent (temporary) individual (head group and/or
+	 * respondent). In this case the temporary individual is created first, assigned to the 
+	 * social group, and the social group created.
+	 * 
+	 * If the head of group and/or respondent refer to persisted entities, then they are used
+	 * and the social group is saved normally.
+	 * 
+	 * @param entityItem
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public SocialGroup createSocialGroup(SocialGroup entityItem) throws Exception {
+		String headExtId = entityItem.getGroupHead().getExtId();
+		String respondentId = entityItem.getRespondent().getExtId();
+		
+		Individual targetHead = individualService.findIndivById(headExtId);
+		Individual targetRespondent = individualService.findIndivById(respondentId);
+		
+		if (targetHead == null) {
+			targetHead = individualService.createTemporaryIndividualWithExtId(headExtId, entityItem.getCollectedBy());
+		}
+		
+		if (targetRespondent == null) {
+			if (headExtId.equals(respondentId)) {
+				targetRespondent = targetHead;
+			} else {
+				targetRespondent = individualService.createTemporaryIndividualWithExtId(respondentId, entityItem.getCollectedBy());
+			}
+		}
+		
+		entityItem.setGroupHead(targetHead);
+		entityItem.setRespondent(targetRespondent);
+		
+		service.create(entityItem);
+		
+		return entityItem;
+	}
+	
 	public SocialGroup evaluateSocialGroup(SocialGroup entityItem) throws ConstraintViolations {
 		
 		SocialGroupGenerator sgGen = (SocialGroupGenerator)generator;
@@ -172,5 +211,10 @@ public class SocialGroupServiceImpl implements SocialGroupService {
     public SocialGroup findSocialGroupById(String sgExtId) {
         SocialGroup sg = genericDao.findByProperty(SocialGroup.class, "extId", sgExtId);
         return sg;
-    }  
+    } 
+    
+	@Transactional(readOnly=true)
+	public List<SocialGroup> getSocialGroupsPrefixedWith(String substring) {
+		return genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", substring, 0, true);
+	}
 }

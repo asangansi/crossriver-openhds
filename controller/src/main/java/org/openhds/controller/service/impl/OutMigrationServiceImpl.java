@@ -43,12 +43,46 @@ public class OutMigrationServiceImpl implements OutMigrationService {
 		}
 		
         Residency currentResidence = outMigration.getIndividual().getCurrentResidency();
-        outMigration.setResidency(currentResidence);
-
+    
         // verify the date of the out migration is after the residency start date
 		if (currentResidence.getStartDate().compareTo(outMigration.getRecordedDate()) > 0) {
 			throw new ConstraintViolations("The Out Migration recorded date is before the start of the individual current residency.");
 		}
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void editOutMigration(OutMigration entityItem) throws ConstraintViolations, SQLException {
+		// its possible that the out migration has become detached from the session
+		// this is a safety check to enforce that the out migration is in fact loaded into the session
+		// if the out migration is detached, its possible that lazy init exceptions will occur because
+		// of the logical constraint checks that occur
+		entityItem = genericDao.merge(entityItem);
+		
+		entityItem.getResidency().setEndDate(entityItem.getRecordedDate());
+		residencyService.evaluateResidency(entityItem.getResidency());
+		entityService.save(entityItem.getResidency());
+		entityService.save(entityItem);
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void deleteOutMigration(OutMigration outMigration)throws ConstraintViolations, SQLException {
+		// all residencies MUST be closed in order for the data to be in a correct state
+		// otherwise, the individual would have 2 open residencies at the same time, which is against
+		// the system rules
+		for(Residency res : outMigration.getIndividual().getAllResidencies()) {
+			if (res.getEndDate() == null) {
+				throw new ConstraintViolations("You cannot delete an out migration for an individual with an open residency." +
+						" If you want to delete this out migration, you can 1) Close the current open residency, " +
+						"or 2) Delete the residency for this out migration using the Residency amendment form.");
+			}
+		}
+		
+		Residency res = outMigration.getResidency();
+		res.setEndDate(null);
+		res.setEndType(siteProperties.getNotApplicableCode());
+		
+		entityService.save(res);
+		entityService.delete(outMigration);
 	}
 
 	public List<OutMigration> getOutMigrations(Individual individual) {

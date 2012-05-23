@@ -1,8 +1,10 @@
 package org.openhds.web.crud.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import org.openhds.controller.exception.AuthorizationException;
@@ -30,6 +32,7 @@ public class SocialGroupCrudImpl extends EntityCrudImpl<SocialGroup, String> {
 	
 	public SocialGroupCrudImpl(Class<SocialGroup> entityClass) {
 		super(entityClass);
+		entityFilter = new SocialGroupFilter();
 	}
 	
 	@Override
@@ -42,15 +45,64 @@ public class SocialGroupCrudImpl extends EntityCrudImpl<SocialGroup, String> {
 	@Override
     public String create() {
     	
-    	try {
-    		socialGroupService.evaluateSocialGroup(entityItem);		
-	        return super.create();
+		boolean householdValidated = validateHeadOfHousehold();
+		boolean respondentValidated = validateRespondent();	
+		
+		if (!householdValidated || !respondentValidated) {
+			return null;
+		}
+
+		try {
+			socialGroupService.evaluateSocialGroup(entityItem);
+    		socialGroupService.createSocialGroup(entityItem);
+    		showListing = true;
+            return listSetup();
     	}		
-    	catch(ConstraintViolations e) {
+    	catch(Exception e) {
     		jsfService.addError(e.getMessage());
 		} 
     	return null;
     }
+	
+	private boolean validateHeadOfHousehold() {
+		Individual indiv = validateIndividualExtId(headOfHouseholdId, "form:head");
+		if (indiv == null) {
+			return false;
+		} else {
+			entityItem.setGroupHead(indiv);
+			return true;
+		}
+	}
+	
+	private Individual validateIndividualExtId(String field, String componentId) {
+    	if (field == null || field.trim().isEmpty()) {
+    		jsfService.addErrorForComponent("Please provide a valid Id", componentId);
+    		return null;
+    	}
+    	Individual tmp = individualService.findIndivById(field);
+    	if (tmp == null) {
+    		tmp = new Individual();
+    		tmp.setExtId(field);
+    		try {
+    			individualService.validateIdLength(tmp);
+    		} catch (Exception e) {
+    			jsfService.addErrorForComponent(e.getMessage(), componentId);
+    			return null;
+    		}
+    	}
+    	
+    	return tmp;
+	}
+	
+	private boolean validateRespondent() {
+		Individual indiv = validateIndividualExtId(respondentId, "form:idOfRespondent");
+		if (indiv == null) {
+			return false;
+		} else {
+			entityItem.setRespondent(indiv);
+			return true;
+		}
+	}
 	
     @Override
     public String edit() {
@@ -102,47 +154,7 @@ public class SocialGroupCrudImpl extends EntityCrudImpl<SocialGroup, String> {
     	
     	return false;
     }
-    
-	private Individual validateIndividualExtId(String field, String componentId) {
-    	if (field == null || field.trim().isEmpty()) {
-    		jsfService.addErrorForComponent("Please provide a valid Id", componentId);
-    		return null;
-    	}
-    	Individual tmp = individualService.findIndivById(field);
-    	if (tmp == null) {
-    		tmp = new Individual();
-    		tmp.setExtId(field);
-    		try {
-    			individualService.validateIdLength(tmp);
-    		} catch (Exception e) {
-    			jsfService.addErrorForComponent(e.getMessage(), componentId);
-    			return null;
-    		}
-    	}
-    	
-    	return tmp;
-	}
-	
-	private boolean validateHeadOfHousehold() {
-		Individual indiv = validateIndividualExtId(headOfHouseholdId, "form:head");
-		if (indiv == null) {
-			return false;
-		} else {
-			entityItem.setGroupHead(indiv);
-			return true;
-		}
-	}
-    
-    private boolean validateRespondent() {
-		Individual indiv = validateIndividualExtId(respondentId, "form:idOfRespondent");
-		if (indiv == null) {
-			return false;
-		} else {
-			entityItem.setRespondent(indiv);
-			return true;
-		}
-	}
-        
+      
     public boolean validateSocialGroup(MessageContext messageContext) {
     	try {
     		socialGroupService.evaluateSocialGroup(entityItem);
@@ -198,5 +210,17 @@ public class SocialGroupCrudImpl extends EntityCrudImpl<SocialGroup, String> {
 
 	public void setIndividualService(IndividualService individualService) {
 		this.individualService = individualService;
+	}
+	
+	private class SocialGroupFilter implements EntityFilter<SocialGroup> {
+		@Override
+		public List<SocialGroup> getFilteredEntityList(SocialGroup entityItem) {
+			// attempt to get the prefix for the social group
+			String extId = entityItem.getExtId();
+			if (extId != null && extId.length() > 6) {
+				return socialGroupService.getSocialGroupsPrefixedWith(extId.substring(0, 6));	
+			}	
+			return new ArrayList<SocialGroup>();
+		}
 	}
 }

@@ -18,4 +18,10 @@ public interface OutMigrationService {
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	void createOutMigration(OutMigration outMigration) throws ConstraintViolations, IllegalArgumentException, ConstraintViolations, SQLException;
+
+	@Authorized({PrivilegeConstants.DELETE_ENTITY})
+	void deleteOutMigration(OutMigration outMigration) throws ConstraintViolations, SQLException;
+	
+	@Authorized({PrivilegeConstants.EDIT_ENTITY})
+	void editOutMigration(OutMigration entityItem) throws ConstraintViolations, SQLException;
 }

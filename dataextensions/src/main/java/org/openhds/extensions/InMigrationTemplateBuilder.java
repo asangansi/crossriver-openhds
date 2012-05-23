@@ -291,8 +291,7 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		JMethod jmsHousehold = jc.method(JMod.PUBLIC, void.class, "setHousehold");
 		JVar jvarHousehold = jmsHousehold.param(org.openhds.domain.model.SocialGroup.class, "place");
 		JBlock jmsHouseholdBlock = jmsHousehold.body();
-		jmsHouseholdBlock.assign(jfHousehold, jvarHousehold);
-		
+		jmsHouseholdBlock.assign(jfHousehold, jvarHousehold);	
 	}
 
 	@Override

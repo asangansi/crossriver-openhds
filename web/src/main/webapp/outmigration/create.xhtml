@@ -24,39 +24,125 @@
 	        <h1>#{msg.outmigrationCreate}</h1>
 	        <h:messages id="errors" globalOnly="true"/>
 	        <h:form id="form">
-	            <h:panelGrid columns="3">
-	            		<h:outputText value="#{msg.individualId}:"/>
+	            <h:panelGrid columns="4">
+	            		<f:verbatim><h3>Basic Information</h3></f:verbatim>
+	        			<h:outputText />
+	        			<h:outputText />
+	        			<h:outputText />
+	        			
+	        			<h:outputText value="#{msg.fieldWorkerId}:"  />
+	        			<h:outputText />
+	                    <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" value="#{outMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+	                    <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	        			
+	            		<h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
+	                    <h:outputText />
+	                    <o:dateChooser id="interviewDate" value="#{outMigrationCrud.interviewDate}" pattern="#{siteProperties.dateFormat}" />
+	                    <h:message for="interviewDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            
+	            		<h:outputText value="#{msg.outmigrationDate} (#{siteProperties.dateFormat})" />
+	                    <h:outputText />
+	                    <o:dateChooser id="rec_date" value="#{outMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+	                    <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            		
+	            		<h:outputText value="Permanent Id:"/>
+	            		<h:outputText />
 	               	 	<h:inputText styleClass="individual" autocomplete="off" id="indiv" value="#{outMigrationCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" />
 	            		<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                     	<h:outputText value="#{msg.outmigrationDate} (#{siteProperties.dateFormat})" />
-                        <o:dateChooser id="rec_date" value="#{outMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
-                        <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.outmigrationDestination}:"/>
-                        <h:inputText id="origin" value="#{outMigrationCrud.item.destination}" converter="#{defaultConverter}"/>
-                        <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.outmigrationReason}:"/>
-                        <h:inputText id="reason" value="#{outMigrationCrud.item.reason}" converter="#{defaultConverter}"/>
-                        <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.fieldWorkerId}:"  />
-                        <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" value="#{outMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
-                        <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
-                        <h:outputText value="#{msg.visitId}:" />
-                        <h:inputText styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" value="#{outMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
-                        <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-                    </h:panelGrid>
-                    <script>	
-                    	document.getElementById('form:rec_date').focus();
-  						document.getElementById('form:indiv').focus();
-  					</script>
-                    <br />
-                    <h:commandButton action="#{outMigrationCrud.create}" value="#{msg.lblCreate}"/>
-                	<h:commandButton value="#{msg.lblCancel}" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
-                </h:form>
+	
+						<h:outputText value="Name of Migrant:"/>
+	                    <h:outputText />
+	                    <h:inputText id="nameOfMigrant" value="#{outMigrationCrud.item.nameOfMigrant}" converter="#{defaultConverter}"/>
+	                    <h:message for="nameOfMigrant" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+						<h:outputText value="Gender of Migrant:"/>
+	                    <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                    <h:inputText id="gender" value="#{outMigrationCrud.item.gender}" converter="#{defaultConverter}"/>
+	                    <h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+						<h:outputText value="#{msg.visitId}:" />
+						<h:outputText />
+	                    <h:inputText styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" value="#{outMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
+	                    <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                
+						<f:verbatim><h3>Moved Away From</h3></f:verbatim>
+						<h:outputText />
+						<h:outputText />
+						<h:outputText />
+						
+						<h:outputText value="House Id:"/>
+			            <h:outputText />
+			            <h:inputText styleClass="location" id="loc" value="#{outMigrationCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+			            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+							
+						<h:outputText value="House Name:"/>
+	                    <h:outputText />
+	                    <h:inputText id="origin" value="#{outMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
+	                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+							
+						<h:outputText value="Household Id:"/>
+			            <h:outputText />
+			            <h:inputText styleClass="socialGroup" id="sg" value="#{outMigrationCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+			            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+							
+						<h:outputText value="Household Name:" />
+						<h:outputText />
+						<h:inputText id="householdName" value="#{outMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+						<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+						<f:verbatim><h3>Moved To</h3></f:verbatim>
+	                  	<h:outputText />
+	                  	<h:outputText />
+	                  	<h:outputText />
+	                  	
+	                  	<h:outputText value="Place Moved To:"/>
+	                    <img class="clickable" onclick="O$('popupWindowForPlaceMovedTo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                    <h:inputText id="placeMovedTo" value="#{outMigrationCrud.item.placeMovedTo}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.placeMovedToChanged}"/>
+	                    <h:message for="placeMovedTo" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+	                  	<h:outputText value="Other:"/>
+	                    <h:outputText />
+	                    <h:inputText id="placeMovedToOther" value="#{outMigrationCrud.item.placeMovedToOther}" converter="#{defaultConverter}" />
+	                    <h:message for="placeMovedToOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                  
+	                    <h:outputText value="House Name:"/>
+	                    <h:outputText />
+	                    <h:inputText id="houseName" value="#{outMigrationCrud.item.houseName}" converter="#{defaultConverter}" disabled="#{not outMigrationCrud.movedToLGA}" />
+	                    <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                    
+	                    <h:outputText value="Section:"/>
+	                    <h:outputText />
+	                    <h:inputText id="section" value="#{outMigrationCrud.item.section}" converter="#{defaultConverter}" disabled="#{not outMigrationCrud.movedToLGA}"/>
+	                    <h:message for="section" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                    
+	                    <h:outputText value="Village:"/>
+	                    <h:outputText />
+	                    <h:inputText id="village" value="#{outMigrationCrud.item.village}" converter="#{defaultConverter}" disabled="#{not outMigrationCrud.movedToLGA}"/>
+	                    <h:message for="village" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                    
+	                  	<h:outputText value="Phone Number:"/>
+	                    <h:outputText />
+	                    <h:inputText id="phone" value="#{outMigrationCrud.item.phoneNumber}" converter="#{defaultConverter}" disabled="#{not outMigrationCrud.movedToLGA}"/>
+	                    <h:message for="phone" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                  	
+	                    <h:outputText value="#{msg.outmigrationReason}:"/>
+	                    <img class="clickable" onclick="O$('popupWindowForReason').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                    <h:inputText id="reason" value="#{outMigrationCrud.item.reason}" converter="#{defaultConverter}"/>
+	                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+						<h:outputText value="Other:"/>
+	                    <h:outputText />
+	                    <h:inputText id="reasonOther" value="#{outMigrationCrud.item.reasonForMigrationOther}" converter="#{defaultConverter}"/>
+	                    <h:message for="reasonOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                   </h:panelGrid>
+                   	<script>	
+               			document.getElementById('form:collectedBy').focus();
+ 					</script>
+                   <br />
+                   <h:commandButton action="#{outMigrationCrud.create}" value="#{msg.lblCreate}"/>
+                   <h:outputText value=" " />
+               	   <h:commandButton value="#{msg.lblCancel}" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
+        	</h:form>
 		</ui:define>
 	</ui:composition>
   </body>

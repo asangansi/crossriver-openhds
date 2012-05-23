@@ -149,8 +149,10 @@ public class ExtensionLoader {
 			DeathTemplateBuilder deathTemplateBuilder = new DeathTemplateBuilder(jCodeModel);
 			PregnancyObservationTemplateBuilder pregnancyObservationTemplateBuilder = new PregnancyObservationTemplateBuilder(jCodeModel);
 			InMigrationTemplateBuilder inMigrationTemplateBuilder = new InMigrationTemplateBuilder(jCodeModel);
+			OutMigrationTemplateBuilder outMigrationTemplateBuilder = new OutMigrationTemplateBuilder(jCodeModel);
+			VaccinationTemplateBuilder vaccinationTemplateBuilder = new VaccinationTemplateBuilder(jCodeModel);
 			AdultVPMTemplateBuilder adultVPMTemplateBuilder = new AdultVPMTemplateBuilder(jCodeModel);
-			
+
 			JPackage jp = jCodeModel._package("org.openhds.domain.model");					
 			JDefinedClass jc = null;
 				
@@ -174,6 +176,10 @@ public class ExtensionLoader {
 					pregnancyObservationTemplateBuilder.buildTemplate(jc);
 				else if (entityName.equals("InMigration"))
 					inMigrationTemplateBuilder.buildTemplate(jc);
+				else if (entityName.equals("OutMigration"))
+					outMigrationTemplateBuilder.buildTemplate(jc);
+				else if (entityName.equals("Vaccination"))
+					vaccinationTemplateBuilder.buildTemplate(jc);
 			}
 			
 			Iterator<String> keysItr = keys.iterator();
@@ -209,6 +215,10 @@ public class ExtensionLoader {
 					pregnancyObservationTemplateBuilder.buildTemplate(jc);
 				else if (entity.equals("InMigration") && inMigrationTemplateBuilder.templateBuilt == false)
 					inMigrationTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("OutMigration") && outMigrationTemplateBuilder.templateBuilt == false)
+					outMigrationTemplateBuilder.buildTemplate(jc);
+				else if (entity.equals("Vaccination") && vaccinationTemplateBuilder.templateBuilt == false)
+					vaccinationTemplateBuilder.buildTemplate(jc);
 				else if (entity.equals("AdultVPM") && adultVPMTemplateBuilder.templateBuilt == false)
 					adultVPMTemplateBuilder.buildTemplate(jc);
 								
