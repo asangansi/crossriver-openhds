@@ -1,5 +1,7 @@
 package org.openhds.extensions;
 
+import org.openhds.domain.util.CalendarAdapter;
+
 import com.sun.codemodel.JAnnotationArrayMember;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
@@ -12,12 +14,12 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 
-public class AdultVPMTemplateBuilder implements ExtensionTemplate {
+public class NeoNatalVPMTemplateBuilder implements ExtensionTemplate {
 	
 	JCodeModel jCodeModel;
 	boolean templateBuilt = false;
 		
-	AdultVPMTemplateBuilder(JCodeModel jCodeModel) {
+	NeoNatalVPMTemplateBuilder(JCodeModel jCodeModel) {
 		this.jCodeModel = jCodeModel;
 	}
 
@@ -41,7 +43,7 @@ public class AdultVPMTemplateBuilder implements ExtensionTemplate {
 		
 		// serial uuid
 		JFieldVar jfSerial = jc.field(JMod.PUBLIC | JMod.STATIC | JMod.FINAL, long.class, "serialVersionUID");
-		jfSerial.init(JExpr.lit(-4307963520301090920L));
+		jfSerial.init(JExpr.lit(5627673295092064030L));
 		
 		// individual
 		JFieldVar jfIndividual = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "individual");
@@ -85,7 +87,6 @@ public class AdultVPMTemplateBuilder implements ExtensionTemplate {
 		
 		// visit
 		JFieldVar jfVisit = jc.field(JMod.PRIVATE , org.openhds.domain.model.Visit.class, "visit");
-		jfVisit.annotate(org.openhds.domain.constraint.Searchable.class);
 		jfVisit.annotate(javax.persistence.ManyToOne.class);
 		JAnnotationUse jaVisitDesc = jfVisit.annotate(org.openhds.domain.annotations.Description.class);
 		jaVisitDesc.param("description", "Visit that is associated with the verbal autopsy, identified by the external id.");
@@ -100,6 +101,28 @@ public class AdultVPMTemplateBuilder implements ExtensionTemplate {
 		JVar jvarVisit = jmsVisit.param(org.openhds.domain.model.Visit.class, "vis");
 		JBlock jmsVisitBlock = jmsVisit.body();
 		jmsVisitBlock.assign(jfVisit, jvarVisit);
+		
+		// childDeathDate
+		JFieldVar jfDeathDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "childDeathDate");
+		JAnnotationUse jaPast = jfDeathDate.annotate(javax.validation.constraints.Past.class);
+		jaPast.param("message", "Death date should be in the past");
+		JAnnotationUse jaTemporal = jfDeathDate.annotate(javax.persistence.Temporal.class);
+		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
+		JAnnotationUse jaDeathDateDesc = jfDeathDate.annotate(org.openhds.domain.annotations.Description.class);
+		jaDeathDateDesc.param("description", "Date of the Death.");
+		
+		// getter
+		JMethod jmgDeathDate = jc.method(JMod.PUBLIC, java.util.Calendar.class, "getChildDeathDate");
+		JAnnotationUse jaXmlDeathDate = jmgDeathDate.annotate(javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.class);
+		jaXmlDeathDate.param("value", CalendarAdapter.class);
+		JBlock jmgDeathDateBlock = jmgDeathDate.body();
+		jmgDeathDateBlock._return(jfDeathDate);
+		
+		// setter
+		JMethod jmsDeathDate = jc.method(JMod.PUBLIC, void.class, "setChildDeathDate");
+		JVar jvarDeathDate = jmsDeathDate.param(java.util.Calendar.class, "date");
+		JBlock jmsDeathDateBlock = jmsDeathDate.body();
+		jmsDeathDateBlock.assign(jfDeathDate, jvarDeathDate);
 	}
 
 	@Override
@@ -107,16 +130,15 @@ public class AdultVPMTemplateBuilder implements ExtensionTemplate {
 		
 		// create Description annotation
 		JAnnotationUse jad = jc.annotate(org.openhds.domain.annotations.Description.class);
-		jad.param("description", "Standard Verbal Autopsy Questionnaire for adolescent and " +
-		"adult deaths. (12 years and over)");
+		jad.param("description", "Standard Verbal Autopsy Questionnaire for Neonatal Deaths (0-27 days old)");
 		
 		// create Entity annotation
 		jc.annotate(javax.persistence.Entity.class);
 		
 		JAnnotationUse jat = jc.annotate(javax.persistence.Table.class);
-		jat.param("name", "adultvpm");
+		jat.param("name", "neonatalvpm");
 		
 		JAnnotationUse jxmlRoot = jc.annotate(javax.xml.bind.annotation.XmlRootElement.class);
-		jxmlRoot.param("name", "adultvpm");
+		jxmlRoot.param("name", "neonatalvpm");
 	}
 }

@@ -1,0 +1,712 @@
+<ui:composition template="/templates/default.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:o="http://openfaces.org/"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+ 	<ui:define name="title">OpenHDS - Edit Neonatal VPM</ui:define>
+
+	<ui:param name="crud" value="#{neonatalVPMCrud}" />
+	
+	<ui:define name="listing">
+		<ui:include src="list.xhtml" />
+	</ui:define>
+	<ui:define name="display">
+		<style>
+			.household-schedule {
+				border-collapse:collapse;
+				border-color:#888;
+				table-layout:fixed;
+			}
+			
+			.household-schedule th {
+				background-color:#B9D264;
+				font-weight:bold;
+				font-size:.9em;
+				overflow:hidden;
+			}
+			
+			.household-schedule input {
+				width:100%;
+				border:0;
+			}
+			
+			.o_dropdown {
+				width:100%;
+			}
+		</style>
+		<h:outputText value="#{navController.breadcrumbTrail}" />
+	
+        <h1>Neonatal VPM Edit</h1>
+        <h:messages id="errors" globalOnly="true"/>
+         <h:form id="form">
+         
+         <h:panelGrid columns="4">
+        	
+        		<f:verbatim><h3>Background Information on Deceased</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        	
+        		<h:outputText value="Name of child:"/>
+            	<h:outputText />
+            	<h:inputText tabindex="1" id="nameOfDeceased" value="#{neonatalVPMCrud.item.nameOfDeceased}" converter="#{defaultConverter}"/>
+            	<h:message for="nameOfDeceased" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+				<h:outputText value="Child Id:"/>
+	            <h:outputText />
+	            <h:inputText tabindex="2" styleClass="individual" autocomplete="off" id="indiv" value="#{neonatalVPMCrud.item.individual}" converter="#{individualExtIdConverter}" disabled="true" />
+	            <h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+				<h:outputText value="House Id:"/>
+		        <h:outputText />
+		        <h:inputText tabindex="3" styleClass="location" id="houseId" value="#{neonatalVPMCrud.item.house}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		        <h:message for="houseId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="House Name:"/>
+                <h:outputText />
+                <h:inputText tabindex="4" id="houseName" value="#{neonatalVPMCrud.item.houseNameOfDeceased}" converter="#{defaultConverter}"/>
+                <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+	            <h:outputText value="#{msg.fieldWorkerId}:"  />
+                <h:outputText />
+                <h:inputText tabindex="5" styleClass="collectedBy" autocomplete="off" id="collectedBy" value="#{neonatalVPMCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+                <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+				<h:outputText value="Date of interview: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <o:dateChooser tabindex="6" id="interviewDate" value="#{neonatalVPMCrud.interviewDate}" pattern="#{siteProperties.dateFormat}" />
+                <h:message for="interviewDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
+        
+        		<h:outputText value="#{msg.visitId}:" />
+                <h:outputText />
+                <h:inputText tabindex="7" styleClass="visit" autocomplete="off" id="visit" value="#{neonatalVPMCrud.item.visit}" converter="#{visitExtIdConverter}" title="Visit"/>
+                <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
+                
+        		<h:outputText value="Sex of child:"/>
+                <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="8" id="sexOfDeceased" value="#{neonatalVPMCrud.item.sexOfDeceased}" converter="#{defaultConverter}" />
+                <h:message for="sexOfDeceased" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+        		
+        		<f:verbatim><h3>Informant</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="What is the name of the main respondent:"/>
+                <h:outputText />
+                <h:inputText tabindex="9" id="nameOfRespondent" value="#{neonatalVPMCrud.item.nameOfRespondent}" converter="#{defaultConverter}"/>
+                <h:message for="nameOfRespondent" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="What is the relationship of the main respondent to the deceased child:"/>
+                <img class="clickable" onclick="O$('popupWindowForRelationshipOfRespondent').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="10" id="relationshipOfRespondent" value="#{neonatalVPMCrud.item.relationshipOfRespondent}" converter="#{defaultConverter}"/>
+                <h:message for="relationshipOfRespondent" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If the relationship to the deceased child is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="11" id="relationshipOfRespondentOther" value="#{neonatalVPMCrud.item.relationshipOfRespondentOther}" converter="#{defaultConverter}"/>
+                <h:message for="relationshipOfRespondentOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<f:verbatim><h3>Circumstances of the Death</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Date of birth of child: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <o:dateChooser tabindex="12" id="childDob" value="#{neonatalVPMCrud.childDob}" pattern="#{siteProperties.dateFormat}" />
+                <h:message for="childDob" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+        		<h:outputText value="Source of date of birth:"/>
+                <img class="clickable" onclick="O$('popupWindowForSourceOfDob').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="13" id="sourceOfDob" value="#{neonatalVPMCrud.item.sourceOfDob}" converter="#{defaultConverter}"/>
+                <h:message for="sourceOfDob" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If date of birth source is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="13" id="sourceOfDobOther" value="#{neonatalVPMCrud.item.sourceOfDobOther}" converter="#{defaultConverter}"/>
+                <h:message for="sourceOfDobOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+							
+				<h:outputText value="Date of death of child: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <o:dateChooser tabindex="14" id="childDeathDate" value="#{neonatalVPMCrud.childDeathDate}" pattern="#{siteProperties.dateFormat}" />
+                <h:message for="childDeathDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+        		<h:outputText value="Where did the child die?:"/>
+                <img class="clickable" onclick="O$('popupWindowForWhereDied').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="15" id="whereDied" value="#{neonatalVPMCrud.item.whereDied}" converter="#{defaultConverter}"/>
+                <h:message for="whereDied" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If where died is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="16" id="whereDiedOther" value="#{neonatalVPMCrud.item.whereDiedOther}" converter="#{defaultConverter}"/>
+                <h:message for="whereDiedOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If where died is hospital or health facilty, please specify the name:"/>
+                <h:outputText />
+                <h:inputText tabindex="17" id="whereDiedFacilityName" value="#{neonatalVPMCrud.item.whereDiedFacilityName}" converter="#{defaultConverter}"/>
+                <h:message for="whereDiedFacilityName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If where died is hospital or health facilty, please specify the address:"/>
+                <h:outputText />
+                <h:inputText tabindex="18" id="whereDiedFacilityAddress" value="#{neonatalVPMCrud.item.whereDiedFacilityAddress}" converter="#{defaultConverter}"/>
+                <h:message for="whereDiedFacilityAddress" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<f:verbatim><h3>Mother</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Year of birth of mother:"/>
+                <h:outputText />
+                <h:inputText tabindex="19" id="yearOfBirthOfMother" value="#{neonatalVPMCrud.item.yearOfBirthOfMother}" converter="#{defaultConverter}"/>
+                <h:message for="yearOfBirthOfMother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How many months was the mother pregnant with the child?:"/>
+                <h:outputText />
+                <h:inputText tabindex="20" id="numMonthsPregnant" value="#{neonatalVPMCrud.item.numMonthsPregnant}" converter="#{defaultConverter}"/>
+                <h:message for="numMonthsPregnant" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How many babies were born of this pregnancy?:"/>
+                <h:outputText />
+                <h:inputText tabindex="21" id="numBabiesBorn" value="#{neonatalVPMCrud.item.numBabiesBorn}" converter="#{defaultConverter}"/>
+                <h:message for="numBabiesBorn" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="Did the child's mother receive any tetanus vaccination since reaching adulthood before this pregnancy?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="22" id="receivedTetanusVaccination" value="#{neonatalVPMCrud.item.receivedTetanusVaccination}" converter="#{defaultConverter}"/>
+                <h:message for="receivedTetanusVaccination" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+				<h:outputText value="If the mother received tetanus vaccinations, how many doses?:"/>
+                <h:outputText />
+                <h:inputText tabindex="23" id="receivedTetanusVaccinationDose" value="#{neonatalVPMCrud.item.receivedTetanusVaccinationDose}" converter="#{defaultConverter}"/>
+                <h:message for="receivedTetanusVaccinationDose" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+        		<h:outputText value="Did the mother have any tetanol injections during the pregnancy?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="24" id="haveTetanolInjections" value="#{neonatalVPMCrud.item.haveTetanolInjections}" converter="#{defaultConverter}"/>
+                <h:message for="haveTetanolInjections" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+				<h:outputText value="If the mother received tetanol injections, how many doses?:"/>
+                <h:outputText />
+                <h:inputText tabindex="25" id="haveTetanolInjectionsDose" value="#{neonatalVPMCrud.item.haveTetanolInjectionsDose}" converter="#{defaultConverter}"/>
+                <h:message for="haveTetanolInjectionsDose" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How is the mother's health now?:"/>
+                <img class="clickable" onclick="O$('popupWindowForMothersHealthNow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="26" id="mothersHealthNow" value="#{neonatalVPMCrud.item.mothersHealthNow}" converter="#{defaultConverter}"/>
+                <h:message for="mothersHealthNow" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<f:verbatim><h3>Delivery</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Where was the child born?:"/>
+                <img class="clickable" onclick="O$('popupWindowForDeliveryLocation').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="27" id="deliveryLocation" value="#{neonatalVPMCrud.item.deliveryLocation}" converter="#{defaultConverter}"/>
+                <h:message for="deliveryLocation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If the delivery location is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="28" id="deliveryLocationOther" value="#{neonatalVPMCrud.item.deliveryLocationOther}" converter="#{defaultConverter}"/>
+                <h:message for="deliveryLocationOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="Who assisted in the delivery?:"/>
+                <img class="clickable" onclick="O$('popupWindowForAssistedDelivery').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="29" id="assistedDelivery" value="#{neonatalVPMCrud.item.assistedDelivery}" converter="#{defaultConverter}"/>
+                <h:message for="assistedDelivery" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If the delivery assistant is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="30" id="assistedDeliveryOther" value="#{neonatalVPMCrud.item.assistedDeliveryOther}" converter="#{defaultConverter}"/>
+                <h:message for="assistedDeliveryOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+        		<h:outputText value="Did the mother have a difficult labour?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="31" id="haveDifficultLabour" value="#{neonatalVPMCrud.item.haveDifficultLabour}" converter="#{defaultConverter}"/>
+                <h:message for="haveDifficultLabour" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="Did the child cry when he/she was born?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="32" id="didChildCry" value="#{neonatalVPMCrud.item.didChildCry}" converter="#{defaultConverter}"/>
+                <h:message for="didChildCry" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="What was used to cut the umbilical cord?:"/>
+                <img class="clickable" onclick="O$('popupWindowForUmbilicalCord').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="33" id="umbilicalCord" value="#{neonatalVPMCrud.item.umbilicalCord}" converter="#{defaultConverter}"/>
+                <h:message for="umbilicalCord" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If the umbilical cord was cut with other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="34" id="umbilicalCordOther" value="#{neonatalVPMCrud.item.umbilicalCordOther}" converter="#{defaultConverter}"/>
+                <h:message for="umbilicalCordOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+        		<h:outputText value="What was applied to the cord as dressing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForUmbilicalCordCut').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="35" id="umbilicalCordCut" value="#{neonatalVPMCrud.item.umbilicalCordCut}" converter="#{defaultConverter}"/>
+                <h:message for="umbilicalCordCut" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="If the dressing is other, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="36" id="umbilicalCordCutOther" value="#{neonatalVPMCrud.item.umbilicalCordCutOther}" converter="#{defaultConverter}"/>
+                <h:message for="umbilicalCordCutOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How many days old was the child when s/he became ill?:"/>
+                <h:outputText />
+                <h:inputText tabindex="37" id="daysOldWhenChildBecameIll" value="#{neonatalVPMCrud.item.daysOldWhenChildBecameIll}" converter="#{defaultConverter}"/>
+                <h:message for="daysOldWhenChildBecameIll" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How many days old was the child when s/he died?:"/>
+                <h:outputText />
+                <h:inputText tabindex="38" id="daysOldWhenChildDied" value="#{neonatalVPMCrud.item.daysOldWhenChildDied}" converter="#{defaultConverter}"/>
+                <h:message for="daysOldWhenChildDied" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+				<h:outputText value="How is the father's health now?:"/>
+                <img class="clickable" onclick="O$('popupWindowForMothersHealthNow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="39" id="fathersHealthNow" value="#{neonatalVPMCrud.item.fathersHealthNow}" converter="#{defaultConverter}"/>
+                <h:message for="fathersHealthNow" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+			</h:panelGrid>
+			
+			<h:panelGrid columns ="4">	
+					
+				<f:verbatim><h3>Open History Question</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Could you tell me about the illness that led to the baby's death?:"/>
+                <h:outputText />
+                <h:inputTextarea tabindex="40" cols="25" rows="5" id="aboutIllness" value="#{neonatalVPMCrud.item.aboutIllness}" converter="#{defaultConverter}"/>
+                <h:message for="aboutIllness" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+			</h:panelGrid>		
+			
+			<br />
+			<h:outputText value="Summary of signs and symptoms reported by respondent" />
+            <br /><br />
+           	<table width="35%" border="1" cellspacing="0" cellpadding="0" class="household-schedule">
+				<tr>
+					<th width="20%">Symptoms</th>
+					<th width="5%">Start (from time of death)</th>
+					<th width="5%">End (from time of death)</th>
+					<th width="5%">Severity <br /><br /><img class="clickable" onclick="O$('popupWindowForSymptomSeverity').showCentered();" src="../resources/images/question.png" /></th>
+				</tr>
+				<tr>
+					<td><h:inputText tabindex="41" id="symptom1" value="#{neonatalVPMCrud.item.symptom1}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="42" id="symptom1Start" value="#{neonatalVPMCrud.item.symptom1Start}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="43" id="symptom1End" value="#{neonatalVPMCrud.item.symptom1End}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="44" id="symptom1Severity" value="#{neonatalVPMCrud.item.symptom1Severity}" converter="#{defaultConverter}"/></td>
+				</tr>
+				<tr>
+					<td><h:inputText tabindex="45" id="symptom2" value="#{neonatalVPMCrud.item.symptom2}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="46" id="symptom2Start" value="#{neonatalVPMCrud.item.symptom2Start}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="47" id="symptom2End" value="#{neonatalVPMCrud.item.symptom2End}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="48" id="symptom2Severity" value="#{neonatalVPMCrud.item.symptom2Severity}" converter="#{defaultConverter}"/></td>
+				</tr>
+				<tr>
+					<td><h:inputText tabindex="49" id="symptom3" value="#{neonatalVPMCrud.item.symptom3}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="50" id="symptom3Start" value="#{neonatalVPMCrud.item.symptom3Start}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="51" id="symptom3End" value="#{neonatalVPMCrud.item.symptom3End}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="52" id="symptom3Severity" value="#{neonatalVPMCrud.item.symptom3Severity}" converter="#{defaultConverter}"/></td>
+				</tr>
+				<tr>
+					<td><h:inputText tabindex="53" id="symptom4" value="#{neonatalVPMCrud.item.symptom4}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="54" id="symptom4Start" value="#{neonatalVPMCrud.item.symptom4Start}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="55" id="symptom4End" value="#{neonatalVPMCrud.item.symptom4End}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="56" id="symptom4Severity" value="#{neonatalVPMCrud.item.symptom4Severity}" converter="#{defaultConverter}"/></td>
+				</tr>
+				<tr>
+					<td><h:inputText tabindex="57" id="symptom5" value="#{neonatalVPMCrud.item.symptom5}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="58" id="symptom5Start" value="#{neonatalVPMCrud.item.symptom5Start}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="59" id="symptom5End" value="#{neonatalVPMCrud.item.symptom5End}" converter="#{defaultConverter}"/></td>
+					<td><h:inputText tabindex="60" id="symptom5Severity" value="#{neonatalVPMCrud.item.symptom5Severity}" converter="#{defaultConverter}"/></td>
+				</tr>	
+			</table>	
+			
+			<br />
+			<h:panelGrid columns="4">
+			
+				<h:outputText value="When did the problem/illness start?:"/>
+                <img class="clickable" onclick="O$('popupWindowForIllnessStart').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="61" id="whenIllnessStarted" value="#{neonatalVPMCrud.item.whenIllnessStarted}" converter="#{defaultConverter}"/>
+                <h:message for="whenIllnessStarted" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="What was the length of time of the illness immediately preceding the child's death?:"/>
+                <h:outputText />
+                <h:inputText tabindex="62" id="lengthOfTimeOfIllness" value="#{neonatalVPMCrud.item.lengthOfTimeOfIllness}" converter="#{defaultConverter}"/>
+                <h:message for="lengthOfTimeOfIllness" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought outside the home while s/he had this illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="63" id="receivedCareOutsideHome" value="#{neonatalVPMCrud.item.receivedCareOutsideHome}" converter="#{defaultConverter}" onchange="determineCare()" />
+                <h:message for="receivedCareOutsideHome" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="How many days after the illness started was care sought?:"/>
+                <h:outputText />
+                <h:inputText styleClass="care" tabindex="64" id="receivedCareOutsideHomeNumDays" value="#{neonatalVPMCrud.item.receivedCareOutsideHomeNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareOutsideHomeNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a traditional healer?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="65" id="receivedCareFromTraditionalHealer" value="#{neonatalVPMCrud.item.receivedCareFromTraditionalHealer}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromTraditionalHealer" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a religious leader?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="66" id="receivedCareFromReligiousLeader" value="#{neonatalVPMCrud.item.receivedCareFromReligiousLeader}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromReligiousLeader" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a hospital?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="67" id="receivedCareFromHospital" value="#{neonatalVPMCrud.item.receivedCareFromHospital}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromHospital" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a health center/clinic?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="68" id="receivedCareFromHealthCenter" value="#{neonatalVPMCrud.item.receivedCareFromHealthCenter}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromHealthCenter" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a community-based practitioner (CHO, YZ)?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="69" id="receivedCareFromCHO" value="#{neonatalVPMCrud.item.receivedCareFromCHO}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromCHO" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a private physician or nurse?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="70" id="receivedCareFromNurse" value="#{neonatalVPMCrud.item.receivedCareFromNurse}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromNurse" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a pharmacy?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="71" id="receivedCareFromPharmacy" value="#{neonatalVPMCrud.item.receivedCareFromPharmacy}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromPharmacy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from a drug seller, store, or market?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="72" id="receivedCareFromDrugSeller" value="#{neonatalVPMCrud.item.receivedCareFromDrugSeller}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromDrugSeller" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from relatives or friends?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="73" id="receivedCareFromRelatives" value="#{neonatalVPMCrud.item.receivedCareFromRelatives}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromRelatives" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Was care sought from another source?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="care" tabindex="74" id="receivedCareFromOther" value="#{neonatalVPMCrud.item.receivedCareFromOther}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Specify the other source in which care was sought:"/>
+                <h:outputText />
+                <h:inputText styleClass="care" tabindex="75" id="receivedCareFromOtherSpecify" value="#{neonatalVPMCrud.item.receivedCareFromOtherSpecify}" converter="#{defaultConverter}"/>
+                <h:message for="receivedCareFromOtherSpecify" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="What or from whom was care sought first?:"/>
+                <h:outputText />
+                <h:inputText styleClass="care" tabindex="76" id="careSoughtFirst" value="#{neonatalVPMCrud.item.careSoughtFirst}" converter="#{defaultConverter}"/>
+                <h:message for="careSoughtFirst" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="What or from whom was care sought second?:"/>
+                <h:outputText />
+                <h:inputText styleClass="care" tabindex="77" id="careSoughtSecond" value="#{neonatalVPMCrud.item.careSoughtSecond}" converter="#{defaultConverter}"/>
+                <h:message for="careSoughtSecond" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="What or from whom was care sought third?:"/>
+                <h:outputText />
+                <h:inputText styleClass="care" tabindex="78" id="careSoughtThird" value="#{neonatalVPMCrud.item.careSoughtThird}" converter="#{defaultConverter}"/>
+                <h:message for="careSoughtThird" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<f:verbatim><h3>Accidents and Injuries</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Did s/he die from an injury or accident?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="79" id="dieFromInjuryOrAccident" value="#{neonatalVPMCrud.item.dieFromInjuryOrAccident}" converter="#{defaultConverter}" onchange="determineDiedFromAccident()"/>
+                <h:message for="dieFromInjuryOrAccident" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="What kind of injury or accident?:"/>
+                <img class="clickable" onclick="O$('popupWindowForAccidentType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="accident" tabindex="80" id="accidentType" value="#{neonatalVPMCrud.item.accidentType}" converter="#{defaultConverter}"/>
+                <h:message for="accidentType" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="If the accident type is other, please specify:"/>
+                <h:outputText />
+                <h:inputText styleClass="accident" tabindex="81" id="accidentTypeOther" value="#{neonatalVPMCrud.item.accidentTypeOther}" converter="#{defaultConverter}"/>
+                <h:message for="accidentTypeOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="If the accident type is animal bite, please specify what kind of animal bite:"/>
+                <img class="clickable" onclick="O$('popupWindowForAnimalBiteType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="accident" tabindex="82" id="animalBiteType" value="#{neonatalVPMCrud.item.animalBiteType}" converter="#{defaultConverter}"/>
+                <h:message for="animalBiteType" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Did s/he die at the site where the accident or injury occurred?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="accident" tabindex="83" id="diedAtAccident" value="#{neonatalVPMCrud.item.diedAtAccident}" converter="#{defaultConverter}"/>
+                <h:message for="diedAtAccident" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+				
+				<h:outputText value="For how long after the accident or injury did s/he survive?:"/>
+                <img class="clickable" onclick="O$('popupWindowForSurvivedBeforeDeath').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="accident" tabindex="84" id="survivedBeforeDeath" value="#{neonatalVPMCrud.item.survivedBeforeDeath}" converter="#{defaultConverter}"/>
+                <h:message for="survivedBeforeDeath" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Did the child receive medical care from the accident before death?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText styleClass="accident" tabindex="85" id="receivedMedicalAttention" value="#{neonatalVPMCrud.item.receivedMedicalAttention}" converter="#{defaultConverter}"/>
+                <h:message for="receivedMedicalAttention" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<f:verbatim><h3>Other Neonatal Conditions</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Did the child have malformation at birth?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="86" id="haveMalformation" value="#{neonatalVPMCrud.item.haveMalformation}" converter="#{defaultConverter}"/>
+                <h:message for="haveMalformation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="If the child has malformation, please specify:"/>
+                <h:outputText />
+                <h:inputText tabindex="87" id="malformationExplanation" value="#{neonatalVPMCrud.item.malformationExplanation}" converter="#{defaultConverter}"/>
+                <h:message for="malformationExplanation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="At the time of the birth was the child:"/>
+                <img class="clickable" onclick="O$('popupWindowForChildBirthSize').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="88" id="childSize" value="#{neonatalVPMCrud.item.childSize}" converter="#{defaultConverter}"/>
+                <h:message for="childSize" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Were there any bruises or signs of injury on the child's body after the birth?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="89" id="signsOfInjury" value="#{neonatalVPMCrud.item.signsOfInjury}" converter="#{defaultConverter}"/>
+                <h:message for="signsOfInjury" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+			
+				<h:outputText value="Did the child have difficulties in breathing soon after birth?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="90" id="difficultyBreathingAfterBirth" value="#{neonatalVPMCrud.item.difficultyBreathingAfterBirth}" converter="#{defaultConverter}"/>
+                <h:message for="difficultyBreathingAfterBirth" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="Did the child have difficulties in breathing after a period of wellbeing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="91" id="difficultyBreathingAfterPeriodWellbeing" value="#{neonatalVPMCrud.item.difficultyBreathingAfterPeriodWellbeing}" converter="#{defaultConverter}"/>
+                <h:message for="difficultyBreathingAfterPeriodWellbeing" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="Did the child have difficulties in feeding (sucking) soon after birth?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="92" id="difficultyFeedingAfterBirth" value="#{neonatalVPMCrud.item.difficultyFeedingAfterBirth}" converter="#{defaultConverter}"/>
+                <h:message for="difficultyFeedingAfterBirth" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="If the child had difficulties feeding, for how long?:"/>
+                <h:outputText />
+                <h:inputText tabindex="93" id="difficultyFeedingAfterBirthLength" value="#{neonatalVPMCrud.item.difficultyFeedingAfterBirthLength}" converter="#{defaultConverter}"/>
+                <h:message for="difficultyFeedingAfterBirthLength" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="Did the child have difficulties crying after a period of good health?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="94" id="difficultyCrying" value="#{neonatalVPMCrud.item.difficultyCrying}" converter="#{defaultConverter}"/>
+                <h:message for="difficultyCrying" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have spasms or convulsions?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="95" id="haveSpasms" value="#{neonatalVPMCrud.item.haveSpasms}" converter="#{defaultConverter}"/>
+                <h:message for="haveSpasms" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he become unresponsive or unconscious?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="96" id="wasUnresponsive" value="#{neonatalVPMCrud.item.wasUnresponsive}" converter="#{defaultConverter}"/>
+                <h:message for="wasUnresponsive" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have bulging fontanel?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="97" id="haveFontanel" value="#{neonatalVPMCrud.item.haveFontanel}" converter="#{defaultConverter}"/>
+                <h:message for="haveFontanel" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have yellow eyes or skin?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="98" id="haveYellowSkin" value="#{neonatalVPMCrud.item.haveYellowSkin}" converter="#{defaultConverter}"/>
+                <h:message for="haveYellowSkin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have redness around, or drainage from, the umbilical cord stump?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="99" id="haveRednessUmbilicalCord" value="#{neonatalVPMCrud.item.haveRednessUmbilicalCord}" converter="#{defaultConverter}"/>
+                <h:message for="haveRednessUmbilicalCord" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have areas of skin that were red, hot or peeling?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="100" id="havePeelingSkin" value="#{neonatalVPMCrud.item.havePeelingSkin}" converter="#{defaultConverter}"/>
+                <h:message for="havePeelingSkin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have skin rash with blisters containing pus?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="101" id="haveSkinRash" value="#{neonatalVPMCrud.item.haveSkinRash}" converter="#{defaultConverter}"/>
+                <h:message for="haveSkinRash" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death did s/he have fever?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="102" id="haveFever" value="#{neonatalVPMCrud.item.haveFever}" converter="#{defaultConverter}"/>
+                <h:message for="haveFever" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="If s/he had a fever, for how many days?:"/>
+                <h:outputText />
+                <h:inputText tabindex="103" id="haveFeverNumDays" value="#{neonatalVPMCrud.item.haveFeverNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="haveFeverNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="If s/he had a fever, was it throughout the period of the illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="104" id="haveFeverThroughIllness" value="#{neonatalVPMCrud.item.haveFeverThroughIllness}" converter="#{defaultConverter}"/>
+                <h:message for="haveFeverThroughIllness" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did the child's body feel cold when touched?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="105" id="bodyColdToTouch" value="#{neonatalVPMCrud.item.bodyColdToTouch}" converter="#{defaultConverter}"/>
+                <h:message for="bodyColdToTouch" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did s/he bleed from any part of the body?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="106" id="bleedFromBody" value="#{neonatalVPMCrud.item.bleedFromBody}" converter="#{defaultConverter}"/>
+                <h:message for="bleedFromBody" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="If bleeding from the body, please specify where:"/>
+                <h:outputText />
+                <h:inputText tabindex="107" id="bleedFromBodyLocation" value="#{neonatalVPMCrud.item.bleedFromBodyLocation}" converter="#{defaultConverter}"/>
+                <h:message for="bleedFromBodyLocation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did s/he have any vomiting or swelling of the abdomen?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="108" id="haveSwelling" value="#{neonatalVPMCrud.item.haveSwelling}" converter="#{defaultConverter}"/>
+                <h:message for="haveSwelling" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did s/he have diarrhoea?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="109" id="haveDiarrhoea" value="#{neonatalVPMCrud.item.haveDiarrhoea}" converter="#{defaultConverter}"/>
+                <h:message for="haveDiarrhoea" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="For how many days were the stools more frequent or liquid?:"/>
+                <h:outputText />
+                <h:inputText tabindex="110" id="haveDiarrhoeaNumDays" value="#{neonatalVPMCrud.item.haveDiarrhoeaNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="haveDiarrhoeaNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="On the day when diarrhoea is most frequent, how many times did s/he pass stools each day?:"/>
+                <h:outputText />
+                <h:inputText tabindex="111" id="haveDiarrhoeaNumDaysMostFrequent" value="#{neonatalVPMCrud.item.haveDiarrhoeaNumDaysMostFrequent}" converter="#{defaultConverter}"/>
+                <h:message for="haveDiarrhoeaNumDaysMostFrequent" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="Was there visible blood in the stools?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="112" id="haveBloodInStools" value="#{neonatalVPMCrud.item.haveBloodInStools}" converter="#{defaultConverter}"/>
+                <h:message for="haveBloodInStools" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the diarrhoea episode, was the child given any fluids such as ORS?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="113" id="givenFluids" value="#{neonatalVPMCrud.item.givenFluids}" converter="#{defaultConverter}"/>
+                <h:message for="givenFluids" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did s/he have any difficulty with breathing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="114" id="haveDifficultyBreathing" value="#{neonatalVPMCrud.item.haveDifficultyBreathing}" converter="#{defaultConverter}"/>
+                <h:message for="haveDifficultyBreathing" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="For how many days did the difficulty with breathing last?:"/>
+                <h:outputText />
+                <h:inputText tabindex="115" id="haveDifficultyBreathingNumDays" value="#{neonatalVPMCrud.item.haveDifficultyBreathingNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="haveDifficultyBreathingNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+        	
+        		<h:outputText value="During the illness that led to death, did s/he have fast breathing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="116" id="haveFastBreathing" value="#{neonatalVPMCrud.item.haveFastBreathing}" converter="#{defaultConverter}"/>
+                <h:message for="haveFastBreathing" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+        	
+        		<h:outputText value="For how many days did the fast breathing last?:"/>
+                <h:outputText />
+                <h:inputText tabindex="117" id="haveFastBreathingNumDays" value="#{neonatalVPMCrud.item.haveFastBreathingNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="haveFastBreathingNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+        	
+        		<h:outputText value="During the illness that led to death, did s/he have in drawing of the chest?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="118" id="haveDrawingChest" value="#{neonatalVPMCrud.item.haveDrawingChest}" converter="#{defaultConverter}"/>
+                <h:message for="haveDrawingChest" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+        	
+        		<h:outputText value="During the illness that led to death, did s/he have a cough?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="119" id="haveCough" value="#{neonatalVPMCrud.item.haveCough}" converter="#{defaultConverter}"/>
+                <h:message for="haveCough" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="For how many days did the cough last?:"/>
+                <h:outputText />
+                <h:inputText tabindex="120" id="haveCoughNumDays" value="#{neonatalVPMCrud.item.haveCoughNumDays}" converter="#{defaultConverter}"/>
+                <h:message for="haveCoughNumDays" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <h:outputText value="During the illness that led to death, did s/he have short periods of stopping and re-starting breathing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText tabindex="121" id="havePeriodsOfBreathing" value="#{neonatalVPMCrud.item.havePeriodsOfBreathing}" converter="#{defaultConverter}"/>
+                <h:message for="havePeriodsOfBreathing" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                
+                <f:verbatim><h3>Interviewer's comments and observations</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		<h:outputText />
+                
+                <h:outputText value="Comments:"/>
+                <h:outputText />
+                <h:inputTextarea tabindex="122" cols="25" rows="5" id="interviewersComments" value="#{neonatalVPMCrud.item.interviewersComments}" converter="#{defaultConverter}"/>
+                <h:message for="interviewersComments" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+           
+           		<h:outputText value="Certified correct on: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <o:dateChooser tabindex="123" id="certifiedCorrectDate" value="#{neonatalVPMCrud.certifiedCorrectDate}" pattern="#{siteProperties.dateFormat}" />
+                <h:message for="certifiedCorrectDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	            	
+           		<h:outputText value="Certified by:"/>
+              	<h:outputText />
+              	<h:inputText tabindex="124" id="correctedBy" value="#{neonatalVPMCrud.item.correctedBy}" converter="#{defaultConverter}" />
+                <h:message for="correctedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+        	</h:panelGrid>
+        
+  
+            <br />
+            
+            <h:commandButton action="#{neonatalVPMCrud.edit}" value="#{msg.lblSave}">
+            	<f:setPropertyActionListener target="#{jsfService.itemId}" value="#{neonatalVPMCrud.item.uuid}" />
+            </h:commandButton>
+			<script>
+          	//<![CDATA[
+	           
+	            function  determineDiedFromAccident() {
+	            	if ($('#form\\:dieFromInjuryOrAccident').val() == "1" ||
+						$('#form\\:dieFromInjuryOrAccident').val() == "8") {
+						$(".accident").attr("disabled", false);
+						$('#form\\:accidentType').focus();
+					}
+					else if ($('#form\\:dieFromInjuryOrAccident').val() == "2" ||
+							 $('#form\\:dieFromInjuryOrAccident').val() == "9") {
+						$(".accident").attr("disabled", true).val();
+					}
+	            };
+
+	            function determineCare() {
+	            	if ($('#form\\:receivedCareOutsideHome').val() == "1") {
+							$(".care").attr("disabled", false);
+							$('#form\\:receivedCareOutsideHomeNumDays').focus();
+						}
+						else if ($('#form\\:receivedCareOutsideHome').val() == "2" ||
+								 $('#form\\:dieFromInjuryOrAccident').val() == "9") {
+							$(".care").attr("disabled", true).val();
+						}
+	            };
+
+
+				$(document).ready(function() {
+					 $(".accident").attr("disabled", true);
+					 $(".care").attr("disabled", true);
+				});
+				
+        	//]]>
+        	</script>
+        </h:form>
+	</ui:define>
+</ui:composition>

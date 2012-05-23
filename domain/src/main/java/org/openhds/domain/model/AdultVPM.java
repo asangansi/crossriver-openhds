@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
@@ -26,6 +27,7 @@ import org.openhds.domain.constraint.Searchable;
 @Description(description = "Standard Verbal Autopsy Questionnaire for adolescent and adult deaths. (12 years and over)")
 @Entity
 @Table(name = "adultvpm")
+@XmlRootElement(name = "adultvpm")
 public class AdultVPM
     extends AuditableCollectedEntity
     implements Serializable
