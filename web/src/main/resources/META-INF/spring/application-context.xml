@@ -28,9 +28,9 @@
     <import resource="classpath*:/META-INF/spring/daoApplicationContext.xml" />
     <import resource="classpath*:/META-INF/spring/controllerSecurityContext.xml" />
     <import resource="classpath*:/META-INF/spring/reportApplicationContext.xml" />
-    <import resource="classpath*:/META-INF/spring/webserviceApplicationContext.xml" />
-    <import resource="classpath*:/META-INF/spring/ddiApplicationContext.xml" />
     <import resource="classpath*:/META-INF/spring/communityApplicationContext.xml" />
+    <import resource="classpath*:/META-INF/spring/ddiApplicationContext.xml" />
+    <import resource="classpath*:/META-INF/spring/webserviceApplicationContext.xml" />
                                            
     <bean id="authSuccessHandler" parent="baseTransactionBean">
     	<property name="target">
@@ -186,6 +186,18 @@
         <constructor-arg ref="individualDao" />
         <constructor-arg value="org.openhds.domain.model.Individual" />
         <constructor-arg value="java.lang.String" />
+    </bean>
+    
+    <bean id="individualConverterForHS" class="org.openhds.web.cvt.IndividualConverter" scope="session">
+    	<constructor-arg ref="baselineBean" />
+    	<constructor-arg ref="individualDao" />
+    	<constructor-arg value="true" />
+    </bean>
+    
+    <bean id="individualConverterWithoutUnkForHS" class="org.openhds.web.cvt.IndividualConverter" scope="session">
+    	<constructor-arg ref="baselineBean" />
+    	<constructor-arg ref="individualDao" />
+    	<constructor-arg value="false" />
     </bean>
     
     <bean id="inMigrationConverter" class="org.openhds.web.cvt.EntityConverterImpl">
@@ -442,8 +454,11 @@
         <property name="dao" ref="pregnancyDao" />
         <property name="converter" ref="pregnancyConverter" />
         <property name="entityService" ref="entityService" />
+        <property name="entityValidator" ref="entityValidator" />
         <property name="service" ref="pregnancyService" />
         <property name="sgService" ref="socialGroupService" />
+        <property name="individualService" ref="individualService" />
+        <property name="individualIdGenerator" ref="individualIdGenerator" />
     </bean>
     
     <bean id="pregnancyObservationCrud" parent="baseCrud" class="org.openhds.web.crud.impl.PregnancyObservationCrudImpl">
@@ -547,6 +562,7 @@
         <property name="socialGroupGenerator" ref="socialGroupIdGenerator" />
         <property name="locationGenerator" ref="locationIdGenerator" />
         <property name="individualGenerator" ref="individualIdGenerator" />
+        <property name="idResource" ref="idSchemeResource" />
         <property name="properties" ref="siteProperties" />
     </bean>
     
@@ -695,7 +711,7 @@
         <property name="femaleCode"><value>${female}</value></property>
         <property name="dataStatusWarningCode"><value>${dataStatusWarning}</value></property>
         <property name="dataStatusValidCode"><value>${dataStatusValid}</value></property>
-        <property name="dataStatusFatalCode"><value>${dataStatusFatal</value></property>
+        <property name="dataStatusFatalCode"><value>${dataStatusFatal}</value></property>
         <property name="dataStatusVoidCode"><value>${dataStatusVoid}</value></property>
         <property name="dataStatusPendingCode"><value>${dataStatusPending}</value></property>
         <property name="dataStatusClosedCode"><value>${dataStatusClosed}</value></property>

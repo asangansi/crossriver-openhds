@@ -2,11 +2,11 @@ package org.openhds.controller.service.impl;
 
 import java.sql.SQLException;
 import java.util.Calendar;
-import org.openhds.controller.exception.ConstraintViolations;
+import java.util.List;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.BaselineService;
 import org.openhds.controller.service.EntityService;
-import org.openhds.controller.service.MembershipService;
+import org.openhds.domain.model.AuditableCollectedEntity;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Location;
@@ -20,12 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor=Exception.class)
 public class BaselineServiceImpl implements BaselineService {
 
-	private MembershipService membershipService;
 	private EntityService entityService;
 	private SitePropertiesService siteProperties;
 	
-	public BaselineServiceImpl(MembershipService membershipService, EntityService entityService, SitePropertiesService siteProperties) {
-		this.membershipService = membershipService;
+	public BaselineServiceImpl(EntityService entityService, SitePropertiesService siteProperties) {
 		this.entityService = entityService;
 		this.siteProperties = siteProperties;
 	}
@@ -65,17 +63,11 @@ public class BaselineServiceImpl implements BaselineService {
 	    entityService.create(socialGroup);
 	    entityService.create(residency);
 	}
-	
-	public void createIndividual(Individual individual) throws IllegalArgumentException, ConstraintViolations, SQLException {
-		entityService.create(individual);
-	}
-	
-	public void createLocation(Location location) throws IllegalArgumentException, ConstraintViolations, SQLException {
-		entityService.create(location);
-	}
-	
-	public void createSocialGroup(SocialGroup group) throws IllegalArgumentException, ConstraintViolations, SQLException {
-		entityService.create(group);
+		
+	public void createEntities(List<AuditableCollectedEntity> list) throws IllegalArgumentException, ConstraintViolations, SQLException {
+		for (AuditableCollectedEntity entity : list) {
+			entityService.create(entity);
+		}
 	}
 		
 	public void createResidencyForIndividual(Individual individual, Location currentLocation, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException {

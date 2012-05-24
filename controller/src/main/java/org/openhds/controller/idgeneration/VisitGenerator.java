@@ -58,12 +58,21 @@ public class VisitGenerator extends Generator<Visit> {
 			}
 		}
 		
-		extId = sb.toString();
-		if (scheme.getIncrementBound() > 0) 
+		String locId = entityItem.getVisitLocation().getExtId();
+		HashMap<String, Integer> map = scheme.getFields();
+		int length = map.get(IdGeneratedFields.VISIT_LOCID.toString());
+		String suffix = locId.substring(length, locId.length());
+		sb.append(suffix);
+
+		if (scheme.getIncrementBound() > 0) {
+			entityItem.setExtId(sb.toString());
+			sb = new StringBuilder();
 			sb.append(buildNumberWithBound(entityItem, scheme));
-		else
-			sb.append(buildNumber(Visit.class, sb.toString(), scheme.isCheckDigit()));
-				
+		}
+		
+		if (scheme.isCheckDigit()) 
+			sb.append(generateCheckCharacter(sb.toString()));
+		
 		validateIdLength(sb.toString(), scheme);
 				
 		return sb.toString();
@@ -71,42 +80,29 @@ public class VisitGenerator extends Generator<Visit> {
 
 	@Override
 	public String buildNumberWithBound(Visit entityItem, IdScheme scheme) throws ConstraintViolations {
-		Visit visit = new Visit();
 		
-		Integer size = 1;
-		String result = "";
-		
-		// get length of the incrementBound
-		Integer incBound = scheme.getIncrementBound();
-		int incBoundLength = incBound.toString().length();
-
-		while (visit != null) {
-			
-			result = "";
-			String tempExtId = extId;
-						
-			while (result.toString().length() < incBoundLength) {
-				if (result.toString().length()+ size.toString().length() < incBoundLength)
-					result += "0";
-				if (result.toString().length() + size.toString().length() == incBoundLength)
-					result = result.concat(size.toString());
-			}
-			
-			if (extId == null)
-				tempExtId = entityItem.getExtId().concat(result);
-			else
-				tempExtId = tempExtId.concat(result);
-			
-			if (scheme.isCheckDigit()) {
-				String resultChar = generateCheckCharacter(tempExtId).toString();
-				result = result.concat(resultChar);
-				tempExtId = tempExtId.concat(resultChar);
-			}
-			
-			visit = genericDao.findByProperty(Visit.class, "extId", tempExtId);
-			size++;
+		int locationIdLength = scheme.getFields().get(IdGeneratedFields.VISIT_LOCID.toString());
+		int prefixLength = scheme.getPrefix().length() + locationIdLength;
+		if (scheme.getFields().get(IdGeneratedFields.VISIT_ROUND.toString()) > 0) {
+			prefixLength += 1;
 		}
-		return result;
+		
+		String prefix = entityItem.getExtId().substring(0, prefixLength);
+		String suffix = entityItem.getExtId().substring(prefixLength);
+		int maxNumberOfVisits = scheme.getIncrementBound();
+		int currentVisitNumber = 1;
+		
+		
+		Visit previousVisit = genericDao.findByProperty(Visit.class, "extId", prefix + currentVisitNumber + suffix, true);
+		while(previousVisit != null) {
+			if (currentVisitNumber >= maxNumberOfVisits) {
+				throw new ConstraintViolations("The number of visits for this round has been exceed. The max number of visits per round is set to: " + maxNumberOfVisits);
+			}
+			currentVisitNumber += 1;
+			previousVisit = genericDao.findByProperty(Visit.class, "extId", prefix + currentVisitNumber + suffix, true);
+		}
+		
+		return prefix + currentVisitNumber + suffix;
 	}
 	
 	public IdScheme getIdScheme() {

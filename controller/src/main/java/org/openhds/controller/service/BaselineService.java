@@ -2,8 +2,11 @@ package org.openhds.controller.service;
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.List;
+
 import org.openhds.domain.annotations.Authorized;
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.domain.model.AuditableCollectedEntity;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Location;
@@ -30,11 +33,5 @@ public interface BaselineService {
 	public void createMembershipForIndividual(Individual individual, Membership membership, SocialGroup socialgroup, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException, ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createIndividual(Individual individual) throws IllegalArgumentException, ConstraintViolations, SQLException; 
-
-	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createLocation(Location location) throws IllegalArgumentException, ConstraintViolations, SQLException;
-
-	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createSocialGroup(SocialGroup group) throws IllegalArgumentException, ConstraintViolations, SQLException;
+	public void createEntities(List<AuditableCollectedEntity> list) throws IllegalArgumentException, ConstraintViolations, SQLException;
 }

@@ -135,24 +135,24 @@ public class VisitTest extends AbstractTransactionalJUnit4SpringContextTests {
     	 LocationHierarchy locH1 = new LocationHierarchy();
     	
     	 locH1.setParent(new LocationHierarchy());
-    	 locH1.setName(locationHierarchyService.getLevel(1).getName());
-    	 locH1.setExtId("MOR");
-    	
+    	 locH1.setLevel(locationHierarchyService.getLevel(1));
+    	 locH1.setName("MOROGORO");
+
     	 locationHierarchyCrud.setItem(locH1);
     	 locationHierarchyCrud.create();
 	   
 	     LocationHierarchy locH2 = new LocationHierarchy();
 	     locH2.setParent(locH1);
-	     locH2.setName(locationHierarchyService.getLevel(2).getName());
-	     locH2.setExtId("IFA");
+	     locH2.setLevel(locationHierarchyService.getLevel(2));
+	     locH2.setName("IFAKARA");
    	    
  	     locationHierarchyCrud.setItem(locH2);
 	     locationHierarchyCrud.create();
 	  
 	     item = new LocationHierarchy();
 	     item.setParent(locH2);
-	     item.setName(locationHierarchyService.getLevel(3).getName());
-	     item.setExtId("MBI");
+	     item.setLevel(locationHierarchyService.getLevel(3));
+	     item.setName("MBINGU");
    	    
 	     locationHierarchyCrud.setItem(item);
  	     locationHierarchyCrud.create();

@@ -235,7 +235,7 @@ public class DemographicRatesController implements DemographicRatesService {
 	public void setAgeGroupsForPregnancyOutcomes(List<PregnancyOutcome> outcomes) {
 		for (PregnancyOutcome outcome : outcomes) {
 			Individual individual = outcome.getMother();
-			int days = (int) CalendarUtil.daysBetween(individual.getDob(), outcome.getOutcomeDate());		
+			int days = (int) CalendarUtil.daysBetween(individual.getDob(), outcome.getRecordedDate());		
 			long age = (long) (days / 365.25);
 			calculationService.setAgeGroupsForBirths(age, individual, outcome);
 		}

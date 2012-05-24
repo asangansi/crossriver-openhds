@@ -7,8 +7,9 @@
 	<h:form>
 		<div style="text-align:right;">
 			<div style="float:left;">
-				<h:commandButton value="#{msg.lblAddNew}" id="button1" action="addNew" immediate="true"/>
-
+				<h:commandButton value="#{msg.lblAddNew}" id="button1" action="#{pregnancyOutcomeCrud.createSetup}" />
+				
+				
 				<!-- Paging -->	
 				<ui:include src="/snippets/paging.xhtml">
 				     <ui:param name="currentCrud" value="#{pregnancyOutcomeCrud}"/>
@@ -26,44 +27,35 @@
 	            <h:outputText escape="false" value="#{msg.pregnancyOutcomeEmpty}" rendered="#{pregnancyOutcomeCrud.pager.totalCount == 0}" />
 	            <h:panelGroup rendered="#{pregnancyOutcomeCrud.pager.totalCount > 0}">
 	                <h:dataTable value="#{pregnancyOutcomeCrud.pagedItems}" var="item" 
-	                columnClasses="center,center,center,width3" width="100%"  >
+	                columnClasses="center,center,width3" width="100%"  >
 	                    <h:column>
 	                        <f:facet name="header">
-	                            <h:outputText value="#{msg.individualMotherId}"/>
+	                            <h:outputText value="Mother Id"/>
 	                        </f:facet>
 	                        <h:outputText value="#{item.mother}" converter="#{individualExtIdConverter}" />
 	                    </h:column>
 	                    <h:column>
 	                        <f:facet name="header">
-	                            <h:outputText value="#{msg.individualFatherId}"/>
+	                            <h:outputText value="Recorded Date"/>
 	                        </f:facet>
-	                        <h:outputText value="#{item.father}" converter="#{individualExtIdConverter}" />
-	                    </h:column>	  
-	                    <h:column>
-	                        <f:facet name="header">
-	                            <h:outputText value="#{msg.pregnancyOutcomeRecordedDate}"/>
-	                        </f:facet>
-	                        <h:outputText value="#{item.outcomeDate}" converter="#{calendarConverter}" />
+	                        <h:outputText value="#{item.recordedDate}" converter="#{calendarConverter}" />
 	                    </h:column>	                     
 	                    <h:column>
 	                        <f:facet name="header">
 	                            <h:outputText escape="false" value=""/>
 	                        </f:facet>                          	
-                           <h:commandLink action="details" >
-                           		<f:param name="itemId" value="#{item.uuid}" />
-                           		<h:graphicImage title="view" style="border: 0;" value="/resources/icons/details.ico"/>
-                           </h:commandLink>
-   
-                               <!--
-                               <h:commandLink action="edit">
-                                   <h:graphicImage title="#{msg.btnEdit}" style="border: 0;" value="/resources/icons/edit.ico"/>
-	                            <f:param name="itemId" value="#{item.uuid}"/>
+			                <h:outputLink value="#{request.contextPath}/amendment/pregnancyoutcome/details/#{item.uuid}">
+	                        	<h:graphicImage style="border: 0;" title="details" value="/resources/icons/details.ico" />
+	                        </h:outputLink>
+   							<h:commandLink action="#{pregnancyOutcomeCrud.editSetup}">
+                                <h:graphicImage title="#{msg.btnEdit}" style="border: 0;" value="/resources/icons/edit.ico"/>
+	                        	<f:param name="itemId" value="#{item.uuid}"/>
 	                        </h:commandLink>
 	                        <h:outputText value=" "/>
-	                        <h:commandLink action="Delete">
-                                           <h:graphicImage title="#{msg.btnDelete}" style="border: 0;" value="/resources/icons/delete.ico"/>
-	                            <f:param name="itemId" value="#{item.uuid}"/>
-	                        </h:commandLink> -->
+			                <h:commandLink  action="#{pregnancyOutcomeCrud.delete}">
+			                    <h:graphicImage title="delete" style="border: 0;" value="/resources/icons/delete.ico"/>
+			                    <f:param name="itemId" value="#{item.uuid}"/>
+			                </h:commandLink>
 	                    </h:column>	                   
 	                </h:dataTable>
 	        	</h:panelGroup>
@@ -72,43 +64,36 @@
             	<h:outputText escape="false" value="#{msg.pregnancyOutcomeEmpty}" rendered="#{fn:length(pregnancyOutcomeCrud.filteredPagedItems) == 0}" />
             	<h:panelGroup rendered="#{fn:length(pregnancyOutcomeCrud.filteredPagedItems) > 0}">
 		        	<h:dataTable value="#{pregnancyOutcomeCrud.filteredPagedItems}" var="item" 
-		            	columnClasses="center,center,center,width3" width="100%"  >
+		            	columnClasses="center,center,width3" width="100%"  >
 	                	<h:column>
 	                    	<f:facet name="header">
-	                        	<h:outputText value="#{msg.individualMotherId}"/>
+	                        	<h:outputText value="Mother Id"/>
 	                        </f:facet>
 	                        <h:outputText value="#{item.mother}" converter="#{individualExtIdConverter}" />
 	                    </h:column>
 	                    <h:column>
 	                        <f:facet name="header">
-	                            <h:outputText value="#{msg.individualFatherId}"/>
+	                            <h:outputText value="Recorded Date"/>
 	                        </f:facet>
-	                        <h:outputText value="#{item.father}" converter="#{individualExtIdConverter}" />
-	                    </h:column>	
-	                    <h:column>
-	                        <f:facet name="header">
-	                            <h:outputText value="#{msg.pregnancyOutcomeRecordedDate}"/>
-	                        </f:facet>
-	                        <h:outputText value="#{item.outcomeDate}" converter="#{calendarConverter}" />
+	                        <h:outputText value="#{item.recordedDate}" converter="#{calendarConverter}" />
 	                    </h:column>	                     
 	                    <h:column>
 	                        <f:facet name="header">
 	                            <h:outputText escape="false" value=""/>
 	                        </f:facet>
-                           <h:commandLink action="details" >
-                           		<f:param name="itemId" value="#{item.uuid}" />
-                           		<h:graphicImage title="view" style="border: 0;" value="/resources/icons/details.ico"/>
-                           </h:commandLink>
-                               <!--
-                               <h:commandLink action="edit">
-                                   <h:graphicImage title="#{msg.btnEdit}" style="border: 0;" value="/resources/icons/edit.ico"/>
-	                            <f:param name="itemId" value="#{item.uuid}"/>
+                           	<h:commandLink action="#{pregnancyOutcomeCrud.detailSetup}">
+                        		<h:graphicImage style="border: 0;" title="details" value="/resources/icons/details.ico" />
+                        		<f:param name="itemId" value="#{item.uuid}" />
+                        	</h:commandLink>
+                            <h:commandLink action="#{pregnancyOutcomeCrud.editSetup}">
+                                <h:graphicImage title="edit" style="border: 0;" value="/resources/icons/edit.ico"/>
+	                        	<f:param name="itemId" value="#{item.uuid}"/>
 	                        </h:commandLink>
 	                        <h:outputText value=" "/>
-	                        <h:commandLink action="Delete">
-                                           <h:graphicImage title="#{msg.btnDelete}" style="border: 0;" value="/resources/icons/delete.ico"/>
-	                            <f:param name="itemId" value="#{item.uuid}"/>
-	                        </h:commandLink> -->
+			                <h:commandLink  action="#{pregnancyOutcomeCrud.delete}">
+			                    <h:graphicImage title="delete" style="border: 0;" value="/resources/icons/delete.ico"/>
+			                    <f:param name="itemId" value="#{item.uuid}"/>
+			                </h:commandLink>
 	                    </h:column>	 
 		            </h:dataTable>
 	            </h:panelGroup>

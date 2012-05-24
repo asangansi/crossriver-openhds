@@ -180,7 +180,6 @@ public class ValidationRoutineBean {
 			errors.put("relationship", list);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void validateMemberships() {
 		setup();
 		run = true;	
@@ -191,28 +190,9 @@ public class ValidationRoutineBean {
 			if (processDeletedEntity(mem))
 				continue;
 			
-			try {
-				List<String> violations = entityValidator.validateType(mem);
-				membershipService.validateGeneralMembership(mem);
-								
-				if (violations.size() > 0) {
-					mem.setStatus(properties.getDataStatusFatalCode());
-					list.add("membership/details/" + mem.getUuid());
-					mem.setStatusMessage(violations.get(0));
-					genericDao.update(mem);
-				}	
-				else {
-					mem.setStatus(properties.getDataStatusValidCode());
-					mem.setStatusMessage("");
-					genericDao.update(mem);
-				}	
-			} 
-			catch (Exception e) { 
-				mem.setStatus(properties.getDataStatusFatalCode());
-				list.add("membership/details/" + mem.getUuid());
-				mem.setStatusMessage(e.getMessage());
-				genericDao.update(mem);
-			}		
+			mem.setStatus(properties.getDataStatusValidCode());
+			mem.setStatusMessage("");
+			genericDao.update(mem);	
 		}
 		if (list.size() > 0)
 			errors.put("membership", list);

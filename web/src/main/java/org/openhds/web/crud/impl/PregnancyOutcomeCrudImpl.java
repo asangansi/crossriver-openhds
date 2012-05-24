@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import org.openhds.controller.exception.AuthorizationException;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.controller.idgeneration.IndividualGenerator;
 import org.openhds.domain.model.Individual;
-import org.openhds.domain.model.Membership;
-import org.openhds.domain.model.Outcome;
 import org.openhds.domain.model.PregnancyOutcome;
-import org.openhds.domain.model.SocialGroup;
+import org.openhds.controller.service.EntityValidationService;
+import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.PregnancyService;
 import org.openhds.controller.service.SocialGroupService;
 
@@ -23,128 +25,138 @@ import org.openhds.controller.service.SocialGroupService;
  * @author Dave
  *
  */
+@SuppressWarnings("unchecked")
 public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, String> {
 
+	EntityValidationService entityValidator;
+	IndividualService individualService;
     PregnancyService service;
     SocialGroupService sgService;
-    
-	// this is binded to the outcome type select field within the jsf page
-    // its value will be the current outcome selected by the user
-    String selectedType;
-    
-    // represents the current outcome the user is working on
-    // this is only used when the user is adding a live birth to the pregnancy outcome
-    // they must first create an individual, than a membership which means the
-    // outcome must last thru several form transitions
-    // the outcome is only added to this pregnancy outcome after the user
-    // has completed the individual and membership create forms
-	private Outcome currentOutcome;
-	
+    IndividualGenerator individualIdGenerator;
+        	
     // used for manual conversion between Date and Calendar since the openFaces Calendar doesn't support JSF Converters
     Date recordedDate;
+    Date dobChild;
+    
+	Boolean motherIdChange = false;
+	Boolean secondChild = false;
 
     public PregnancyOutcomeCrudImpl(Class<PregnancyOutcome> entityClass) {
         super(entityClass);
         entityFilter = new PregnancyOutcomeFilter();
     }
+    
+	@Override
+	public String createSetup() {
+		motherIdChange = false;
+		secondChild = false;
+		return super.createSetup();
+	}
 
-    @Override
+	@Override
     public String create() {
-        try {
-            // verify integrity constraints
-            service.evaluatePregnancyOutcome(entityItem);
-            // create the pregnancy outcome
-            // NOTE: this crud never explicity calls the super.create
-            // because the service class will persist the pregnancy outcome
-            service.createPregnancyOutcome(entityItem);
-
-            return listSetup();
-        } catch (ConstraintViolations e) {
-            jsfService.addError(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            jsfService.addError(e.getMessage());
-        } catch (SQLException e) {
-            jsfService.addError(e.getMessage());
-        } catch (AuthorizationException e) {
-        	jsfService.addError(e.getMessage());
-        }
+    	 try {	
+         	if (entityValidator.checkConstraints(entityItem) == false) {
+ 	        	  // verify integrity constraints
+ 	             service.evaluatePregnancyOutcome(entityItem);
+ 	             // create the pregnancy outcome
+ 	             // NOTE: this crud never explicity calls the super.create
+ 	             // because the service class will persist the pregnancy outcome
+ 	             service.createPregnancyOutcome(entityItem);
+ 	             return listSetup();
+         	}
+         } catch (ConstraintViolations e) {
+             jsfService.addError(e.getMessage());
+         } catch (IllegalArgumentException e) {
+         	jsfService.addError(e.getMessage());
+ 		} catch (SQLException e) {
+ 			jsfService.addError(e.getMessage());
+ 		} 
         return null;
     }
-
-    /**
-     * Helper method called by the pregnancy flow when the user selects the Add Outcome button
-     * If the user has selected any outcome other than live birth, add it to the list of outcomes
-     * for this pregnancy. Otherwise prepare an outcome for live birth - user must create individual and membership
-     *
-     * @return the string liveBirth if user has selected live birth, otherwise the string other
-     */
-    public String addOutcome() {
-
-        if (selectedType.equals(properties.getLiveBirthCode())) {
-        	currentOutcome = new Outcome();
-        	currentOutcome.setType(properties.getLiveBirthCode());
-            return "liveBirth";
-        }
-
-        entityItem.addOutcome(selectedType, null);
-
-        // reset the selected item in drop down list
-        selectedType = properties.getLiveBirthCode();
-
-        return "other";
-    }
-
-    /**
-     * Helper method used by the pregnancy flow to set the child for the current outcome
-     * Called after the user hits the create button on the individual form
-     * @param individual
-     */
-    public void addChild(Individual individual) {
-        currentOutcome.setChild(individual);
-    }
-    
-    /**
-     * Helper method to retrieve the social group from the mother of the current individual
-     * @return
-     */
-    public SocialGroup getMothersSocialGroupForCurrentIndividual() {
-    	return sgService.getSocialGroupForIndividualByType(entityItem.getMother(), "FAM");
-    }
-    
-    /**
-     * Helper method used by the pregnancy flow to set the membership for the child of the current outcome
-     * Called after the user hits the create button on the membership form
-     * @param membership
-     */
-    public void setMembershipOnCurrentOutcome(Membership membership) {
-    	membership.setStartType(properties.getBirthCode());
-    	currentOutcome.setChildMembership(membership);
-    }
-    
-    /**
-     * Adds the currentOutcome to the list of outcomes for this pregnancy
-     * Called after the user hits the create button on the membership form
-     */
-    public void addCurrentOutcome() {
-    	entityItem.addLiveBirthOutcome(currentOutcome);
-    	currentOutcome = null;
-    }
-    
-    public Date getRecordedDate() {
+	
+	@Override
+	public String edit() {
+    	String outcome = super.edit();
     	
-    	if (entityItem.getOutcomeDate() == null)
+    	if (outcome != null) {
+    		return "pretty:pregnancyoutcomeEdit";
+    	}
+    	
+    	return null;
+	}
+	
+    public void motherIdChange(ValueChangeEvent event) {
+    	Individual mother = (Individual) event.getNewValue();
+    	
+    	try {		
+			generateChild1Id(mother);
+    	}
+		catch (Exception e) {
+			motherIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("motherExtId", message);
+		}
+    }
+
+    /**
+     * NOTE: This is also called from the flow
+     * 
+     * @param mother
+     * @throws ConstraintViolations
+     */
+	public void generateChild1Id(Individual mother) throws ConstraintViolations {
+		if (mother != null)
+			motherIdChange = true;
+		
+		entityItem.setMother(mother);
+		entityItem.setChild1(new Individual());
+		entityItem.getChild1().setExtId(individualIdGenerator.filterBound(entityItem.getMother().getExtId()));
+		entityItem.getChild1().setExtId(individualService.generateIdWithBound(entityItem.getChild1(), entityItem.getNumberOfLiveBirths()+1));
+	}
+	
+    public void secondChildChange(ValueChangeEvent event) {
+    	secondChild = (Boolean)event.getNewValue();
+    	
+    	if (secondChild) {
+    		entityItem.setChild2(new Individual());
+    		entityItem.getChild2().setExtId(individualIdGenerator.incrementId(entityItem.getChild1().getExtId()));
+    	}
+    	else
+    		entityItem.setChild2(null);
+    }
+    
+  public Date getRecordedDate() {
+    	
+    	if (entityItem.getRecordedDate() == null)
     		return new Date();
     	
-    	return entityItem.getOutcomeDate().getTime();
+    	return entityItem.getRecordedDate().getTime();
 	}
 
 	public void setRecordedDate(Date recordedDate) throws ParseException {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(recordedDate);
-		entityItem.setOutcomeDate(cal);
+		entityItem.setRecordedDate(cal);
 	}
-
+	
+	public Date getDobChild() {
+	    	
+    	if (entityItem.getDobChild() == null)
+    		return new Date();
+    	
+    	return entityItem.getDobChild().getTime();
+	}
+	
+	public void setDobChild(Date dobChild) throws ParseException {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dobChild);
+		entityItem.setDobChild(cal);
+	}
+	
     public PregnancyService getService() {
         return service;
     }
@@ -153,14 +165,54 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
         this.service = service;
     }
 
-    public String getSelectedType() {
-        return selectedType;
-    }
+	public SocialGroupService getSgService() {
+		return sgService;
+	}
 
-    public void setSelectedType(String selectedType) {
-        this.selectedType = selectedType;
-    }
+	public void setSgService(SocialGroupService sgService) {
+		this.sgService = sgService;
+	}
+	
+	public IndividualGenerator getIndividualIdGenerator() {
+		return individualIdGenerator;
+	}
 
+	public void setIndividualIdGenerator(IndividualGenerator individualIdGenerator) {
+		this.individualIdGenerator = individualIdGenerator;
+	}
+	
+ 	public IndividualService getIndividualService() {
+		return individualService;
+	}
+
+	public void setIndividualService(IndividualService individualService) {
+		this.individualService = individualService;
+	}
+	
+	public Boolean getMotherIdChange() {
+		return motherIdChange;
+	}
+
+	public void setMotherIdChange(Boolean motherIdChange) {
+		this.motherIdChange = motherIdChange;
+	}
+		
+	public Boolean getSecondChild() {
+		return secondChild;
+	}
+
+	public void setSecondChild(Boolean secondChild) {
+		this.secondChild = secondChild;
+	}	
+	
+	public EntityValidationService getEntityValidator() {
+		return entityValidator;
+	}
+
+	public void setEntityValidator(EntityValidationService entityValidator) {
+		this.entityValidator = entityValidator;
+	}
+	
     private class PregnancyOutcomeFilter implements EntityFilter<PregnancyOutcome> {
 
         @Override
@@ -171,12 +223,4 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
             return new ArrayList<PregnancyOutcome>();
         }
     }
-
-	public SocialGroupService getSgService() {
-		return sgService;
-	}
-
-	public void setSgService(SocialGroupService sgService) {
-		this.sgService = sgService;
-	}
 }

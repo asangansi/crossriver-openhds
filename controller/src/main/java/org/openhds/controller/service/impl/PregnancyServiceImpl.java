@@ -11,8 +11,7 @@ import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.PregnancyService;
 import org.openhds.domain.model.Individual;
-import org.openhds.domain.model.Location;
-import org.openhds.domain.model.Outcome;
+import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.PregnancyObservation;
 import org.openhds.domain.model.PregnancyOutcome;
 import org.openhds.domain.model.Residency;
@@ -84,17 +83,8 @@ public class PregnancyServiceImpl implements PregnancyService {
 	}
 
 	public PregnancyOutcome evaluatePregnancyOutcome(PregnancyOutcome entityItem) throws ConstraintViolations {
-		
-		int age = (int) (CalendarUtil.daysBetween(entityItem.getMother().getDob(), entityItem.getOutcomeDate()) / 365.25);
-		if (age < siteProperties.getMinimumAgeOfPregnancy())
-			throw new ConstraintViolations("The Mother specified is younger than the minimum age required to have a Pregnancy Outcome.");	
     	if (individualService.getLatestEvent(entityItem.getMother()).equals("Death"))
     		throw new ConstraintViolations("A Pregnancy Outcome cannot be created for a Mother who has a Death event.");	
-    	if (entityItem.getOutcomes().size() == 0) 
-    		throw new ConstraintViolations("A Pregnancy Outcome cannot be created unless it has at least 1 outcome.");
-		if (entityItem.getMother().getCurrentResidency() == null) 
-			throw new ConstraintViolations("A Pregnancy Outcome cannot be created because a Residency record cannot be found for the mother.");
-
 		return entityItem;
 	}
 	
@@ -107,59 +97,76 @@ public class PregnancyServiceImpl implements PregnancyService {
 	}
 
 	@Transactional(rollbackFor=Exception.class)
-	public void createPregnancyOutcome(PregnancyOutcome pregOutcome) throws IllegalArgumentException, ConstraintViolations, SQLException {
+	public void createPregnancyOutcome(PregnancyOutcome pregOutcome) throws IllegalArgumentException, SQLException, ConstraintViolations {
 		// the algorithm for completing a pregnancy outcome is as follows:
 		// (Please note, this may change in the future)
-		// If pregnancy outcome has live births
-		// for each child:
 		// - create the new child
 		// - create new residency for child and set the location to the mothers current residency location
 		// - create a membership to the mothers social group for which the social group is of type family 
-		
-		Location motherLocation = pregOutcome.getMother().getCurrentResidency().getLocation();
-		
-		List<PregnancyOutcome> persistedPOList = genericDao.findListByMultiProperty(PregnancyOutcome.class, 
-				getValueProperty("mother", pregOutcome.getMother()),
-				getValueProperty("outcomeDate", pregOutcome.getOutcomeDate()));
-		
-		PregnancyOutcome persistedPO = null;
-		if (!persistedPOList.isEmpty())
-			persistedPO = persistedPOList.get(0);
 
-		for(Outcome outcome : pregOutcome.getOutcomes()) {
-			if (persistedPO != null)
-				persistedPO.addOutcome(outcome);
-			
-			if (!outcome.getType().equals(siteProperties.getLiveBirthCode())) {
-				// not a live birth so individual, residency and membership not needed
-				continue;
-			}
-			
-			// create individual
-			entityService.create(outcome.getChild());
-			
-			// use mothers location for the residency
-			Residency residency = new Residency();
-			residency.setStartDate( pregOutcome.getOutcomeDate() );
-			residency.setIndividual(outcome.getChild());
-			residency.setStartType(siteProperties.getBirthCode());
-			residency.setLocation( motherLocation );
-			residency.setCollectedBy(pregOutcome.getCollectedBy());
-			residency.setEndType(siteProperties.getNotApplicableCode());
-			entityService.create(residency);
-			
-			// create membership
-			entityService.create(outcome.getChildMembership());
-		}
+		Individual child1 = pregOutcome.getChild1();	
+		child1.setDob(pregOutcome.getDobChild());
+		child1.setMother(pregOutcome.getMother());
+		child1.setFather(pregOutcome.getFather());
+		child1.setCollectedBy(pregOutcome.getCollectedBy());
+		pregOutcome.setChild1(child1);
+		entityService.create(child1);
 		
+		Residency residency1 = new Residency();
+		residency1.setStartDate(pregOutcome.getRecordedDate());
+		residency1.setIndividual(child1);
+		residency1.setStartType(siteProperties.getBirthCode());
+		residency1.setLocation(pregOutcome.getHouse());
+		residency1.setCollectedBy(pregOutcome.getCollectedBy());
+		residency1.setEndType(siteProperties.getNotApplicableCode());
+		child1.getAllResidencies().add(residency1);
+		entityService.create(residency1);
+		
+		Membership membership1 = new Membership();
+		membership1.setIndividual(child1);
+		membership1.setStartDate(child1.getDob());
+		membership1.setStartType(siteProperties.getBirthCode());
+		membership1.setEndType(siteProperties.getNotApplicableCode());
+		membership1.setSocialGroup(pregOutcome.getHousehold());
+		membership1.setbIsToA("99");
+		membership1.setCollectedBy(pregOutcome.getCollectedBy());
+		entityService.create(membership1);
+		
+		Individual child2 = pregOutcome.getChild2();
+		
+		if (child2 != null) {
+			
+			child2.setDob(pregOutcome.getDobChild());
+			child2.setMother(pregOutcome.getMother());
+			child2.setFather(pregOutcome.getFather());
+			child2.setCollectedBy(pregOutcome.getCollectedBy());
+			pregOutcome.setChild2(child2);
+			entityService.create(child2);
+			
+			Residency residency2 = new Residency();
+			residency2.setStartDate(pregOutcome.getRecordedDate());
+			residency2.setIndividual(child2);
+			residency2.setStartType(siteProperties.getBirthCode());
+			residency2.setLocation(pregOutcome.getHouse());
+			residency2.setCollectedBy(pregOutcome.getCollectedBy());
+			residency2.setEndType(siteProperties.getNotApplicableCode());
+			child2.getAllResidencies().add(residency2);
+			entityService.create(residency2);
+			
+			Membership membership2 = new Membership();
+			membership2.setIndividual(child2);
+			membership2.setStartDate(child2.getDob());
+			membership2.setStartType(siteProperties.getBirthCode());
+			membership2.setEndType(siteProperties.getNotApplicableCode());
+			membership2.setSocialGroup(pregOutcome.getHousehold());
+			membership2.setCollectedBy(pregOutcome.getCollectedBy());
+			membership2.setbIsToA("99");
+			entityService.create(membership2);
+		}
+				
 		// close any pregnancy observation
 		closePregnancyObservation(pregOutcome.getMother());
-		
-		if (persistedPO != null)
-			entityService.save(persistedPO);
-		// finally create the pregnancy outcome
-		else
-			entityService.create(pregOutcome);		
+		entityService.create(pregOutcome);		
 	}
 		
 	public List<PregnancyOutcome> findAllLiveBirthsBetweenInterval(Calendar startDate, Calendar endDate) {
@@ -168,16 +175,9 @@ public class PregnancyServiceImpl implements PregnancyService {
 		List<PregnancyOutcome> outcomes = genericDao.findAll(PregnancyOutcome.class, true);
 		
 		for (PregnancyOutcome outcome : outcomes) {			
-			Calendar outcomeDate = outcome.getOutcomeDate();
-			if ((outcomeDate.after(startDate) || outcomeDate.equals(startDate)) && 
-					(outcomeDate.before(endDate))) {
-				
-				List<Outcome> allOutcomes = outcome.getOutcomes();
-				for (Outcome o : allOutcomes) 
-					if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-						output.add(outcome);
-				}
-			}
+			Calendar outcomeDate = outcome.getRecordedDate();
+			if ((outcomeDate.after(startDate) || outcomeDate.equals(startDate)) && (outcomeDate.before(endDate))) 
+				output.add(outcome);
 		}
 		return output;
 	}
@@ -188,30 +188,28 @@ public class PregnancyServiceImpl implements PregnancyService {
 		List<PregnancyOutcome> outcomes = genericDao.findAll(PregnancyOutcome.class, true);
 		
 		for (PregnancyOutcome outcome : outcomes) {			
-			Calendar outcomeDate = outcome.getOutcomeDate();
-			if ((outcomeDate.after(startDate) || outcomeDate.equals(startDate)) && 
-					(outcomeDate.before(endDate))) {
+			Calendar outcomeDate = outcome.getRecordedDate();
+			if ((outcomeDate.after(startDate) || outcomeDate.equals(startDate)) && (outcomeDate.before(endDate))) {
 				
-				List<Outcome> allOutcomes = outcome.getOutcomes();
-				for (Outcome o : allOutcomes) {		
-					if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-						// male
-						if (flag == 0) {
-							if (o.getChild().getGender().equals(siteProperties.getMaleCode())) {
-								if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-									count++;
-								}
-							}
-						}
-						// female
-						else {
-							if (o.getChild().getGender().equals(siteProperties.getFemaleCode())) {
-								if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-									count++;
-								}
-							}
-						}
+				if (flag == 0) {
+					if (outcome.getChild1() != null) {
+						if (outcome.getChild1().getGender().equals(siteProperties.getMaleCode())) 
+							count++;
 					}
+					if (outcome.getChild2() != null) {
+						if (outcome.getChild2().getGender().equals(siteProperties.getMaleCode())) 
+							count++;
+					}	
+				}
+				else {
+					if (outcome.getChild1() != null) {
+						if (outcome.getChild1().getGender().equals(siteProperties.getFemaleCode())) 
+							count++;
+					}
+					if (outcome.getChild2() != null) {
+						if (outcome.getChild2().getGender().equals(siteProperties.getFemaleCode())) 
+							count++;
+					}	
 				}
 			}
 		}

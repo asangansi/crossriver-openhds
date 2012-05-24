@@ -63,7 +63,7 @@ INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mothe
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 7','ABBHA001','Abby','','Harold','2','2011-04-15','Unknown Individual','Unknown Individual','User 1','2012-03-22','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 INSERT INTO individual(uuid,extId,firstName,middleName,lastName,gender,dob,mother_uuid,father_uuid,insertBy_uuid,insertDate,status,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid) VALUES ('Indiv 8','PETBA001','Peter','','Bash','1','2009-01-01','Unknown Individual','Unknown Individual','User 1','2012-04-17','A',NULL,NULL,NULL,false,'UnknownFieldWorker')
 
-INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location1','MBI01','Harolds House',NULL,'RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 1')
+INSERT INTO location(uuid,extId,locationName,locationLevel_uuid,locationType,insertDate,voidDate,voidReason,voidBy_uuid,deleted,collectedBy_uuid,insertBy_uuid,status,locationHead_uuid) VALUES ('Location1','MBI001','Harolds House',NULL,'RUR','2012-02-28',NULL,NULL,NULL,false,'FieldWorker1','User 1','A','Indiv 1')
 
 INSERT INTO round(uuid,roundNumber,startDate,endDate) VALUES('ROUND 1',1,'2010-06-30','2010-07-31')
 INSERT INTO visit(uuid,extId,visitDate,status,insertDate,collectedBy_uuid,visitLocation_uuid,deleted,roundNumber,insertBy_uuid) VALUES ('Visit1','VMBI01','2012-02-28','P','2012-03-28','FieldWorker1','Location1',false,1,'User 1')

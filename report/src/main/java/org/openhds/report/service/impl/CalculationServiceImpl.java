@@ -10,7 +10,6 @@ import org.openhds.domain.model.Death;
 import org.openhds.domain.model.InMigration;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.OutMigration;
-import org.openhds.domain.model.Outcome;
 import org.openhds.domain.model.PregnancyOutcome;
 import org.openhds.domain.model.Residency;
 import org.openhds.domain.model.Visit;
@@ -402,13 +401,17 @@ public class CalculationServiceImpl implements CalculationService {
 		for (int i = 1; i < reportRecords.size(); i++) {
 			ReportRecordBean record = reportRecords.get(i);
 			if (age >= record.getMin() && age < record.getMax()) {
-				for (Outcome o : outcome.getOutcomes()) {
-					if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-						if (o.getChild().getGender().equals(siteProperties.getMaleCode())) 
-							record.addNumeratorMale();
-						else
-							record.addNumeratorFemale();
-					}
+				if (outcome.getChild1() != null) {
+					if (outcome.getChild1().getGender().equals(siteProperties.getMaleCode()))
+						record.addNumeratorMale();
+					else 
+						record.addNumeratorFemale();
+				}
+				if (outcome.getChild2() != null) {
+					if (outcome.getChild2().getGender().equals(siteProperties.getMaleCode()))
+						record.addNumeratorMale();
+					else 
+						record.addNumeratorFemale();
 				}
 			}
 		}

@@ -85,7 +85,7 @@ public class InMigrationTest {
 		 inmig.setHousehold(socialGroup);
 		 inmig.setEverRegistered(2);
 		 inmig.setReferencesTemporaryIndividual(false);
-		 inmig.setBIsToA("3");
+		 inmig.setBIsToA("03");
 		 inmig.setOrigin(1);
 		 inmig.setReason(1);
 		 inmig.setUnknownIndividual(false);

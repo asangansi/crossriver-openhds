@@ -194,29 +194,21 @@ public class AggregateServiceImpl implements AggregateService {
 			
 			if (hierarchyIds.contains(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId())) {
 				
-				Calendar outcomeDate = outcome.getOutcomeDate();
+				Calendar outcomeDate = outcome.getRecordedDate();
 				if ((outcomeDate.after(pregnancyGroup.getStart()) || outcomeDate.equals(pregnancyGroup.getStart())) && 
 						(outcomeDate.before(pregnancyGroup.getEnd()))) {
 					
-					List<Outcome> allOutcomes = outcome.getOutcomes();
-					
-					for (Outcome o : allOutcomes) {
-						
-						if (o.getType().equals(siteProperties.getLiveBirthCode())) {
-							if (o.getChild().getGender().equals(siteProperties.getMaleCode())) 
-								pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
-							if (o.getChild().getGender().equals(siteProperties.getFemaleCode()))
-								pregnancyGroup.getRecord().addFemaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
-						}
-						else if (o.getType().equals(siteProperties.getStillBirthCode())) {
-							pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 1);
-						}
-						else if (o.getType().equals(siteProperties.getMiscarriageCode())) {
-							pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 2);
-						}
-						else if (o.getType().equals(siteProperties.getAbortionCode())) {
-							pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 3);
-						}
+					if (outcome.getChild1() != null) {
+						if (outcome.getChild1().getGender().equals(siteProperties.getMaleCode())) 
+							pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
+						if (outcome.getChild1().getGender().equals(siteProperties.getFemaleCode())) 
+							pregnancyGroup.getRecord().addFemaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
+					}
+					if (outcome.getChild2() != null) {
+						if (outcome.getChild2().getGender().equals(siteProperties.getMaleCode())) 
+							pregnancyGroup.getRecord().addMaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
+						if (outcome.getChild2().getGender().equals(siteProperties.getFemaleCode())) 
+							pregnancyGroup.getRecord().addFemaleCountForLocationAndAgeGroup(outcome.getVisit().getVisitLocation().getLocationLevel().getExtId(), 0);
 					}
 				}
 			}

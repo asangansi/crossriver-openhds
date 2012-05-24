@@ -111,13 +111,7 @@ public class MembershipServiceImpl implements MembershipService {
 
         return membership;
     }
-    
-	public void validateGeneralMembership(Membership membership) throws ConstraintViolations {
-		if (individualIsHeadOfSocialGroup(membership.getIndividual(), membership.getSocialGroup())) {
-    		throw new ConstraintViolations("A Membership cannot be created for an Individual who is the head of the Social Group");
-    	}
-	}
-			
+    			
 	public List<Membership> getAllMemberships(Individual individual) {
 		List<Membership> items = genericDao.findListByProperty(Membership.class, "individual", individual, true);
 		return items;

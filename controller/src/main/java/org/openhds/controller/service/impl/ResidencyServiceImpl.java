@@ -120,6 +120,10 @@ public class ResidencyServiceImpl implements ResidencyService {
 		        log.debug("Residency overlays residency with uuid: " + previousResidency.getUuid());
 		        throw new ConstraintViolations("Residency cannot overlay a previous residency.");
 		    }
+		} else if (candidateResidency.getEndDate() != null && previousResidency.getEndDate() == null) {
+			if (candidateResidency.getEndDate().after(previousResidency.getStartDate())) {
+				throw new ConstraintViolations("Residency cannot have an end date that greater than the current residency start date");
+			}
 		}
 	}
     /*

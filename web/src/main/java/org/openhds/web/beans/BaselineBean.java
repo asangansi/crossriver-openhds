@@ -1,8 +1,10 @@
 package org.openhds.web.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -18,6 +20,7 @@ import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.controller.service.ResidencyService;
 import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.AuditableCollectedEntity;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Location;
@@ -26,7 +29,6 @@ import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.Relationship;
 import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.service.SitePropertiesService;
-import org.springframework.transaction.annotation.Transactional;
 
 public class BaselineBean implements Serializable {
 
@@ -61,9 +63,9 @@ public class BaselineBean implements Serializable {
 	IndividualService individualService;
 	LocationHierarchyService locationService;
 	
-	Generator socialGroupGenerator;
-	Generator locationGenerator;
-	Generator individualGenerator;
+	Generator<SocialGroup> socialGroupGenerator;
+	Generator<Location> locationGenerator;
+	Generator<Individual> individualGenerator;
 	IdSchemeResource idResource;
 	SitePropertiesService properties;
 
@@ -348,19 +350,21 @@ public class BaselineBean implements Serializable {
 		}
 	}
 
-	@Transactional
 	public void createNewHouse() throws ConstraintViolations {
 
 		try {
 			
+			List<AuditableCollectedEntity> entitiesList = new ArrayList<AuditableCollectedEntity>();
 			IndividualGenerator indivGen = (IndividualGenerator)individualGenerator;
 			individualGenerator.validateIdLength(headOfHouseId, indivGen.getIdScheme());
 			
 			houseErrorsFound = false;
+			
+			Individual head = null;
 			if (headOfHouse == null) {
 
 				// create House Head
-				Individual head = new Individual();
+				head = new Individual();
 				head.setFirstName(headOfHouseFName);
 				head.setLastName(headOfHouseLName);
 				head.setExtId(headOfHouseId);
@@ -369,7 +373,7 @@ public class BaselineBean implements Serializable {
 				head.setGender(properties.getUnknownIdentifier());
 				head.setCollectedBy(collectedBy);
 				head.setInsertDate(Calendar.getInstance());
-				baselineService.createIndividual(head);
+				entitiesList.add(head);
 				currentLocation.setLocationHead(head);
 			} else
 				currentLocation.setLocationHead(headOfHouse);
@@ -377,9 +381,11 @@ public class BaselineBean implements Serializable {
 			// create location
 			currentLocation.setCollectedBy(collectedBy);
 			currentLocation.setExtId(houseId);
-			currentLocation.setInsertDate(Calendar.getInstance());		
-			baselineService.createLocation(currentLocation);
-
+			currentLocation.setInsertDate(Calendar.getInstance());	
+			entitiesList.add(currentLocation);
+			
+			baselineService.createEntities(entitiesList);
+			
 			isNewHouse = false;
 			houseInfoComplete = true;
 
@@ -393,15 +399,13 @@ public class BaselineBean implements Serializable {
 		}
 	}
 
-	@Transactional
 	public void createNewHousehold() throws ConstraintViolations {
 
 		try {
-			
+			List<AuditableCollectedEntity> entitiesList = new ArrayList<AuditableCollectedEntity>();
 			IndividualGenerator indivGen = (IndividualGenerator)individualGenerator;
 			individualGenerator.validateIdLength(headOfHouseholdId, indivGen.getIdScheme());
-			Membership headMembership = null;
-			
+		
 			if (headOfHousehold == null) {
 
 				// create House Head
@@ -414,7 +418,7 @@ public class BaselineBean implements Serializable {
 				head.setGender(properties.getUnknownIdentifier());
 				head.setCollectedBy(collectedBy);
 				head.setInsertDate(Calendar.getInstance());
-				baselineService.createIndividual(head);
+				entitiesList.add(head);
 				currentSocialGroup.setGroupHead(head);
 				headOfHousehold = head;
 			} else
@@ -434,7 +438,7 @@ public class BaselineBean implements Serializable {
 				respondent.setGender(properties.getUnknownIdentifier());
 				respondent.setCollectedBy(collectedBy);
 				respondent.setInsertDate(Calendar.getInstance());
-				baselineService.createIndividual(respondent);
+				entitiesList.add(respondent);
 				currentSocialGroup.setRespondent(respondent);
 			}
 			else 
@@ -443,9 +447,10 @@ public class BaselineBean implements Serializable {
 			currentSocialGroup.setCollectedBy(collectedBy);
 			currentSocialGroup.setExtId(householdId);
 			currentSocialGroup.setInsertDate(Calendar.getInstance());
-			currentSocialGroup.setGroupType("FAM");				
-			baselineService.createSocialGroup(currentSocialGroup);
-			
+			currentSocialGroup.setGroupType("FAM");	
+			entitiesList.add(currentSocialGroup);
+			baselineService.createEntities(entitiesList);
+					
 			householdInfoComplete = true;
 			intitializeHouseholdSchedule();
 		} catch (Exception e) {
@@ -627,6 +632,7 @@ public class BaselineBean implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setHouseholdInformation() {
 
 		currentSocialGroup.setExtId(houseId);
@@ -1065,6 +1071,14 @@ public class BaselineBean implements Serializable {
 
 	public void setRespondentValid(boolean respondentValid) {
 		this.respondentValid = respondentValid;
+	}
+	
+	public IdSchemeResource getIdResource() {
+		return idResource;
+	}
+
+	public void setIdResource(IdSchemeResource idResource) {
+		this.idResource = idResource;
 	}
 
 	// this class is necessary in order to access the dob property using the
