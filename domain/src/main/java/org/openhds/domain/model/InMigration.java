@@ -77,51 +77,51 @@ public class InMigration
     @ManyToOne
     @Description(description = "Moving to household.")
     private SocialGroup household;
-    @Description(description = "Name of the household in which this inmigration took place")
-    private String householdName;
+    @Description(description = "Old cell phone number of the place where the migrant is moving from")
+    private String cellPhoneNumberMovingFrom;
     @Description(description = "Date of interview for the inmigration")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
-    @Description(description = "Old cell phone number of the place where the migrant is moving from")
-    private String cellPhoneNumberMovingFrom;
+    @Description(description = "Name of the household in which this inmigration took place")
+    private String householdName;
+    @Description(description = "Old village of the place where the migrant is moving from")
+    private String villageMovingFrom;
     @Description(description = "If reason for the inmigration is other, please specify")
     private String reasonOther;
-    @Description(description = "Temporary Id of the migrant")
-    private String currentIndividualNumber;
     @Description(description = "Old name of the place where the migrant was first registered")
     private String oldNameFirstReg;
+    @Description(description = "Temporary Id of the migrant")
+    private String currentIndividualNumber;
     @Description(description = "Old house name of the place where the migrant was first registered")
     private String houseNameFirstReg;
+    @Description(description = "Old cell phone number of the place where the migrant was first registered")
+    private String cellPhoneNumberFirstReg;
     @Description(description = "Old name of the place where the migrant is moving from")
     private String oldNameMovingFrom;
     @Description(description = "Number of years of formal education")
     private Integer formalEducationYears;
+    @Description(description = "Name of the house the migrant moved to")
+    private String houseName;
     @Description(description = "Old household name of the place where the migrant is moving from")
     private String householdNameMovingFrom;
     @Description(description = "Old section of the place where the migrant is moving from")
     private String sectionMovingFrom;
-    @Description(description = "Old house name of the place where the migrant is moving from")
-    private String houseNameMovingFrom;
     @Description(description = "Old section of the place where the migrant was first registered")
     private String sectionFirstReg;
+    @Description(description = "Old household name of the place where the migrant was first registered")
+    private String householdNameFirstReg;
+    @Description(description = "Old house name of the place where the migrant is moving from")
+    private String houseNameMovingFrom;
+    @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
+    private Boolean referencesTemporaryIndividual;
     @Description(description = "Has the member ever been registered")
     @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for everRegistered", allowNull = true)
     private Integer everRegistered;
-    @Description(description = "Old village of the place where the migrant is moving from")
-    private String villageMovingFrom;
-    @Description(description = "Old cell phone number of the place where the migrant was first registered")
-    private String cellPhoneNumberFirstReg;
-    @Description(description = "Name of the house the migrant moved to")
-    private String houseName;
-    @Description(description = "Old household name of the place where the migrant was first registered")
-    private String householdNameFirstReg;
-    @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
-    private Boolean referencesTemporaryIndividual;
-    @Description(description = "If the origin for the inmigration is other, place specify")
-    private String originOther;
     @Description(description = "Relationship type to the group head")
     private String bIsToA;
+    @Description(description = "If the origin for the inmigration is other, place specify")
+    private String originOther;
     @Description(description = "Old village of the place where the migrant was first registered")
     private String villageFirstReg;
 
@@ -189,7 +189,7 @@ public class InMigration
     public void setUnknownIndividual(Boolean flag) {
         unknownIndividual = flag;
     }
-    
+
     public Location getHouse() {
         return house;
     }
@@ -214,12 +214,12 @@ public class InMigration
         setMigType(MigrationType.EXTERNAL_INMIGRATION);
     }
 
-    public String getHouseholdName() {
-        return householdName;
+    public String getCellPhoneNumberMovingFrom() {
+        return cellPhoneNumberMovingFrom;
     }
 
-    public void setHouseholdName(String data) {
-        householdName = data;
+    public void setCellPhoneNumberMovingFrom(String data) {
+        cellPhoneNumberMovingFrom = data;
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
@@ -231,12 +231,20 @@ public class InMigration
         dateOfInterview = data;
     }
 
-    public String getCellPhoneNumberMovingFrom() {
-        return cellPhoneNumberMovingFrom;
+    public String getHouseholdName() {
+        return householdName;
     }
 
-    public void setCellPhoneNumberMovingFrom(String data) {
-        cellPhoneNumberMovingFrom = data;
+    public void setHouseholdName(String data) {
+        householdName = data;
+    }
+
+    public String getVillageMovingFrom() {
+        return villageMovingFrom;
+    }
+
+    public void setVillageMovingFrom(String data) {
+        villageMovingFrom = data;
     }
 
     public String getReasonOther() {
@@ -247,14 +255,6 @@ public class InMigration
         reasonOther = data;
     }
 
-    public String getCurrentIndividualNumber() {
-        return currentIndividualNumber;
-    }
-
-    public void setCurrentIndividualNumber(String data) {
-        currentIndividualNumber = data;
-    }
-
     public String getOldNameFirstReg() {
         return oldNameFirstReg;
     }
@@ -263,12 +263,28 @@ public class InMigration
         oldNameFirstReg = data;
     }
 
+    public String getCurrentIndividualNumber() {
+        return currentIndividualNumber;
+    }
+
+    public void setCurrentIndividualNumber(String data) {
+        currentIndividualNumber = data;
+    }
+
     public String getHouseNameFirstReg() {
         return houseNameFirstReg;
     }
 
     public void setHouseNameFirstReg(String data) {
         houseNameFirstReg = data;
+    }
+
+    public String getCellPhoneNumberFirstReg() {
+        return cellPhoneNumberFirstReg;
+    }
+
+    public void setCellPhoneNumberFirstReg(String data) {
+        cellPhoneNumberFirstReg = data;
     }
 
     public String getOldNameMovingFrom() {
@@ -287,6 +303,14 @@ public class InMigration
         formalEducationYears = data;
     }
 
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String data) {
+        houseName = data;
+    }
+
     public String getHouseholdNameMovingFrom() {
         return householdNameMovingFrom;
     }
@@ -303,52 +327,12 @@ public class InMigration
         sectionMovingFrom = data;
     }
 
-    public String getHouseNameMovingFrom() {
-        return houseNameMovingFrom;
-    }
-
-    public void setHouseNameMovingFrom(String data) {
-        houseNameMovingFrom = data;
-    }
-
     public String getSectionFirstReg() {
         return sectionFirstReg;
     }
 
     public void setSectionFirstReg(String data) {
         sectionFirstReg = data;
-    }
-
-    public Integer getEverRegistered() {
-        return everRegistered;
-    }
-
-    public void setEverRegistered(Integer data) {
-        everRegistered = data;
-    }
-
-    public String getVillageMovingFrom() {
-        return villageMovingFrom;
-    }
-
-    public void setVillageMovingFrom(String data) {
-        villageMovingFrom = data;
-    }
-
-    public String getCellPhoneNumberFirstReg() {
-        return cellPhoneNumberFirstReg;
-    }
-
-    public void setCellPhoneNumberFirstReg(String data) {
-        cellPhoneNumberFirstReg = data;
-    }
-
-    public String getHouseName() {
-        return houseName;
-    }
-
-    public void setHouseName(String data) {
-        houseName = data;
     }
 
     public String getHouseholdNameFirstReg() {
@@ -359,6 +343,14 @@ public class InMigration
         householdNameFirstReg = data;
     }
 
+    public String getHouseNameMovingFrom() {
+        return houseNameMovingFrom;
+    }
+
+    public void setHouseNameMovingFrom(String data) {
+        houseNameMovingFrom = data;
+    }
+
     public Boolean isReferencesTemporaryIndividual() {
         return referencesTemporaryIndividual;
     }
@@ -367,12 +359,12 @@ public class InMigration
         referencesTemporaryIndividual = data;
     }
 
-    public String getOriginOther() {
-        return originOther;
+    public Integer getEverRegistered() {
+        return everRegistered;
     }
 
-    public void setOriginOther(String data) {
-        originOther = data;
+    public void setEverRegistered(Integer data) {
+        everRegistered = data;
     }
 
     public String getBIsToA() {
@@ -381,6 +373,14 @@ public class InMigration
 
     public void setBIsToA(String data) {
         bIsToA = data;
+    }
+
+    public String getOriginOther() {
+        return originOther;
+    }
+
+    public void setOriginOther(String data) {
+        originOther = data;
     }
 
     public String getVillageFirstReg() {

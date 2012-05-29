@@ -222,41 +222,7 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarUnknownIndividual = jmsUnknownIndividual.param(java.lang.Boolean.class, "flag");
 		JBlock jmsUnknownIndividualBlock = jmsUnknownIndividual.body();
 		jmsUnknownIndividualBlock.assign(jfUnknownIndividual, jvarUnknownIndividual);
-		
-		// movedInPersonMother
-		JFieldVar jfMother = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "movedInPersonMother");
-		jfMother.annotate(javax.persistence.ManyToOne.class);
-		JAnnotationUse jaMotherDesc = jfMother.annotate(org.openhds.domain.annotations.Description.class);
-		jaMotherDesc.param("description", "Mother of the individual inmigrating, identified by external id.");
-		
-		// getter
-		JMethod jmgMother = jc.method(JMod.PUBLIC, org.openhds.domain.model.Individual.class, "getMovedInPersonMother");
-		JBlock jmgMotherBlock = jmgMother.body();
-		jmgMotherBlock._return(jfMother);
-		
-		// setter
-		JMethod jmsMother = jc.method(JMod.PUBLIC, void.class, "setMovedInPersonMother");
-		JVar jvarMother = jmsMother.param(org.openhds.domain.model.Individual.class, "mom");
-		JBlock jmsMotherBlock = jmsMother.body();
-		jmsMotherBlock.assign(jfMother, jvarMother);
-		
-		// movedInPersonFather
-		JFieldVar jfFather = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "movedInPersonFather");
-		jfFather.annotate(javax.persistence.ManyToOne.class);
-		JAnnotationUse jaFatherDesc = jfFather.annotate(org.openhds.domain.annotations.Description.class);
-		jaFatherDesc.param("description", "Father of the individual inmigrating, identified by external id.");
-		
-		// getter
-		JMethod jmgFather = jc.method(JMod.PUBLIC, org.openhds.domain.model.Individual.class, "getMovedInPersonFather");
-		JBlock jmgFatherBlock = jmgFather.body();
-		jmgFatherBlock._return(jfFather);
-		
-		// setter
-		JMethod jmsFather = jc.method(JMod.PUBLIC, void.class, "setMovedInPersonFather");
-		JVar jvarFather = jmsFather.param(org.openhds.domain.model.Individual.class, "father");
-		JBlock jmsFatherBlock = jmsFather.body();
-		jmsFatherBlock.assign(jfFather, jvarFather);
-		
+				
 		// house
 		JFieldVar jfHouse = jc.field(JMod.PRIVATE , org.openhds.domain.model.Location.class, "house");
 		jfHouse.annotate(org.openhds.domain.constraint.Searchable.class);
