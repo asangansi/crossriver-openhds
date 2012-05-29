@@ -264,6 +264,9 @@ public class BaselineBean implements Serializable {
 			indiv.setDobAspect(individual.getDobAspect());
 			indiv.setGender(individual.getGender());
 			indiv.setWorkStatus(individual.getWorkStatus());
+			indiv.setEducationalStatus(individual.getEducationalStatus());
+			indiv.setOccupationalStatus(individual.getOccupationalStatus());
+			indiv.setMaritalStatus(individual.getMaritalStatus());
 			indiv.setMother(individual.getMother());
 			indiv.setFather(individual.getFather());
 
@@ -305,6 +308,7 @@ public class BaselineBean implements Serializable {
 					relationship.setIndividualA(individual);
 					relationship.setStartDate(convertedEntryDate(entryDate));
 					relationship.setCollectedBy(collectedBy);
+					relationship.setaIsToB("2");
 					relationship.setEndType(properties.getNotApplicableCode());
 					baselineService
 							.createResidencyMembershipAndRelationshipForIndividual(

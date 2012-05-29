@@ -162,27 +162,27 @@
 	            	
 					<h:outputText value="First Name:" />
 					<h:outputText />
-					<h:outputText value="#{inMigrationCrud.item.movedInPersonFirstName}" />
+					<h:outputText value="#{inMigrationCrud.item.individual.firstName}" />
 					
 	      			<h:outputText value="Last Name:" />
 					<h:outputText />
-					<h:outputText value="#{inMigrationCrud.item.movedInPersonLastName}" />
+					<h:outputText value="#{inMigrationCrud.item.individual.lastName}" />
 					
 	      			<h:outputText value="Gender:" />
 					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:outputText value="#{inMigrationCrud.item.movedInPersonGender}" />
+					<h:outputText value="#{inMigrationCrud.item.individual.gender}" />
 					
 	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
                     <h:outputText />
-                    <h:outputText value="#{inMigrationCrud.item.movedInPersonDob}" converter="#{calendarConverter}" />
+                    <h:outputText value="#{inMigrationCrud.item.individual.dob}" converter="#{calendarConverter}" />
 	            		
 	            	<h:outputText value="Mother Id:"/>
 	            	<h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.movedInPersonMother}" converter="#{individualExtIdConverter}" />
+	                <h:outputText value="#{inMigrationCrud.item.individual.mother}" converter="#{individualExtIdConverter}" />
 	            	
 	            	<h:outputText value="Father Id:"/>
 	            	<h:outputText />
-	                <h:outputText value="#{inMigrationCrud.item.movedInPersonFather}" converter="#{individualExtIdConverter}" />
+	                <h:outputText value="#{inMigrationCrud.item.individual.father}" converter="#{individualExtIdConverter}" />
 	           	
 	           		<h:outputText value="Number of years of formal education:" />
 					<h:outputText />

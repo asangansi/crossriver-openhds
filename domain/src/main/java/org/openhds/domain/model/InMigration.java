@@ -69,12 +69,6 @@ public class InMigration
     private MigrationType migType = MigrationType.INTERNAL_INMIGRATION;
     @Description(description = "Flag for indicating if the individual who is inmigrating is known or not.")
     private Boolean unknownIndividual;
-    @ManyToOne
-    @Description(description = "Mother of the individual inmigrating, identified by external id.")
-    private Individual movedInPersonMother;
-    @ManyToOne
-    @Description(description = "Father of the individual inmigrating, identified by external id.")
-    private Individual movedInPersonFather;
     @Searchable
     @ManyToOne
     @Description(description = "Moving to house.")
@@ -118,19 +112,8 @@ public class InMigration
     private String villageMovingFrom;
     @Description(description = "Old cell phone number of the place where the migrant was first registered")
     private String cellPhoneNumberFirstReg;
-    @Description(description = "Last name of the individual inmigrating")
-    private String movedInPersonLastName;
-    @Description(description = "First name of the individual inmigrating")
-    private String movedInPersonFirstName;
     @Description(description = "Name of the house the migrant moved to")
     private String houseName;
-    @Description(description = "Date of birth of the individual inmigrating")
-    @Temporal(TemporalType.DATE)
-    @Past
-    private Calendar movedInPersonDob;
-    @Description(description = "Gender of the individual inmigrating")
-    @ExtensionIntegerConstraint(constraint = "genderConstraint", message = "Invalid Value for movedInPersonGender", allowNull = true)
-    private Integer movedInPersonGender;
     @Description(description = "Old household name of the place where the migrant was first registered")
     private String householdNameFirstReg;
     @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
@@ -206,23 +189,7 @@ public class InMigration
     public void setUnknownIndividual(Boolean flag) {
         unknownIndividual = flag;
     }
-
-    public Individual getMovedInPersonMother() {
-        return movedInPersonMother;
-    }
-
-    public void setMovedInPersonMother(Individual mom) {
-        movedInPersonMother = mom;
-    }
-
-    public Individual getMovedInPersonFather() {
-        return movedInPersonFather;
-    }
-
-    public void setMovedInPersonFather(Individual father) {
-        movedInPersonFather = father;
-    }
-
+    
     public Location getHouse() {
         return house;
     }
@@ -376,45 +343,12 @@ public class InMigration
         cellPhoneNumberFirstReg = data;
     }
 
-    public String getMovedInPersonLastName() {
-        return movedInPersonLastName;
-    }
-
-    public void setMovedInPersonLastName(String data) {
-        movedInPersonLastName = data;
-    }
-
-    public String getMovedInPersonFirstName() {
-        return movedInPersonFirstName;
-    }
-
-    public void setMovedInPersonFirstName(String data) {
-        movedInPersonFirstName = data;
-    }
-
     public String getHouseName() {
         return houseName;
     }
 
     public void setHouseName(String data) {
         houseName = data;
-    }
-
-    @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
-    public Calendar getMovedInPersonDob() {
-        return movedInPersonDob;
-    }
-
-    public void setMovedInPersonDob(Calendar data) {
-        movedInPersonDob = data;
-    }
-
-    public Integer getMovedInPersonGender() {
-        return movedInPersonGender;
-    }
-
-    public void setMovedInPersonGender(Integer data) {
-        movedInPersonGender = data;
     }
 
     public String getHouseholdNameFirstReg() {

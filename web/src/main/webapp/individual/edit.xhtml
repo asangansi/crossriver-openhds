@@ -56,7 +56,27 @@
                 <img class="clickable" onclick="O$('popupWindowForMaritalStatusOfDeceased').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                 <h:inputText id="maritalStatus" value="#{individualCrud.item.maritalStatus}" converter="#{defaultConverter}"/>
                 <h:message for="maritalStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-					       	  
+					      
+				<h:outputText value="Educational status:"/>
+                <img class="clickable" onclick="O$('popupWindowForEducationalStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText id="educationalStatus" value="#{individualCrud.item.educationalStatus}" converter="#{defaultConverter}"/>
+                <h:message for="educationalStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					   
+				<h:outputText value="If other, specify:"/>
+				<h:outputText />
+                <h:inputText id="educationalStatusOther" value="#{individualCrud.item.educationalStatusOther}" converter="#{defaultConverter}"/>
+                <h:message for="educationalStatusOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					       
+				<h:outputText value="Occupational status:"/>
+                <img class="clickable" onclick="O$('popupWindowForOccupationalStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:inputText id="occupationalStatus" value="#{individualCrud.item.occupationalStatus}" converter="#{defaultConverter}"/>
+                <h:message for="occupationalStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>  
+					      
+				<h:outputText value="If other, specify:"/>
+				<h:outputText />
+                <h:inputText id="occupationalStatusOther" value="#{individualCrud.item.occupationalStatusOther}" converter="#{defaultConverter}"/>
+                <h:message for="occupationalStatusOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>             
+					       	                    	             	  
                 <h:outputText value="#{msg.individualDob} (#{siteProperties.dateFormat})"/>
                 <h:outputText />
                 <o:dateChooser id="date_B" value="#{individualCrud.dateOfBirth}" pattern="#{siteProperties.dateFormat}" />

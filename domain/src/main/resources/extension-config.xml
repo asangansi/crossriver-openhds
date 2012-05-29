@@ -5,7 +5,7 @@
 	</entity>
 	<entity name="Individual">
 		<attributes>
-	 	<attribute><constraint>workStatusConstraint</constraint><name>workStatus</name><description>The work status of the individual</description><type>Integer</type></attribute><attribute><constraint>maritalStatusOfDeceasedConstraint</constraint><name>maritalStatus</name><description>Marital status of the individual</description><type>Integer</type></attribute></attributes>
+	 	<attribute><constraint>workStatusConstraint</constraint><name>workStatus</name><description>The work status of the individual</description><type>Integer</type></attribute><attribute><constraint>maritalStatusOfDeceasedConstraint</constraint><name>maritalStatus</name><description>Marital status of the individual</description><type>Integer</type></attribute><attribute><constraint>educationalStatusConstraint</constraint><name>educationalStatus</name><description>Educational Status of individual</description><type>Integer</type></attribute><attribute><constraint>none</constraint><name>educationalStatusOther</name><description>Specify the educational status of the individual</description><type>String</type></attribute><attribute><constraint>occupationalStatusConstraint</constraint><name>occupationalStatus</name><description>Occupational status of the individual</description><type>Integer</type></attribute><attribute><constraint>none</constraint><name>occupationalStatusOther</name><description>Specify the occupational status of the individual</description><type>String</type></attribute></attributes>
 	</entity>
 	<entity name="SocialGroup">
 		<attributes>

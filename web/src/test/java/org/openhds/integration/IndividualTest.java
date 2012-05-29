@@ -56,7 +56,7 @@ public class IndividualTest extends AbstractTransactionalJUnit4SpringContextTest
 		 Individual mother = new Individual();
 	     mother.setFirstName("First");
 	     mother.setLastName("Last");
-	     mother.setExtId("FIRLA00101");
+	     mother.setExtId("TANIDU0010101");
 	     mother.setGender(siteProperties.getFemaleCode());
 	     mother.setDobAspect("1");
 	     mother.setMother(unknownIndiv);

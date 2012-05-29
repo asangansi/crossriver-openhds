@@ -208,6 +208,7 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 			return;
 		}
 		
+		entityItem.setIndividual(indiv);
 		String sgExtId = entityItem.getHousehold().getExtId();
 		boolean alreadyInSocialGroup = false;
 		for(Membership mem : indiv.getAllMemberships()) {
@@ -316,17 +317,17 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 	
     public Date getMovedInPersonDob() {
     	
-    	if (entityItem.getMovedInPersonDob() == null)
+    	if (entityItem.getIndividual().getDob() == null)
     		return new Date();
     	
-    	return entityItem.getMovedInPersonDob().getTime();
+    	return entityItem.getIndividual().getDob().getTime();
 	}
 
 	public void setMovedInPersonDob(Date movedInPersonDob) throws ParseException {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(movedInPersonDob);
-		entityItem.setMovedInPersonDob(cal);
+		entityItem.getIndividual().setDob(cal);
 	}
 	
 	public IndividualService getIndividualService() {

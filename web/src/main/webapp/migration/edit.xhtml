@@ -204,17 +204,17 @@
 	            	
 	            	<h:outputText value="First Name:" />
 					<h:outputText />
-					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.movedInPersonFirstName}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.individual.firstName}" converter="#{defaultConverter}" />
 					<h:message for="firstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Last Name:" />
 					<h:outputText />
-					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.movedInPersonLastName}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.individual.lastName}" converter="#{defaultConverter}" />
 					<h:message for="lastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Gender:" />
 					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.movedInPersonGender}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.individual.gender}" converter="#{defaultConverter}" />
 					<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
@@ -224,12 +224,12 @@
 	            		
 	            	<h:outputText value="Mother Id:"/>
 	            	<h:outputText />
-	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.movedInPersonMother}" title="Individual #" converter="#{individualExtIdConverter}" />
+	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.individual.mother}" converter="#{individualExtIdConverter}" />
 	            	<h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 	            	<h:outputText value="Father Id:"/>
 	            	<h:outputText />
-	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.movedInPersonFather}" title="Individual #" converter="#{individualExtIdConverter}" />
+	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.individual.father}" converter="#{individualExtIdConverter}" />
 	            	<h:message for="father" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
 	           	
 	           		<h:outputText value="Number of years of formal education:" />

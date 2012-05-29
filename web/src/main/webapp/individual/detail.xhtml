@@ -51,7 +51,23 @@
                 <h:outputText value="Marital status:"/>
                 <img class="clickable" onclick="O$('popupWindowForMaritalStatusOfDeceased').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                 <h:outputText value="#{individualCrud.item.maritalStatus}" />
-                     	   
+                     
+                <h:outputText value="Educational status:"/>
+                <img class="clickable" onclick="O$('popupWindowForMaritalStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{individualCrud.item.educationalStatus}" />
+                
+                <h:outputText value="If other, specify:"/>
+                <h:outputText />
+                <h:outputText value="#{individualCrud.item.educationalStatusOther}" />
+                     	    
+                <h:outputText value="Occupational status:"/>
+                <img class="clickable" onclick="O$('popupWindowForOccupationalStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{individualCrud.item.occupationalStatus}" />
+                
+                <h:outputText value="If other, specify:"/>
+                <h:outputText />
+                <h:outputText value="#{individualCrud.item.occupationalStatusOther}" />
+                      	   
                 <h:outputText value="#{msg.individualDob}:"/>
                 <h:outputText />
                 <h:outputText value="#{individualCrud.item.dob}" converter="#{calendarConverter}" />

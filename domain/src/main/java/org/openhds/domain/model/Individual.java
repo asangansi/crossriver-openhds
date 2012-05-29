@@ -100,9 +100,19 @@ public class Individual
     @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL)
     @Description(description = "The set of all memberships the individual is participating in.")
     private Set<Membership> allMemberships = new HashSet<Membership>();
+    @Description(description = "Specify the occupational status of the individual")
+    private String occupationalStatusOther;
+    @Description(description = "Specify the educational status of the individual")
+    private String educationalStatusOther;
+    @Description(description = "Educational Status of individual")
+    @ExtensionIntegerConstraint(constraint = "educationalStatusConstraint", message = "Invalid Value for educationalStatus", allowNull = true)
+    private Integer educationalStatus;
     @Description(description = "The work status of the individual")
     @ExtensionIntegerConstraint(constraint = "workStatusConstraint", message = "Invalid Value for workStatus", allowNull = true)
     private Integer workStatus;
+    @Description(description = "Occupational status of the individual")
+    @ExtensionIntegerConstraint(constraint = "occupationalStatusConstraint", message = "Invalid Value for occupationalStatus", allowNull = true)
+    private Integer occupationalStatus;
     @Description(description = "Marital status of the individual")
     @ExtensionIntegerConstraint(constraint = "maritalStatusOfDeceasedConstraint", message = "Invalid Value for maritalStatus", allowNull = true)
     private Integer maritalStatus;
@@ -231,12 +241,44 @@ public class Individual
         return all;
     }
 
+    public String getOccupationalStatusOther() {
+        return occupationalStatusOther;
+    }
+
+    public void setOccupationalStatusOther(String data) {
+        occupationalStatusOther = data;
+    }
+
+    public String getEducationalStatusOther() {
+        return educationalStatusOther;
+    }
+
+    public void setEducationalStatusOther(String data) {
+        educationalStatusOther = data;
+    }
+
+    public Integer getEducationalStatus() {
+        return educationalStatus;
+    }
+
+    public void setEducationalStatus(Integer data) {
+        educationalStatus = data;
+    }
+
     public Integer getWorkStatus() {
         return workStatus;
     }
 
     public void setWorkStatus(Integer data) {
         workStatus = data;
+    }
+
+    public Integer getOccupationalStatus() {
+        return occupationalStatus;
+    }
+
+    public void setOccupationalStatus(Integer data) {
+        occupationalStatus = data;
     }
 
     public Integer getMaritalStatus() {

@@ -86,7 +86,7 @@ public class SocialGroupTest extends AbstractTransactionalJUnit4SpringContextTes
 		 socialGroup.setGroupHead(individual);
 		 socialGroup.setGroupName("Group");
 		 socialGroup.setGroupType("FAM");
-		 socialGroup.setExtId("SG001001");
+		 socialGroup.setExtId("TANIDU00101");
 		 socialGroup.setCollectedBy(fieldWorker);
 		 socialGroup.setRespondent(individual);
 		 socialGroup.setDateOfInterview(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2000));

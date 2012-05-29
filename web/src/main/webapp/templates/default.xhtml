@@ -1197,12 +1197,42 @@
 				<input type="button" value="Close [X]" onclick="O$('popupWindowForMaritalStatus').hide();"/>
 			</div>
 			<div style="overflow:auto;padding:.5em;">
-				<h3>Marital Status valid values:</h3>
+				<h3>Valid values:</h3>
 				<ul>
 					<c:forEach items="#{valueExtensionIterator.maritalStatusConstraint}" var="dv">
 						<li>#{dv.key} - #{dv.value}</li>
 					</c:forEach>
 				</ul>
 	    	</div>
-	</o:popupLayer>				
+	</o:popupLayer>		
+	<o:popupLayer id="popupWindowForEducationalStatus"
+	              width="30%"
+	              height="30%">
+			<div style="position:absolute;right:1%;top:1%">
+				<input type="button" value="Close [X]" onclick="O$('popupWindowForEducationalStatus').hide();"/>
+			</div>
+			<div style="overflow:auto;padding:.5em;">
+				<h3>Valid values:</h3>
+				<ul>
+					<c:forEach items="#{valueExtensionIterator.educationalStatusConstraint}" var="dv">
+						<li>#{dv.key} - #{dv.value}</li>
+					</c:forEach>
+				</ul>
+	    	</div>
+	</o:popupLayer>
+	<o:popupLayer id="popupWindowForOccupationalStatus"
+	              width="30%"
+	              height="30%">
+			<div style="position:absolute;right:1%;top:1%">
+				<input type="button" value="Close [X]" onclick="O$('popupWindowForOccupationalStatus').hide();"/>
+			</div>
+			<div style="overflow:auto;padding:.5em;">
+				<h3>Valid values:</h3>
+				<ul>
+					<c:forEach items="#{valueExtensionIterator.occupationalStatusConstraint}" var="dv">
+						<li>#{dv.key} - #{dv.value}</li>
+					</c:forEach>
+				</ul>
+	    	</div>
+	</o:popupLayer>						
 </html>
