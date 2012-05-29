@@ -1,10 +1,17 @@
 package org.openhds.controller.idgeneration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.domain.model.Location;
+import org.openhds.domain.model.LocationHierarchy;
+import org.openhds.domain.model.LocationHierarchyLevel;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Brian
@@ -16,7 +23,7 @@ import org.openhds.domain.model.Location;
  */
 
 public class LocationGenerator extends Generator<Location> {
-
+		
 	@Override
 	public String generateId(Location location) throws ConstraintViolations  {
 		StringBuilder sb = new StringBuilder();	
@@ -25,8 +32,21 @@ public class LocationGenerator extends Generator<Location> {
 		HashMap<String, Integer> fields = scheme.getFields();
 		Iterator<String> itr = fields.keySet().iterator();
 		
-		sb.append(scheme.getPrefix().toUpperCase());
-		
+		if (scheme.getPrefix() != null) {	
+			LocationHierarchyLevel level = genericDao.findByProperty(LocationHierarchyLevel.class, "name", scheme.getPrefix());
+			List<LocationHierarchy> hierarchyItems = genericDao.findListByProperty(LocationHierarchy.class, "level", level);
+
+			for (LocationHierarchy item : hierarchyItems) {
+				List<String> locs = getValidLocationsInHierarchy(item.getExtId());
+				
+				for (String name : locs) {
+					if (name.equals(location.getLocationLevel().getExtId())) {
+						sb.append(item.getExtId().toUpperCase());
+					}
+				}
+			}
+		}
+				
 		while(itr.hasNext()) {
 			String key = itr.next();
 			Integer filter = fields.get(key);
@@ -127,14 +147,7 @@ public class LocationGenerator extends Generator<Location> {
 		Iterator<String> itr = fields.keySet().iterator();
 		
 		if (validateIdLength(loc.getExtId(), scheme)) {
-		
-			// test for proper prefix
-			if (scheme.getPrefix() != "") {
-				if (!loc.getExtId().substring(0, scheme.getPrefix().length()).equals(scheme.getPrefix()))	
-					throw new ConstraintViolations("The Location Id doesn't contain the correct prefix " +
-					"as specified in the IdScheme. The Location Id must start with " + scheme.getPrefix());
-			}
-			
+					
 			while(itr.hasNext()) {
 				String key = itr.next();
 				Integer filter = fields.get(key);
@@ -154,5 +167,42 @@ public class LocationGenerator extends Generator<Location> {
 				}
 			}
 		}
+	}
+	
+	private List<String> getValidLocationsInHierarchy(String locationHierarchyItem) {	
+		List<String> locations = new ArrayList<String>();
+    	locations.add(locationHierarchyItem);
+    	List<LocationHierarchy> hierarchyList = genericDao.findListByProperty(LocationHierarchy.class, "extId", locationHierarchyItem);
+    	for (LocationHierarchy item : hierarchyList) {
+    		locations = processLocationHierarchy(item, locations);
+    	}
+    	return locations;
+	}
+	
+	private List<String> processLocationHierarchy(LocationHierarchy item, List<String> locationNames) {	
+    	// base case
+        if (item.getLevel().getName().equals(getLowestLevel().getName())) {
+        	locationNames.add(item.getExtId());
+        	return locationNames;
+        }
+        
+        // find all location hierarchy items that are children, continue to recurse
+        List<LocationHierarchy> hierarchyList = genericDao.findListByProperty(LocationHierarchy.class, "parent", item);
+       
+        for (LocationHierarchy locationHierarchy : hierarchyList)
+            processLocationHierarchy(locationHierarchy, locationNames);
+
+        return locationNames;
+	}
+	
+	public LocationHierarchyLevel getLowestLevel() {	  	
+		List<LocationHierarchyLevel> locHLevels = genericDao.findAll(LocationHierarchyLevel.class, false);
+		int highestKey = Integer.MIN_VALUE;
+		
+		for (LocationHierarchyLevel item : locHLevels) {
+			if (item.getKeyIdentifier() > highestKey)
+				highestKey = item.getKeyIdentifier();
+		}
+		return genericDao.findByProperty(LocationHierarchyLevel.class, "keyIdentifier", highestKey);
 	}
 }

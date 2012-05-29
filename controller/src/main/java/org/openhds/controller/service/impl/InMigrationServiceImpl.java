@@ -161,12 +161,6 @@ public class InMigrationServiceImpl implements InMigrationService {
 	
 	private void setIndividualFields(InMigration migration) throws IllegalArgumentException, SQLException, ConstraintViolations {
 		Individual individual = migration.getIndividual();
-		individual.setFirstName(migration.getMovedInPersonFirstName());
-		individual.setLastName(migration.getMovedInPersonLastName());
-		individual.setDob(migration.getMovedInPersonDob());
-		individual.setGender(migration.getMovedInPersonGender().toString());
-		individual.setMother(migration.getMovedInPersonMother());
-		individual.setFather(migration.getMovedInPersonFather());
 		individual.setCollectedBy(migration.getCollectedBy());
 		
 		// since this individual is being registered in the system

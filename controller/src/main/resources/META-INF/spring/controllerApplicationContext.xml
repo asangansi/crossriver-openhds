@@ -311,7 +311,7 @@
     	<property name="generated"><value>${openhds.fwIdUseGenerator}</value></property>
     </bean>
     
-	<!-- Supported fields are LOCATION_NAME, LOCATION_HIERARCHY_ID -->
+	<!-- Supported fields are LOCATION_HIERARCHY_PREFIX, LOCATION_NAME, LOCATION_HIERARCHY_ID -->
     <bean id="locationIdScheme" class="org.openhds.controller.idgeneration.IdScheme">
     	<property name="name" value="Location" />
     	<property name="prefix"><value>${openhds.locationPrefix}</value></property>

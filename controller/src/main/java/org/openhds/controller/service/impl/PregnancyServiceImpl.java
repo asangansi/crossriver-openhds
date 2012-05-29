@@ -109,6 +109,9 @@ public class PregnancyServiceImpl implements PregnancyService {
 		child1.setMother(pregOutcome.getMother());
 		child1.setFather(pregOutcome.getFather());
 		child1.setCollectedBy(pregOutcome.getCollectedBy());
+		child1.setMaritalStatus(1);
+		child1.setEducationalStatus(0);
+		child1.setOccupationalStatus(1);
 		pregOutcome.setChild1(child1);
 		entityService.create(child1);
 		
@@ -140,6 +143,9 @@ public class PregnancyServiceImpl implements PregnancyService {
 			child2.setMother(pregOutcome.getMother());
 			child2.setFather(pregOutcome.getFather());
 			child2.setCollectedBy(pregOutcome.getCollectedBy());
+			child2.setMaritalStatus(1);
+			child2.setEducationalStatus(0);
+			child2.setOccupationalStatus(1);
 			pregOutcome.setChild2(child2);
 			entityService.create(child2);
 			
