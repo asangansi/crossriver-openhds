@@ -160,7 +160,7 @@
 					
 						<h:outputText value="Is there a second child?" />
 						<h:outputText />
-						<h:selectBooleanCheckbox tabindex="26" id="child2Checkbox" value="#{pregnancyOutcomeCrud.secondChild}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.secondChildChange}" />
+						<h:selectBooleanCheckbox tabindex="26" id="child2Checkbox" value="#{pregnancyOutcomeCrud.secondChild}" disabled="#{pregnancyOutcomeCrud.secondChild}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.secondChildChange}" />
 						<h:outputText />
 						
 						<h:outputText value="Child Id: (if any)"/>

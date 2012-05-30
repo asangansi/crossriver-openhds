@@ -123,8 +123,6 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
     		entityItem.setChild2(new Individual());
     		entityItem.getChild2().setExtId(individualIdGenerator.incrementId(entityItem.getChild1().getExtId()));
     	}
-    	else
-    		entityItem.setChild2(null);
     }
     
   public Date getRecordedDate() {
