@@ -35,10 +35,10 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
     Boolean idKnown = false;
   	Boolean everRegistered = false;
     Boolean firstRegistered = false;
-    Boolean relationshipCodeRequired = false;
     
     Boolean everRegisteredComplete = false;
     Boolean firstRegisteredComplete = false;
+    Boolean relationshipCodeRequired = false;
     
     Integer phase = 1;
 	
@@ -368,14 +368,6 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 
 	public void setFirstRegistered(Boolean firstRegistered) {
 		this.firstRegistered = firstRegistered;
-	}
-
-	public Boolean getRelationshipCodeRequired() {
-		return relationshipCodeRequired;
-	}
-
-	public void setRelationshipCodeRequired(Boolean relationshipCodeRequired) {
-		this.relationshipCodeRequired = relationshipCodeRequired;
 	}
 
 	public Boolean getEverRegisteredComplete() {
