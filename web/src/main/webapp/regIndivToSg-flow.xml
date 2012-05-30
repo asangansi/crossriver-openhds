@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+      http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <!--  This element is needed - it provides a flow scoped persistent context  -->
+    <persistence-context />
+    
+    <on-start>
+    	<set name="flowScope.step" value="0"></set>
+        <set name="flowScope.showListing" value="false"></set> 
+        <set name="flowScope.showNavMenu" value="true"></set>
+       	<set name="flowScope.regIndivToSg" value="true"></set>
+  
+    </on-start>
+    
+    <view-state id="home" view="regIndivToSg/create.xhtml">
+    	<on-render>
+    	    <evaluate expression="navController.clearTrailExceptFirst()" />
+    	    <evaluate expression="navController.addItemToTrail('Register Individual to Social Group')" />
+    		<evaluate expression="navController.setCurrentItem('Register Individual to Social Group')" />
+            <set name="flowScope.currentView" value="'home'"></set>
+        </on-render>
+		<transition on="newIndividual" to="individual" />
+		<transition on="newMembership" to="membership" />
+		<transition on="selectLocation" >
+			<set name="flowScope.step" value="3"></set>
+		</transition>
+		<transition on="cancel" to="confirm" />
+		<transition on="clear" >
+			<set name="registerIndividualToSocialGroupBean.membership" value="null" />
+			<set name="registerIndividualToSocialGroupBean.location" value="null" />
+			<set name="flowScope.step" value="1"></set>
+		</transition>
+		<transition on="registerIndividual" to="home">
+			<evaluate expression="registerIndividualToSocialGroupBean.registerIndividual(messageContext)" />
+			<set name="registerIndividualToSocialGroupBean.individual" value="null" />
+			<set name="registerIndividualToSocialGroupBean.membership" value="null" />
+			<set name="registerIndividualToSocialGroupBean.location" value="null" />
+        	<set name="flowScope.step" value="0"></set>
+        	<set name="flowScope.showNavMenu" value="true"></set>
+        </transition>
+    	<transition on="finish" to="resetForm" >
+    		<evaluate expression="navController.removeLastCrumb()" />
+    	</transition>
+    </view-state>
+    
+    <view-state id="individual" view="individual/create.xhtml" >
+        <on-entry>
+            <evaluate expression="individualCrud.initFlow()"></evaluate>
+            <evaluate expression="navController.addItemToTrail('Individual Create')" />
+            <set name="flowScope.currentView" value="'individual'" />
+        </on-entry>
+        <transition on="cancel" to="home" />
+        <transition on="createIndividual" to="home">
+        	<set name="registerIndividualToSocialGroupBean.individual" value="individualCrud.item" />
+        	<evaluate expression="registerIndividualToSocialGroupBean.createIndividual(messageContext)" />
+        	<set name="flowScope.showNavMenu" value="false"></set>
+        	<set name="flowScope.step" value="1" />
+        </transition>
+    </view-state>
+    
+    <view-state id="membership" view="membership/create.xhtml" >
+        <on-entry>
+            <evaluate expression="membershipCrud.initFlow()"></evaluate>
+            <evaluate expression="navController.addItemToTrail('Membership Create')" />
+            <set name="flowScope.currentView" value="'membership'" />
+            <set name="membershipCrud.item.individual" value="registerIndividualToSocialGroupBean.individual" />
+            <set name="membershipCrud.item.collectedBy" value="registerIndividualToSocialGroupBean.individual.collectedBy" />
+        	<set name="membershipCrud.item.endType" value="siteProperties.getNotApplicableCode()" />
+        </on-entry>
+        <transition on="cancel" to="home" />
+        <transition on="createMembership" to="home">
+        	<set name="registerIndividualToSocialGroupBean.membership" value="membershipCrud.item" />
+        	<set name="flowScope.step" value="2" />
+        </transition>
+    </view-state>
+
+    <view-state id="confirm" view="regIndivToSg/confirm.xhtml">
+        <transition on="continue" to="${flowScope.currentView}" />
+        <transition on="cancel" to="directCancel" />
+    </view-state>
+        
+    <decision-state id="directCancel">
+    	<if test="flowScope.regIndivToSg" then="logout" else="exit" />
+	</decision-state>
+    
+    <decision-state id="loggingOut">
+    	<if test="flowScope.regIndivToSg" then="confirm" else="logout" />
+	</decision-state>
+	
+    <end-state id="exit" view="externalRedirect:contextRelative:${facesNavigation.navigateTo}" />
+    <end-state id="logout" view="externalRedirect:contextRelative:logoutProcess" />
+    <end-state id="resetForm" />
+    
+    <global-transitions>
+    	<transition on="logoutLnk" to="loggingOut" />
+        <transition to="exit">
+            <evaluate expression="facesNavigation.setNavigateTo(currentEvent.id)" />
+        </transition>
+    </global-transitions>
+    
+</flow>

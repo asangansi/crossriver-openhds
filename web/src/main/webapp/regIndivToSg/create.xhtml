@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/default.xhtml"
+		 xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:o="http://openfaces.org/" >
+	
+	<ui:define name="title">Register Individual to Social Group</ui:define>
+	<ui:param name="hideTabBar" value="true" />
+	<ui:define name="display">
+		<style>
+			.base-table {
+				border:0px solid #98BF21;
+				border-collapse:collapse;
+				border-color:#888;
+				table-layout:fixed;
+			}   		
+			.base-table th {
+			   	background-color:#B9D264;
+				font-weight:bold;
+				font-size:.9em;
+				overflow:hidden;
+			 }  		
+			.base-table td {
+			   	padding:5px 5px 5px;
+			   	text-align:center;
+			 }  		
+			.base-table a {
+			   	width:100%;
+				border:0;
+			 }  		
+			 .base-table .alt {
+			   	background-color:#CCC;
+			 }   		
+			.base-table .alt-col {
+				width:40%;
+			 }
+			.base-table-center {
+			   	margin:0 auto;
+			 }
+		</style>
+    
+    	<h:outputText value="#{navController.breadcrumbTrail}" />
+    	
+    	<h1><h:outputText value="Register Individual to Social Group" /></h1>
+    	<h:messages id="errors" globalOnly="true" />
+    	<h:form id="form">
+    		
+			<h3>Step 1 : Create Individual</h3>
+			<h:commandButton id="createIndividual" action="newIndividual" value="#{msg.lblCreate}" disabled="#{flowScope.step gt 0}"/>
+			
+			<h3>Step 2 : Create Membership</h3>
+			<h:commandButton id="createMembership" action="newMembership" value="#{msg.lblCreate}" disabled="#{flowScope.step ne 1}"/>
+			
+			<h3>Step 3 : Select Location</h3>
+            <h:inputText styleClass="location" autocomplete="off" id="location" value="#{registerIndividualToSocialGroupBean.location}" title="#{msg.tipLocExtId}" converter="#{locationExtIdConverter}" disabled="#{flowScope.step ne 2}" /><br /><br />
+            <h:commandButton id="selectLocation" action="selectLocation" value="Select" disabled="#{flowScope.step ne 2}"/>	
+            			
+			<h3>Step 4 : Register Individual</h3>
+			<h:commandButton id="registerIndividual" action="registerIndividual" value="#{msg.lblCreate}" disabled="#{flowScope.step ne 3}"/>
+			
+			<br /><br />
+			<c:if test="#{flowScope.step gt 0 and flowScope.regIndivToSg}">      
+            <h:dataTable styleClass="base-table"
+            	value="#{registerIndividualToSocialGroupBean.individual}"
+                var="indiv" width="50%" rowClasses=",alt"
+                columnClasses=",,alt-col">
+                <h:column>  
+                	<f:facet name="header">
+                    	<h:outputText value="Individual Id" />
+                    </f:facet>
+                    <h:outputText value="#{indiv.extId}" />
+                </h:column>
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Full Name" />
+                    </f:facet>
+                    <h:outputText value=" #{indiv.firstName} #{indiv.lastName}" />
+                </h:column>
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Mother Id" />
+                    </f:facet>
+                    <h:outputText value=" #{indiv.mother.extId}" />
+                </h:column>
+                 <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Father Id" />
+                    </f:facet>
+                    <h:outputText value=" #{indiv.father.extId}" />
+                </h:column>
+            </h:dataTable> 
+	        </c:if>      
+	        
+	        <br /><br />
+			<c:if test="#{flowScope.step gt 1 and flowScope.regIndivToSg}">      
+            <h:dataTable styleClass="base-table"
+            	value="#{registerIndividualToSocialGroupBean.membership}"
+                var="mem" width="50%" rowClasses=",alt"
+                columnClasses=",,alt-col">
+                <h:column>  
+                	<f:facet name="header">
+                    	<h:outputText value="Social Group Id" />
+                    </f:facet>
+                    <h:outputText value="#{mem.socialGroup.extId}" />
+                </h:column>
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Group Head Id" />
+                    </f:facet>
+                    <h:outputText value="#{mem.socialGroup.groupHead.extId}" />
+                </h:column>
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Group Head Full Name" />
+                    </f:facet>
+                    <h:outputText value="#{mem.socialGroup.groupHead.firstName} #{mem.socialGroup.groupHead.lastName}" />
+                </h:column>
+                 <h:column>  
+                    <f:facet name="header">
+                    	<h:panelGroup>
+                    		<h:outputText value="Relationship to Group Head" />
+                    		<img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                    	</h:panelGroup>
+                    </f:facet>
+                    <h:outputText value="#{mem.bIsToA}" />
+                </h:column>
+            </h:dataTable> 
+	        </c:if>  
+	        
+	        <br /><br />
+			<c:if test="#{flowScope.step gt 2 and flowScope.regIndivToSg}">      
+            <h:dataTable styleClass="base-table"
+            	value="#{registerIndividualToSocialGroupBean.location}"
+                var="loc" width="50%" rowClasses=",alt"
+                columnClasses=",,alt-col">
+                <h:column>  
+                	<f:facet name="header">
+                    	<h:outputText value="Location Id" />
+                    </f:facet>
+                    <h:outputText value="#{loc.extId}" />
+                </h:column>
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Location Name" />
+                    </f:facet>
+                    <h:outputText value="#{loc.locationName}" />
+                </h:column> 
+                <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Location Head Id" />
+                    </f:facet>
+                    <h:outputText value="#{loc.locationHead.extId}" />
+                </h:column> 
+                 <h:column>  
+                    <f:facet name="header">
+                    	<h:outputText value="Location Head Full Name" />
+                    </f:facet>
+                    <h:outputText value="#{loc.locationHead.firstName} #{loc.locationHead.lastName}" />
+                </h:column> 
+            </h:dataTable> 
+	        </c:if>                      
+			
+			<br /><br />
+			<h:commandButton id="cancel" action="cancel" value="Cancel" rendered="#{flowScope.step gt 0}" />
+			<h:commandButton id="clear" action="clear" value="Clear" rendered="#{flowScope.step gt 0}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

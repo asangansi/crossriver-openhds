@@ -588,6 +588,14 @@
         <property name="genericDao" ref="genericDao" />
     </bean>
     
+    <bean id="registerIndividualToSocialGroupBean" class="org.openhds.web.beans.RegisterIndividualToSocialGroupBean" scope="session">
+    	<property name="individualService" ref="individualService" />
+    	<property name="membershipService" ref="membershipService" />
+    	<property name="residencyService" ref="residencyService" />
+    	<property name="webFlowService" ref="webFlowService" />
+    	<property name="entityService" ref="entityService" />
+    </bean>
+    
     <bean id="deathHOHBean" class="org.openhds.web.beans.DeathHOHBean" scope="session">
         <property name="socialGroupService" ref="socialGroupService" />
         <property name="deathService" ref="deathService" />

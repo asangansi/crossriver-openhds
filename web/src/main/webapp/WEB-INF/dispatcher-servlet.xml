@@ -48,6 +48,7 @@
 		<webflow:flow-location path="individualHistory-flow.xml" id="individualHistory"></webflow:flow-location>
 		<webflow:flow-location path="modifyHOH-flow.xml" id="modifyHOH"></webflow:flow-location>
 		<webflow:flow-location path="deathForHOH-flow.xml" id="deathForHOH"></webflow:flow-location>
+		<webflow:flow-location path="regIndivToSg-flow.xml" id="regIndivToSg"></webflow:flow-location>
 	</webflow:flow-registry>
 	
 	<!-- Configures the Spring Web Flow JSF integration -->

@@ -267,21 +267,6 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>pregnancyobservation_list</from-outcome>
-			<to-view-id>/pregnancyobservation/create.faces</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pregnancyobservation_create</from-outcome>
-			<to-view-id>/pregnancyobservation/create.faces</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pregnancyobservation_edit</from-outcome>
-			<to-view-id>/pregnancyobservation/edit.faces</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
 			<from-outcome>membership_list</from-outcome>
 			<to-view-id>/membership/create.faces</to-view-id>
 			<redirect />
@@ -339,6 +324,21 @@
 		<navigation-case>
 			<from-outcome>outmigration_edit</from-outcome>
 			<to-view-id>/outmigration/edit.faces</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pregnancyobservation_list</from-outcome>
+			<to-view-id>/pregnancyobservation/create.faces</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pregnancyobservation_create</from-outcome>
+			<to-view-id>/pregnancyobservation/create.faces</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pregnancyobservation_edit</from-outcome>
+			<to-view-id>/pregnancyobservation/edit.faces</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
