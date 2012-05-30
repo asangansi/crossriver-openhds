@@ -38,6 +38,7 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
     
     Boolean everRegisteredComplete = false;
     Boolean firstRegisteredComplete = false;
+    Boolean relationshipCodeRequired = false;
     
     Integer phase = 1;
 	
@@ -59,6 +60,7 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
     	idKnown = false;
     	everRegisteredComplete = false;
     	firstRegisteredComplete = false;
+    	relationshipCodeRequired = false;
     	phase = 1;
 	}
     
@@ -181,11 +183,16 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 			} else {
 				idKnown = false;
 				entityItem.setReferencesTemporaryIndividual(true);		
+				relationshipCodeRequired = true;
 				phase = 8;
 			}
 		} else {
 			jsfService.addErrorForComponent("Invalid value. Must be 1 or 2", "form:known");
 			return;
+		}
+		
+		if (!everRegistered) {
+			relationshipCodeRequired = true;
 		}
 	}
 	
@@ -197,6 +204,7 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 		Individual indiv = individualService.findIndivById(event.getNewValue().toString());
 		if (indiv == null) {
 			// no individual in the system would mean a new individual
+			relationshipCodeRequired = true;
 			return;
 		}
 		
@@ -210,8 +218,8 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 			}
 		}
 		
-		if (alreadyInSocialGroup) {
-			phase = 9;
+		if (!alreadyInSocialGroup) {
+			relationshipCodeRequired = true;
 		}
 	}
 	
