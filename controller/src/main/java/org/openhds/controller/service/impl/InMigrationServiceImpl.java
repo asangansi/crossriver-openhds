@@ -2,6 +2,8 @@ package org.openhds.controller.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.controller.exception.ConstraintViolations;
@@ -132,8 +134,8 @@ public class InMigrationServiceImpl implements InMigrationService {
 			individualService.validateIdLength(inMigration.getIndividual());
 			setIndividualFields(inMigration);
 		} 
-		
-		if (!inMigration.getBIsToA().equals("")) {
+
+		if (StringUtils.isNotBlank(inMigration.getBIsToA())) {
 			createMembership(inMigration);		
 		}
 		setResidencyFieldsFromInMigration(inMigration);

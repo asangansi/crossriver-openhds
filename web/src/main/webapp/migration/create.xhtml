@@ -112,7 +112,7 @@
 					
 			        <h:outputText value="Relationship to Group Head:" />
 			        <img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" disabled="#{not (inMigrationCrud.phase == 8)}" />
+					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" disabled="#{not (inMigrationCrud.phase == 8 and inMigrationCrud.relationshipCodeRequired)}" />
 			        <h:message for="relationshipType1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	            
 	            	<f:verbatim><h3>Reason For Migration</h3></f:verbatim>

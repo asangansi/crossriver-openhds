@@ -75,7 +75,9 @@
             <set name="flowScope.updating" value="true" />
             <set name="flowScope.showNavMenu" value="false" />
         </transition>
-
+        
+        <transition on="newHousehold" to="social-group" />
+        
         <transition on="setIndividual">
             <evaluate expression="updateBean.setCurrentIndividual(requestParameters.indivId)" />
         </transition>
@@ -108,177 +110,197 @@
         <transition on="print" to="home" />
         <transition on="cancel" to="home" />
     </view-state>
+    
+    <view-state id="social-group" view="socialgroup/create.xhtml">
+        <on-entry>
+            <evaluate expression="socialGroupCrud.initFlow()" />
+            <set name="socialGroupCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
+            <set name="socialGroupCrud.item.dateOfInterview" value="updateBean.currentVisit.visitDate" />
+            <set name="socialGroupCrud.item.groupType" value="'FAM'" />
+            <set name="socialGroupCrud.item.extId" value="updateBean.currentVisit.visitLocation.extId" />
+            <set name="socialGroupCrud.item.extId" value="socialGroupCrud.item.extId.concat(socialGroupIdGenerator.buildNumberWithBound(socialGroupCrud.item, socialGroupIdGenerator.getIdScheme()))" />
+        </on-entry>
+        <transition on="cancel" to="home" />
+        <transition on="socialgroup_list" to="home" />
+        <transition on="socialgroup_edit" to="social-group-edit" />
+        <transition on="socialgroup_create" to="social-group" />
+        <transition on="socialgroup_detail" to="social-group-detail" />
+    </view-state>
+    
+    <view-state id="social-group-edit" view="socialgroup/edit.xhtml">
+        <transition on="cancel" to="social-group" />
+        <transition on="pretty:socialgroupEdit" to="social-group-detail" />
+        <transition on="socialgroup_list" to="home" />
+        <transition on="socialgroup_edit" to="social-group-edit" />
+        <transition on="socialgroup_create" to="social-group" />
+        <transition on="socialgroup_detail" to="social-group-detail" />
+    </view-state>
+    
+    <view-state id="social-group-detail" view="socialgroup/detail.xhtml">
+        <transition on="cancel" to="social-group" />
+        <transition on="socialgroup_list" to="home" />
+        <transition on="socialgroup_edit" to="social-group-edit" />
+        <transition on="socialgroup_create" to="social-group" />
+        <transition on="socialgroup_detail" to="social-group-detail" />
+    </view-state>
 
-    <subflow-state id="pregnancy-outcome" subflow="pregnancy-outcome">
-        <input name="visit" value="updateBean.currentVisit" />
-        <input name="mother" value="updateBean.currentIndividual" />
-        <input name="fieldWorker" value="updateBean.currentVisit.collectedBy" />
-        <input name="updating" value="true" />
-        <transition on="complete" to="home">
-            <evaluate expression="updateBean.clearSession()"></evaluate>
+    <view-state id="pregnancy-outcome" view="pregnancy-outcome/create.xhtml">
+        <on-entry>
+            <evaluate expression="pregnancyOutcomeCrud.initFlow()" />
+	        <set name="pregnancyOutcomeCrud.item.visit" value="updateBean.currentVisit" />
+	        <set name="pregnancyOutcomeCrud.item.mother" value="updateBean.currentIndividual" />
+	        <set name="pregnancyOutcomeCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
+	        <set name="pregnancyOutcomeCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+	        <set name="pregnancyOutcomeCrud.item.recordedDate" value="updateBean.currentVisit.visitDate" />
+	        <evaluate expression="pregnancyOutcomeCrud.generateChild1Id(updateBean.currentIndividual)" />
+        </on-entry>
+        <transition on="cancel" to="home" />
+        <!-- Capture Reset Button -->
+        <transition on="pregnancyoutcome_create" to="pregnancy-outcome" />
+        <transition on="pregnancyoutcome_edit" to="pregnancy-outcome-edit" />
+        <transition on="pregnancyoutcome_detail" to="pregnancy-outcome-detail" />
+        <transition on="pregnancyoutcome_list" to="home">
+            <evaluate expression="updateBean.resetResidencyIndividuals()" />
         </transition>
-        <transition on="reset" to="pregnancy-outcome" />
-    </subflow-state>
+    </view-state>
+    
+    <view-state id="pregnancy-outcome-edit" view="pregnancy-outcome/edit.xhtml">
+        <transition on="pregnancyoutcome_create" to="pregnancy-outcome" />
+        <transition on="pretty:pregnancyoutcomeEdit" to="pregnancy-outcome-detail" />
+        <transition on="pregnancyoutcome_detail" to="pregnancy-outcome-detail" />
+        <transition on="pregnancyoutcome_edit" to="pregnancy-outcome-edit" />
+        <transition on="pregnancyoutcome_list" to="home" />
+    </view-state>
+    
+    <view-state id="pregnancy-outcome-detail" view="pregnancy-outcome/detail.xhtml">
+        <transition on="pregnancyoutcome_create" to="pregnancy-outcome" />
+        <transition on="pregnancyoutcome_detail" to="pregnancy-outcome-detail" />
+        <transition on="pregnancyoutcome_edit" to="pregnancy-outcome-edit" />
+        <transition on="pregnancyoutcome_list" to="home" />
+        <transition on="cancel" to="pregnancy-outcome" />
+    </view-state>
 
     <view-state id="relationship" view="relationship/create.xhtml" >
         <on-entry>
-            <set name="flowScope.currentView" value="'relationship'"></set>
             <evaluate expression="relationshipCrud.initFlow()" />
-            <evaluate expression="relationshipCrud.getItem().setIndividualA(updateBean.getCurrentIndividual())" />
-            <evaluate expression="relationshipCrud.getItem().setCollectedBy(updateBean.getCurrentVisit().getCollectedBy())" />
-        	<evaluate expression="navController.addItemToTrail('Relationship Create')" />
+            <evaluate expression="navController.addItemToTrail('Relationship Create')" />
+            <set name="flowScope.currentView" value="'relationship'"></set>
+            <set name="relationshipCrud.item.individualA" value="updateBean.currentIndividual" />
+            <set name="relationshipCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
         </on-entry>
-        <transition on="relDetails" to="viewRelDetails">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="relEdit" to="viewRelEdit">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="createRelationship" to="home">
-            <evaluate expression="relationshipCrud.commit(messageContext)" />
-        </transition>
+        <transition on="relationship_detail" to="viewRelDetails" />
+        <transition on="relationship_edit" to="viewRelEdit" />
+        <transition on="relationship_create" to="relationship" />
         <transition on="relationship_list" to="home" />
-        <transition on="relationship_create" to="relationship" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
         <transition on="cancel" to="home" />
     </view-state>
 
     <view-state id="viewRelDetails" view="relationship/detail.xhtml">
         <on-entry>
             <set name="flowScope.currentView" value="'viewRelDetails'"></set>
-            <evaluate expression="relationshipCrud.editByUuid(flowScope.uuid, messageContext)" />
        		<evaluate expression="navController.addItemToTrail('Relationship Detail')" />
         </on-entry>
-        <transition on="relEdit" to="viewRelEdit">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="relDetails" >
-            <evaluate expression="relationshipCrud.editByUuid(requestParameters.itemId, messageContext)" />
-        </transition>
-        <transition on="relationship_create" to="relationship" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="cancel" to="home" />
+        <transition on="relationship_detail" to="viewRelDetails" />
+        <transition on="relationship_edit" to="viewRelEdit" />
+        <transition on="relationship_create" to="relationship" />
+        <transition on="relationship_list" to="home" />
+        <transition on="cancel" to="relationship" />
     </view-state>
 
     <view-state id="viewRelEdit" view="relationship/edit.xhtml">
         <on-entry>
             <set name="flowScope.currentView" value="'viewRelEdit'"></set>
-            <evaluate expression="relationshipCrud.editByUuid(flowScope.uuid, messageContext)" />
        		<evaluate expression="navController.addItemToTrail('Relationship Edit')" />
         </on-entry>
-        <transition on="relDetails" to="viewRelDetails">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="relEdit" >
-            <evaluate expression="relationshipCrud.editByUuid(requestParameters.itemId, messageContext)" />
-        </transition>
-        <transition on="pretty:relationshipEdit" to="home" />
-        <transition on="relationship_create" to="relationship" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="cancel" to="home" />
+        <transition on="relationship_detail" to="viewRelDetails" />
+        <transition on="relationship_edit" to="viewRelEdit" />
+        <transition on="relationship_create" to="relationship" />
+        <transition on="cancel" to="relationship" />
+        <transition on="pretty:relationshipEdit" to="viewRelDetails" />
     </view-state>
 
     <view-state id="membership" view="membership/create.xhtml" >
         <on-entry>
-            <set name="flowScope.currentView" value="'membership'"></set>
             <evaluate expression="membershipCrud.initFlow()"></evaluate>
-            <evaluate expression="membershipCrud.getItem().setIndividual(updateBean.getCurrentIndividual())"></evaluate>
-            <evaluate expression="membershipCrud.getItem().setStartDate(updateBean.getCurrentVisit().visitDate)"></evaluate>
-            <evaluate expression="membershipCrud.getItem().setCollectedBy(updateBean.getCurrentVisit().collectedBy)"></evaluate>
-        	<evaluate expression="navController.addItemToTrail('Membership Create')" />
+            <evaluate expression="navController.addItemToTrail('Membership Create')" />
+            <set name="flowScope.currentView" value="'membership'" />
+            <set name="membershipCrud.item.individual" value="updateBean.currentIndividual" />
+            <set name="membershipCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
         </on-entry>
         <transition on="createMembership" to="home">
             <evaluate expression="membershipCrud.commit(messageContext)" />
         </transition>
-        <transition on="memDetails" to="viewMemDetails">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="memEdit" to="viewMemEdit">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
         <transition on="membership_list" to="home" />
-        <transition on="membership_create" to="membership" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
+        <transition on="membership_detail" to="viewMemDetails"/>
+        <transition on="membership_edit" to="viewMemEdit" />
+        <transition on="membership_create" to="membership" />
         <transition on="cancel" to="home" />
     </view-state>
 
     <view-state id="viewMemDetails" view="membership/detail.xhtml">
         <on-entry>
             <set name="flowScope.currentView" value="'viewMemDetails'"></set>
-            <evaluate expression="membershipCrud.editByUuid(flowScope.uuid, messageContext)" />
         	<evaluate expression="navController.addItemToTrail('Membership Detail')" />
         </on-entry>
-        <transition on="memEdit" to="viewMemEdit">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="memDetails" >
-            <evaluate expression="membershipCrud.editByUuid(requestParameters.itemId, messageContext)" />
-        </transition>
-        <transition on="membership_create" to="membership" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="cancel" to="home" />
+        <transition on="membership_detail" to="viewMemDetails"/>
+        <transition on="membership_list" to="membership" />
+        <transition on="membership_edit" to="viewMemEdit" />
+        <transition on="membership_create" to="membership" />
+        <transition on="cancel" to="membership" />
     </view-state>
 
     <view-state id="viewMemEdit" view="membership/edit.xhtml">
         <on-entry>
             <set name="flowScope.currentView" value="'viewMemEdit'"></set>
-            <evaluate expression="membershipCrud.editByUuid(flowScope.uuid, messageContext)" />
             <evaluate expression="navController.addItemToTrail('Membership Edit')" />
         </on-entry>
-        <transition on="memDetails" to="viewMemDetails">
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="memEdit" >
-            <evaluate expression="membershipCrud.editByUuid(requestParameters.itemId, messageContext)" />
-        </transition>
-        <transition on="pretty:membershipEdit" to="home" />
-        <transition on="membership_create" to="membership" >
-            <set name="flowScope.uuid" value="requestParameters.itemId" />
-        </transition>
-        <transition on="cancel" to="home" />
+        <transition on="membership_detail" to="viewMemDetails"/>
+        <transition on="membership_edit" to="viewMemEdit" />
+        <transition on="membership_create" to="membership" />
+        <transition on="membership_list" to="membership" />
+        <transition on="cancel" to="membership" />
+        <transition on="pretty:membershipEdit" to="viewMemDetails" />
     </view-state>
 
     <view-state id="pregnancyObservation" view="pregnancyobservation/create.xhtml" >
         <on-entry>
-            <set name="flowScope.currentView" value="'pregnancyObservation'"></set>
-            <evaluate expression="pregnancyObservationCrud.initFlow()"></evaluate>
+            <evaluate expression="pregnancyObservationCrud.initFlow()" />
+            <evaluate expression="navController.addItemToTrail('PregnancyObservation Create')" />
+            <set name="flowScope.currentView" value="'pregnancyObservation'" />
             <set name="pregnancyObservationCrud.item.mother" value="updateBean.currentIndividual" />
             <set name="pregnancyObservationCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
             <set name="pregnancyObservationCrud.item.visit" value="updateBean.currentVisit" />
-			<evaluate expression="navController.addItemToTrail('PregnancyObservation Create')" />
+            <set name="pregnancyObservationCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+            <set name="pregnancyObservationCrud.item.recordedDate" value="updateBean.currentVisit.visitDate" />
         </on-entry>
         <transition on="pregnancyobservation_detail" to="viewPregObservDetails" />
         <transition on="pregnancyobservation_edit" to="viewPregObservEdit" />
         <transition on="pregnancyobservation_list" to="home" />
-        <transition on="pregnancyobservation_create" to="pregnancyObservation"  />
+        <transition on="pregnancyobservation_create" to="pregnancyObservation" />
         <transition on="cancel" to="home" />
     </view-state>
 
     <view-state id="viewPregObservDetails" view="pregnancyobservation/detail.xhtml">
         <on-entry>
-            <set name="flowScope.currentView" value="'viewPregObservDetails'"></set>
+            <set name="flowScope.currentView" value="'viewPregObservDetails'" />
             <evaluate expression="navController.addItemToTrail('PregnancyObservation Detail')" />
         </on-entry>
+        <transition on="pregnancyobservation_detail" to="viewPregObservDetails" />
         <transition on="pregnancyobservation_edit" to="viewPregObservEdit" />
-        <transition on="pregnancyobservation_detail" />
+        <transition on="pregnancyobservation_list" to="home" />
         <transition on="pregnancyobservation_create" to="pregnancyObservation" />
         <transition on="cancel" to="pregnancyObservation" />
     </view-state>
 
     <view-state id="viewPregObservEdit" view="pregnancyobservation/edit.xhtml">
         <on-entry>
-            <set name="flowScope.currentView" value="'viewPregObservEdit'"></set>
+            <set name="flowScope.currentView" value="'viewPregObservEdit'" />
             <evaluate expression="navController.addItemToTrail('PregnancyObservation Edit')" />
         </on-entry>
         <transition on="pregnancyobservation_detail" to="viewPregObservDetails" />
         <transition on="pregnancyobservation_edit" to="viewPregObservEdit" />
-        <transition on="pretty:pregnancyobservationEdit" to="home" />
-        <transition on="pregnancyobservation_create" to="pregnancyObservation" />
+        <transition on="pregnancyobservation_list" to="home" />
+        <transition on="pretty:pregnancyobservationEdit" to="viewPregObservDetails" />
         <transition on="cancel" to="pregnancyObservation" />
     </view-state>
 
@@ -298,19 +320,25 @@
 
     <view-state id="death" view="death/create.xhtml" >
         <on-entry>
-            <set name="flowScope.currentView" value="'death'"></set>
             <evaluate expression="deathCrud.initFlow()"></evaluate>
-            <evaluate expression="deathCrud.getItem().setIndividual(updateBean.getCurrentIndividual())"></evaluate>
-            <evaluate expression="deathCrud.getItem().setVisitDeath(updateBean.getCurrentVisit())"></evaluate>
-        	<evaluate expression="navController.addItemToTrail('Death Create')" />
+            <evaluate expression="navController.addItemToTrail('Death Create')" />
+            <set name="flowScope.currentView" value="'death'" />
+            <set name="deathCrud.item.individual" value="updateBean.currentIndividual" />
+            <set name="deathCrud.item.visitDeath" value="updateBean.currentVisit" />
+            <set name="deathCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+            <set name="deathCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
+            <set name="deathCrud.item.recordedDate" value="updateBean.currentVisit.visitDate" />
         </on-entry>
+         <transition on="createDeath" to="home">
+            <evaluate expression="deathCrud.commit(messageContext)" />
+        </transition>
         <transition on="cancel" to="home" />
-        <transition on="death_list" to="home" >
-            <evaluate expression="updateBean.setCurrentIndividual(null)" />
+        <transition on="death_list" to="home">
+            <evaluate expression="updateBean.resetResidencyIndividuals()" />        
         </transition>
         <transition on="death_edit" to="viewDeathEdit" />
         <transition on="death_detail" to="viewDeathDetails" />
-        <transition on="death_create" to="death" />
+        <transition on="death_create" to="death" /> 
     </view-state>
 
     <view-state id="viewDeathDetails" view="death/detail.xhtml">
@@ -322,7 +350,7 @@
         <transition on="death_detail" />
         <transition on="death_edit" to="viewDeathEdit" />
         <transition on="death_list" to="death" />
-        <transition on="cancel" to="home" />
+        <transition on="cancel" to="death" />
     </view-state>
 
     <view-state id="viewDeathEdit" view="death/edit.xhtml">
@@ -334,99 +362,79 @@
         <transition on="death_detail" to="viewDeathDetails" />
         <transition on="death_edit"  />
         <transition on="pretty:deathEdit" to="death" />
-        <transition on="cancel" to="home" />
+        <transition on="cancel" to="death" />
     </view-state>
 
     <view-state id="outmigration" view="outmigration/create.xhtml">
         <on-entry>
-            <set name="flowScope.currentView" value="'outmigration'" />
             <evaluate expression="outMigrationCrud.initFlow()" />
+            <evaluate expression="navController.addItemToTrail('OutMigration Create')" />
+            <set name="flowScope.currentView" value="'outmigration'" />
             <set name="outMigrationCrud.item.individual" value="updateBean.currentIndividual" />
             <set name="outMigrationCrud.item.visit" value="updateBean.currentVisit" />
             <set name="outMigrationCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
-        	<evaluate expression="navController.addItemToTrail('OutMigration Create')" />
+            <set name="outMigrationCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+            <set name="outMigrationCrud.item.dateOfInterview" value="updateBean.currentVisit.visitDate" />
         </on-entry>
-        <transition on="outmigration_list" to="home" />
-        <transition on="outmigration_detail" to="outmigration_detail" />
-        <transition on="outmigration_edit" to="outmigration_edit" />
-        <transition on="outmigration_create" to="outmigration" />
         <transition on="cancel" to="home" />
+        <transition on="outmigration_list" to="home" >
+            <evaluate expression="updateBean.removeIndividualFromResidentList()" />
+        </transition>
+        <transition on="outmigration_detail" to="outmigration-detail" />
+        <transition on="outmigration_edit" to="outmigration-edit" />
+        <transition on="outmigration_create" to="outmigration" />
+        <transition on="outmigration_delete_failure" to="outmigration-delete-fail" />
     </view-state>
 
-    <view-state id="outmigration_detail" view="outmigration/detail.xhtml">
+    <view-state id="outmigration-detail" view="outmigration/detail.xhtml">
     	<on-entry>
-    		<set name="flowScope.currentView" value="'viewOutMigrationDetail'"></set>
+    		<set name="flowScope.currentView" value="'outmigration-detail'"></set>
     		<evaluate expression="navController.addItemToTrail('OutMigration Detail')" />
     	</on-entry>
-        <transition on="outmigration_detail" to="outmigration_detail" />
-        <transition on="outmigration_edit" to="outmigration_edit" />
+        <transition on="outmigration_detail" to="outmigration-detail" />
+        <transition on="outmigration_edit" to="outmigration-edit" />
         <transition on="outmigration_create" to="outmigration" />
+        <transition on="outmigration_delete_failure" to="outmigration-delete-fail" />
         <transition on="cancel" to="outmigration" />
     </view-state>
     
-    <view-state id="outmigration_edit" view="outmigration/edit.xhtml">
-    	<on-entry>
-    		<set name="flowScope.currentView" value="'viewOutMigrationDetail'"></set>
-    		<evaluate expression="navController.addItemToTrail('OutMigration Edit')" />
-    	</on-entry>
-        <transition on="outmigration_detail" to="outmigration_detail" />
-        <transition on="outmigration_edit" to="outmigration_edit" />
+    <view-state id="outmigration-edit" view="outmigration/edit.xhtml">
+        <on-entry>
+            <set name="flowScope.currentView" value="'outmigration-edit'"></set>
+            <evaluate expression="navController.addItemToTrail('OutMigration Edit')" />
+        </on-entry>
+        <transition on="outmigration_detail" to="outmigration-detail" />
+        <transition on="outmigration_edit" to="outmigration-edit" />
         <transition on="outmigration_create" to="outmigration" />
-        <transition on="pretty:outMigEdit" to="home" />
+        <transition on="pretty:outMigEdit" to="outmigration-detail" />
+        <transition on="outmigration_delete_failure" to="outmigration-delete-fail" />
         <transition on="cancel" to="outmigration" />
+    </view-state>
+    
+    <view-state id="outmigration-delete-fail" view="outmigration/delete-failure.xhtml">
+        <on-entry>
+            <set name="flowScope.currentView" value="'outmigration-edit'"></set>
+            <evaluate expression="navController.addItemToTrail('OutMigration Delete Failure')" />
+        </on-entry>
+        <transition on="outmigration_detail" to="outmigration-detail" />
+        <transition on="outmigration_edit" to="outmigration-edit" />
+        <transition on="outmigration_create" to="outmigration" />
+        <transition on="back" to="outmigration" />
     </view-state>
     
     <view-state id="inmigration" view="migration/create.xhtml">
-    	<on-entry>
-    		<evaluate expression="inMigrationCrud.initFlow()" />
-    		<evaluate expression="navController.addItemToTrail('InMigration Create')" />
-    	</on-entry>
-    	
-		<transition on="internal_inmigration" to="migrationInternal">
-			<evaluate expression="navController.addItemToTrail('InMigration Create')" />
-		</transition>
-		
-		<transition on="internalWithNoId" to="inmigration_subflow">
-			<set name="flowScope.migrationType" value="'internalWithNoId'" />
-		</transition>
-		
-		<transition on="external" to="inmigration_subflow">
-			<set name="flowScope.migrationType" value="'external'" />
-		</transition>
-		
-		<transition on="cancel" to="home" />
-    </view-state>
-    
-    <!-- Internal In Migration -->
-    <view-state id="migrationInternal" view="migration/migration.xhtml">
-		<on-entry>
-			<evaluate expression="inMigrationCrud.getItem().setLocation(updateBean.getCurrentVisit().getVisitLocation())" />
-            <evaluate expression="inMigrationCrud.getItem().setVisitId(updateBean.getCurrentVisit())" />
-            <evaluate expression="inMigrationCrud.getItem().setCollectedBy(updateBean.getCurrentVisit().getCollectedBy())" />		
-		</on-entry>
-		
-    	<!-- Successfully created an in migration -->
-    	<transition on="inmigration_list" to="home">
-    		<evaluate expression="updateBean.clearSession()" />
-    	</transition>
-    	
-    	<transition on="cancel" to="home" />
-    </view-state>
-
-	<!-- The subflow handles the cases of Internal In Migration with Unknown Id, as well as -->
-	<!-- an external in migration -->
-    <subflow-state id="inmigration_subflow" subflow="inmigration">
-        <input name="visit" value="updateBean.currentVisit" />
-        <input name="fieldWorker" value="updateBean.currentVisit.collectedBy" />
-        <input name="updating" value="true" />
-        <input name="migrationType" value="flowScope.migrationType" />
-        
-        <transition on="complete" to="home">
-            <evaluate expression="updateBean.clearSession()"></evaluate>
+        <on-entry>
+            <evaluate expression="inMigrationCrud.initFlow()" />
+	        <set name="inMigrationCrud.item.visit" value="updateBean.currentVisit" />
+	        <set name="inMigrationCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
+	        <set name="inMigrationCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+	        <set name="inMigrationCrud.item.dateOfInterview" value="updateBean.currentVisit.visitDate" />
+        </on-entry>
+        <transition on="inmigration_list" to="home">
+            <evaluate expression="updateBean.resetResidencyIndividuals()" />
         </transition>
-
-        <transition on="cancel" to="home" /> 
-    </subflow-state>
+        <transition on="cancel" to="home" />
+    </view-state>
 
     <view-state id="confirm" view="update/confirm.xhtml">
         <transition on="continue" to="${flowScope.currentView}" />

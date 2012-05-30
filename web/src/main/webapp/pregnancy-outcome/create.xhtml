@@ -140,7 +140,7 @@
 						
 						<h:outputText value="Child Id:"/>
                         <h:outputText />
-                        <h:inputText tabindex="22" styleClass="individual" autocomplete="off" id="child1ExtId" value="#{pregnancyOutcomeCrud.item.child1}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" disabled="true"/>
+                        <h:inputText tabindex="22" styleClass="individual" autocomplete="off" id="child1ExtId" value="#{pregnancyOutcomeCrud.item.child1}" converter="#{individualExtIdConverter}" disabled="true"/>
                         <h:message for="child1ExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="First name of Child:"/>
@@ -165,7 +165,7 @@
 						
 						<h:outputText value="Child Id: (if any)"/>
                         <h:outputText />
-                        <h:inputText tabindex="27" styleClass="individual" autocomplete="off" id="child2ExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.child2}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
+                        <h:inputText tabindex="27" styleClass="individual" autocomplete="off" id="child2ExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.child2}" converter="#{individualExtIdConverter}" />
                         <h:message for="child2ExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="First name of Child:"/>

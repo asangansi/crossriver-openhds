@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:o="http://openfaces.org/"
+      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:t="http://myfaces.apache.org/tomahawk">
 
@@ -123,10 +124,18 @@
                    			$('#form\\:collectedBy').focus();
                    		}
   					</script>
-
                     <br />
-                    <h:commandButton action="#{deathCrud.create}" value="#{msg.lblCreate}"/>
-                	<h:commandButton value="Cancel" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
+                    
+                    <c:choose>
+		                <c:when test="#{flowScope != null}">
+		                    <h:commandButton id="create" action="createDeath" value="#{msg.lblCreate}" />
+		                	<h:commandButton value="#{msg.lblCancel}" immediate="true" action="cancel" />
+		                </c:when>
+		                <c:otherwise>
+		                	<h:commandButton action="#{deathCrud.create}" value="#{msg.lblCreate}"/>
+		                	<h:commandButton value="Cancel" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
+		            	</c:otherwise>
+		        	</c:choose>
                 </h:form>
             </ui:define>
         </ui:composition>
