@@ -35,7 +35,7 @@
 
 						<h:outputText value="Name of Mother:"/>
                         <h:outputText />
-                        <h:inputText tabindex="2" id="motherName" value="#{pregnancyOutcomeCrud.item.nameOfMother}" converter="#{defaultConverter}" />
+                        <h:inputText tabindex="2" id="motherName" value="#{pregnancyOutcomeCrud.item.nameOfMother}" converter="#{defaultConverter}" disabled="true" />
                         <h:message for="motherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="Mother's Line Number:"/>
@@ -80,12 +80,12 @@
                     	
                         <h:outputText value="Father Id (Use #{siteProperties.unknownIdentifier} for Unknown)" />
                         <h:outputText />
-                        <h:inputText tabindex="11" styleClass="individual" autocomplete="off" id="fatherExtId" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
+                        <h:inputText tabindex="11" styleClass="individual" autocomplete="off" id="fatherExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" />
                         <h:message for="fatherExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<h:outputText value="Name of Father:"/>
                         <h:outputText />
-                        <h:inputText tabindex="12" id="fatherName" value="#{pregnancyOutcomeCrud.item.nameOfFather}" converter="#{defaultConverter}" />
+                        <h:inputText tabindex="12" id="fatherName" value="#{pregnancyOutcomeCrud.item.nameOfFather}" disabled="true" converter="#{defaultConverter}" />
                         <h:message for="fatherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
                         <h:outputText value="Place of Birth:"/>
@@ -132,6 +132,52 @@
 	                  	<h:outputText />
 	                  	<h:inputText tabindex="21" styleClass="visit" autocomplete="off" id="visit" value="#{pregnancyOutcomeCrud.item.visit}" converter="#{visitExtIdConverter}" title="#{msg.tipVisitExtId}" />
 	           			<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+					
+						<f:verbatim><h3>Children Information</h3></f:verbatim>
+                        <h:outputText />
+                        <h:outputText />
+                        <h:outputText />					
+						
+						<h:outputText value="Child Id:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="22" styleClass="individual" autocomplete="off" id="child1ExtId" value="#{pregnancyOutcomeCrud.item.child1}" converter="#{individualExtIdConverter}" disabled="true"/>
+                        <h:message for="child1ExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="First name of Child:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="23" id="fnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.firstName}" converter="#{defaultConverter}" disabled="true"/>
+                        <h:message for="fnameOfChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        
+                        <h:outputText value="Last name of Child:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="24" id="lnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.lastName}" converter="#{defaultConverter}" disabled="true"/>
+                        <h:message for="lnameOfChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                      	       
+						<h:outputText value="Sex:"/>
+                        <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                        <h:inputText tabindex="25" id="sexChild1" value="#{pregnancyOutcomeCrud.item.child1.gender}" converter="#{defaultConverter}" disabled="true"/>
+                        <h:message for="sexChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+											
+						<h:outputText value="Child Id: (if any)"/>
+                        <h:outputText />
+                        <h:inputText tabindex="27" styleClass="individual" autocomplete="off" id="child2ExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.child2}" converter="#{individualExtIdConverter}" />
+                        <h:message for="child2ExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="First name of Child:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="28" id="fnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.firstName}" converter="#{defaultConverter}" disabled="true" />
+                        <h:message for="fnameOfChild2" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        
+                        <h:outputText value="Last name of Child:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="29" id="lnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.lastName}" converter="#{defaultConverter}" disabled="true" />
+                        <h:message for="lnameOfChild2" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                      	            
+                      	<h:outputText value="Sex:"/>
+                        <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                        <h:inputText tabindex="30" id="sexChild2" value="#{pregnancyOutcomeCrud.item.child2.gender}" disabled="true" converter="#{defaultConverter}" />
+                        <h:message for="sexChild2" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        
 					</h:panelGrid>
                     <br />
                      <h:commandButton tabindex="22" action="#{pregnancyOutcomeCrud.edit}" value="#{msg.lblSave}">

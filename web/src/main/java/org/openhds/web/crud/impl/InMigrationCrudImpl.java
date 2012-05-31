@@ -40,7 +40,7 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
     Boolean firstRegisteredComplete = false;
     Boolean relationshipCodeRequired = false;
     
-    Integer phase = 1;
+	Integer phase = 1;
 	
 	public InMigrationCrudImpl(Class<InMigration> entityClass) {
         super(entityClass);
@@ -384,6 +384,14 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 
 	public void setFirstRegisteredComplete(Boolean firstRegisteredComplete) {
 		this.firstRegisteredComplete = firstRegisteredComplete;
+	}
+	
+    public Boolean getRelationshipCodeRequired() {
+		return relationshipCodeRequired;
+	}
+
+	public void setRelationshipCodeRequired(Boolean relationshipCodeRequired) {
+		this.relationshipCodeRequired = relationshipCodeRequired;
 	}
 
 	public Integer getPhase() {

@@ -34,7 +34,7 @@
      	    	  	    	    
 	            	<h:outputText value="#{msg.fieldWorkerId}:"  />
                     <h:outputText />
-                    <h:inputText tabindex="1" styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" title="collected by" />
+                    <h:inputText tabindex="1" styleClass="collectedBy" autocomplete="off" id="collectedBy" disabled="#{flowScope != null}" value="#{inMigrationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
                     <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            
 	            	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat})" />
@@ -44,57 +44,57 @@
 	            	
 	            	<h:outputText value="Date of Migration (#{siteProperties.dateFormat})" />
                     <h:outputText />
-                    <o:dateChooser tabindex="3" id="rec_date" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+                    <o:dateChooser tabindex="3" id="rec_date" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" disabled="true"/>
                     <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 	            	<h:outputText value="House Id:"/>
 		            <h:outputText />
-		            <h:inputText tabindex="4" styleClass="location" id="loc" value="#{inMigrationCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		            <h:inputText tabindex="4" styleClass="location" id="loc" value="#{inMigrationCrud.item.house}" disabled="true" converter="#{locationExtIdConverter}" autocomplete="off"/>
 		            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 	            	<h:outputText value="House Name:"/>
                     <h:outputText />
-                    <h:inputText tabindex="5" id="houseName" value="#{inMigrationCrud.item.houseName}" converter="#{defaultConverter}"/>
+                    <h:inputText tabindex="5" id="houseName" value="#{inMigrationCrud.item.houseName}" converter="#{defaultConverter}" disabled="true"/>
                     <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="Household Id:"/>
 		            <h:outputText />
-		            <h:inputText tabindex="6" styleClass="socialGroup" id="sg" value="#{inMigrationCrud.item.household}" disabled="#{flowScope != null}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		            <h:inputText tabindex="6" styleClass="socialGroup" id="sg" value="#{inMigrationCrud.item.household}" disabled="true" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
 		            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="Household Name:" />
 					<h:outputText />
-					<h:inputText tabindex="7" id="householdName" value="#{inMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="7" id="householdName" value="#{inMigrationCrud.item.householdName}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 					<h:outputText value="#{msg.visitId}:" />
                     <h:outputText />
-                    <h:inputText tabindex="8" styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" title="Visit"/>
+                    <h:inputText tabindex="8" styleClass="visit" autocomplete="off" id="visit" value="#{inMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" disabled="true"/>
                     <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 					<h:outputText value="Has the member ever been registered in the CRHDSS?:" />
 					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="9" id="everReg" value="#{inMigrationCrud.item.everRegistered}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.registeredChange}"/>
+					<h:inputText tabindex="9" id="everReg" value="#{inMigrationCrud.item.everRegistered}" converter="#{defaultConverter}" disabled="true"/>
 					<h:message for="everReg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="Is the Individual Id Known?:" />
 					<img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="10" id="known" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.knownIdChange}" disabled="true" />
+					<h:inputText tabindex="10" id="known" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="known" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 	            	<h:outputText value="#{msg.individualId}:"/>
 	            	<h:outputText />
-	                <h:inputText tabindex="11" id="indiv" value="#{inMigrationCrud.item.individual.extId}" title="Individual #" converter="#{defaultConverter}" />
+	                <h:inputText tabindex="11" id="indiv" value="#{inMigrationCrud.item.individual.extId}" title="Individual #" converter="#{defaultConverter}" disabled="true" />
 	            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 	            	<h:outputText value="Current Individual Number:" />
 					<h:outputText />
-					<h:inputText tabindex="12" id="currentIndivNumber" value="#{inMigrationCrud.item.currentIndividualNumber}" converter="#{defaultConverter}"/>
+					<h:inputText tabindex="12" id="currentIndivNumber" value="#{inMigrationCrud.item.currentIndividualNumber}" converter="#{defaultConverter}" disabled="true"/>
 					<h:message for="currentIndivNumber" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	            
 	            	<h:outputText value="Relationship to Group Head:" />
 			        <img class="clickable" onclick="O$('popupWindowForRelationship').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" />
+					<h:inputText tabindex="12" id="relationshipType1" value="#{inMigrationCrud.item.BIsToA}" converter="#{membershipCodesConverter}" disabled="true"/>
 			        <h:message for="relationshipType1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	            
 	            	<f:verbatim><h3>Reason For Migration</h3></f:verbatim>
@@ -119,12 +119,12 @@
 	            	
 	            	<h:outputText value="Origin:"/>
                     <img class="clickable" onclick="O$('popupWindowForOrigin').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                    <h:inputText tabindex="15" id="origin" value="#{inMigrationCrud.item.origin}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.originChange}" />
+                    <h:inputText tabindex="15" id="origin" value="#{inMigrationCrud.item.origin}" converter="#{defaultConverter}" />
                     <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     
                     <h:outputText value="If other, please specify:"/>
                     <h:outputText />
-                    <h:inputText tabindex="16" id="originOther" value="#{inMigrationCrud.item.originOther}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{inMigrationCrud.originChange}" />
+                    <h:inputText tabindex="16" id="originOther" value="#{inMigrationCrud.item.originOther}" converter="#{defaultConverter}" />
                     <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            
 	            	<f:verbatim><h3>Information On Place Where Member Is Moving From</h3></f:verbatim>
@@ -204,37 +204,37 @@
 	            	
 	            	<h:outputText value="First Name:" />
 					<h:outputText />
-					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.individual.firstName}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="29" id="firstName" value="#{inMigrationCrud.item.individual.firstName}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="firstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Last Name:" />
 					<h:outputText />
-					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.individual.lastName}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="30" id="lastName" value="#{inMigrationCrud.item.individual.lastName}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="lastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Gender:" />
 					<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.individual.gender}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="31" id="gender" value="#{inMigrationCrud.item.individual.gender}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
 	      			
 	      			<h:outputText value="Date of Birth: (#{siteProperties.dateFormat})" />
                     <h:outputText />
-                    <o:dateChooser tabindex="32" id="dob" value="#{inMigrationCrud.movedInPersonDob}" pattern="#{siteProperties.dateFormat}" />
+                    <o:dateChooser tabindex="32" id="dob" value="#{inMigrationCrud.movedInPersonDob}" pattern="#{siteProperties.dateFormat}" disabled="true" />
                     <h:message for="dob" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            		
 	            	<h:outputText value="Mother Id:"/>
 	            	<h:outputText />
-	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.individual.mother}" converter="#{individualExtIdConverter}" />
+	                <h:inputText tabindex="33" styleClass="individual" autocomplete="off" id="mother" value="#{inMigrationCrud.item.individual.mother}" converter="#{individualExtIdConverter}" disabled="true" />
 	            	<h:message for="mother" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 	            	<h:outputText value="Father Id:"/>
 	            	<h:outputText />
-	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.individual.father}" converter="#{individualExtIdConverter}" />
+	                <h:inputText tabindex="34" styleClass="individual" autocomplete="off" id="father" value="#{inMigrationCrud.item.individual.father}" converter="#{individualExtIdConverter}" disabled="true" />
 	            	<h:message for="father" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
 	           	
 	           		<h:outputText value="Number of years of formal education:" />
 					<h:outputText />
-					<h:inputText tabindex="35" id="formalEducation" value="#{inMigrationCrud.item.formalEducationYears}" converter="#{defaultConverter}" />
+					<h:inputText tabindex="35" id="formalEducation" value="#{inMigrationCrud.item.formalEducationYears}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="formalEducation" errorClass="error" errorStyle="color: red" infoStyle="color: green"/> 	
   
      	   		</h:panelGrid>
