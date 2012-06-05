@@ -28,7 +28,8 @@
         <property name="whitelistService" ref="whitelistService" />
         <property name="idUtilities" ref="idValidator" />
         <property name="siteProperties" ref="siteProperties" />
-        <property name="indivGen" ref="individualIdGenerator" /> 
+        <property name="socialGroupService" ref="socialGroupService" />
+        <property name="calendarUtil" ref="calendarUtil" />
     </bean>
     
     <!-- this bean implements web service methods -->

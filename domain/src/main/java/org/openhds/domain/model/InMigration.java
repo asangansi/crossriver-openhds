@@ -114,7 +114,7 @@ public class InMigration
     @Description(description = "Old house name of the place where the migrant is moving from")
     private String houseNameMovingFrom;
     @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
-    private Boolean referencesTemporaryIndividual;
+    private Boolean referencesTemporaryIndividual = false;
     @Description(description = "Has the member ever been registered")
     @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for everRegistered", allowNull = true)
     private Integer everRegistered;

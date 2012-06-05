@@ -10,6 +10,7 @@ import org.openhds.domain.service.SitePropertiesService;
 public class CalendarUtil {
 	
 	SitePropertiesService siteProperties;
+	private static final String MYSQL_DATE_FORMAT = "yyyy-MM-dd";
 	
 	public static Calendar getMidPointDate(Calendar startDate, Calendar endDate) {
 		int daysBtw = (int)daysBetween(startDate, endDate);
@@ -55,6 +56,25 @@ public class CalendarUtil {
 	public String formatDate(Calendar calendar) {
 		SimpleDateFormat format = new SimpleDateFormat(siteProperties.getDateFormat());
 		return format.format(calendar.getTime());
+	}
+	
+	private static Calendar formatStringToCalendar(String date, String format)
+			throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		DateFormat formatter = new SimpleDateFormat(format);
+		formatter.setLenient(false);
+		Date newDate = (Date)formatter.parse(date); 
+		cal.setTime(newDate);
+	
+		return cal;
+	}
+	
+	public Calendar stringToCalendar(String date) throws ParseException {
+		try {
+			return formatStringToCalendar(date, siteProperties.getDateFormat());
+		} catch(ParseException e) {
+			return formatStringToCalendar(date, MYSQL_DATE_FORMAT);
+		}
 	}
 	
     public SitePropertiesService getSiteProperties() {

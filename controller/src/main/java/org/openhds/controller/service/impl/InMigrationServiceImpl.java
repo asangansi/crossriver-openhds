@@ -116,7 +116,7 @@ public class InMigrationServiceImpl implements InMigrationService {
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void createInMigration(InMigration inMigration) throws ConstraintViolations, SQLException, Exception {
-		if (inMigration.getEverRegistered().equals("2")) {
+		if (inMigration.getEverRegistered().equals(2)) {
 			inMigration.setMigTypeExternal();
 		} else {
 			inMigration.setMigTypeInternal();
@@ -132,7 +132,7 @@ public class InMigrationServiceImpl implements InMigrationService {
 			inMigration.setIndividual(persistedIndividual);
 		} 
 
-		if (inMigration.isReferencesTemporaryIndividual() || inMigration.getEverRegistered().equals("2")) {
+		if (inMigration.isReferencesTemporaryIndividual() || inMigration.getEverRegistered().equals(2)) {
 			individualService.validateIdLength(inMigration.getIndividual());
 			setIndividualFields(inMigration);
 		} 

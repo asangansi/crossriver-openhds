@@ -25,7 +25,8 @@
     <module>dao</module>
     <module>controller</module>
     <module>web</module>
-	<module>report</module>
+    <module>report</module>
+    <module>webservice</module>
   </modules>
   
   <repositories>

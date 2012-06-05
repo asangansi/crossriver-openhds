@@ -28,6 +28,22 @@ public interface GenericDao {
 
         Object getValue();
     }
+    
+    static class ValuePropertyBuilder {
+    	public static ValueProperty build(final String propertyName, final Object value) {
+    		return new ValueProperty() {
+				@Override
+				public String getPropertyName() {
+					return propertyName;
+				}
+
+				@Override
+				public Object getValue() {
+					return value;
+				}
+    		};
+    	}
+    }
 
     <T> String create(T newInstance);
 
@@ -52,6 +68,8 @@ public interface GenericDao {
     <T> T findByProperty(Class<T> entityType, String propertyName, Object value, boolean filterDeleted);
     
     <T> T findByMultiProperty(Class<T> entityType, ValueProperty... properties);
+    
+    <T> List<T> findListByMultiProperty(Class<T> entityType, ValueProperty... properties);
 
     <T> List<T> findListByProperty(Class<T> entityType, String propertyName, Object value);
 
@@ -63,8 +81,6 @@ public interface GenericDao {
             String orderByCol, boolean ascending);
 
     void clear();
-
-    <T> List<T> findListByMultiProperty(Class<T> entityType, ValueProperty... properties);
 
     <T> long getTotalCount(Class<T> entityType);
 
