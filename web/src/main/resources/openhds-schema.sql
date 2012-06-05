@@ -1,6 +1,3 @@
-create table FormInstance (uuid varchar(32) not null, formInstanceId varchar(255), primary key (uuid)) ENGINE=InnoDB;
-create table FormInstance_ValidationMessage (FormInstance_uuid varchar(32) not null, validationMessages_uuid varchar(32) not null, unique (validationMessages_uuid)) ENGINE=InnoDB;
-create table ValidationMessage (uuid varchar(32) not null, message varchar(255), primary key (uuid)) ENGINE=InnoDB;
 create table classExtension (uuid varchar(32) not null, answers varchar(255), description varchar(255), entityClass varchar(255), name varchar(255) not null, primType varchar(255), roundNumber integer, primary key (uuid)) ENGINE=InnoDB;
 create table death (uuid varchar(32) not null, deleted bit not null, insertDate date, voidDate datetime, voidReason varchar(255), status varchar(255), statusMessage varchar(255), ageAtDeath bigint, deathCause varchar(255), deathDate date not null, deathPlace varchar(255), insertBy_uuid varchar(32), voidBy_uuid varchar(32), collectedBy_uuid varchar(32) not null, individual_uuid varchar(32), visitDeath_uuid varchar(32), primary key (uuid)) ENGINE=InnoDB;
 create table extension (uuid varchar(32) not null, entityExtId varchar(255) not null, extensionValue varchar(255) not null, classExtension_uuid varchar(32), entity_uuid varchar(32), primary key (uuid)) ENGINE=InnoDB;
@@ -28,8 +25,6 @@ create table user (uuid varchar(32) not null, deleted bit not null, description 
 create table user_roles (user_uuid varchar(32) not null, role_uuid varchar(32) not null, primary key (user_uuid, role_uuid)) ENGINE=InnoDB;
 create table visit (uuid varchar(32) not null, deleted bit not null, insertDate date, voidDate datetime, voidReason varchar(255), status varchar(255), statusMessage varchar(255), extId varchar(255), roundNumber integer, visitDate date not null, insertBy_uuid varchar(32), voidBy_uuid varchar(32), collectedBy_uuid varchar(32) not null, visitLocation_uuid varchar(32), primary key (uuid)) ENGINE=InnoDB;
 create table whitelist (uuid varchar(32) not null, address varchar(255), primary key (uuid)) ENGINE=InnoDB;
-alter table FormInstance_ValidationMessage add index FK565F30085537B136 (validationMessages_uuid), add constraint FK565F30085537B136 foreign key (validationMessages_uuid) references ValidationMessage (uuid);
-alter table FormInstance_ValidationMessage add index FK565F3008A1616787 (FormInstance_uuid), add constraint FK565F3008A1616787 foreign key (FormInstance_uuid) references FormInstance (uuid);
 alter table death add index FK5B0927497735AF9 (insertBy_uuid), add constraint FK5B0927497735AF9 foreign key (insertBy_uuid) references user (uuid);
 alter table death add index FK5B0927436F4BE6E (collectedBy_uuid), add constraint FK5B0927436F4BE6E foreign key (collectedBy_uuid) references fieldworker (uuid);
 alter table death add index FK5B09274A726FBE (voidBy_uuid), add constraint FK5B09274A726FBE foreign key (voidBy_uuid) references user (uuid);
