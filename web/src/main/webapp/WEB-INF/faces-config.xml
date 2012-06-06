@@ -357,6 +357,16 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>postneonatalvpm_create</from-outcome>
+			<to-view-id>/postneonatalvpm/create.faces</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>postneonatalvpm_edit</from-outcome>
+			<to-view-id>/postneonatalvpm/edit.faces</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>regIndivToSg_flow</from-outcome>
 			<to-view-id>/regIndivToSg.flow</to-view-id>
 			<redirect />

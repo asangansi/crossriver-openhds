@@ -1,0 +1,660 @@
+<ui:composition template="/templates/default.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:o="http://openfaces.org/"
+				xmlns:c="http://java.sun.com/jstl/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets">
+				
+	<ui:param name="crud" value="#{postneonatalVPMCrud}" />
+				
+	<ui:define name="listing">
+		<ui:include src="list.xhtml" />
+	</ui:define>
+	
+	<ui:define name="display">
+		<style>
+			.household-schedule {
+				border-collapse:collapse;
+				border-color:#888;
+				table-layout:fixed;
+			}
+			
+			.household-schedule th {
+				background-color:#B9D264;
+				font-weight:bold;
+				font-size:.9em;
+				overflow:hidden;
+			}
+			
+			.household-schedule input {
+				width:100%;
+				border:0;
+			}
+			
+			.o_dropdown {
+				width:100%;
+			}
+		</style>
+		
+		<h:outputText value="#{navController.breadcrumbTrail}" />	
+	
+		<ui:param name="crud" value="#{postneonatalVPMCrud}" />
+        <h1>Post Neonatal VPM Details</h1>
+       
+        <h:form>
+            <h:outputText styleClass="error" value="#{postneonatalVPMCrud.item.statusMessage}" />
+            
+            <h:panelGrid columns="3">
+        	
+        		<f:verbatim><h3>Background Information on Deceased</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        	
+        		<h:outputText value="Name of child:"/>
+            	<h:outputText />
+            	<h:outputText value="#{postneonatalVPMCrud.item.nameOfDeceased}" />
+            	
+				<h:outputText value="Child Id:"/>
+	            <h:outputText />
+	            <h:outputText value="#{postneonatalVPMCrud.item.individual}" converter="#{individualExtIdConverter}" />
+	            
+				<h:outputText value="House Id:"/>
+		        <h:outputText />
+		        <h:outputText value="#{postneonatalVPMCrud.item.house}" converter="#{locationExtIdConverter}" />
+		        	
+				<h:outputText value="House Name:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.houseNameOfDeceased}" />
+                	
+	            <h:outputText value="#{msg.fieldWorkerId}:"  />
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+                	
+				<h:outputText value="Date of interview: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.dateOfInterview}" converter="#{calendarConverter}" />
+                
+        		<h:outputText value="#{msg.visitId}:" />
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.visit}" converter="#{visitExtIdConverter}" />
+                
+        		<h:outputText value="Sex of child:"/>
+                <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.sexOfDeceased}" />
+                
+        		<f:verbatim><h3>Informant</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />        		
+        		
+        		<h:outputText value="What is the name of the main respondent:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.nameOfRespondent}" />
+                	
+				<h:outputText value="What is the relationship of the main respondent to the deceased child:"/>
+                <img class="clickable" onclick="O$('popupWindowForRelationshipOfRespondent').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.relationshipOfRespondent}" />
+                
+				<h:outputText value="If the relationship to the deceased child is other, please specify:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.relationshipOfRespondentOther}" />
+                
+				<f:verbatim><h3>Circumstances of the Death</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Date of birth of child: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.childDob}" converter="#{calendarConverter}" />
+               
+        		<h:outputText value="Source of date of birth:"/>
+                <img class="clickable" onclick="O$('popupWindowForSourceOfDob').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.sourceOfDob}" />
+                
+                <h:outputText value="If date of birth source is other, please specify:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.sourceOfDobOther}" />   	
+                
+				<h:outputText value="Date of death of child: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.childDeathDate}" converter="#{calendarConverter}" />
+                
+        		<h:outputText value="Where did the child die?:"/>
+                <img class="clickable" onclick="O$('popupWindowForWhereDied').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.whereDied}" />
+                
+				<h:outputText value="If where died is other, please specify:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.whereDiedOther}" />
+                
+				<h:outputText value="If where died is hospital or health facilty, please specify the name:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.whereDiedFacilityName}" />
+                	
+				<h:outputText value="If where died is hospital or health facilty, please specify the address:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.whereDiedFacilityAddress}" />
+           
+            </h:panelGrid>
+                
+			<h:panelGrid columns ="3">	
+					
+				<f:verbatim><h3>Open History Question</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+ 
+        		<h:outputText value="Could you tell me about the illness that led to the baby's death?:"/>
+                <h:outputText />
+                <h:outputText tabindex="40" cols="25" rows="5" value="#{postneonatalVPMCrud.item.aboutIllness}" />
+                
+			</h:panelGrid>		
+			
+			<br />
+			<h:outputText value="Summary of signs and symptoms reported by respondent" />
+            <br /><br />
+           	<table width="35%" border="1" cellspacing="0" cellpadding="0" class="household-schedule">
+				<tr>
+					<th width="20%">Symptoms</th>
+					<th width="5%">Start (from time of death)</th>
+					<th width="5%">End (from time of death)</th>
+					<th width="5%">Severity <br /><br /><img class="clickable" onclick="O$('popupWindowForSymptomSeverity').showCentered();" src="../resources/images/question.png" /></th>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom1}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom1Start}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom1End}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom1Severity}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom2}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom2Start}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom2End}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom2Severity}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom3}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom3Start}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom3End}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom3Severity}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom4}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom4Start}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom4End}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom4Severity}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom5}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom5Start}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom5End}" /></td>
+					<td><h:outputText value="#{postneonatalVPMCrud.item.symptom5Severity}" /></td>
+				</tr>	
+			</table>	
+			
+			<br />
+			<h:panelGrid columns="3">
+			
+				<h:outputText value="What was the length of time of the illness immediately preceding the child's death?:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.lengthOfTimeOfIllness}" />				
+                
+				<h:outputText value="Was care sought outside the home while s/he had this illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareOutsideHome}" />
+                
+				<h:outputText value="How many days after the illness started was care sought?:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareOutsideHomeNumDays}" />
+               
+				<h:outputText value="Was care sought from a traditional healer?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromTraditionalHealer}" />
+                
+				<h:outputText value="Was care sought from a religious leader?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromReligiousLeader}" />
+                
+				<h:outputText value="Was care sought from a hospital?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromHospital}" />
+               
+				<h:outputText value="Was care sought from a health center/clinic?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromHealthCenter}" />
+                
+				<h:outputText value="Was care sought from a community-based practitioner (CHO, YZ)?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromCHO}" />
+                
+				<h:outputText value="Was care sought from a private physician or nurse?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromNurse}" />
+               
+				<h:outputText value="Was care sought from a pharmacy?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromPharmacy}" />
+               
+				<h:outputText value="Was care sought from a drug seller, store, or market?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromDrugSeller}" />
+                
+				<h:outputText value="Was care sought from relatives or friends?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromRelatives}" />
+                
+				<h:outputText value="Was care sought from another source?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromOther}" />
+                
+				<h:outputText value="Specify the other source in which care was sought:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedCareFromOtherSpecify}" />
+                
+				<f:verbatim><h3>Accidents and Injuries</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		        		
+        		<h:outputText value="Did s/he die from an injury or accident?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.dieFromInjuryOrAccident}" />
+               
+				<h:outputText value="What kind of injury or accident?:"/>
+                <img class="clickable" onclick="O$('popupWindowForAccidentType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.accidentType}" />
+                
+				<h:outputText value="If the accident type is other, please specify:"/>
+                <h:outputText />
+                <h:outputText value="#{postneonatalVPMCrud.item.accidentTypeOther}" />
+                
+				<h:outputText value="If the accident type is animal bite, please specify what kind of animal bite:"/>
+                <img class="clickable" onclick="O$('popupWindowForAnimalBiteType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.animalBiteType}" />
+                
+				<h:outputText value="Did s/he die at the site where the accident or injury occurred?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText tabindex="83" id="diedAtAccident" value="#{postneonatalVPMCrud.item.diedAtAccident}" converter="#{defaultConverter}"/>
+                
+				<h:outputText value="For how long after the accident or injury did s/he survive?:"/>
+                <img class="clickable" onclick="O$('popupWindowForSurvivedBeforeDeath').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.survivedBeforeDeath}" />
+               
+				<h:outputText value="Did the child receive medical care from the accident before death?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.receivedMedicalAttention}" />
+                
+                <h:outputText value="Did the child have an ongoing chronic illness before the month of accident or injury?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="chronicIllness" value="#{postneonatalVPMCrud.item.haveChronicIllness}" />
+               
+				<h:outputText value="If the chronic illness is other, please specify:"/>
+                <h:outputText />
+                <h:outputText id="haveChronicIllnessOther" value="#{postneonatalVPMCrud.item.haveChronicIllnessOther}"/>
+                
+				<f:verbatim><h3>Other Childhood Conditions</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		
+				<h:outputText value="Was the child growing normally for his/her age?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="growingNormally" value="#{postneonatalVPMCrud.item.growingNormally}" />
+              
+				<h:outputText value="Did the child get more sick or ill than other children in the community?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="sicknessRate" value="#{postneonatalVPMCrud.item.sicknessRate}" />
+               
+				<f:verbatim><h4>Fever</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="During the illness that led to death did s/he have fever?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveFever" value="#{postneonatalVPMCrud.item.haveFever}" />
+                
+                <h:outputText value="If s/he had a fever, for how many days?:"/>
+                <h:outputText />
+                <h:outputText id="feverDays" value="#{postneonatalVPMCrud.item.feverDays}" converter="#{defaultConverter}"/>
+               
+                <f:verbatim><h4>Diarrhoea</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="During the illness that led to death, did s/he have diarrhoea?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveDiarrhoea" value="#{postneonatalVPMCrud.item.haveDiarrhoea}" />
+               
+                <h:outputText value="For how many days were the stools more frequent or liquid?:"/>
+                <h:outputText />
+                <h:outputText id="haveDiarrhoeaDays" value="#{postneonatalVPMCrud.item.haveDiarrhoeaDays}" />
+                
+                <h:outputText value="On the day when diarrhoea is most severe, how many times did s/he pass stools each day?:"/>
+                <h:outputText />
+                <h:outputText id="stoolDays" value="#{postneonatalVPMCrud.item.stoolDays}" />
+                
+                <h:outputText value="Was there visible blood in the stools?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="bloodInStool" value="#{postneonatalVPMCrud.item.bloodInStool}" />
+                
+                <h:outputText value="Did the child have sunken eyes when he/she was ill with diarrhoea?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveSunkenEyes" value="#{postneonatalVPMCrud.item.haveSunkenEyes}" />
+                 
+                <h:outputText value="During the diarrhoea episode, was the child given any fluids such as ORS?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveFluids" value="#{postneonatalVPMCrud.item.haveFluids}" />
+                
+                <f:verbatim><h4>Vomitting</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+        		
+        		<h:outputText value="Did s/he have vomiting?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveVomitting" value="#{postneonatalVPMCrud.item.haveVomitting}" />
+               
+                <h:outputText value="How many days did s/he have vomiting?:"/>
+                <h:outputText />
+                <h:outputText id="haveVomittingDays" value="#{postneonatalVPMCrud.item.haveVomittingDays}" />
+                
+                <h:outputText value="When the vomiting was severe, how many times did s/he vomit in a day?:"/>
+                <h:outputText />
+                <h:outputText id="haveVomittingSevereDays" value="#{postneonatalVPMCrud.item.haveVomittingSevereDays}" />
+                
+        		<h:outputText value="What did the vomit look like?:"/>
+                <img class="clickable" onclick="O$('popupWindowForVomitLookLike').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="vomitLookLike" value="#{postneonatalVPMCrud.item.vomitLookLike}" />
+                
+                <h:outputText value="If vomit look like is other, please specify:"/>
+                <h:outputText />
+                <h:outputText id="vomitLookLikeOther" value="#{postneonatalVPMCrud.item.vomitLookLikeOther}" />
+                
+                <f:verbatim><h4>Abdominal Pain</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+			
+				<h:outputText value="Did s/he have abdominal pain?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveAbdominalPain" value="#{postneonatalVPMCrud.item.haveAbdominalPain}" />
+               
+                <h:outputText value="What type of pain was it?:"/>
+                <img class="clickable" onclick="O$('popupWindowForAbdominalPainType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="abdominalPainType" value="#{postneonatalVPMCrud.item.abdominalPainType}" />
+               
+                <h:outputText value="If the type of pain is other, please specify:"/>
+                <h:outputText />
+                <h:outputText id="abdominalPainTypeOther" value="#{postneonatalVPMCrud.item.abdominalPainTypeOther}" />
+                 
+                <h:outputText value="How many days did s/he have the pain?:"/>
+                <h:outputText />
+                <h:outputText id="haveAbdominalPainDays" value="#{postneonatalVPMCrud.item.haveAbdominalPainDays}" />
+                  
+                <h:outputText value="Where exactly was the pain?:"/>
+                <img class="clickable" onclick="O$('popupWindowForAbdominalPainLocation').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="abdominalPainLocation" value="#{postneonatalVPMCrud.item.abdominalPainLocation}" />
+               
+                <h:outputText value="If the location of the pain is other, please specify:"/>
+                <h:outputText />
+                <h:outputText id="abdominalPainLocationOther" value="#{postneonatalVPMCrud.item.abdominalPainLocationOther}" converter="#{defaultConverter}"   />
+                    
+                <h:outputText value="What was the severity of the pain?:"/>
+                <img class="clickable" onclick="O$('popupWindowForLoseWeightSeverity').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="abdominalPainSeverity" value="#{postneonatalVPMCrud.item.abdominalPainSeverity}" />
+                  
+				<h:outputText value="Was s/he unable to pass a stool for some days before death?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToPassStool" value="#{postneonatalVPMCrud.item.unabledToPassStool}" />
+               
+                <f:verbatim><h4>Abdominal Distension</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+			
+				<h:outputText value="Did s/he have distention of the abdomen?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.distentionOfAbdomen}" />
+                
+                <h:outputText value="How many days did s/he have abdominal distention?:"/>
+                <h:outputText />
+                <h:outputText id="distentionOfAbdomenDays" value="#{postneonatalVPMCrud.item.distentionOfAbdomenDays}" />
+                
+                <h:outputText value="Did s/he distention develop rapidly within days or slowly over weeks?:"/>
+                <img class="clickable" onclick="O$('popupWindowForDistentionOfAbdomen').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="distentionOfAbdomenDevelopment" value="#{postneonatalVPMCrud.item.distentionOfAbdomenDevelopment}" />
+                
+                <f:verbatim><h4>Cough</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+
+				<h:outputText value="Did s/he have a cough?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText value="#{postneonatalVPMCrud.item.haveCough}" />
+                
+                <h:outputText value="How many days did s/he have the cough?:"/>
+                <h:outputText />
+                <h:outputText id="haveCoughDays" value="#{postneonatalVPMCrud.item.haveCoughDays}" />
+                
+				<h:outputText value="Was the cough severe?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveCoughSeverity" value="#{postneonatalVPMCrud.item.haveCoughSeverity}" />
+                
+                <f:verbatim><h4>Difficulty with Breathing</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+				
+				<h:outputText value="Did the child have difficulty in breathing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveDifficultyBreathing" value="#{postneonatalVPMCrud.item.haveDifficultyBreathing}" />
+               
+				<h:outputText value="For how many days did the difficulty in breathing last?:"/>
+                <h:outputText />
+                <h:outputText id="haveDifficultyBreathingNumDays" value="#{postneonatalVPMCrud.item.haveDifficultyBreathingNumDays}" />
+               
+                <h:outputText value="Did the child have fast breathing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveFastBreathing" value="#{postneonatalVPMCrud.item.haveFastBreathing}" />
+                
+				<h:outputText value="For how many days did the fast breathing last?:"/>
+                <h:outputText />
+                <h:outputText id="haveFastBreathingNumDays" value="#{postneonatalVPMCrud.item.haveFastBreathingNumDays}" />
+                
+                <f:verbatim><h4>Skin Rash</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+			
+				<h:outputText value="Did the child have a skin rash?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveRash" value="#{postneonatalVPMCrud.item.haveRash}" />
+                
+				<h:outputText value="Was the rash all over the body?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="rashAllOverBody" value="#{postneonatalVPMCrud.item.rashAllOverBody}" />
+                
+				<h:outputText value="Was the rash on the child's face?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="rashOnFace" value="#{postneonatalVPMCrud.item.rashOnFace}" />
+                
+				<h:outputText value="How many days did the rash last?:"/>
+                <h:outputText />
+                <h:outputText id="rashDays" value="#{postneonatalVPMCrud.item.rashDays}" />
+               
+				<h:outputText value="Did the rash have blisters containing clear fluids?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="rashHaveBlisters" value="#{postneonatalVPMCrud.item.rashHaveBlisters}" />
+                
+				<h:outputText value="Did the skin crack, split or peel after the rash started?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveSkinCrack" value="#{postneonatalVPMCrud.item.haveSkinCrack}" />
+                
+				<h:outputText value="Was the illness measels?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnow').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveMeasels" value="#{postneonatalVPMCrud.item.haveMeasels}" />
+                
+				<h:outputText value="Did the child become very thin?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="becomeThin" value="#{postneonatalVPMCrud.item.becomeThin}" />
+               
+				<h:outputText value="Did the child have swollen legs or feet?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="swollenLegsOrFeet" value="#{postneonatalVPMCrud.item.swollenLegsOrFeet}" />
+               
+				<h:outputText value="How many days did the swelling last?:"/>
+                <h:outputText />
+                <h:outputText id="swollenLegsOrFeetNumDays" value="#{postneonatalVPMCrud.item.swollenLegsOrFeetNumDays}" />
+               
+				<h:outputText value="Did the child's skin flake off in patches?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="skinFlakeoff" value="#{postneonatalVPMCrud.item.skinFlakeoff}" />
+               
+				<h:outputText value="Did the child's hair change in color to a reddish (or yellowish) color?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="hairColorChange" value="#{postneonatalVPMCrud.item.hairColorChange}" />
+                
+				<h:outputText value="Did the child have generalized body swelling?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveBodySwelling" value="#{postneonatalVPMCrud.item.haveBodySwelling}" />
+                
+				<h:outputText value="Was the child miserable prior to the death?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="wasMiserable" value="#{postneonatalVPMCrud.item.wasMiserable}" />
+                
+				<h:outputText value="Did the child have wasting and appeared like an old man (marasmus)?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="wasWasting" value="#{postneonatalVPMCrud.item.wasWasting}" />
+                
+				<h:outputText value="Did the child suffer from lack of blood or appear pale?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="appearPale" value="#{postneonatalVPMCrud.item.appearPale}" />
+                
+				<h:outputText value="Did the child have pale palms?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="havePalePalms" value="#{postneonatalVPMCrud.item.havePalePalms}" />
+                
+				<h:outputText value="Did the child have white nails?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveWhiteNails" value="#{postneonatalVPMCrud.item.haveWhiteNails}" />
+                
+				<h:outputText value="Did the child have swelling in the armpit?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="swellingInArmpit" value="#{postneonatalVPMCrud.item.swellingInArmpit}" />
+                
+				<h:outputText value="Did the child have swelling in the groin?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="swellingInGroin" value="#{postneonatalVPMCrud.item.swellingInGroin}" />
+                
+				<h:outputText value="Did the child have swelling in the neck?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="swellingInNeck" value="#{postneonatalVPMCrud.item.swellingInNeck}" />
+                
+				<h:outputText value="Did the child have a whitish rash inside the mouth or on the tongue?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveRashInsideMouth" value="#{postneonatalVPMCrud.item.haveRashInsideMouth}" />
+                
+                <f:verbatim><h3>Other Illnesses</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+				
+				<h:outputText value="Did the child have chest in drawing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveChestInDrawing" value="#{postneonatalVPMCrud.item.haveChestInDrawing}" />
+                
+				<h:outputText value="Did the child have wheezing?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveWheezing" value="#{postneonatalVPMCrud.item.haveWheezing}"/>
+               
+				<h:outputText value="Did the child experience any generalized convulsions/fits during?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveFits" value="#{postneonatalVPMCrud.item.haveFits}" />
+                
+				<h:outputText value="Was the child unconscious?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="wasUnconscious" value="#{postneonatalVPMCrud.item.wasUnconscious}" />
+                
+				<h:outputText value="Did the child stop being able to grasp?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToGrasp" value="#{postneonatalVPMCrud.item.unableToGrasp}" />
+                
+				<h:outputText value="How long did the child stop being able to grasp?:"/>
+                <img class="clickable" onclick="O$('popupWindowForGrasp').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToGraspLength" value="#{postneonatalVPMCrud.item.unableToGraspLength}" />
+                
+				<h:outputText value="Did the child stop being able to respond to a voice?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToRespondToVoice" value="#{postneonatalVPMCrud.item.unableToRespondToVoice}" />
+                
+				<h:outputText value="How long the child stop being able to respond to a voice?:"/>
+                <img class="clickable" onclick="O$('popupWindowForGrasp').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToRespondToVoiceLength" value="#{postneonatalVPMCrud.item.unableToRespondToVoiceLength}" />
+                
+				<h:outputText value="Did the child stop being able to follow movements with the eyes?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToFollowMovements" value="#{postneonatalVPMCrud.item.unableToFollowMovements}" />
+                
+				<h:outputText value="How long the child stop being able to follow movements with the eyes?:"/>
+                <img class="clickable" onclick="O$('popupWindowForGrasp').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="unableToFollowMovementsLength" value="#{postneonatalVPMCrud.item.unableToFollowMovementsLength}" />
+               
+				<h:outputText value="Did the child have stick neck?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveStickNeck" value="#{postneonatalVPMCrud.item.haveStickNeck}" />
+                
+				<h:outputText value="Did the child have bulging fontanel?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="haveBulgingFontanel" value="#{postneonatalVPMCrud.item.haveBulgingFontanel}" />
+                
+                <f:verbatim><h4>Treatment and Records</h4></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+
+                <h:outputText value="Did s/he receive any drug during the illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="receivedTreatment" value="#{postneonatalVPMCrud.item.receivedTreatment}" />
+                
+                <h:outputText value="Did s/he receive any antibiotics during the illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="receivedAntibiotics" value="#{postneonatalVPMCrud.item.receivedAntibiotics}" />
+               
+                <h:outputText value="Did s/he receive any anti-malaria drug during the illness?:"/>
+                <img class="clickable" onclick="O$('popupWindowForYesNoDontKnowNA').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="didReceiveAntiMalariDrug" value="#{postneonatalVPMCrud.item.didReceiveAntiMalariDrug}" />
+                
+                <h:outputText value="Specify the anti-malari drug received:"/>
+                <img class="clickable" onclick="O$('popupWindowForWhichAntiMalariaDrug').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                <h:outputText id="whichAntiMalariaDrug" value="#{postneonatalVPMCrud.item.whichAntiMalariaDrug}" />
+               
+                <f:verbatim><h3>Interviewer's comments and observations</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+                
+                <h:outputText value="Comments:"/>
+                <h:outputText />
+                <h:outputText tabindex="122" cols="25" rows="5"  value="#{postneonatalVPMCrud.item.interviewersComments}" />
+                
+           		<h:outputText value="Certified correct on: (#{siteProperties.dateFormat})" />
+                <h:outputText />
+                <h:outputText  value="#{postneonatalVPMCrud.item.certifiedCorrectDate}" converter="#{calendarConverter}" />
+                
+           		<h:outputText value="Certified by:"/>
+              	<h:outputText />
+              	<h:outputText value="#{postneonatalVPMCrud.item.correctedBy}" />
+              	
+              	<f:verbatim><h3>Audit Information</h3></f:verbatim>
+        		<h:outputText />
+        		<h:outputText />
+              	
+              	<h:outputText value="#{msg.insertDate}"/>
+	            <h:outputText />
+	            <h:outputText value="#{postneonatalVPMCrud.item.insertDate}" converter="#{calendarConverter}" />
+					
+				<h:outputText value="#{msg.insertBy}"/>
+				<h:outputText />
+				<h:outputText value="#{postneonatalVPMCrud.item.insertBy.fullName}" />
+					
+				<h:outputText value="#{msg.dataStatus}"/>
+		    	<img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+				<h:outputText value="#{postneonatalVPMCrud.item.status}" />
+                
+        	</h:panelGrid>
+            <br />
+           <h:commandButton action="#{postneonatalVPMCrud.editSetup}" value="#{msg.lblEdit}">
+               <f:setPropertyActionListener target="#{jsfService.itemId}" value="#{postneonatalVPMCrud.item.uuid}" />
+           </h:commandButton>
+        </h:form>
+	</ui:define>		
+</ui:composition>
