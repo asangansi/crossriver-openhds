@@ -89,6 +89,10 @@
                      <img class="clickable" onclick="O$('popupWindowForUmbilicalCordCut').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                      <h:outputText id="umbilicalCordCut" value="#{pregnancyOutcomeCrud.item.umbilicalCordCut}" />
                      
+                     <h:outputText value="If umbilical cord cut is other, please specify?:"/>
+                     <h:outputText />
+                     <h:outputText id="umbilicalCordCutOther" value="#{pregnancyOutcomeCrud.item.umbilicalCordCutOther}" />       
+                     
                      <h:outputText value="Is this your first live birth?:"/>
                      <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                      <h:outputText id="firstLiveBirth" value="#{pregnancyOutcomeCrud.item.firstLiveBirth}" />

@@ -110,7 +110,9 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     @ExtensionIntegerConstraint(constraint = "umbilicalCordCutConstraint", message = "Invalid Value for umbilicalCordCut", allowNull = true)
     @Description(description="What was applied to the umbilical after it was cut.")
     private Integer umbilicalCordCut;
-    @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for firstLiveBirth", allowNull = true)
+    @Description(description="If other is selected, specify.")
+    private String umbilicalCordCutOther;
+	@ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for firstLiveBirth", allowNull = true)
     @Description(description="Is this your first live birth.")
     private Integer firstLiveBirth;
     @Description(description="Number of live births from recent pregnancy.")
@@ -260,6 +262,14 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
 
 	public void setUmbilicalCordCut(Integer umbilicalCordCut) {
 		this.umbilicalCordCut = umbilicalCordCut;
+	}
+	
+	public String getUmbilicalCordCutOther() {
+		return umbilicalCordCutOther;
+	}
+
+	public void setUmbilicalCordCutOther(String umbilicalCordCutOther) {
+		this.umbilicalCordCutOther = umbilicalCordCutOther;
 	}
 
 	public Integer getFirstLiveBirth() {

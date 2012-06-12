@@ -108,6 +108,11 @@
                         <h:inputText tabindex="16" id="umbilicalCordCut" value="#{pregnancyOutcomeCrud.item.umbilicalCordCut}" converter="#{defaultConverter}" />
                         <h:message for="umbilicalCordCut" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                       
+	                    <h:outputText value="If umbilical cord cut is other, please specify?:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="17" id="umbilicalCordCutOther" value="#{pregnancyOutcomeCrud.item.umbilicalCordCutOther}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:message for="umbilicalCordCutOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                            
 	                    <h:outputText value="Is this your first live birth?:"/>
                         <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                         <h:inputText tabindex="17" id="firstLiveBirth" value="#{pregnancyOutcomeCrud.item.firstLiveBirth}" converter="#{defaultConverter}" />

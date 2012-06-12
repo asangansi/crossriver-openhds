@@ -112,8 +112,19 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
 		
 		entityItem.setMother(mother);
 		entityItem.setChild1(new Individual());
-		entityItem.getChild1().setExtId(individualIdGenerator.filterBound(entityItem.getMother().getExtId()));
-		entityItem.getChild1().setExtId(individualService.generateIdWithBound(entityItem.getChild1(), entityItem.getNumberOfLiveBirths()+1));
+		
+		String motherId = entityItem.getMother().getExtId();
+		String householdId = motherId.substring(9, 11);
+		String locationId = entityItem.getMother().getCurrentResidency().getLocation().getExtId();
+		
+		// build location prefix
+		String childId = locationId;
+		
+		// append household portion
+		childId = childId.concat(householdId);
+		
+		entityItem.getChild1().setExtId(childId);
+		entityItem.getChild1().setExtId(individualService.generateIdWithBound(entityItem.getChild1(), entityItem.getNumberOfLiveBirths()+1));	
 	}
 	
     public void secondChildChange(ValueChangeEvent event) {
