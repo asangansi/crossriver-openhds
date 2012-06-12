@@ -53,12 +53,7 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 			
 			// set the level to the highest specified
 			entityItem.setLevel(getHeighestLevel());
-			
-			// check to see if the root has been assigned
-			if (!checkRootAssigned())	
-				entityItem.setParent(genericDao.findByProperty(LocationHierarchy.class, "extId", "HIERARCHY_ROOT"));
-			else
-				throw new ConstraintViolations("The Location Hierarchy Root has already been set. To make a new one you must delete the old root.");
+			entityItem.setParent(getHierarchyRoot());
 		}
 		
 		// if the Parent item is not the root, then we can determine the level of the Hierarchy item from the Parent
