@@ -44,32 +44,37 @@
                     	
 		            	<h:outputText value="Permanent Id:"/>
 		            	 <h:outputText />
-		                <h:inputText styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" autocomplete="off"/>
+		                <h:inputText styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="true" converter="#{individualExtIdConverter}" autocomplete="off"/>
 		            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="House Id:"/>
 		            	<h:outputText />
-		                <h:inputText styleClass="location" id="loc" value="#{deathCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		                <h:inputText styleClass="location" id="loc" value="#{deathCrud.item.house}" disabled="true" converter="#{locationExtIdConverter}" autocomplete="off"/>
 		            	<h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="Household Id:"/>
 		            	<h:outputText />
-		                <h:inputText styleClass="socialGroup" id="sg" value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		                <h:inputText styleClass="socialGroup" id="sg" value="#{deathCrud.item.household}" disabled="true" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
 		            	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="Household Name:" />
 						<h:outputText />
-						<h:inputText id="householdName" value="#{deathCrud.item.householdName}" converter="#{defaultConverter}" />
+						<h:inputText id="householdName" value="#{deathCrud.item.household.groupName}" converter="#{defaultConverter}" disabled="true" />
 						<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
-						<h:outputText value="Deceased Name:" />
+						<h:outputText value="Deceased First Name:" />
 						<h:outputText />
-						<h:inputText id="deceasedName" value="#{deathCrud.item.deceasedName}" converter="#{defaultConverter}" />
-						<h:message for="deceasedName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						<h:inputText id="deceasedFName" value="#{deathCrud.item.individual.firstName}" disabled="true" converter="#{defaultConverter}" disabed="true" />
+						<h:message for="deceasedFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="Deceased Last Name:" />
+						<h:outputText />
+						<h:inputText id="deceasedLName" value="#{deathCrud.item.individual.lastName}" disabled="true" converter="#{defaultConverter}" disabed="true" />
+						<h:message for="deceasedLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="Deceased Gender:"/>
 	                	<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-	                	<h:inputText id="gender" value="#{deathCrud.item.gender}" converter="#{genderCodesConverter}" /> 
+	                	<h:inputText id="gender" value="#{deathCrud.item.individual.gender}" converter="#{genderCodesConverter}" disabled="true" /> 
 	                	<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                         <h:outputText value="#{msg.deathPlace}:"/>

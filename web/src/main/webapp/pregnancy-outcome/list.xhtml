@@ -5,7 +5,7 @@
 		     xmlns:c="http://java.sun.com/jstl/core"
 		     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<h:form>
-		<div style="text-align:right;">
+		<div style="text-align:right;margin-bottom:8px;">
 			<div style="float:left;">
 				<h:commandButton value="#{msg.lblAddNew}" id="button1" action="#{pregnancyOutcomeCrud.createSetup}" />
 				
@@ -22,7 +22,7 @@
 		     <ui:param name="crud" value="#{pregnancyOutcomeCrud}"/>
 		</ui:include>		
 		
-		<div style="overflow:auto;height:170px;">
+		<div>
 			<c:if test="#{flowScope.updating == null}">
 	            <h:outputText escape="false" value="#{msg.pregnancyOutcomeEmpty}" rendered="#{pregnancyOutcomeCrud.pager.totalCount == 0}" />
 	            <h:panelGroup rendered="#{pregnancyOutcomeCrud.pager.totalCount > 0}">

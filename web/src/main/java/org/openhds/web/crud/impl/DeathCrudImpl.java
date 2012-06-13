@@ -6,11 +6,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
 import org.openhds.controller.service.EntityValidationService;
 import org.openhds.controller.exception.AuthorizationException;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.domain.model.Death;
+import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.controller.service.DeathService;
 import org.springframework.binding.message.MessageContext;
 
@@ -22,6 +29,10 @@ public class DeathCrudImpl extends EntityCrudImpl<Death, String> {
     // used for manual conversion between Date and Calendar since the openFaces Calendar doesn't support JSF Converters
     Date deathDate;
     Date recordedDate;
+    
+    Boolean individualIdChange = false;
+    Boolean houseIdChange = false;
+    Boolean householdIdChange = false;
 
 	public DeathCrudImpl(Class<Death> entityClass) {
         super(entityClass);
@@ -90,6 +101,57 @@ public class DeathCrudImpl extends EntityCrudImpl<Death, String> {
     	return outcome;
     }
     
+    public void individualIdChange(ValueChangeEvent event) {
+    	Individual individual = (Individual) event.getNewValue();
+    	
+    	try {		
+			if (individual != null) {
+				entityItem.setIndividual(individual);
+				individualIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			individualIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("indiv", message);
+		}
+    }
+    
+    public void houseIdChange(ValueChangeEvent event) {
+    	Location location = (Location) event.getNewValue();
+    	
+    	try {		
+			if (location != null) {
+				entityItem.setHouse(location);
+				houseIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			houseIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("loc", message);
+		}
+    }
+    
+    public void householdIdChange(ValueChangeEvent event) {
+    	SocialGroup socialGroup = (SocialGroup) event.getNewValue();
+    	
+    	try {		
+			if (socialGroup != null) {
+				entityItem.setHousehold(socialGroup);
+				householdIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			householdIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("sg", message);
+		}
+    }
+    
     public Date getDeathDate() {
     	if (entityItem.getDeathDate() == null)
     		return new Date();
@@ -130,6 +192,30 @@ public class DeathCrudImpl extends EntityCrudImpl<Death, String> {
 
 	public void setEntityValidator(EntityValidationService<Death> entityValidator) {
 		this.entityValidator = entityValidator;
+	}
+	
+	public Boolean getIndividualIdChange() {
+		return individualIdChange;
+	}
+
+	public void setIndividualIdChange(Boolean individualIdChange) {
+		this.individualIdChange = individualIdChange;
+	}
+	
+	public Boolean getHouseIdChange() {
+		return houseIdChange;
+	}
+
+	public void setHouseIdChange(Boolean houseIdChange) {
+		this.houseIdChange = houseIdChange;
+	}
+
+	public Boolean getHouseholdIdChange() {
+		return householdIdChange;
+	}
+
+	public void setHouseholdIdChange(Boolean householdIdChange) {
+		this.householdIdChange = householdIdChange;
 	}
 
 	private class DeathEntityFilter implements EntityFilter<Death> {

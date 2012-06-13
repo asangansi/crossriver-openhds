@@ -4,6 +4,7 @@ import org.openhds.domain.util.CalendarAdapter;
 import com.sun.codemodel.JAnnotationArrayMember;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocComment;
@@ -43,9 +44,11 @@ public class DeathTemplateBuilder implements ExtensionTemplate {
 		// serial uuid
 		JFieldVar jfSerial = jc.field(JMod.PUBLIC | JMod.STATIC | JMod.FINAL, long.class, "serialVersionUID");
 		jfSerial.init(JExpr.lit(-6644256636909420061L));
-				
+					
 		// individual
 		JFieldVar jfIndividual = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "individual");
+		JClass jIndividualClassRef = jCodeModel.ref(org.openhds.domain.model.Individual.class);
+		jfIndividual.init(JExpr._new(jIndividualClassRef));	
 		jfIndividual.annotate(org.openhds.domain.constraint.Searchable.class);
 		jfIndividual.annotate(org.openhds.domain.constraint.CheckEntityNotVoided.class);
 		jfIndividual.annotate(org.openhds.domain.constraint.CheckIndividualNotUnknown.class);
@@ -87,6 +90,8 @@ public class DeathTemplateBuilder implements ExtensionTemplate {
 		
 		// household
 		JFieldVar jfHousehold = jc.field(JMod.PRIVATE , org.openhds.domain.model.SocialGroup.class, "household");
+		JClass jHouseholdClassRef = jCodeModel.ref(org.openhds.domain.model.SocialGroup.class);
+		jfHousehold.init(JExpr._new(jHouseholdClassRef));	
 		jfHousehold.annotate(org.openhds.domain.constraint.Searchable.class);
 		jfHousehold.annotate(javax.persistence.ManyToOne.class);
 		JAnnotationUse jaHouseholdDesc = jfHousehold.annotate(org.openhds.domain.annotations.Description.class);

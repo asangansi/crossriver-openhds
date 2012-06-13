@@ -45,7 +45,7 @@ public class Death
         CascadeType.PERSIST
     })
     @Description(description = "Individual who has died, identified by external id.")
-    private Individual individual;
+    private Individual individual = new Individual();
     @Searchable
     @ManyToOne
     @Description(description = "House in which this Death took place.")
@@ -53,7 +53,7 @@ public class Death
     @Searchable
     @ManyToOne
     @Description(description = "Household in which this Death took place.")
-    private SocialGroup household;
+    private SocialGroup household = new SocialGroup();
     @CheckFieldNotBlank
     @Searchable
     @Description(description = "Place where the death occurred.")
@@ -76,18 +76,11 @@ public class Death
     private Visit visitDeath;
     @Description(description = "Age of death in number of data.")
     private Long ageAtDeath;
-    @Description(description = "Name of the household in which this death occurred")
-    private String householdName;
-    @Description(description = "Name of the deceased individual")
-    private String deceasedName;
     @Description(description = "Who reported this death")
     @ExtensionIntegerConstraint(constraint = "reportedByConstraint", message = "Invalid Value for reportedBy", allowNull = true)
     private Integer reportedBy;
     @Description(description = "Specify the place of death if other")
     private String placeOfDeathOther;
-    @Description(description = "Gender of the deceased individual")
-    @ExtensionIntegerConstraint(constraint = "genderConstraint", message = "Invalid Value for gender", allowNull = true)
-    private Integer gender;
     @Description(description = "Recorded date for the death")
     @Temporal(TemporalType.DATE)
     @Past
@@ -158,22 +151,6 @@ public class Death
         ageAtDeath = age;
     }
 
-    public String getHouseholdName() {
-        return householdName;
-    }
-
-    public void setHouseholdName(String data) {
-        householdName = data;
-    }
-
-    public String getDeceasedName() {
-        return deceasedName;
-    }
-
-    public void setDeceasedName(String data) {
-        deceasedName = data;
-    }
-
     public Integer getReportedBy() {
         return reportedBy;
     }
@@ -188,14 +165,6 @@ public class Death
 
     public void setPlaceOfDeathOther(String data) {
         placeOfDeathOther = data;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer data) {
-        gender = data;
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)

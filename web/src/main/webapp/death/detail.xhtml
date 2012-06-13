@@ -53,15 +53,19 @@
 			            
 			            <h:outputText value="Household Name:" />
 						<h:outputText />
-						<h:outputText value="#{deathCrud.item.householdName}" />
+						<h:outputText value="#{deathCrud.item.household.groupName}" />
 						
-						<h:outputText value="Deceased Name:" />
+						<h:outputText value="Deceased First Name:" />
 						<h:outputText />
-						<h:outputText value="#{deathCrud.item.deceasedName}" />
+						<h:outputText id="deceasedFName" value="#{deathCrud.item.individual.firstName}" />
+						
+						<h:outputText value="Deceased Last Name:" />
+						<h:outputText />
+						<h:outputText id="deceasedLName" value="#{deathCrud.item.individual.lastName}" />
 						
 						<h:outputText value="Deceased Gender:"/>
 		                <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-		                <h:outputText value="#{deathCrud.item.gender}" /> 	
+		                <h:outputText value="#{deathCrud.item.individual.gender}" /> 	
 		                
 		                <h:outputText value="#{msg.deathPlace}:"/>
 		                <h:outputText />

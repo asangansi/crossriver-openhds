@@ -35,67 +35,72 @@
                     
                     	<h:outputText value="#{msg.fieldWorkerId}:"/>
                     	<h:outputText />
-                        <h:inputText styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
+                        <h:inputText tabindex="1" styleClass="collectedBy" autocomplete="off" id="fieldWorker" value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
                         <h:message for="fieldWorker" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     
                     	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat}):" />
                         <h:outputText />
-                        <o:dateChooser id="recordedDate" value="#{deathCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
+                        <o:dateChooser tabindex="2" id="recordedDate" value="#{deathCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
                         <h:message for="recordedDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>		
                     	
 		            	<h:outputText value="Permanent Id:"/>
 		            	 <h:outputText />
-		                <h:inputText styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" autocomplete="off"/>
+		                <h:inputText tabindex="3" styleClass="individual" id="indiv" value="#{deathCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{deathCrud.individualIdChange}"/>
 		            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="House Id:"/>
 		            	<h:outputText />
-		                <h:inputText styleClass="location" id="loc" value="#{deathCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		                <h:inputText tabindex="4" styleClass="location" id="loc" value="#{deathCrud.item.house}" disabled="#{(flowScope != null) or not (deathCrud.individualIdChange)}" converter="#{locationExtIdConverter}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{deathCrud.houseIdChange}"/>
 		            	<h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="Household Id:"/>
 		            	<h:outputText />
-		                <h:inputText styleClass="socialGroup" id="sg" value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		                <h:inputText tabindex="5" styleClass="socialGroup" id="sg" value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" disabled="#{not deathCrud.houseIdChange}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{deathCrud.householdIdChange}"/>
 		            	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="Household Name:" />
 						<h:outputText />
-						<h:inputText id="householdName" value="#{deathCrud.item.householdName}" converter="#{defaultConverter}" />
+						<h:inputText tabindex="6" id="householdName" value="#{deathCrud.item.household.groupName}" converter="#{defaultConverter}" disabled="true" />
 						<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
-						<h:outputText value="Deceased Name:" />
+						<h:outputText value="Deceased First Name:" />
 						<h:outputText />
-						<h:inputText id="deceasedName" value="#{deathCrud.item.deceasedName}" converter="#{defaultConverter}" />
-						<h:message for="deceasedName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						<h:inputText tabindex="7" id="deceasedFName" value="#{deathCrud.item.individual.firstName}" converter="#{defaultConverter}" disabled="true" />
+						<h:message for="deceasedFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+						<h:outputText value="Deceased Last Name:" />
+						<h:outputText />
+						<h:inputText tabindex="8" id="deceasedLName" value="#{deathCrud.item.individual.lastName}" converter="#{defaultConverter}" disabled="true" />
+						<h:message for="deceasedLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 						<h:outputText value="Deceased Gender:"/>
 	                	<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-	                	<h:inputText id="gender" value="#{deathCrud.item.gender}" converter="#{genderCodesConverter}" /> 
+	                	<h:inputText tabindex="9" id="gender" value="#{deathCrud.item.individual.gender}" converter="#{genderCodesConverter}" disabled="true" /> 
 	                	<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                         <h:outputText value="#{msg.deathPlace}:"/>
                         <h:outputText />
-                        <h:inputText id="deathPlace" value="#{deathCrud.item.deathPlace}" converter="#{defaultConverter}"/>
+                        <h:inputText tabindex="10" id="deathPlace" value="#{deathCrud.item.deathPlace}" converter="#{defaultConverter}" disabled="#{not deathCrud.householdIdChange}"/>
                         <h:message for="deathPlace" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 						<h:outputText value="Other:"/>
 	                    <h:outputText />
-	                    <h:inputText id="placeOfDeathOther" value="#{deathCrud.item.placeOfDeathOther}" converter="#{defaultConverter}" />
+	                    <h:inputText tabindex="11" id="placeOfDeathOther" value="#{deathCrud.item.placeOfDeathOther}" converter="#{defaultConverter}" disabled="#{not deathCrud.householdIdChange}" />
 	                    <h:message for="placeOfDeathOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
                         <h:outputText value="#{msg.deathCause}:"/>
                         <h:outputText />
-                        <h:inputText id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}"/>
+                        <h:inputText tabindex="12" id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}" disabled="#{not deathCrud.householdIdChange}"/>
                         <h:message for="deathCause" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                         <h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat})" />
                         <h:outputText />
-                        <o:dateChooser id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" />
+                        <o:dateChooser tabindex="13" id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" disabled="#{not deathCrud.householdIdChange}" />
                         <h:message for="deathDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
 	                   	<h:outputText value="#{msg.visitId}:"/>
 	                   	<h:outputText />
-	                   	<h:inputText styleClass="visit" autocomlete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" disabled="#{flowScope != null}"/>
+	                   	<h:inputText tabindex="14" styleClass="visit" autocomlete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" disabled="#{(flowScope != null) or not (deathCrud.householdIdChange)}"/>
 	            		<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            		
 	            		<f:verbatim><h3>Source of Information</h3></f:verbatim>
@@ -105,7 +110,7 @@
 
                     	<h:outputText value="Reported By:"/>
                 		<img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                		<h:inputText id="reportedBy" value="#{deathCrud.item.reportedBy}" converter="#{defaultConverter}" />
+                		<h:inputText tabindex="15" id="reportedBy" value="#{deathCrud.item.reportedBy}" converter="#{defaultConverter}" disabled="#{not deathCrud.householdIdChange}" />
                 		<h:message for="reportedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     </h:panelGrid>
                      <script>
@@ -128,12 +133,12 @@
                     
                     <c:choose>
 		                <c:when test="#{flowScope != null}">
-		                    <h:commandButton id="create" action="createDeath" value="#{msg.lblCreate}" />
-		                	<h:commandButton value="#{msg.lblCancel}" immediate="true" action="cancel" />
+		                    <h:commandButton tabindex="16" id="create" action="createDeath" value="#{msg.lblCreate}" />
+		                	<h:commandButton tabindex="17" value="#{msg.lblCancel}" immediate="true" action="cancel" />
 		                </c:when>
 		                <c:otherwise>
-		                	<h:commandButton action="#{deathCrud.create}" value="#{msg.lblCreate}"/>
-		                	<h:commandButton value="Cancel" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
+		                	<h:commandButton tabindex="18" action="#{deathCrud.create}" value="#{msg.lblCreate}"/>
+		                	<h:commandButton tabindex="19" value="Cancel" immediate="true" action="cancel" rendered="#{flowScope != null}"/>
 		            	</c:otherwise>
 		        	</c:choose>
                 </h:form>

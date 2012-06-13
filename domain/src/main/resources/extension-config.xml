@@ -341,24 +341,9 @@
 <description>Recorded date for the death</description>
 <type>Calendar</type>
 </attribute>
-<attribute>
-<constraint>none</constraint>
-<name>deceasedName</name>
-<description>Name of the deceased individual</description>
-<type>String</type>
-</attribute>
-<attribute>
-<constraint>none</constraint>
-<name>householdName</name>
-<description>Name of the household in which this death occurred</description>
-<type>String</type>
-</attribute>
-<attribute>
-<constraint>genderConstraint</constraint>
-<name>gender</name>
-<description>Gender of the deceased individual</description>
-<type>Integer</type>
-</attribute>
+
+
+
 <attribute>
 <constraint>none</constraint>
 <name>placeOfDeathOther</name>
