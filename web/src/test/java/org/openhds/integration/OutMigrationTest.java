@@ -82,7 +82,6 @@ public class OutMigrationTest {
 		 outmig.setRecordedDate(calendarUtil.getCalendar(Calendar.JANUARY, 4, 2008));
 		 outmig.setHouse(location);
 		 outmig.setHousehold(socialGroup);
-		 outmig.setGender(1);
 		 outmig.setPlaceMovedTo(1);
 		 outmig.setReason(1);
 		 outmig.setOrigin("place");

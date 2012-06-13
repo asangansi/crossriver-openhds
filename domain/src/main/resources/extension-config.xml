@@ -147,18 +147,8 @@
 <description>Relationship type to the group head</description>
 <type>String</type>
 </attribute>
-<attribute>
-<constraint>none</constraint>
-<name>houseName</name>
-<description>Name of the house the migrant moved to</description>
-<type>String</type>
-</attribute>
-<attribute>
-<constraint>none</constraint>
-<name>householdName</name>
-<description>Name of the household in which this inmigration took place</description>
-<type>String</type>
-</attribute>
+
+
 <attribute>
 <constraint>none</constraint>
 <name>currentIndividualNumber</name>
@@ -271,36 +261,16 @@
 <description>Date of interview for the outmigration</description>
 <type>Calendar</type>
 </attribute>
-<attribute>
-<constraint>none</constraint>
-<name>nameOfMigrant</name>
-<description>Name of the migrant</description>
-<type>String</type>
-</attribute>
-<attribute>
-<constraint>genderConstraint</constraint>
-<name>gender</name>
-<description>Gender of the migrant</description>
-<type>Integer</type>
-</attribute>
-<attribute>
-<constraint>none</constraint>
-<name>householdName</name>
-<description>Name of the household in which this outmigration took place</description>
-<type>String</type>
-</attribute>
+
+
+
 <attribute>
 <constraint>placeMovedToConstraint</constraint>
 <name>placeMovedTo</name>
 <description>Where the migrant moved to</description>
 <type>Integer</type>
 </attribute>
-<attribute>
-<constraint>none</constraint>
-<name>houseName</name>
-<description>Name of the house the migrant moved to</description>
-<type>String</type>
-</attribute>
+
 <attribute>
 <constraint>none</constraint>
 <name>section</name>
@@ -329,6 +299,12 @@
 <constraint>none</constraint>
 <name>reasonForMigrationOther</name>
 <description>If reason for migration is other, please specify</description>
+<type>String</type>
+</attribute>
+<attribute>
+<constraint>none</constraint>
+<name>houseName</name>
+<description>The house moved to</description>
 <type>String</type>
 </attribute>
 </attributes>

@@ -6,11 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.OutMigration;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.controller.service.OutMigrationService;
 
 public class OutMigrationCrudImpl extends EntityCrudImpl<OutMigration, String> {
@@ -25,6 +29,10 @@ public class OutMigrationCrudImpl extends EntityCrudImpl<OutMigration, String> {
     List<String> deleteFailureMessages = new ArrayList<String>();
     Boolean constraintFailure = false;
     String residencyUuid = null;
+    
+    Boolean individualIdChange = false;
+    Boolean houseIdChange = false;
+    Boolean householdIdChange = false;
 
 	public OutMigrationCrudImpl(Class<OutMigration> entityClass) {
 		super(entityClass);
@@ -36,6 +44,9 @@ public class OutMigrationCrudImpl extends EntityCrudImpl<OutMigration, String> {
 		movedToLGA = false;
 		residencyUuid = null;
 		constraintFailure = false;
+		individualIdChange = false;
+		houseIdChange = false;
+		householdIdChange = false;
 		return super.createSetup();
 	}
 	
@@ -92,6 +103,57 @@ public class OutMigrationCrudImpl extends EntityCrudImpl<OutMigration, String> {
     	
 		showListing = true;
         return listSetup();
+    }
+    
+    public void individualIdChange(ValueChangeEvent event) {
+    	Individual individual = (Individual) event.getNewValue();
+    	
+    	try {		
+			if (individual != null) {
+				entityItem.setIndividual(individual);
+				individualIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			individualIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("indiv", message);
+		}
+    }
+    
+    public void houseIdChange(ValueChangeEvent event) {
+    	Location location = (Location) event.getNewValue();
+    	
+    	try {		
+			if (location != null) {
+				entityItem.setHouse(location);
+				houseIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			houseIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("loc", message);
+		}
+    }
+    
+    public void householdIdChange(ValueChangeEvent event) {
+    	SocialGroup socialGroup = (SocialGroup) event.getNewValue();
+    	
+    	try {		
+			if (socialGroup != null) {
+				entityItem.setHousehold(socialGroup);
+				householdIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			householdIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("sg", message);
+		}
     }
     
     public void placeMovedToChanged(ValueChangeEvent event) {
@@ -160,6 +222,31 @@ public class OutMigrationCrudImpl extends EntityCrudImpl<OutMigration, String> {
 	public String getResidencyUuid() {
 		return residencyUuid;
 	}
+	
+	public Boolean getIndividualIdChange() {
+		return individualIdChange;
+	}
+
+	public void setIndividualIdChange(Boolean individualIdChange) {
+		this.individualIdChange = individualIdChange;
+	}
+
+	public Boolean getHouseIdChange() {
+		return houseIdChange;
+	}
+
+	public void setHouseIdChange(Boolean houseIdChange) {
+		this.houseIdChange = houseIdChange;
+	}
+
+	public Boolean getHouseholdIdChange() {
+		return householdIdChange;
+	}
+
+	public void setHouseholdIdChange(Boolean householdIdChange) {
+		this.householdIdChange = householdIdChange;
+	}
+
 
 	private class OutMigrationEntityFilter implements EntityFilter<OutMigration> {
 

@@ -40,7 +40,7 @@ public class OutMigration
     @ManyToOne
     @CheckIndividualNotUnknown
     @Description(description = "Individual who is outmigrating, identified by external id.")
-    private Individual individual;
+    private Individual individual = new Individual();
     @OneToOne
     @NotNull
     @Description(description = "The residency the individual is outmigrating to.")
@@ -75,27 +75,20 @@ public class OutMigration
     @Description(description = "Where the migrant moved to")
     @ExtensionIntegerConstraint(constraint = "placeMovedToConstraint", message = "Invalid Value for placeMovedTo", allowNull = true)
     private Integer placeMovedTo;
-    @Description(description = "Name of the household in which this outmigration took place")
-    private String householdName;
     @Description(description = "Date of interview for the outmigration")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
+    @Description(description = "The house moved to")
+    private String houseName;
     @Description(description = "Phone number where the migrant can be reached")
     private String phoneNumber;
     @Description(description = "Village the migrant moved to")
     private String village;
-    @Description(description = "Name of the house the migrant moved to")
-    private String houseName;
-    @Description(description = "Gender of the migrant")
-    @ExtensionIntegerConstraint(constraint = "genderConstraint", message = "Invalid Value for gender", allowNull = true)
-    private Integer gender;
     @Description(description = "If reason for migration is other, please specify")
     private String reasonForMigrationOther;
     @Description(description = "Section the migrant moved to")
     private String section;
-    @Description(description = "Name of the migrant")
-    private String nameOfMigrant;
 
     public Individual getIndividual() {
         return individual;
@@ -178,14 +171,6 @@ public class OutMigration
         placeMovedTo = data;
     }
 
-    public String getHouseholdName() {
-        return householdName;
-    }
-
-    public void setHouseholdName(String data) {
-        householdName = data;
-    }
-
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
     public Calendar getDateOfInterview() {
         return dateOfInterview;
@@ -193,6 +178,14 @@ public class OutMigration
 
     public void setDateOfInterview(Calendar data) {
         dateOfInterview = data;
+    }
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String data) {
+        houseName = data;
     }
 
     public String getPhoneNumber() {
@@ -211,22 +204,6 @@ public class OutMigration
         village = data;
     }
 
-    public String getHouseName() {
-        return houseName;
-    }
-
-    public void setHouseName(String data) {
-        houseName = data;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer data) {
-        gender = data;
-    }
-
     public String getReasonForMigrationOther() {
         return reasonForMigrationOther;
     }
@@ -241,14 +218,6 @@ public class OutMigration
 
     public void setSection(String data) {
         section = data;
-    }
-
-    public String getNameOfMigrant() {
-        return nameOfMigrant;
-    }
-
-    public void setNameOfMigrant(String data) {
-        nameOfMigrant = data;
     }
 
 }

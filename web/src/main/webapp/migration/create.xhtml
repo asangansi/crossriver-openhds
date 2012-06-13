@@ -48,30 +48,30 @@
                     <h:outputText />
                     <o:dateChooser tabindex="3" id="rec_date" disabled="#{inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" value="#{inMigrationCrud.recordedDate}" pattern="#{siteProperties.dateFormat}" />
                     <h:message for="rec_date" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-	            	
-                    <h:outputText value="House Name:"/>
-                    <h:outputText />
-                    <h:inputText tabindex="4" id="houseName" disabled="#{inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" value="#{inMigrationCrud.item.houseName}" converter="#{defaultConverter}"/>
-                    <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
+	            	              
 	            	<h:outputText value="House Id:"/>
 		            <h:outputText />
-		            <h:inputText tabindex="5" styleClass="location handle-change" id="loc" value="#{inMigrationCrud.item.house}" 
+		            <h:inputText tabindex="4" styleClass="location handle-change" id="loc" value="#{inMigrationCrud.item.house}" 
 		                         disabled="#{flowScope != null or inMigrationCrud.item.collectedBy == null or inMigrationCrud.phase > 2}" 
 		                         converter="#{locationExtIdConverter}" valueChangeListener="#{inMigrationCrud.houseChange}" 
 		                         autocomplete="off"/>
 		            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
-                    <h:outputText value="Household Name:" />
+					<h:outputText value="House Name:"/>
                     <h:outputText />
-                    <h:inputText tabindex="6" id="householdName" value="#{inMigrationCrud.item.householdName}" disabled="#{inMigrationCrud.item.house == null or inMigrationCrud.phase > 3}" converter="#{defaultConverter}" />
-                    <h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
+                    <h:inputText tabindex="5" id="houseName" disabled="true" value="#{inMigrationCrud.item.house.locationName}" converter="#{defaultConverter}"/>
+                    <h:message for="houseName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+							
 					<h:outputText value="Household Id:"/>
 		            <h:outputText />
-		            <h:inputText tabindex="7" id="sg" value="#{inMigrationCrud.item.household}" styleClass="socialGroup handle-change" valueChangeListener="#{inMigrationCrud.householdChange}" 
+		            <h:inputText tabindex="6" id="sg" value="#{inMigrationCrud.item.household}" styleClass="socialGroup handle-change" valueChangeListener="#{inMigrationCrud.householdChange}" 
 		                          disabled="#{inMigrationCrud.item.house == null or inMigrationCrud.phase > 3}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
 		            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+					<h:outputText value="Household Name:" />
+                    <h:outputText />
+                    <h:inputText tabindex="7" id="householdName" value="#{inMigrationCrud.item.household.groupName}" disabled="true" converter="#{defaultConverter}" />
+                    <h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>		
 
 					<h:outputText value="#{msg.visitId}:" />
                     <h:outputText />

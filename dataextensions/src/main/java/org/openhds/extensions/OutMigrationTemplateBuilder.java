@@ -3,6 +3,7 @@ package org.openhds.extensions;
 import org.openhds.domain.util.CalendarAdapter;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocComment;
@@ -45,6 +46,8 @@ public class OutMigrationTemplateBuilder implements ExtensionTemplate {
 		
 		// individual		
 		JFieldVar jfIndividual = jc.field(JMod.PRIVATE , org.openhds.domain.model.Individual.class, "individual");
+		JClass jIndividualClassRef = jCodeModel.ref(org.openhds.domain.model.Individual.class);
+		jfIndividual.init(JExpr._new(jIndividualClassRef));	
 		jfIndividual.annotate(javax.validation.constraints.NotNull.class);
 		jfIndividual.annotate(org.openhds.domain.constraint.Searchable.class);
 		jfIndividual.annotate(org.openhds.domain.constraint.CheckEntityNotVoided.class);

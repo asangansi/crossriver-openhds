@@ -16,8 +16,10 @@ import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.IndividualGenerator;
 import org.openhds.domain.model.InMigration;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.Residency;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.controller.service.InMigrationService;
 import org.openhds.controller.service.IndividualService;
 
@@ -136,12 +138,29 @@ public class InMigrationCrudImpl extends EntityCrudImpl<InMigration, String> {
 	public void fieldWorkerChange(ValueChangeEvent event) {
 		phase = 2;
 	}
-	
+		
 	public void houseChange(ValueChangeEvent event) {
-		phase = 3;
+		Location location = (Location) event.getNewValue();
+		
+		try {
+			if (location != null) {
+				entityItem.setHouse(location);
+				phase = 3;
+			}
+		}
+		catch (Exception e) {
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("loc", message);
+		}
 	}
 	
 	public void householdChange(ValueChangeEvent event) {
+		SocialGroup socialGroup = (SocialGroup) event.getNewValue();
+		
+		if (socialGroup != null) 
+			entityItem.setHousehold(socialGroup);
+				
 		if (entityItem.getVisit() == null) {
 			phase = 4;
 		} else {

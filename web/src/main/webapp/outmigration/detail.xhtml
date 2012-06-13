@@ -48,13 +48,17 @@
 	                <h:outputText />
 	                <h:outputText value="#{outMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
                 	
-                	<h:outputText value="Migrant Name:"/>
-                    <h:outputText />
-                    <h:outputText value="#{outMigrationCrud.item.nameOfMigrant}" converter="#{defaultConverter}"/>
-                    
+                	<h:outputText value="First Name of Migrant:"/>
+	                <h:outputText />
+	                <h:outputText id="migrantFirstName" value="#{outMigrationCrud.item.individual.firstName}" />
+	                
+					<h:outputText value="Last Name of Migrant:"/>
+	                <h:outputText />
+	                <h:outputText id="migrantLastName" value="#{outMigrationCrud.item.individual.lastName}" />
+	                
 					<h:outputText value="Migrant Gender:"/>
                     <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                    <h:outputText value="#{outMigrationCrud.item.gender}" converter="#{defaultConverter}"/>
+                    <h:outputText value="#{outMigrationCrud.item.individual.gender}" />
                 	
                 	<h:outputText value="#{msg.visitId}:"/>
                    	<h:outputText />
@@ -70,7 +74,7 @@
 		            	
 					<h:outputText value="House Name:"/>
                     <h:outputText />
-                    <h:outputText value="#{outMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
+                    <h:outputText value="#{outMigrationCrud.item.house.locationName}" />
                     	
 					<h:outputText value="Household Id:"/>
 		            <h:outputText />
@@ -78,7 +82,7 @@
 		            	
 					<h:outputText value="Household Name:" />
 					<h:outputText />
-					<h:outputText value="#{outMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+					<h:outputText value="#{outMigrationCrud.item.household.groupName}" />
 					
 					<f:verbatim><h3>Moved To</h3></f:verbatim>
                   	<h:outputText />

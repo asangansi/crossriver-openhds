@@ -77,22 +77,20 @@ public class InMigration
     @ManyToOne
     @Description(description = "Moving to household.")
     private SocialGroup household;
-    @Description(description = "Old cell phone number of the place where the migrant is moving from")
-    private String cellPhoneNumberMovingFrom;
     @Description(description = "Date of interview for the inmigration")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
-    @Description(description = "Name of the household in which this inmigration took place")
-    private String householdName;
     @Description(description = "Old village of the place where the migrant is moving from")
     private String villageMovingFrom;
+    @Description(description = "Old cell phone number of the place where the migrant is moving from")
+    private String cellPhoneNumberMovingFrom;
     @Description(description = "If reason for the inmigration is other, please specify")
     private String reasonOther;
-    @Description(description = "Old name of the place where the migrant was first registered")
-    private String oldNameFirstReg;
     @Description(description = "Temporary Id of the migrant")
     private String currentIndividualNumber;
+    @Description(description = "Old name of the place where the migrant was first registered")
+    private String oldNameFirstReg;
     @Description(description = "Old house name of the place where the migrant was first registered")
     private String houseNameFirstReg;
     @Description(description = "Old cell phone number of the place where the migrant was first registered")
@@ -101,8 +99,6 @@ public class InMigration
     private String oldNameMovingFrom;
     @Description(description = "Number of years of formal education")
     private Integer formalEducationYears;
-    @Description(description = "Name of the house the migrant moved to")
-    private String houseName;
     @Description(description = "Old household name of the place where the migrant is moving from")
     private String householdNameMovingFrom;
     @Description(description = "Old section of the place where the migrant is moving from")
@@ -214,14 +210,6 @@ public class InMigration
         setMigType(MigrationType.EXTERNAL_INMIGRATION);
     }
 
-    public String getCellPhoneNumberMovingFrom() {
-        return cellPhoneNumberMovingFrom;
-    }
-
-    public void setCellPhoneNumberMovingFrom(String data) {
-        cellPhoneNumberMovingFrom = data;
-    }
-
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
     public Calendar getDateOfInterview() {
         return dateOfInterview;
@@ -229,14 +217,6 @@ public class InMigration
 
     public void setDateOfInterview(Calendar data) {
         dateOfInterview = data;
-    }
-
-    public String getHouseholdName() {
-        return householdName;
-    }
-
-    public void setHouseholdName(String data) {
-        householdName = data;
     }
 
     public String getVillageMovingFrom() {
@@ -247,6 +227,14 @@ public class InMigration
         villageMovingFrom = data;
     }
 
+    public String getCellPhoneNumberMovingFrom() {
+        return cellPhoneNumberMovingFrom;
+    }
+
+    public void setCellPhoneNumberMovingFrom(String data) {
+        cellPhoneNumberMovingFrom = data;
+    }
+
     public String getReasonOther() {
         return reasonOther;
     }
@@ -255,20 +243,20 @@ public class InMigration
         reasonOther = data;
     }
 
-    public String getOldNameFirstReg() {
-        return oldNameFirstReg;
-    }
-
-    public void setOldNameFirstReg(String data) {
-        oldNameFirstReg = data;
-    }
-
     public String getCurrentIndividualNumber() {
         return currentIndividualNumber;
     }
 
     public void setCurrentIndividualNumber(String data) {
         currentIndividualNumber = data;
+    }
+
+    public String getOldNameFirstReg() {
+        return oldNameFirstReg;
+    }
+
+    public void setOldNameFirstReg(String data) {
+        oldNameFirstReg = data;
     }
 
     public String getHouseNameFirstReg() {
@@ -301,14 +289,6 @@ public class InMigration
 
     public void setFormalEducationYears(Integer data) {
         formalEducationYears = data;
-    }
-
-    public String getHouseName() {
-        return houseName;
-    }
-
-    public void setHouseName(String data) {
-        houseName = data;
     }
 
     public String getHouseholdNameMovingFrom() {

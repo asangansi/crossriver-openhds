@@ -51,14 +51,19 @@
 	                <h:inputText styleClass="individual" autocomplete="off" disabled="true" id="indiv" value="#{outMigrationCrud.item.individual}" converter="#{individualExtIdConverter}" />
 	            	<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
-					<h:outputText value="Name of Migrant:"/>
-                    <h:outputText />
-                    <h:inputText id="nameOfMigrant" value="#{outMigrationCrud.item.nameOfMigrant}" converter="#{defaultConverter}"/>
-                    <h:message for="nameOfMigrant" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-					
+					<h:outputText value="First Name of Migrant:"/>
+	                <h:outputText />
+	                <h:inputText id="migrantFirstName" value="#{outMigrationCrud.item.individual.firstName}" disabled="true" converter="#{defaultConverter}"/>
+	                <h:message for="migrantFirstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+					<h:outputText value="Last Name of Migrant:"/>
+	                <h:outputText />
+	                <h:inputText id="migrantLastName" value="#{outMigrationCrud.item.individual.lastName}" disabled="true" converter="#{defaultConverter}"/>
+	                <h:message for="migrantLastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
 					<h:outputText value="Gender of Migrant:"/>
                     <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                    <h:inputText id="gender" value="#{outMigrationCrud.item.gender}" converter="#{defaultConverter}"/>
+                    <h:inputText id="gender" value="#{outMigrationCrud.item.individual.gender}" disabled="true" converter="#{defaultConverter}"/>
                     <h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 	            	<h:outputText value="#{msg.visitId}:"/>
@@ -73,22 +78,22 @@
 					
 					<h:outputText value="House Id:"/>
 		            <h:outputText />
-		            <h:inputText styleClass="location" id="loc" value="#{outMigrationCrud.item.house}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+		            <h:inputText styleClass="location" id="loc" value="#{outMigrationCrud.item.house}" disabled="true" converter="#{locationExtIdConverter}" autocomplete="off"/>
 		            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="House Name:"/>
                     <h:outputText />
-                    <h:inputText id="origin" value="#{outMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
+                    <h:inputText id="origin" value="#{outMigrationCrud.item.house.locationName}" converter="#{defaultConverter}" disabled="true"/>
                     <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="Household Id:"/>
 		            <h:outputText />
-		            <h:inputText styleClass="socialGroup" id="sg" value="#{outMigrationCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+		            <h:inputText styleClass="socialGroup" id="sg" value="#{outMigrationCrud.item.household}" disabled="true" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
 		            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 						
 					<h:outputText value="Household Name:" />
 					<h:outputText />
-					<h:inputText id="householdName" value="#{outMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+					<h:inputText id="householdName" value="#{outMigrationCrud.item.household.groupName}" converter="#{defaultConverter}" disabled="true" />
 					<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	            	
 					<f:verbatim><h3>Moved To</h3></f:verbatim>

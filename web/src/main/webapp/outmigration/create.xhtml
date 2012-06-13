@@ -47,22 +47,27 @@
 	            		
 	            		<h:outputText value="Permanent Id:"/>
 	            		<h:outputText />
-	               	 	<h:inputText styleClass="individual" autocomplete="off" id="indiv" value="#{outMigrationCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" />
+	               	 	<h:inputText styleClass="individual" autocomplete="off" id="indiv" value="#{outMigrationCrud.item.individual}" disabled="#{flowScope != null}" converter="#{individualExtIdConverter}" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.individualIdChange}" />
 	            		<h:message for="indiv" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
-						<h:outputText value="Name of Migrant:"/>
+						<h:outputText value="First Name of Migrant:"/>
 	                    <h:outputText />
-	                    <h:inputText id="nameOfMigrant" value="#{outMigrationCrud.item.nameOfMigrant}" converter="#{defaultConverter}"/>
-	                    <h:message for="nameOfMigrant" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	                    <h:inputText id="migrantFirstName" value="#{outMigrationCrud.item.individual.firstName}" disabled="true" converter="#{defaultConverter}" />
+	                    <h:message for="migrantFirstName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+	
+						<h:outputText value="Last Name of Migrant:"/>
+	                    <h:outputText />
+	                    <h:inputText id="migrantLastName" value="#{outMigrationCrud.item.individual.lastName}" disabled="true" converter="#{defaultConverter}"/>
+	                    <h:message for="migrantLastName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<h:outputText value="Gender of Migrant:"/>
 	                    <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-	                    <h:inputText id="gender" value="#{outMigrationCrud.item.gender}" converter="#{defaultConverter}"/>
+	                    <h:inputText id="gender" value="#{outMigrationCrud.item.individual.gender}" disabled="true" converter="#{defaultConverter}"/>
 	                    <h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<h:outputText value="#{msg.visitId}:" />
 						<h:outputText />
-	                    <h:inputText styleClass="visit" autocomplete="off" id="visit" disabled="#{flowScope != null}" value="#{outMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
+	                    <h:inputText styleClass="visit" autocomplete="off" id="visit" disabled="#{(flowScope != null) or not (outMigrationCrud.individualIdChange)}" value="#{outMigrationCrud.item.visit}" converter="#{visitExtIdConverter}" />
 	                    <h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                
 						<f:verbatim><h3>Moved Away From</h3></f:verbatim>
@@ -72,22 +77,22 @@
 						
 						<h:outputText value="House Id:"/>
 			            <h:outputText />
-			            <h:inputText styleClass="location" id="loc" value="#{outMigrationCrud.item.house}" disabled="#{flowScope != null}" converter="#{locationExtIdConverter}" autocomplete="off"/>
+			            <h:inputText styleClass="location" id="loc" value="#{outMigrationCrud.item.house}" disabled="#{flowScope != null or not (outMigrationCrud.individualIdChange)}" converter="#{locationExtIdConverter}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.houseIdChange}"/>
 			            <h:message for="loc" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 							
 						<h:outputText value="House Name:"/>
 	                    <h:outputText />
-	                    <h:inputText id="origin" value="#{outMigrationCrud.item.origin}" converter="#{defaultConverter}"/>
+	                    <h:inputText id="origin" value="#{outMigrationCrud.item.house.locationName}" converter="#{defaultConverter}" disabled="true"/>
 	                    <h:message for="origin" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 							
 						<h:outputText value="Household Id:"/>
 			            <h:outputText />
-			            <h:inputText styleClass="socialGroup" id="sg" value="#{outMigrationCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
+			            <h:inputText styleClass="socialGroup" id="sg" value="#{outMigrationCrud.item.household}" disabled="#{not outMigrationCrud.houseIdChange}" converter="#{socialGroupExtIdConverter}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.householdIdChange}"/>
 			            <h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 							
 						<h:outputText value="Household Name:" />
 						<h:outputText />
-						<h:inputText id="householdName" value="#{outMigrationCrud.item.householdName}" converter="#{defaultConverter}" />
+						<h:inputText id="householdName" value="#{outMigrationCrud.item.household.groupName}" converter="#{defaultConverter}" disabled="true" />
 						<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<f:verbatim><h3>Moved To</h3></f:verbatim>
@@ -97,7 +102,7 @@
 	                  	
 	                  	<h:outputText value="Place Moved To:"/>
 	                    <img class="clickable" onclick="O$('popupWindowForPlaceMovedTo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-	                    <h:inputText id="placeMovedTo" value="#{outMigrationCrud.item.placeMovedTo}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.placeMovedToChanged}"/>
+	                    <h:inputText id="placeMovedTo" value="#{outMigrationCrud.item.placeMovedTo}" disabled="#{not outMigrationCrud.householdIdChange}" converter="#{defaultConverter}" onchange="submit()" immediate="true" valueChangeListener="#{outMigrationCrud.placeMovedToChanged}"/>
 	                    <h:message for="placeMovedTo" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 	                  	<h:outputText value="Other:"/>
@@ -127,12 +132,12 @@
 	                  	
 	                    <h:outputText value="#{msg.outmigrationReason}:"/>
 	                    <img class="clickable" onclick="O$('popupWindowForReason').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-	                    <h:inputText id="reason" value="#{outMigrationCrud.item.reason}" converter="#{defaultConverter}"/>
+	                    <h:inputText id="reason" value="#{outMigrationCrud.item.reason}" converter="#{defaultConverter}" />
 	                    <h:message for="reason" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<h:outputText value="Other:"/>
 	                    <h:outputText />
-	                    <h:inputText id="reasonOther" value="#{outMigrationCrud.item.reasonForMigrationOther}" converter="#{defaultConverter}"/>
+	                    <h:inputText id="reasonOther" value="#{outMigrationCrud.item.reasonForMigrationOther}" converter="#{defaultConverter}" />
 	                    <h:message for="reasonOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                    </h:panelGrid>
                    	<script>	
