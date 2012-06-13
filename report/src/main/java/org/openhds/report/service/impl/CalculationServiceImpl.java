@@ -113,7 +113,7 @@ public class CalculationServiceImpl implements CalculationService {
 			reportRecords.add(new ReportRecordBean("80-84", 80, 85));
 			reportRecords.add(new ReportRecordBean("85-89", 85, 90));
 			reportRecords.add(new ReportRecordBean("90-95", 90, 95));
-			reportRecords.add(new ReportRecordBean("95+", 95, 110));
+			reportRecords.add(new ReportRecordBean("95+", 95, 120));
 		}
 	}
 	
@@ -226,6 +226,8 @@ public class CalculationServiceImpl implements CalculationService {
 					resEndDate = latestDate;
 					res.setEndDate(resEndDate);
 				}
+				else
+					continue;
 			}
 			else 
 				resEndDate = res.getEndDate();
@@ -241,9 +243,11 @@ public class CalculationServiceImpl implements CalculationService {
 		return validResidencies;
 	}
 	
-	public void setIntervalsOfResidencies(List<Residency> list, Calendar startDate, Calendar endDate) {
+	public void setIntervalsOfResidencies(List<Residency> list, Calendar startDate, Calendar endDate, String event) {
 				
+		int count = 0;
 		for (Residency res : list) {
+						
 			Calendar beginInterval = null;
 			Calendar endInterval = null;
 			
@@ -260,13 +264,30 @@ public class CalculationServiceImpl implements CalculationService {
 			// determine age groups at beginning and end of residency
 			int ageAtBeg = (int) (CalendarUtil.daysBetween(res.getIndividual().getDob(), beginInterval) / 365.25);
 			int ageAtEnd = (int) (CalendarUtil.daysBetween(res.getIndividual().getDob(), endInterval) / 365.25);
+			
+			if (event.equals("Population")) {
+				if (ageAtBeg >= 120 || ageAtEnd >= 120)
+					continue;
+			}
+			else if (event.equals("Fertility")) {
+				if (ageAtBeg >= 50 || ageAtEnd >= 50)
+					continue;
+			}
+			else if (event.equals("Mortality")) {
+				if (ageAtBeg >= 100 || ageAtEnd >= 100)
+					continue;
+			}
+			else if (event.equals("OutMigration")) {
+				if (ageAtBeg >= 100 || ageAtEnd >= 100)
+					continue;
+			}
+			
 			int firstGroup = determineAgeGroup(ageAtBeg);
 			int lastGroup = determineAgeGroup(ageAtEnd);
 			
 			int currentGroup = firstGroup;
 			
 			if (firstGroup == lastGroup) {
-				
 				ReportRecordBean group = reportRecords.get(currentGroup);
 				if (res.getIndividual().getGender().equals(siteProperties.getMaleCode())) 
 					group.addPdoMale((double)CalendarUtil.daysBetween(beginInterval, endInterval));
@@ -276,12 +297,12 @@ public class CalculationServiceImpl implements CalculationService {
 			// determine where to split the residencies
 			else {
 				
-				do {				
+				do {			
 					ReportRecordBean group = reportRecords.get(currentGroup);
 					int difference = (int) (group.getMax() - ageAtBeg);
 					int adjustedAge = ageAtBeg + difference;
 					Calendar dob = res.getIndividual().getDob();
-					
+									
 					Calendar groupEndDate = (Calendar) dob.clone();
 					groupEndDate.add(Calendar.YEAR, adjustedAge);
 					groupEndDate.add(Calendar.DAY_OF_MONTH, -1);
@@ -293,13 +314,13 @@ public class CalculationServiceImpl implements CalculationService {
 						group.addPdoMale((int)CalendarUtil.daysBetween(beginInterval, groupEndDate));
 					else 
 						group.addPdoFemale((int)CalendarUtil.daysBetween(beginInterval, groupEndDate));
-					
+				
 					groupEndDate.add(Calendar.DAY_OF_MONTH, 1);
 					beginInterval = (Calendar) groupEndDate.clone();
 					currentGroup++;
-
 				} while (currentGroup <= lastGroup);
 			}
+			count++;
 		}
 	}
 	

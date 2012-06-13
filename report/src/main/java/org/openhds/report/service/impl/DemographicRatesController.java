@@ -93,7 +93,7 @@ public class DemographicRatesController implements DemographicRatesService {
 		}
 		else {
 			residencies = calculationService.getResidenciesInBetween(startDate, endDate);
-			calculationService.setIntervalsOfResidencies(residencies, startDate, endDate);
+			calculationService.setIntervalsOfResidencies(residencies, startDate, endDate, event);
 		}
 		
 		// numerator

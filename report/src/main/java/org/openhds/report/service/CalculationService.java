@@ -55,7 +55,7 @@ public interface CalculationService {
 	List<PregnancyOutcome> getPregnanciesBetweenInterval(Calendar startDate, Calendar endDate);
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
-	void setIntervalsOfResidencies(List<Residency> list, Calendar startDate, Calendar endDate);
+	void setIntervalsOfResidencies(List<Residency> list, Calendar startDate, Calendar endDate, String event);
 
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	void completeReportRecordsForPdo();
