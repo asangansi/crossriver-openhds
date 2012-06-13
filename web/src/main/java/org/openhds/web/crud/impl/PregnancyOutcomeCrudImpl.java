@@ -13,6 +13,7 @@ import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.IndividualGenerator;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.PregnancyOutcome;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.controller.service.EntityValidationService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.PregnancyService;
@@ -39,6 +40,8 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
     Date dobChild;
     
 	Boolean motherIdChange = false;
+	Boolean householdIdChange = false;
+	Boolean fatherIdChange = false;
 	Boolean secondChild = false;
 
     public PregnancyOutcomeCrudImpl(Class<PregnancyOutcome> entityClass) {
@@ -49,6 +52,8 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
 	@Override
 	public String createSetup() {
 		motherIdChange = false;
+		fatherIdChange = false;
+		householdIdChange = false;
 		secondChild = false;
 		return super.createSetup();
 	}
@@ -97,6 +102,40 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
 			FacesMessage message = new FacesMessage(e.getMessage());
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage("motherExtId", message);
+		}
+    }
+    
+    public void householdIdChange(ValueChangeEvent event) {
+    	SocialGroup socialGroup = (SocialGroup) event.getNewValue();
+    	
+    	try {		
+			if (socialGroup != null) {
+				entityItem.setHousehold(socialGroup);
+				householdIdChange = true;
+			}
+    	}
+		catch (Exception e) {
+			householdIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("sg", message);
+		}
+    }
+    
+    public void fatherIdChange(ValueChangeEvent event) {
+    	Individual father = (Individual) event.getNewValue();
+    	
+    	try {		
+    		if (father != null) {
+    			entityItem.setFather(father);
+    			fatherIdChange = true;
+    		}
+    	}
+		catch (Exception e) {
+			fatherIdChange = false;
+			FacesMessage message = new FacesMessage(e.getMessage());
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("fatherExtId", message);
 		}
     }
 
@@ -205,7 +244,23 @@ public class PregnancyOutcomeCrudImpl extends EntityCrudImpl<PregnancyOutcome, S
 	public void setMotherIdChange(Boolean motherIdChange) {
 		this.motherIdChange = motherIdChange;
 	}
-		
+	
+	public Boolean getHouseholdIdChange() {
+		return householdIdChange;
+	}
+
+	public void setHouseholdIdChange(Boolean householdIdChange) {
+		this.householdIdChange = householdIdChange;
+	}
+	
+	public Boolean getFatherIdChange() {
+		return fatherIdChange;
+	}
+
+	public void setFatherIdChange(Boolean fatherIdChange) {
+		this.fatherIdChange = fatherIdChange;
+	}
+	
 	public Boolean getSecondChild() {
 		return secondChild;
 	}

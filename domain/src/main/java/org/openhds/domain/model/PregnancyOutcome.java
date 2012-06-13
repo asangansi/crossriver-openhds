@@ -88,14 +88,8 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     @Description(description="Child two of the pregnancy outcome, may be null.")
     private Individual child2;
     
-    @Description(description="Name of the mother.")
-    private String nameOfMother;
-    @Description(description="Name of the father.")
-    private String nameOfFather;
     @Description(description="Mother's line number.")
     private String motherLineNumber;
-    @Description(description="Name of the household in which the pregnancy outcome occurred.")
-    private String householdName;
     @ExtensionIntegerConstraint(constraint = "reportedByConstraint", message = "Invalid Value for reportedBy", allowNull = true)
     @Description(description="Who reported this pregnancy outcome.")
     private Integer reportedBy;
@@ -192,36 +186,12 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
 		this.child2 = child2;
 	}
 	
-	public String getNameOfMother() {
-		return nameOfMother;
-	}
-
-	public void setNameOfMother(String nameOfMother) {
-		this.nameOfMother = nameOfMother;
-	}
-
-	public String getNameOfFather() {
-		return nameOfFather;
-	}
-
-	public void setNameOfFather(String nameOfFather) {
-		this.nameOfFather = nameOfFather;
-	}
-
 	public String getMotherLineNumber() {
 		return motherLineNumber;
 	}
 
 	public void setMotherLineNumber(String motherLineNumber) {
 		this.motherLineNumber = motherLineNumber;
-	}
-
-	public String getHouseholdName() {
-		return householdName;
-	}
-
-	public void setHouseholdName(String householdName) {
-		this.householdName = householdName;
 	}
 
 	public Integer getReportedBy() {

@@ -33,11 +33,16 @@
                         <h:inputText styleClass="individual" autocomplete="off" id="motherExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.mother}" converter="#{individualExtIdConverter}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.motherIdChange}"/>
                         <h:message for="motherExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
-						<h:outputText value="Name of Mother:"/>
+						<h:outputText value="First Name of Mother:"/>
                         <h:outputText />
-                        <h:inputText tabindex="2" id="motherName" value="#{pregnancyOutcomeCrud.item.nameOfMother}" converter="#{defaultConverter}" disabled="true" />
-                        <h:message for="motherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        <h:inputText tabindex="2" id="motherFName" disabled="true" value="#{pregnancyOutcomeCrud.item.mother.firstName}" converter="#{defaultConverter}" />
+                        <h:message for="motherFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
+						<h:outputText value="Last Name of Mother:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="2" id="motherLName" disabled="true" value="#{pregnancyOutcomeCrud.item.mother.lastName}" converter="#{defaultConverter}" />
+                        <h:message for="motherLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
 						<h:outputText value="Mother's Line Number:"/>
                         <h:outputText />
                         <h:inputText tabindex="3" id="lineNumber" value="#{pregnancyOutcomeCrud.item.motherLineNumber}" converter="#{defaultConverter}" />
@@ -65,12 +70,12 @@
 						
 						<h:outputText value="Household Id:"/>
 		            	<h:outputText />
-		                <h:inputText tabindex="8" styleClass="socialGroup" id="sg" value="#{pregnancyOutcomeCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off" />
+		                <h:inputText tabindex="8" styleClass="socialGroup" id="sg" value="#{pregnancyOutcomeCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.householdIdChange}"/>
 		            	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                         
                         <h:outputText value="Household Name:"/>
                         <h:outputText />
-                        <h:inputText tabindex="9" id="householdName" value="#{pregnancyOutcomeCrud.item.householdName}" converter="#{defaultConverter}" />
+                        <h:inputText tabindex="9" id="householdName" value="#{pregnancyOutcomeCrud.item.household.groupName}" disabled="true" converter="#{defaultConverter}" />
                 		<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                        	<h:outputText value="Date of Birth of child: (#{siteProperties.dateFormat})" />
@@ -83,11 +88,16 @@
                         <h:inputText tabindex="11" styleClass="individual" autocomplete="off" id="fatherExtId" disabled="true" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" />
                         <h:message for="fatherExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
-						<h:outputText value="Name of Father:"/>
+						<h:outputText value="First Name of Father:"/>
                         <h:outputText />
-                        <h:inputText tabindex="12" id="fatherName" value="#{pregnancyOutcomeCrud.item.nameOfFather}" disabled="true" converter="#{defaultConverter}" />
-                        <h:message for="fatherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-	
+                        <h:inputText tabindex="12" id="fatherFName" disabled="true" value="#{pregnancyOutcomeCrud.item.father.firstName}" converter="#{defaultConverter}" />
+                        <h:message for="fatherFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="Last Name of Father:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="12" id="fatherLName" disabled="true" value="#{pregnancyOutcomeCrud.item.father.lastName}" converter="#{defaultConverter}" />
+                        <h:message for="fatherLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                       
                         <h:outputText value="Place of Birth:"/>
                         <img class="clickable" onclick="O$('popupWindowForPlaceOfBirth').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                         <h:inputText tabindex="13" id="placeOfBirth" value="#{pregnancyOutcomeCrud.item.placeOfBirth}" converter="#{defaultConverter}" />

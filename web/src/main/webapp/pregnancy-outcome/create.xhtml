@@ -33,11 +33,16 @@
                         <h:inputText tabindex="1" styleClass="individual" autocomplete="off" id="motherExtId" disabled="#{flowScope.updating or pregnancyOutcomeCrud.motherIdChange}" value="#{pregnancyOutcomeCrud.item.mother}" converter="#{individualExtIdConverter}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.motherIdChange}"/>
                         <h:message for="motherExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
-						<h:outputText value="Name of Mother:"/>
+						<h:outputText value="First Name of Mother:"/>
                         <h:outputText />
-                        <h:inputText tabindex="2" id="motherName" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" value="#{pregnancyOutcomeCrud.item.nameOfMother}" converter="#{defaultConverter}" />
-                        <h:message for="motherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        <h:inputText tabindex="2" id="motherFName" disabled="true" value="#{pregnancyOutcomeCrud.item.mother.firstName}" converter="#{defaultConverter}" />
+                        <h:message for="motherFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
+						<h:outputText value="Last Name of Mother:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="2" id="motherLName" disabled="true" value="#{pregnancyOutcomeCrud.item.mother.lastName}" converter="#{defaultConverter}" />
+                        <h:message for="motherLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
 						<h:outputText value="Mother's Line Number:"/>
                         <h:outputText />
                         <h:inputText tabindex="3" id="lineNumber" value="#{pregnancyOutcomeCrud.item.motherLineNumber}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" converter="#{defaultConverter}" />
@@ -65,77 +70,82 @@
 						
 						<h:outputText value="Household Id:"/>
 		            	<h:outputText />
-		                <h:inputText tabindex="8" styleClass="socialGroup" id="sg" value="#{pregnancyOutcomeCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+		                <h:inputText tabindex="8" styleClass="socialGroup" id="sg" value="#{pregnancyOutcomeCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.householdIdChange}"/>
 		            	<h:message for="sg" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                         
                         <h:outputText value="Household Name:"/>
                         <h:outputText />
-                        <h:inputText tabindex="9" id="householdName" value="#{pregnancyOutcomeCrud.item.householdName}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" />
+                        <h:inputText tabindex="9" id="householdName" value="#{pregnancyOutcomeCrud.item.household.groupName}" converter="#{defaultConverter}" disabled="true" />
                 		<h:message for="householdName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                        	<h:outputText value="Date of Birth of child: (#{siteProperties.dateFormat})" />
                         <h:outputText />
-                        <o:dateChooser tabindex="10" id="dobChild" value="#{pregnancyOutcomeCrud.dobChild}" pattern="#{siteProperties.dateFormat}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <o:dateChooser tabindex="10" id="dobChild" value="#{pregnancyOutcomeCrud.dobChild}" pattern="#{siteProperties.dateFormat}" disabled="#{not pregnancyOutcomeCrud.householdIdChange}"/>
                         <h:message for="dobChild" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     	
                         <h:outputText value="Father Id (Use #{siteProperties.unknownIdentifier} for Unknown)" />
                         <h:outputText />
-                        <h:inputText tabindex="11" styleClass="individual" autocomplete="off" id="fatherExtId" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="11" styleClass="individual" autocomplete="off" id="fatherExtId" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" disabled="#{not pregnancyOutcomeCrud.householdIdChange}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="fatherExtId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
-						<h:outputText value="Name of Father:"/>
+						<h:outputText value="First Name of Father:"/>
                         <h:outputText />
-                        <h:inputText tabindex="12" id="fatherName" value="#{pregnancyOutcomeCrud.item.nameOfFather}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}" />
-                        <h:message for="fatherName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-	
+                        <h:inputText tabindex="12" id="fatherFName" disabled="true" value="#{pregnancyOutcomeCrud.item.father.firstName}" converter="#{defaultConverter}" />
+                        <h:message for="fatherFName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+						<h:outputText value="Last Name of Father:"/>
+                        <h:outputText />
+                        <h:inputText tabindex="12" id="fatherLName" disabled="true" value="#{pregnancyOutcomeCrud.item.father.lastName}" converter="#{defaultConverter}" />
+                        <h:message for="fatherLName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+                        
                         <h:outputText value="Place of Birth:"/>
                         <img class="clickable" onclick="O$('popupWindowForPlaceOfBirth').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                        <h:inputText tabindex="13" id="placeOfBirth" value="#{pregnancyOutcomeCrud.item.placeOfBirth}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="13" id="placeOfBirth" value="#{pregnancyOutcomeCrud.item.placeOfBirth}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="placeOfBirth" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
 						<h:outputText value="If Place of Birth is other, please specify:"/>
                         <h:outputText />
-                        <h:inputText tabindex="14" id="placeOfBirthOther" value="#{pregnancyOutcomeCrud.item.placeOfBirthOther}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="14" id="placeOfBirthOther" value="#{pregnancyOutcomeCrud.item.placeOfBirthOther}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="placeOfBirthOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
                         <h:outputText value="What was used in cutting the umbilical cord?:"/>
                         <img class="clickable" onclick="O$('popupWindowForUmbilicalCord').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                        <h:inputText tabindex="15" id="umbilicalCord" value="#{pregnancyOutcomeCrud.item.umbilicalCord}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="15" id="umbilicalCord" value="#{pregnancyOutcomeCrud.item.umbilicalCord}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="umbilicalCord" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
                         <h:outputText value="What was applied to the umbilical after it was cut?:"/>
                         <img class="clickable" onclick="O$('popupWindowForUmbilicalCordCut').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                        <h:inputText tabindex="16" id="umbilicalCordCut" value="#{pregnancyOutcomeCrud.item.umbilicalCordCut}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="16" id="umbilicalCordCut" value="#{pregnancyOutcomeCrud.item.umbilicalCordCut}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="umbilicalCordCut" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                       
 	                    <h:outputText value="If umbilical cord cut is other, please specify?:"/>
                         <h:outputText />
-                        <h:inputText tabindex="17" id="umbilicalCordCutOther" value="#{pregnancyOutcomeCrud.item.umbilicalCordCutOther}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="17" id="umbilicalCordCutOther" value="#{pregnancyOutcomeCrud.item.umbilicalCordCutOther}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="umbilicalCordCutOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                           
 	                    <h:outputText value="Is this your first live birth?:"/>
                         <img class="clickable" onclick="O$('popupWindowForYesNo').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                        <h:inputText tabindex="17" id="firstLiveBirth" value="#{pregnancyOutcomeCrud.item.firstLiveBirth}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="17" id="firstLiveBirth" value="#{pregnancyOutcomeCrud.item.firstLiveBirth}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="firstLiveBirth" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	                       
 	                    <h:outputText value="How many live births have you had, including this child?:"/>
                         <h:outputText />
-                        <h:inputText tabindex="18" id="liveBirthNum" value="#{pregnancyOutcomeCrud.item.numberOfLiveBirths}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="18" id="liveBirthNum" value="#{pregnancyOutcomeCrud.item.numberOfLiveBirths}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="liveBirthNum" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
  
  						<h:outputText value="Total number of children born from recent pregnancy:"/>
                         <h:outputText />
-                        <h:inputText tabindex="19" id="totalChildrenBorn" value="#{pregnancyOutcomeCrud.item.totalChildrenBorn}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="19" id="totalChildrenBorn" value="#{pregnancyOutcomeCrud.item.totalChildrenBorn}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="totalChildrenBorn" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
  
 	                    <h:outputText value="Number of live births from recent pregnancy:"/>
                         <h:outputText />
-                        <h:inputText tabindex="20" id="numLiveBirths" value="#{pregnancyOutcomeCrud.item.numLiveBirths}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="20" id="numLiveBirths" value="#{pregnancyOutcomeCrud.item.numLiveBirths}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="numLiveBirths" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                       	                       
 	                  	<h:outputText value="#{msg.visitId}:"/>
 	                  	<h:outputText />
-	                  	<h:inputText tabindex="21" styleClass="visit" autocomplete="off" id="visit" value="#{pregnancyOutcomeCrud.item.visit}" converter="#{visitExtIdConverter}" disabled="#{flowScope != null or not pregnancyOutcomeCrud.motherIdChange}"/>
+	                  	<h:inputText tabindex="21" styleClass="visit" autocomplete="off" id="visit" value="#{pregnancyOutcomeCrud.item.visit}" converter="#{visitExtIdConverter}" disabled="#{flowScope != null or not pregnancyOutcomeCrud.fatherIdChange}"/>
 	           			<h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                         
                         <f:verbatim><h3>Children Information</h3></f:verbatim>
@@ -150,22 +160,22 @@
 						
 						<h:outputText value="First name of Child:"/>
                         <h:outputText />
-                        <h:inputText tabindex="23" id="fnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.firstName}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="23" id="fnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.firstName}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="fnameOfChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                         
                         <h:outputText value="Last name of Child:"/>
                         <h:outputText />
-                        <h:inputText tabindex="24" id="lnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.lastName}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="24" id="lnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.lastName}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="lnameOfChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                       	       
 						<h:outputText value="Sex:"/>
                         <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                        <h:inputText tabindex="25" id="sexChild1" value="#{pregnancyOutcomeCrud.item.child1.gender}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.motherIdChange}"/>
+                        <h:inputText tabindex="25" id="sexChild1" value="#{pregnancyOutcomeCrud.item.child1.gender}" converter="#{defaultConverter}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}"/>
                         <h:message for="sexChild1" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 					
 						<h:outputText value="Is there a second child?" />
 						<h:outputText />
-						<h:selectBooleanCheckbox tabindex="26" id="child2Checkbox" value="#{pregnancyOutcomeCrud.secondChild}" disabled="#{pregnancyOutcomeCrud.secondChild}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.secondChildChange}" />
+						<h:selectBooleanCheckbox tabindex="26" id="child2Checkbox" value="#{pregnancyOutcomeCrud.secondChild}" disabled="#{not pregnancyOutcomeCrud.fatherIdChange}" onchange="submit()" immediate="true" valueChangeListener="#{pregnancyOutcomeCrud.secondChildChange}" />
 						<h:outputText />
 						
 						<h:outputText value="Child Id: (if any)"/>

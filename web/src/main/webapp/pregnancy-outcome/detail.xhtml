@@ -29,13 +29,17 @@
                       <h:outputText />
                       <h:outputText id="motherExtId" value="#{pregnancyOutcomeCrud.item.mother}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
                       
-                      <h:outputText value="Name of Mother:"/>
+                      <h:outputText value="First Name of Mother:"/>
                       <h:outputText />
-                      <h:outputText id="motherName" value="#{pregnancyOutcomeCrud.item.nameOfMother}" /> 
-                  
+                      <h:outputText value="#{pregnancyOutcomeCrud.item.mother.firstName}" />
+                      
+					  <h:outputText value="Last Name of Mother:"/>
+                      <h:outputText />
+                      <h:outputText value="#{pregnancyOutcomeCrud.item.mother.lastName}" />
+                     
                   	  <h:outputText value="#{msg.fieldWorkerId}:"/>
               		  <h:outputText />
-              		  <h:outputText value="#{pregnancyOutcomeCrud.item.collectedBy}" title="#{msg.tipFWExtId}" converter="#{fieldWorkerExtIdConverter}"/>
+              		  <h:outputText value="#{pregnancyOutcomeCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
               
                   	  <h:outputText value="Recorded Date (#{siteProperties.dateFormat})" />
                       <h:outputText />
@@ -55,7 +59,7 @@
 	            	                        
                      <h:outputText value="Household Name:"/>
                      <h:outputText />
-                     <h:outputText id="householdName" value="#{pregnancyOutcomeCrud.item.householdName}" />                    
+                     <h:outputText id="householdName" value="#{pregnancyOutcomeCrud.item.household.groupName}" />                    
               		                    
               		 <h:outputText value="Mother's Line Number:"/>
                      <h:outputText />
@@ -67,12 +71,16 @@
                       
                      <h:outputText value="Father Id:"/>
                      <h:outputText />
-                     <h:outputText id="fatherExtId" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
+                     <h:outputText id="fatherExtId" value="#{pregnancyOutcomeCrud.item.father}" converter="#{individualExtIdConverter}" />
                  	
-                 	 <h:outputText value="Name of Father:"/>
+                 	 <h:outputText value="First Name of Father:"/>
                      <h:outputText />
-                     <h:outputText id="fatherName" value="#{pregnancyOutcomeCrud.item.nameOfFather}" />
-                      
+                     <h:outputText value="#{pregnancyOutcomeCrud.item.father.firstName}" />
+                    
+				     <h:outputText value="Last Name of Father:"/>
+                     <h:outputText />
+                     <h:outputText value="#{pregnancyOutcomeCrud.item.father.lastName}" />
+                       
                      <h:outputText value="Place of Birth:"/>
                      <img class="clickable" onclick="O$('popupWindowForPlaceOfBirth').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                      <h:outputText id="placeOfBirth" value="#{pregnancyOutcomeCrud.item.placeOfBirth}" />
@@ -113,57 +121,57 @@
                  	 <h:outputText />
                  	 <h:outputText id="visit" value="#{pregnancyOutcomeCrud.item.visit}" converter="#{visitExtIdConverter}" title="#{msg.visitId}"/>
 
-					<f:verbatim><h3>Children Information</h3></f:verbatim>
-					<h:outputText />
-					<h:outputText />
+					 <f:verbatim><h3>Children Information</h3></f:verbatim>
+					 <h:outputText />
+					 <h:outputText />
 
-                      <h:outputText value="Child Id:"/>
-                      <h:outputText />
-                      <h:outputText id="child1ExtId" value="#{pregnancyOutcomeCrud.item.child1}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
+                     <h:outputText value="Child Id:"/>
+                     <h:outputText />
+                     <h:outputText id="child1ExtId" value="#{pregnancyOutcomeCrud.item.child1}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
                      
-                      <h:outputText value="First Name of Child:"/>
-                      <h:outputText />
-                      <h:outputText id="fnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.firstName}" />	  
+                     <h:outputText value="First Name of Child:"/>
+                     <h:outputText />
+                     <h:outputText id="fnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.firstName}" />	  
                      
-					  <h:outputText value="Last Name of Child:"/>
-                      <h:outputText />
-                      <h:outputText id="lnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.lastName}" />
+					 <h:outputText value="Last Name of Child:"/>
+                     <h:outputText />
+                     <h:outputText id="lnameOfChild1" value="#{pregnancyOutcomeCrud.item.child1.lastName}" />
                      	       
 					 <h:outputText value="Sex:"/>
                      <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                      <h:outputText id="sexChild1" value="#{pregnancyOutcomeCrud.item.child1.gender}" />
 
-                      <h:outputText value="Child Id:"/>
-                      <h:outputText />
-                      <h:outputText id="child2ExtId" value="#{pregnancyOutcomeCrud.item.child2}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
+                     <h:outputText value="Child Id:"/>
+                     <h:outputText />
+                     <h:outputText id="child2ExtId" value="#{pregnancyOutcomeCrud.item.child2}" converter="#{individualExtIdConverter}" title="#{msg.tipIndivExtId}" />
                      
-                      <h:outputText value="First Name of Child:"/>
-                      <h:outputText />
-                      <h:outputText id="fnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.firstName}" />	  
+                     <h:outputText value="First Name of Child:"/>
+                     <h:outputText />
+                     <h:outputText id="fnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.firstName}" />	  
                      
-					  <h:outputText value="Last Name of Child:"/>
-                      <h:outputText />
-                      <h:outputText id="lnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.lastName}" />
+					 <h:outputText value="Last Name of Child:"/>
+                     <h:outputText />
+                     <h:outputText id="lnameOfChild2" value="#{pregnancyOutcomeCrud.item.child2.lastName}" />
                      	       
 					 <h:outputText value="Sex:"/>
                      <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                      <h:outputText id="sexChild2" value="#{pregnancyOutcomeCrud.item.child2.gender}" />
                     
-                    <f:verbatim><h3>Audit Information</h3></f:verbatim>
-                    <h:outputText />
-                    <h:outputText />
+                     <f:verbatim><h3>Audit Information</h3></f:verbatim>
+                     <h:outputText />
+                     <h:outputText />
                     
-					<h:outputText value="#{msg.insertDate}"/>
-	               	<h:outputText />
-	               	<h:outputText value="#{pregnancyOutcomeCrud.item.insertDate}" converter="#{calendarConverter}" />
+					 <h:outputText value="#{msg.insertDate}"/>
+	               	 <h:outputText />
+	               	 <h:outputText value="#{pregnancyOutcomeCrud.item.insertDate}" converter="#{calendarConverter}" />
 					
-					<h:outputText value="#{msg.insertBy}"/>
-					<h:outputText />
-					<h:outputText value="#{pregnancyOutcomeCrud.item.insertBy.fullName}" />
+					 <h:outputText value="#{msg.insertBy}"/>
+					 <h:outputText />
+					 <h:outputText value="#{pregnancyOutcomeCrud.item.insertBy.fullName}" />
 	
-					<h:outputText value="#{msg.dataStatus}"/>
-	    			<img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-					<h:outputText value="#{pregnancyOutcomeCrud.item.status}" />	
+					 <h:outputText value="#{msg.dataStatus}"/>
+	    			 <img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+					 <h:outputText value="#{pregnancyOutcomeCrud.item.status}" />	
 				</h:panelGrid>
                 <br />
            		<h:commandButton action="#{pregnancyOutcomeCrud.editSetup}" value="#{msg.lblEdit}">
