@@ -35,20 +35,8 @@ public class VisitGenerator extends Generator<Visit> {
 			
 			if (key.equals(IdGeneratedFields.VISIT_LOCID.toString())) {
 				String locId = entityItem.getVisitLocation().getExtId();
-				
-				if (locId.length() >= filter) {
-				
-					if (filter > 0 && locId.length() >= filter) 
-						sb.append(formatProperString(locId, filter));
-					else if (filter == 0 || locId.length() < filter) 
-						sb.append(formatProperString(locId, locId.length()));
-					else
-						throw new ConstraintViolations("An error occurred while attempting to generate " +
-								"the id on the field specified as '" + locId + "'");
-				}
-				else
-					throw new ConstraintViolations("Unable to generate the id. Make sure the field Location Id is of the required length " +
-							"specified in the id configuration.");
+				String eaCode = locId.substring(0, locId.length()-3);
+				sb.append(eaCode);
 			}
 			else if (key.equals(IdGeneratedFields.VISIT_ROUND.toString())) {	
 				if (filter > 0) {	
@@ -57,13 +45,12 @@ public class VisitGenerator extends Generator<Visit> {
 				}
 			}
 		}
-		
+				
 		String locId = entityItem.getVisitLocation().getExtId();
-		HashMap<String, Integer> map = scheme.getFields();
-		int length = map.get(IdGeneratedFields.VISIT_LOCID.toString());
-		String suffix = locId.substring(length, locId.length());
-		sb.append(suffix);
-
+		String houseNumber = locId.substring(locId.length()-3, locId.length());
+		sb.append(houseNumber);
+		entityItem.setExtId(sb.toString());
+		
 		if (scheme.getIncrementBound() > 0) {
 			entityItem.setExtId(sb.toString());
 			sb = new StringBuilder();
@@ -72,7 +59,7 @@ public class VisitGenerator extends Generator<Visit> {
 		
 		if (scheme.isCheckDigit()) 
 			sb.append(generateCheckCharacter(sb.toString()));
-		
+				
 		validateIdLength(sb.toString(), scheme);
 				
 		return sb.toString();
@@ -82,7 +69,7 @@ public class VisitGenerator extends Generator<Visit> {
 	public String buildNumberWithBound(Visit entityItem, IdScheme scheme) throws ConstraintViolations {
 		
 		int locationIdLength = scheme.getFields().get(IdGeneratedFields.VISIT_LOCID.toString());
-		int prefixLength = scheme.getPrefix().length() + locationIdLength;
+		int prefixLength = scheme.getPrefix().length() + locationIdLength-3;
 		if (scheme.getFields().get(IdGeneratedFields.VISIT_ROUND.toString()) > 0) {
 			prefixLength += 1;
 		}
@@ -91,7 +78,6 @@ public class VisitGenerator extends Generator<Visit> {
 		String suffix = entityItem.getExtId().substring(prefixLength);
 		int maxNumberOfVisits = scheme.getIncrementBound();
 		int currentVisitNumber = 1;
-		
 		
 		Visit previousVisit = genericDao.findByProperty(Visit.class, "extId", prefix + currentVisitNumber + suffix, true);
 		while(previousVisit != null) {
