@@ -74,6 +74,9 @@ public class SocialGroup
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
+    @Description(description = "Status of the Household")
+    @ExtensionStringConstraint(constraint = "householdStatusConstraint", message = "Invalid Value for householdStatus", allowNull = true)
+    private String householdStatus;
 
     public String getExtId() {
         return extId;
@@ -130,6 +133,14 @@ public class SocialGroup
 
     public void setDateOfInterview(Calendar data) {
         dateOfInterview = data;
+    }
+
+    public String getHouseholdStatus() {
+        return householdStatus;
+    }
+
+    public void setHouseholdStatus(String data) {
+        householdStatus = data;
     }
 
 }

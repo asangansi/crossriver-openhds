@@ -57,6 +57,12 @@
 <description>Date of interview</description>
 <type>Calendar</type>
 </attribute>
+<attribute>
+<constraint>householdStatusConstraint</constraint>
+<name>householdStatus</name>
+<description>Status of the Household</description>
+<type>String</type>
+</attribute>
 </attributes>
 	</entity>
 	<entity name="Visit">

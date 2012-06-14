@@ -524,4 +524,9 @@
 <value description="NK">9</value>
 <value description="less than 12 hours">1</value>
 </constraint>
+<constraint id="householdStatusConstraint">
+<value description="Active">A</value>
+<value description="Deserted">D</value>
+<value description="Unoccupied">U</value>
+</constraint>
 </value-constraints>

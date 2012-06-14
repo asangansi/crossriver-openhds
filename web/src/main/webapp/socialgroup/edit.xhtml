@@ -39,6 +39,11 @@
                     <img class="clickable" onclick="O$('popupWindowForSGType').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                     <h:inputText id="sgType" value="#{socialGroupCrud.item.groupType}" converter="#{defaultConverter}" />
                     <h:message for="sgType" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+						
+					<h:outputText value="Household Status:"/>
+	                <img class="clickable" onclick="O$('popupWindowForHouseholdStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                <h:inputText id="householdStatus" value="#{socialGroupCrud.item.householdStatus}" converter="#{defaultConverter}" />
+	                <h:message for="householdStatus" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>	
 										
 					<h:outputText value="#{msg.socialGroupHead}:"/>
 					<h:outputText />
