@@ -78,9 +78,11 @@ public interface LocationHierarchyService {
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
     Location findLocationById(String locationId, String msg) throws Exception;
+
+	@Authorized({PrivilegeConstants.VIEW_ENTITY})
+    Location findLocationById(String locationId);	
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	LocationHierarchy findLocationHierarchyById(String locationHierarchyId, String msg) throws Exception; 
-	
 }
 

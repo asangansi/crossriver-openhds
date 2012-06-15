@@ -349,6 +349,11 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
         return location;
     }
     
+    public Location findLocationById(String locationId) {
+        Location location = genericDao.findByProperty(Location.class, "extId", locationId);
+        return location;
+    }
+    
     /**
      * Find the locationHierarchy item by id, as long as it's a leaf
      */

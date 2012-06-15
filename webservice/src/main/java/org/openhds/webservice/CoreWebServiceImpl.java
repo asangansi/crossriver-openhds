@@ -233,6 +233,25 @@ public class CoreWebServiceImpl {
         }
         return Response.status(401).build();
     }
+    
+    @GET
+    @Path("/socialgroup/{sg}")
+    public Response socialGroupExists(@PathParam("sg") String extId) {
+    	if (!authenticateOrigin()) {
+    		return Response.status(Status.UNAUTHORIZED).build();
+    	}
+    	
+    	if (extId == null) {
+    		return Response.status(Status.BAD_REQUEST).build();
+    	}
+    	
+    	SocialGroup sg = socialGroupService.findSocialGroupById(extId.toUpperCase());
+    	if (sg == null) {
+    		return Response.status(Status.NOT_FOUND).build();
+    	}
+
+    	return Response.status(Status.OK).build();
+    }
 
     @POST
     @Path("/location")
@@ -268,6 +287,25 @@ public class CoreWebServiceImpl {
             return Response.ok().build();
         }
         return Response.status(401).build();
+    }
+    
+    @GET
+    @Path("/location/{location}")
+    public Response locationExists(@PathParam("location") String locationExtId) {
+    	if (!authenticateOrigin()) {
+    		return Response.status(Status.UNAUTHORIZED).build();
+    	}
+    	
+    	if (locationExtId == null) {
+    		return Response.status(Status.BAD_REQUEST).build();
+    	}
+    	
+    	Location location = locationService.findLocationById(locationExtId.toUpperCase());
+    	if (location == null) {
+    		return Response.status(Status.NOT_FOUND).build();
+    	}
+
+    	return Response.status(Status.OK).build();
     }
 
     @POST

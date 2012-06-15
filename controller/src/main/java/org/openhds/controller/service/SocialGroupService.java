@@ -44,6 +44,9 @@ public interface SocialGroupService {
 
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	SocialGroup findSocialGroupById(String socialGroupId, String msg) throws Exception; 
+
+	@Authorized({PrivilegeConstants.VIEW_ENTITY})
+	SocialGroup findSocialGroupById(String socialGroupId); 
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	SocialGroup getSocialGroupForIndividualByType(Individual individual, String groupType); 
