@@ -40,7 +40,7 @@ public class Residency extends AuditableCollectedEntity implements GenericStartE
     @Description(description="Residency start date.")
     Calendar startDate;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Start type cannot be blank")
     @Description(description="Residency start type.")
     String startType;
     

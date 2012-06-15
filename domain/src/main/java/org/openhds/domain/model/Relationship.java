@@ -53,7 +53,7 @@ public class Relationship extends AuditableCollectedEntity implements GenericEnd
     @Description(description="One of the individuals participating in the relationship, identified by external id.")
     Individual individualB;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Relationship type cannot be blank")
     @ExtensionStringConstraint(constraint="maritalStatusConstraint", message="Invalid Value for relationship type",allowNull=false)
     @Description(description="Relationship type.")
     String aIsToB;

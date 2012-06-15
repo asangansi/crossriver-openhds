@@ -26,7 +26,7 @@ public class Whitelist implements Serializable {
     String uuid;
     
 	@Searchable
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Address cannot be blank")
     @Description(description="The address to approve.")
 	String address;
 		

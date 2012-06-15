@@ -54,11 +54,11 @@ public class Death
     @ManyToOne
     @Description(description = "Household in which this Death took place.")
     private SocialGroup household = new SocialGroup();
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Death place cannot be blank")
     @Searchable
     @Description(description = "Place where the death occurred.")
     private String deathPlace;
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Death cause cannot be blank")
     @Searchable
     @Description(description = "Cause of the death.")
     private String deathCause;

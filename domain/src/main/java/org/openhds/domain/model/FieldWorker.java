@@ -19,17 +19,17 @@ public class FieldWorker extends AuditableEntity implements Serializable {
     private static final long serialVersionUID = 1898036206514199266L;
       
     @NotNull
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Ext id cannot be blank")
     @Searchable
     @Description(description="External Id of the field worker. This id is used internally.")
     String extId;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "First name cannot be blank")
     @Searchable
     @Description(description="First name of the field worker.")
     String firstName;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Last name cannot be blank")
     @Searchable
     @Description(description="Last name of the field worker.")
     String lastName;

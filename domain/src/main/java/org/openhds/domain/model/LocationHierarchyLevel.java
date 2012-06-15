@@ -26,7 +26,7 @@ public class LocationHierarchyLevel implements Serializable {
     int keyIdentifier;
 	
 	@NotNull
-	@CheckFieldNotBlank
+	@CheckFieldNotBlank(message = "Name cannot be blank")
 	@Searchable
 	@Description(description="The name of this location hierarchy level.")
     String name;

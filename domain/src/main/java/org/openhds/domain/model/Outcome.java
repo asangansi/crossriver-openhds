@@ -29,7 +29,7 @@ public class Outcome implements Serializable {
 	@Column(length=32)
 	String uuid;
 	
-	@CheckFieldNotBlank
+	@CheckFieldNotBlank(message = "Type cannot be blank")
 	@Description(description="Pregnancy outcome type.")
 	public String type;
 	

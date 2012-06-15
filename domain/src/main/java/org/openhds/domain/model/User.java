@@ -35,12 +35,12 @@ public class User implements Serializable {
     @Column(length=32)
     String uuid;
 
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "First name cannot be blank")
     @Searchable
     @Description(description="User's first name")
     String firstName;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Last name cannot be blank")
     @Searchable
     @Description(description="User's last name")
     String lastName;
@@ -51,11 +51,11 @@ public class User implements Serializable {
     @Description(description="Description of the user.")
     String description;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Username cannot be blank")
     @Description(description="The name used for logging into the system.")
     String username;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Password cannot be blank")
     @Description(description="Password associated with the username.")
     String password;
     

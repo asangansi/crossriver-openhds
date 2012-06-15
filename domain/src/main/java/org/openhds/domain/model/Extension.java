@@ -41,7 +41,7 @@ public class Extension implements Serializable {
 	ClassExtension classExtension;
     
 	@NotNull
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "The extension value cannot be blank")
     @Description(description="The value of this extension.")
     String extensionValue;
 	

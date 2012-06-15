@@ -18,7 +18,7 @@ import org.openhds.domain.constaint.impl.CheckFieldNotBlankImpl;
 @Documented
 public @interface CheckFieldNotBlank {
 
-	String message() default "Field cannot be left blank.";
+	String message();
 	
 	Class<?>[] groups() default{};
 	

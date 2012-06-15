@@ -39,7 +39,7 @@ public class ClassExtension implements Serializable {
   
 	@NotNull
 	@Searchable
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Name of constraint cannot be blank")
     @Description(description="The name given to the class extension.")
     String name;
 	

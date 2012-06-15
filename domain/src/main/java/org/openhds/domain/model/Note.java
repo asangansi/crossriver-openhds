@@ -19,7 +19,7 @@ public class Note extends AuditableCollectedEntity implements Serializable {
 
 	private static final long serialVersionUID = -805712653733682858L;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Description cannot be blank")
     @Description(description="The note description.")
     private String description;
     

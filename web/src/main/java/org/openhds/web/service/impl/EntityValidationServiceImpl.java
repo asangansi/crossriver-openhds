@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.openhds.controller.exception.ConstraintViolations;
-import org.openhds.domain.model.AuditableCollectedEntity;
-import org.openhds.domain.service.SitePropertiesService;
-import org.openhds.web.service.JsfService;
-import org.openhds.controller.service.EntityValidationService;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-@SuppressWarnings("unchecked")
+import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.controller.service.EntityValidationService;
+import org.openhds.domain.model.AuditableCollectedEntity;
+import org.openhds.domain.service.SitePropertiesService;
+import org.openhds.web.service.JsfService;
+
 public class EntityValidationServiceImpl<T> implements EntityValidationService<T> {
 	
 	SitePropertiesService siteProperties;
@@ -61,7 +62,7 @@ public class EntityValidationServiceImpl<T> implements EntityValidationService<T
         return false;
 	}
 
-	public <S> List validateType(S entity) {
+	public <S> List<String> validateType(S entity) {
 		List<String> violations = new ArrayList<String>();
 
 		Validator validator = getValidator();

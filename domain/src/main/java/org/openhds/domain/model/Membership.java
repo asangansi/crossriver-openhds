@@ -54,7 +54,7 @@ public class Membership extends AuditableCollectedEntity implements GenericEndDa
     @Description(description="Start date of the membership.")
 	Calendar startDate;
     
-    @CheckFieldNotBlank
+    @CheckFieldNotBlank(message = "Start type cannot be blank")
     @Description(description="Start type of the membership.")
 	String startType;
 	
