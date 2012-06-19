@@ -27,6 +27,9 @@
     <module>web</module>
     <module>report</module>
     <module>webservice</module>
+	<module>ddi</module>
+	<module>community</module>
+	<module>specialstudy</module>
   </modules>
   
   <repositories>
