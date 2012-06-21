@@ -1,9 +1,15 @@
-package org.openhds.webservice.dto;
+package org.openhds.webservice.dto.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.openhds.webservice.dto.IndividualDTO;
 
+/**
+ * This is necessary because there was no other way to include the count in the xml output.
+ * The count is needed because the mobile phone uses this as a progress indicator when
+ * downloading entities.
+ */
 @XmlRootElement(name = "individuals")
 public class IndividualDTOWrapper {
 	
