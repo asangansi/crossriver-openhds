@@ -7,6 +7,22 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>OpenHDS Special Study</name>
+  
+  <repositories>
+    <repository>
+      <id>openhds-repo</id>
+      <name>OpenHDS Repository</name>
+      <url>http://openhds.rcg.usm.maine.edu/nexus/content/groups/public/</url>
+    </repository>
+  </repositories>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>openhds-repo</id>
+      <name>OpenHDS Repository</name>
+      <url>http://openhds.rcg.usm.maine.edu/nexus/content/groups/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
 	
 	<dependencies>
 		<!-- General dependencies for standard applications -->
