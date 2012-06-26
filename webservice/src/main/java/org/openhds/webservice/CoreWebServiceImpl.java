@@ -59,7 +59,11 @@ import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
+import org.openhds.webservice.dto.IndividualDTO;
+import org.openhds.webservice.dto.LocationDTO;
 import org.openhds.webservice.dto.VisitDTO;
+import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
+import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 
 @Produces("application/xml")
 public class CoreWebServiceImpl {
@@ -764,6 +768,42 @@ public class CoreWebServiceImpl {
 		}
 		return Response.status(401).build();
 	}
+	
+    @GET
+    @Path("/individual")
+    public IndividualDTOWrapper getAllIndividuals() {  
+    	IndividualDTOWrapper wrapper = new IndividualDTOWrapper();
+        List<Individual> indivs = genericDao.findAll(Individual.class, true);
+        
+        int count = 0;
+        for (Individual indiv : indivs) {
+        	if (IndividualDTO.isValid(indiv)) {
+        		IndividualDTO dto = new IndividualDTO(indiv);
+        		wrapper.getIndividual().add(dto);
+        		count++;
+        	}
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    }
+    
+    @GET
+    @Path("/location")
+    public LocationDTOWrapper getAllLocations() {  
+    	LocationDTOWrapper wrapper = new LocationDTOWrapper();
+        List<Location> locs = genericDao.findAll(Location.class, true);
+        
+        int count = 0;
+        for (Location loc : locs) {
+        	if (LocationDTO.isValid(loc)) {
+        		LocationDTO dto = new LocationDTO(loc);
+        		wrapper.getLocation().add(dto);
+        		count++;
+        	}
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    }
 
 	@GET
 	@Path("/hierarchy")
