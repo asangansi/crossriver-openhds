@@ -20,6 +20,7 @@ public class IndividualDTO extends AppContextAware {
 	String gender;
 	String mother;
 	String father;
+	String currentResidence;
 	
 	public IndividualDTO() {}
 	
@@ -35,6 +36,7 @@ public class IndividualDTO extends AppContextAware {
 		this.dob = individual.getDob();
 		this.mother = individual.getMother().getUuid();
 		this.father = individual.getFather().getUuid();
+		this.currentResidence = individual.getCurrentResidency().getLocation().getUuid();
 		if (individual.getGender().equals(properties.getMaleCode()))
 			gender = "Male";
 		else
@@ -51,7 +53,9 @@ public class IndividualDTO extends AppContextAware {
 			individual.getMother() == null ||
 			individual.getFather() == null ||
 			StringUtils.isNullOrEmpty(individual.getMother().getUuid()) ||
-			StringUtils.isNullOrEmpty(individual.getFather().getUuid()))
+			StringUtils.isNullOrEmpty(individual.getFather().getUuid()) ||
+			individual.getCurrentResidency() == null || 
+			individual.getCurrentResidency().getLocation() == null)
 			return false;
 		return true;
 	}
@@ -119,5 +123,13 @@ public class IndividualDTO extends AppContextAware {
 	
 	public void setFather(String father) {
 		this.father = father;
+	}
+	
+	public String getCurrentResidence() {
+		return currentResidence;
+	}
+
+	public void setCurrentResidence(String currentResidence) {
+		this.currentResidence = currentResidence;
 	}
 }

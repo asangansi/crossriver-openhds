@@ -61,9 +61,11 @@ import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
 import org.openhds.webservice.dto.IndividualDTO;
 import org.openhds.webservice.dto.LocationDTO;
+import org.openhds.webservice.dto.LocationHierarchyDTO;
 import org.openhds.webservice.dto.VisitDTO;
 import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
+import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
 
 @Produces("application/xml")
 public class CoreWebServiceImpl {
@@ -798,6 +800,24 @@ public class CoreWebServiceImpl {
         	if (LocationDTO.isValid(loc)) {
         		LocationDTO dto = new LocationDTO(loc);
         		wrapper.getLocation().add(dto);
+        		count++;
+        	}
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    }
+    
+    @GET
+    @Path("/locationhierarchy")
+    public LocationHierarchyDTOWrapper getAllLocationHierarchy() {  
+    	LocationHierarchyDTOWrapper wrapper = new LocationHierarchyDTOWrapper();
+        List<LocationHierarchy> hierarchy = genericDao.findAll(LocationHierarchy.class, false);
+        
+        int count = 0;
+        for (LocationHierarchy item : hierarchy) {
+        	if (!item.getExtId().equals("HIERARCHY_ROOT")) {
+        		LocationHierarchyDTO dto = new LocationHierarchyDTO(item);
+        		wrapper.getHierarchy().add(dto);
         		count++;
         	}
         }     
