@@ -71,7 +71,7 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 		return entityItem;
 	}
 	
-	public SocialGroup evaluateSocialGroup(SocialGroup entityItem) throws ConstraintViolations {
+	public SocialGroup evaluateSocialGroup(SocialGroup entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
 		
 		SocialGroupGenerator sgGen = (SocialGroupGenerator)generator;
 	
@@ -81,11 +81,11 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	    if (individualService.getLatestEvent(entityItem.getGroupHead()).equals("Death"))
 	    	throw new ConstraintViolations("A Social Group cannot be created for an Individual who has a Death event.");	
 	        	
-    	if (sgGen.generated)	
+    	if (sgGen.generated && !overrideIdGeneration)	
 			return generateId(entityItem);
 		
 		if (findSocialGroupById(entityItem.getExtId()) != null)
-			throw new ConstraintViolations("The Id specified already exists");	
+			throw new ConstraintViolations("The social group external id already exists");	
 		
 		generator.validateIdLength(entityItem.getExtId(), sgGen.getIdScheme());
 		

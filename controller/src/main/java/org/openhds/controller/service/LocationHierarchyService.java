@@ -11,7 +11,7 @@ import org.openhds.domain.model.PrivilegeConstants;
 public interface LocationHierarchyService {
 
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	Location evaluateLocation(Location entityItem) throws ConstraintViolations;
+	Location evaluateLocation(Location entityItem, boolean overrideIdGeneration) throws ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	LocationHierarchy evaluateLocationHierarchy(LocationHierarchy entityItem) throws ConstraintViolations;

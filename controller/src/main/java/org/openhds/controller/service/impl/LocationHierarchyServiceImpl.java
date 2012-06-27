@@ -138,7 +138,7 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 		return entityItem;
 	}
 		
-	public Location evaluateLocation(Location entityItem) throws ConstraintViolations {
+	public Location evaluateLocation(Location entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
 		
 		if (!checkValidLocationEntry(entityItem.getLocationLevel().getExtId())) 
     		throw new ConstraintViolations("The " + getLowestLevel().getName() + 
@@ -147,8 +147,14 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 		LocationHierarchy item = genericDao.findByProperty(LocationHierarchy.class, "extId", entityItem.getLocationLevel().getExtId());
 		entityItem.setLocationLevel(item);
 		
-		if (locationGenerator.generated)
+		if (locationGenerator.generated && !overrideIdGeneration)
 			return generateId(entityItem);
+		else {
+			Location existing = findLocationById(entityItem.getExtId());
+			if (existing != null) {
+				throw new ConstraintViolations("A Location already exist with an external id: " + entityItem.getExtId());
+			}
+		}
 		
 		return entityItem;
 	}	
