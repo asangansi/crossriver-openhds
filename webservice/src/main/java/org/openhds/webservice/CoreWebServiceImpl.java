@@ -55,6 +55,7 @@ import org.openhds.domain.model.ReferencedBaseEntity;
 import org.openhds.domain.model.ReferencedEntity;
 import org.openhds.domain.model.Relationship;
 import org.openhds.domain.model.Residency;
+import org.openhds.domain.model.Round;
 import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
@@ -62,10 +63,12 @@ import org.openhds.domain.util.CalendarUtil;
 import org.openhds.webservice.dto.IndividualDTO;
 import org.openhds.webservice.dto.LocationDTO;
 import org.openhds.webservice.dto.LocationHierarchyDTO;
+import org.openhds.webservice.dto.RoundDTO;
 import org.openhds.webservice.dto.VisitDTO;
 import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
+import org.openhds.webservice.dto.wrapper.RoundDTOWrapper;
 
 @Produces("application/xml")
 public class CoreWebServiceImpl {
@@ -820,6 +823,22 @@ public class CoreWebServiceImpl {
         		wrapper.getHierarchy().add(dto);
         		count++;
         	}
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    }
+    
+    @GET
+    @Path("/round")
+    public RoundDTOWrapper getAllRounds() {  
+    	RoundDTOWrapper wrapper = new RoundDTOWrapper();
+        List<Round> rounds = genericDao.findAll(Round.class, false);
+        
+        int count = 0;
+        for (Round item : rounds) {
+        	RoundDTO dto = new RoundDTO(item);
+        	wrapper.getRound().add(dto);
+        	count++;
         }     
         wrapper.setCount(count);
         return wrapper;
