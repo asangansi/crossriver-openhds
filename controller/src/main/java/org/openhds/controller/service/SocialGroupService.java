@@ -16,7 +16,7 @@ public interface SocialGroupService {
 	SocialGroup createSocialGroup(SocialGroup entityItem) throws Exception;
 
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	SocialGroup evaluateSocialGroup(SocialGroup entityItem) throws ConstraintViolations;
+	SocialGroup evaluateSocialGroup(SocialGroup entityItem, boolean overrideIdGeneration) throws ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	SocialGroup checkSocialGroup(SocialGroup persistedItem, SocialGroup entityItem) throws ConstraintViolations;

@@ -108,27 +108,41 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/visit")
 	public Response createVisit(Visit visit) {
-		return new VisitInsert().insert(visit);
+		return new VisitInsert().insertForResponse(visit);
 	}
 
 	private class VisitInsert extends InsertTemplate<Visit> {
 		@Override
 		protected void buildReferentialFields(Visit entity, FieldBuilder builder) {
-			builder.referenceField(entity.getVisitLocation()).referenceField(entity.getCollectedBy());
+			// visits are inserted in only 2 ways: referencing a previous location or registering a new location
+			// a visit that is referencing a previous location will not have a location name, only location ext id
+			boolean lookupLocation = entity.getVisitLocation() != null && StringUtils.isEmpty(entity.getVisitLocation().getLocationName());
+			builder.referenceField(entity.getCollectedBy());
+			if (lookupLocation) {
+				builder.referenceField(entity.getVisitLocation());
+			}
 		}
 
 		@Override
 		protected void setReferentialFields(Visit entity, FieldBuilder builder) {
 			entity.setCollectedBy(builder.fw);
-			entity.setVisitLocation(builder.loc);
+			// its possible a visit is registering a new house in which case the builder reference will be null
+			if (builder.loc != null) {
+				entity.setVisitLocation(builder.loc);
+			}
 		}
 
 		@Override
 		protected void saveEntity(Visit entity) throws ConstraintViolations, Exception {
+			if (entity.getVisitLocation().getUuid() == null) {
+				// visits can create new locations. If the location was not fetched, it means it needs to be created
+				new LocationInsert().insert(entity.getVisitLocation());
+			}
+			
 			if (entity.getExtId() == null || entity.getExtId().isEmpty()) {
 				entity = visitService.generateId(entity);
 			}
-
+			
 			visitService.evaluateVisit(entity);
 			entity.setStatus(siteProperties.getDataStatusValidCode());
 			entityService.create(entity);
@@ -214,40 +228,68 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/socialgroup")
 	public Response createSocialGroup(SocialGroup socialGroup) {
+		return new SocialGroupInsert().insertForResponse(socialGroup);
+	}
+	
+	private class SocialGroupInsert extends InsertTemplate<SocialGroup> {
 
-		String groupHeadId = socialGroup.getGroupHead().getExtId();
-		String fieldWorkerId = socialGroup.getCollectedBy().getExtId();
-		String respondentId = socialGroup.getRespondent().getExtId();
-
-		HashMap<String, List<String>> idTemplates = new HashMap<String, List<String>>();
-		idTemplates.put("Individual", Arrays.asList(groupHeadId));
-		idTemplates.put("FieldWorker", Arrays.asList(fieldWorkerId));
-
-		OpenHDSResult result = idUtilities.evaluateCheckDigits(idTemplates);
-		if (!result.isSuccess())
-			return Response.status(400).build();
-
-		if (authenticateOrigin()) {
-
-			try {
-				socialGroup.setGroupHead(individualService.findIndivById(groupHeadId, INDIVIDUAL_ID_NOT_FOUND));
-				socialGroup.setCollectedBy(fieldWorkerService.findFieldWorkerById(fieldWorkerId,
-						INVALID_FIELD_WORKER_ID));
-				socialGroup.setRespondent(individualService.findIndivById(respondentId, INDIVIDUAL_ID_NOT_FOUND));
-
-				socialGroupService.evaluateSocialGroup(socialGroup);
-				socialGroup.setStatus(siteProperties.getDataStatusValidCode());
-
-				entityService.create(socialGroup);
-			} catch (Exception e) {
-				return Response.status(400).build();
-			}
-			log.info("Created social group via web service call with groupName=" + socialGroup.getGroupName()
-					+ ", groupHeadId=" + groupHeadId + ", groupType=" + socialGroup.getGroupType() + ", collectedBy="
-					+ fieldWorkerId);
-			return Response.ok().build();
+		@Override
+		protected void buildReferentialFields(SocialGroup entity, FieldBuilder builder) {
+			builder.referenceField(entity.getCollectedBy());
 		}
-		return Response.status(401).build();
+
+		@Override
+		protected void setReferentialFields(SocialGroup entity, FieldBuilder builder) {
+			entity.setCollectedBy(builder.fw);
+		}
+
+		@Override
+		protected void saveEntity(SocialGroup entity) throws ConstraintViolations, Exception {
+			ConstraintViolations violations = new ConstraintViolations();
+			if (entity.getGroupHead() == null) {
+				violations.addViolations("Social group must have a head");
+			}
+			
+			if (entity.getRespondent() == null) {
+				violations.addViolations("Social group must have a respondent");
+			}
+			
+			if (violations.hasViolations()) {
+				throw violations;
+			}
+			
+			boolean createdHead = false;
+			Individual head = individualService.findIndivById(entity.getGroupHead().getExtId());
+			if (head == null) {
+				head = individualService.createTemporaryIndividualWithExtId(entity.getGroupHead().getExtId(), entity.getCollectedBy());
+				createdHead = true;
+			}
+			entity.setGroupHead(head);
+			
+			boolean createdRespondent = false;
+			Individual respondent = individualService.findIndivById(entity.getRespondent().getExtId());
+			if (respondent == null) {
+				respondent = individualService.createTemporaryIndividualWithExtId(entity.getRespondent().getExtId(), entity.getCollectedBy());
+				createdRespondent = true;
+			}
+			entity.setRespondent(respondent);
+			
+			try {
+				socialGroupService.evaluateSocialGroup(entity, true);
+				entityService.create(entity);
+			} catch(Exception e) {
+				// take care to clean up any temporary individuals that might have been created
+				if (createdHead) {
+					genericDao.delete(entity.getGroupHead());
+				}
+				
+				if (createdRespondent) {
+					genericDao.delete(entity.getRespondent());
+				}
+				
+				throw e;
+			}
+		}
 	}
 
 	@GET
@@ -272,7 +314,7 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/location")
 	public Response createLocation(Location location) {
-		return new LocationInsert().insert(location);
+		return new LocationInsert().insertForResponse(location);
 	}
 
 	private class LocationInsert extends InsertTemplate<Location> {
@@ -297,7 +339,7 @@ public class CoreWebServiceImpl {
 
 			// evaluating the location BEFORE setting the head of location because its possible the location could fail
 			// validation, in which case a temporary individual would be created and left dangling
-			locationService.evaluateLocation(entity);
+			locationService.evaluateLocation(entity, true);
 
 			// CR requires a location to reference an individual who is the location head. It's possible the individual
 			// has yet to be created. In this case a temporary individual is created if the location does not point to a
@@ -447,7 +489,7 @@ public class CoreWebServiceImpl {
 				try {
 					loc = locationService.findLocationById(house.getExtId(), INVALID_LOCATION_ID);
 				} catch (Exception e) {
-					violations.addViolations(INVALID_VISIT_ID);
+					violations.addViolations(INVALID_LOCATION_ID);
 				}
 			}
 
@@ -495,18 +537,13 @@ public class CoreWebServiceImpl {
 	 */
 	private abstract class InsertTemplate<T extends AuditableCollectedEntity> {
 
-		public Response insert(T entity) {
+		public Response insertForResponse(T entity) {
 			if (!authenticateOrigin()) {
 				return Response.status(401).build();
 			}
 
 			try {
-				FieldBuilder builder = new FieldBuilder();
-				buildReferentialFields(entity, builder);
-				builder.validate();
-
-				setReferentialFields(entity, builder);
-				saveEntity(entity);
+				insert(entity);
 			} catch (ConstraintViolations e) {
 				WebServiceCallException ex = new WebServiceCallException(e);
 				return Response.status(Status.OK).entity(ex).build();
@@ -517,6 +554,15 @@ public class CoreWebServiceImpl {
 			}
 
 			return Response.ok(entity.getUuid(), MediaType.TEXT_PLAIN).build();
+		}
+
+		public void insert(T entity) throws ConstraintViolations, Exception {
+			FieldBuilder builder = new FieldBuilder();
+			buildReferentialFields(entity, builder);
+			builder.validate();
+
+			setReferentialFields(entity, builder);
+			saveEntity(entity);
 		}
 
 		protected abstract void buildReferentialFields(T entity, FieldBuilder builder);
@@ -533,7 +579,7 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/death")
 	public Response createDeath(Death death) {
-		return new DeathInsert().insert(death);
+		return new DeathInsert().insertForResponse(death);
 	}
 
 	private class DeathInsert extends InsertTemplate<Death> {
@@ -564,7 +610,7 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/inmigration")
 	public Response createInMigration(InMigration inmigration) {
-		return new InMigrationInsert().insert(inmigration);
+		return new InMigrationInsert().insertForResponse(inmigration);
 	}
 
 	private class InMigrationInsert extends InsertTemplate<InMigration> {
@@ -605,7 +651,7 @@ public class CoreWebServiceImpl {
 			expected.add(Calendar.MONTH, 9);
 			pregObserv.setExpectedDeliveryDate(expected);
 		}
-		return new PregnancyObservationInsert().insert(pregObserv);
+		return new PregnancyObservationInsert().insertForResponse(pregObserv);
 	}
 
 	private class PregnancyObservationInsert extends InsertTemplate<PregnancyObservation> {
@@ -637,7 +683,7 @@ public class CoreWebServiceImpl {
 	@POST
 	@Path("/outmigration")
 	public Response createOutMigration(OutMigration outmigration) {
-		return new OutMigrationInsert().insert(outmigration);
+		return new OutMigrationInsert().insertForResponse(outmigration);
 	}
 
 	private class OutMigrationInsert extends InsertTemplate<OutMigration> {
@@ -671,7 +717,7 @@ public class CoreWebServiceImpl {
 		if (!isSecondChildPresent(pregnancyOutcome)) {
 			pregnancyOutcome.setChild2(null);
 		}
-		return new PregnancyOutcomeInsert().insert(pregnancyOutcome);
+		return new PregnancyOutcomeInsert().insertForResponse(pregnancyOutcome);
 	}
 
 	private boolean isSecondChildPresent(PregnancyOutcome pregnancyOutcome) {
