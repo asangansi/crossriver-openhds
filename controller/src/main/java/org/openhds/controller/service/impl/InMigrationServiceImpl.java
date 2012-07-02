@@ -129,6 +129,7 @@ public class InMigrationServiceImpl implements InMigrationService {
 			// an individual would have already been persisted if:
 			// already registered in HDS
 			// a temp individual was created when registering a new household
+			copyFieldsToIndividual(persistedIndividual, inMigration.getIndividual());
 			inMigration.setIndividual(persistedIndividual);
 		} 
 
@@ -149,6 +150,15 @@ public class InMigrationServiceImpl implements InMigrationService {
 		entityService.create(inMigration);
 	}
 	
+	private void copyFieldsToIndividual(Individual persistedIndividual, Individual individual) {
+		persistedIndividual.setFirstName(individual.getFirstName());
+		persistedIndividual.setLastName(individual.getLastName());
+		persistedIndividual.setGender(individual.getGender());
+		persistedIndividual.setDob(individual.getDob());
+		persistedIndividual.setMother(individual.getMother());
+		persistedIndividual.setFather(individual.getFather());
+	}
+
 	private void createMembership(InMigration migration) throws ConstraintViolations, IllegalArgumentException, SQLException {
 		Membership membership = new Membership();
 		membership.setbIsToA(migration.getBIsToA());

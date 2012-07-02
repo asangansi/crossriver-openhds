@@ -58,7 +58,6 @@ public class Death
     @Searchable
     @Description(description = "Place where the death occurred.")
     private String deathPlace;
-    @CheckFieldNotBlank(message = "Death cause cannot be blank")
     @Searchable
     @Description(description = "Cause of the death.")
     private String deathCause;
