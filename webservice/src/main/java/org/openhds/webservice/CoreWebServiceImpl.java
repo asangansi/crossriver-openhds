@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.IdValidator;
+import org.openhds.controller.service.CurrentUser;
 import org.openhds.controller.service.DeathService;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.FieldWorkerService;
@@ -51,6 +52,7 @@ import org.openhds.domain.model.Note;
 import org.openhds.domain.model.OutMigration;
 import org.openhds.domain.model.PregnancyObservation;
 import org.openhds.domain.model.PregnancyOutcome;
+import org.openhds.domain.model.PrivilegeConstants;
 import org.openhds.domain.model.ReferencedBaseEntity;
 import org.openhds.domain.model.ReferencedEntity;
 import org.openhds.domain.model.Relationship;
@@ -100,6 +102,7 @@ public class CoreWebServiceImpl {
 	private IdValidator idUtilities;
 	private SitePropertiesService siteProperties;
 	private CalendarUtil calendarUtil;
+	private CurrentUser currentUser;
 
 	@Context
 	HttpServletRequest request;
@@ -157,6 +160,8 @@ public class CoreWebServiceImpl {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
+		currentUser.setProxyUser("webservice", "test", new String[]{PrivilegeConstants.VIEW_ENTITY});
+		
 		if (locationId == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -300,6 +305,8 @@ public class CoreWebServiceImpl {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
+		currentUser.setProxyUser("webservice", "test", new String[]{PrivilegeConstants.VIEW_ENTITY});
+		
 		if (extId == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -363,6 +370,8 @@ public class CoreWebServiceImpl {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
+		currentUser.setProxyUser("webservice", "test", new String[]{PrivilegeConstants.VIEW_ENTITY});
+		
 		if (locationExtId == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -542,7 +551,7 @@ public class CoreWebServiceImpl {
 			if (!authenticateOrigin()) {
 				return Response.status(401).build();
 			}
-
+			
 			try {
 				insert(entity);
 			} catch (ConstraintViolations e) {
@@ -1118,5 +1127,9 @@ public class CoreWebServiceImpl {
 
 	public void setCalendarUtil(CalendarUtil calendarUtil) {
 		this.calendarUtil = calendarUtil;
+	}
+
+	public void setCurrentUser(CurrentUser currentUser) {
+		this.currentUser = currentUser;
 	}
 }
