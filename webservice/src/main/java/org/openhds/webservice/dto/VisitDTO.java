@@ -16,6 +16,7 @@ import org.openhds.domain.util.CalendarAdapter;
 @XmlRootElement(name = "visit")
 public class VisitDTO {
 
+	String uuid;
 	String extId;
 	String visitLocation;
 	Calendar visitDate;
@@ -25,10 +26,19 @@ public class VisitDTO {
 	}
 
 	public VisitDTO(Visit fromVisit) {
+		this.uuid = fromVisit.getUuid();
 		this.extId = fromVisit.getExtId();
-		this.visitLocation = fromVisit.getVisitLocation().getExtId();
+		this.visitLocation = fromVisit.getVisitLocation().getUuid();
 		this.visitDate = fromVisit.getVisitDate();
 		this.roundNumber = fromVisit.getRoundNumber();
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getExtId() {

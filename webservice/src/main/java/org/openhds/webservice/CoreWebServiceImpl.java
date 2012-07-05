@@ -69,6 +69,7 @@ import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
 import org.openhds.webservice.dto.wrapper.RoundDTOWrapper;
+import org.openhds.webservice.dto.wrapper.VisitDTOWrapper;
 
 @Produces("application/xml")
 public class CoreWebServiceImpl {
@@ -888,7 +889,23 @@ public class CoreWebServiceImpl {
         }     
         wrapper.setCount(count);
         return wrapper;
-    }
+    } 
+    
+    @GET
+    @Path("/visit")
+    public VisitDTOWrapper getAllVisits() {  
+    	VisitDTOWrapper wrapper = new VisitDTOWrapper();
+        List<Visit> visits = genericDao.findAll(Visit.class, true);
+        
+        int count = 0;
+        for (Visit item : visits) {
+        	VisitDTO dto = new VisitDTO(item);
+        	wrapper.getVisit().add(dto);
+        	count++;
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    } 
 
 	@GET
 	@Path("/hierarchy")
