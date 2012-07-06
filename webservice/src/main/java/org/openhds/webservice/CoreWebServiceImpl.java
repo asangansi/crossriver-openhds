@@ -62,11 +62,13 @@ import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
+import org.openhds.webservice.dto.FieldWorkerDTO;
 import org.openhds.webservice.dto.IndividualDTO;
 import org.openhds.webservice.dto.LocationDTO;
 import org.openhds.webservice.dto.LocationHierarchyDTO;
 import org.openhds.webservice.dto.RoundDTO;
 import org.openhds.webservice.dto.VisitDTO;
+import org.openhds.webservice.dto.wrapper.FieldWorkerDTOWrapper;
 import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
@@ -910,6 +912,22 @@ public class CoreWebServiceImpl {
         for (Visit item : visits) {
         	VisitDTO dto = new VisitDTO(item);
         	wrapper.getVisit().add(dto);
+        	count++;
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    } 
+    
+    @GET
+    @Path("/fieldworker")
+    public FieldWorkerDTOWrapper getAllFieldWorkers() {  
+    	FieldWorkerDTOWrapper wrapper = new FieldWorkerDTOWrapper();
+        List<FieldWorker> fieldworkers = genericDao.findAll(FieldWorker.class, true);
+        
+        int count = 0;
+        for (FieldWorker item : fieldworkers) {
+        	FieldWorkerDTO dto = new FieldWorkerDTO(item);
+        	wrapper.getFieldworker().add(dto);
         	count++;
         }     
         wrapper.setCount(count);

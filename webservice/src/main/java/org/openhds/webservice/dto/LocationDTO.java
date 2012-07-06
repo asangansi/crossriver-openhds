@@ -24,8 +24,12 @@ public class LocationDTO {
 		
 		if (location.getLatitude() == null)
 			this.latitude = "Unknown";
+		else
+			this.latitude = location.getLatitude();
 		if (location.getLongitude() == null) 
 			this.longitude = "Unknown";
+		else
+			this.longitude = location.getLongitude();
 	}
 	
 	public static boolean isValid(Location location) {			
