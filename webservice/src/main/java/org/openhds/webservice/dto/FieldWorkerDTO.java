@@ -20,7 +20,7 @@ public class FieldWorkerDTO {
 		else
 			this.firstName = fieldWorker.getFirstName();
 		
-		if (lastName == null)
+		if (fieldWorker.getLastName() == null)
 			this.lastName = "Unknown";
 		else 
 			this.lastName = fieldWorker.getLastName();
