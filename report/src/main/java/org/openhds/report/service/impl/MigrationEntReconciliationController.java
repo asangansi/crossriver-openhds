@@ -51,7 +51,7 @@ public class MigrationEntReconciliationController implements MigrationEntReconci
 		ValueProperty unkIndiv = new ValueProperty() {
 
 			public String getPropertyName() {
-				return "unknownIndividual";
+				return "referencesTemporaryIndividual";
 			}
 
 			public Object getValue() {
