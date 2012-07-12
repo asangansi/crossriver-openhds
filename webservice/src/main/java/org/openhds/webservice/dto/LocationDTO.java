@@ -11,6 +11,7 @@ public class LocationDTO {
 	String latitude;
 	String longitude;
 	String hierarchy;
+	String status;
 	
 	public LocationDTO() {}
 	
@@ -21,6 +22,7 @@ public class LocationDTO {
 		this.extId = location.getExtId();
 		this.name = location.getLocationName();
 		this.hierarchy = location.getLocationLevel().getUuid();
+		this.status = location.getStatus();
 		
 		if (location.getLatitude() == null)
 			this.latitude = "Unknown";
@@ -88,5 +90,13 @@ public class LocationDTO {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

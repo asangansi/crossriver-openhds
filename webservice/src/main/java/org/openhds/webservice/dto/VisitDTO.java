@@ -21,9 +21,9 @@ public class VisitDTO {
 	String visitLocation;
 	Calendar visitDate;
 	Integer roundNumber;
+	String status;
 
-	public VisitDTO() {
-	}
+	public VisitDTO() { }
 
 	public VisitDTO(Visit fromVisit) {
 		this.uuid = fromVisit.getUuid();
@@ -31,6 +31,7 @@ public class VisitDTO {
 		this.visitLocation = fromVisit.getVisitLocation().getUuid();
 		this.visitDate = fromVisit.getVisitDate();
 		this.roundNumber = fromVisit.getRoundNumber();
+		this.status = fromVisit.getStatus();
 	}
 	
 	public String getUuid() {
@@ -72,5 +73,13 @@ public class VisitDTO {
 
 	public void setRoundNumber(Integer roundNumber) {
 		this.roundNumber = roundNumber;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

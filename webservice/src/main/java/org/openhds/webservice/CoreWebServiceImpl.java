@@ -67,12 +67,14 @@ import org.openhds.webservice.dto.IndividualDTO;
 import org.openhds.webservice.dto.LocationDTO;
 import org.openhds.webservice.dto.LocationHierarchyDTO;
 import org.openhds.webservice.dto.RoundDTO;
+import org.openhds.webservice.dto.SocialGroupDTO;
 import org.openhds.webservice.dto.VisitDTO;
 import org.openhds.webservice.dto.wrapper.FieldWorkerDTOWrapper;
 import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
 import org.openhds.webservice.dto.wrapper.RoundDTOWrapper;
+import org.openhds.webservice.dto.wrapper.SocialGroupDTOWrapper;
 import org.openhds.webservice.dto.wrapper.VisitDTOWrapper;
 
 @Produces("application/xml")
@@ -840,8 +842,18 @@ public class CoreWebServiceImpl {
         
         int count = 0;
         for (Individual indiv : indivs) {
+        	       	
         	if (IndividualDTO.isValid(indiv)) {
-        		IndividualDTO dto = new IndividualDTO(indiv);
+        		
+        		List<SocialGroup> groups = new ArrayList<SocialGroup>();
+        		List<Membership> memberships = genericDao.findListByProperty(Membership.class, "individual", indiv);
+        		for (Membership mem : memberships) {
+        			if (mem.getStatus().equals(siteProperties.getDataStatusValidCode()) && mem.isDeleted() == false) {
+        				groups.add(mem.getSocialGroup());
+        			}
+        		}
+        		
+        		IndividualDTO dto = new IndividualDTO(indiv, groups);
         		wrapper.getIndividual().add(dto);
         		count++;
         	}
@@ -933,6 +945,23 @@ public class CoreWebServiceImpl {
         wrapper.setCount(count);
         return wrapper;
     } 
+    
+    @GET
+    @Path("/socialgroup")
+    public SocialGroupDTOWrapper getAllSocialGroups() {  
+    	SocialGroupDTOWrapper wrapper = new SocialGroupDTOWrapper();
+        List<SocialGroup> socialGroups = genericDao.findAll(SocialGroup.class, true);
+        
+        int count = 0;
+        for (SocialGroup item : socialGroups) {
+        	SocialGroupDTO dto = new SocialGroupDTO(item);
+        	wrapper.getSocialGroup().add(dto);
+        	count++;
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    } 
+
 
 	@GET
 	@Path("/hierarchy")

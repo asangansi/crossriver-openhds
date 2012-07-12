@@ -1,10 +1,16 @@
 package org.openhds.webservice.dto;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.h2.util.StringUtils;
 import org.openhds.domain.constraint.AppContextAware;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarAdapter;
 
@@ -20,13 +26,15 @@ public class IndividualDTO extends AppContextAware {
 	String gender;
 	String mother;
 	String father;
+	String status;
 	String currentResidence;
+	String groups;
 	
 	public IndividualDTO() {}
 	
 	// make sure to call isValid before calling this constructor
 	// it protects against malformed data
-	public IndividualDTO(Individual individual) {
+	public IndividualDTO(Individual individual, List<SocialGroup> groups) {
 		properties = (SitePropertiesService) context.getBean("siteProperties");
 		
 		this.uuid = individual.getUuid();
@@ -35,8 +43,21 @@ public class IndividualDTO extends AppContextAware {
 		this.lastName = individual.getLastName();
 		this.dob = individual.getDob();
 		this.mother = individual.getMother().getUuid();
-		this.father = individual.getFather().getUuid();
+		this.father = individual.getFather().getUuid();	
+		this.status = individual.getStatus();
 		this.currentResidence = individual.getCurrentResidency().getLocation().getUuid();
+		
+		if (groups != null) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < groups.size(); i++) {
+				if ((i+1) >= groups.size()) 
+					sb.append(groups.get(i).getUuid());
+				else 
+					sb.append(groups.get(i).getUuid() + ",");
+			}
+			this.groups = sb.toString();
+		}
+					
 		if (individual.getGender().equals(properties.getMaleCode()))
 			gender = "Male";
 		else
@@ -125,11 +146,27 @@ public class IndividualDTO extends AppContextAware {
 		this.father = father;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	public String getCurrentResidence() {
 		return currentResidence;
 	}
 
 	public void setCurrentResidence(String currentResidence) {
 		this.currentResidence = currentResidence;
+	}
+	
+	public String getGroups() {
+		return groups;
+	}
+
+	public void setGroups(String groups) {
+		this.groups = groups;
 	}
 }
