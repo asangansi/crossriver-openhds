@@ -102,6 +102,8 @@ public class PostNeoNatalVPMTemplateBuilder implements ExtensionTemplate {
 		JFieldVar jfDeathDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "childDeathDate");
 		JAnnotationUse jaPast = jfDeathDate.annotate(javax.validation.constraints.Past.class);
 		jaPast.param("message", "Death date should be in the past");
+		JAnnotationUse jaChildDeathCalendar = jfDeathDate.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaChildDeathCalendar.param("message", "Child Death Date is invalid");
 		JAnnotationUse jaTemporal = jfDeathDate.annotate(javax.persistence.Temporal.class);
 		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaDeathDateDesc = jfDeathDate.annotate(org.openhds.domain.annotations.Description.class);

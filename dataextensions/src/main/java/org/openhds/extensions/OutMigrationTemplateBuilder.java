@@ -181,6 +181,8 @@ public class OutMigrationTemplateBuilder implements ExtensionTemplate {
 		// recordedDate
 		JFieldVar jfRecordedDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "recordedDate");
 		jfRecordedDate.annotate(javax.validation.constraints.NotNull.class);
+		JAnnotationUse jaRecordedDateCalendar = jfRecordedDate.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaRecordedDateCalendar.param("message", "Recorded Date is invalid");
 		JAnnotationUse jaRecordedDateTemporal = jfRecordedDate.annotate(javax.persistence.Temporal.class);
 		jaRecordedDateTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaRecordedDatePast = jfRecordedDate.annotate(javax.validation.constraints.Past.class);

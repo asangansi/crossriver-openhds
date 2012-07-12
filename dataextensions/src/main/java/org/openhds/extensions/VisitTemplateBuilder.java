@@ -109,6 +109,8 @@ public class VisitTemplateBuilder implements ExtensionTemplate {
 		jaVisitDate.param("message", "You must provide a visit date");
 		JAnnotationUse jaPast = jfVisitDate.annotate(javax.validation.constraints.Past.class);
 		jaPast.param("message", "Visit date should be in the past");
+		JAnnotationUse jaVisitCalendar = jfVisitDate.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaVisitCalendar.param("message", "Visit date is invalid");
 		JAnnotationUse jaTemporal = jfVisitDate.annotate(javax.persistence.Temporal.class);
 		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaVisitDateDesc = jfVisitDate.annotate(org.openhds.domain.annotations.Description.class);

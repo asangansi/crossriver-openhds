@@ -66,6 +66,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// bcg
 		JFieldVar jfBcg = jc.field(JMod.PRIVATE , java.util.Calendar.class, "bcg");
 		jfBcg.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaBcgCalendar = jfBcg.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaBcgCalendar.param("message", "BCG date is invalid");
 		JAnnotationUse jaTemporal = jfBcg.annotate(javax.persistence.Temporal.class);
 		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaBcgDesc = jfBcg.annotate(org.openhds.domain.annotations.Description.class);
@@ -87,6 +89,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// polio1
 		JFieldVar jfPolio1 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "polio1");
 		jfPolio1.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaPolio1Calendar = jfPolio1.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaPolio1Calendar.param("message", "Polio 1 date is invalid");
 		JAnnotationUse jaPolio1Temporal = jfPolio1.annotate(javax.persistence.Temporal.class);
 		jaPolio1Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaPolio1Desc = jfPolio1.annotate(org.openhds.domain.annotations.Description.class);
@@ -108,6 +112,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// polio2
 		JFieldVar jfPolio2 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "polio2");
 		jfPolio2.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaPolio2Calendar = jfPolio2.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaPolio2Calendar.param("message", "Polio 2 date is invalid");
 		JAnnotationUse jaPolio2Temporal = jfPolio2.annotate(javax.persistence.Temporal.class);
 		jaPolio2Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaPolio2Desc = jfPolio2.annotate(org.openhds.domain.annotations.Description.class);
@@ -129,6 +135,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// polio3
 		JFieldVar jfPolio3 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "polio3");
 		jfPolio3.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaPolio3Calendar = jfPolio3.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaPolio3Calendar.param("message", "Polio 3 date is invalid");
 		JAnnotationUse jaPolio3Temporal = jfPolio3.annotate(javax.persistence.Temporal.class);
 		jaPolio3Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaPolio3Desc = jfPolio3.annotate(org.openhds.domain.annotations.Description.class);
@@ -150,6 +158,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// polio4
 		JFieldVar jfPolio4 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "polio4");
 		jfPolio4.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaPolio4Calendar = jfPolio4.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaPolio4Calendar.param("message", "Polio 4 date is invalid");
 		JAnnotationUse jaPolio4Temporal = jfPolio4.annotate(javax.persistence.Temporal.class);
 		jaPolio4Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaPolio4Desc = jfPolio4.annotate(org.openhds.domain.annotations.Description.class);
@@ -171,6 +181,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// dpt1
 		JFieldVar jfDpt1 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "dpt1");
 		jfDpt1.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaDpt1Calendar = jfDpt1.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaDpt1Calendar.param("message", "DPT 1 date is invalid");
 		JAnnotationUse jaDpt1Temporal = jfDpt1.annotate(javax.persistence.Temporal.class);
 		jaDpt1Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaDpt1Desc = jfDpt1.annotate(org.openhds.domain.annotations.Description.class);
@@ -192,6 +204,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// dpt2
 		JFieldVar jfDpt2 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "dpt2");
 		jfDpt2.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaDpt2Calendar = jfDpt2.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaDpt2Calendar.param("message", "DPT 2 date is invalid");
 		JAnnotationUse jaDpt2Temporal = jfDpt2.annotate(javax.persistence.Temporal.class);
 		jaDpt2Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaDpt2Desc = jfDpt2.annotate(org.openhds.domain.annotations.Description.class);
@@ -213,6 +227,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// dpt3
 		JFieldVar jfDpt3 = jc.field(JMod.PRIVATE , java.util.Calendar.class, "dpt3");
 		jfDpt3.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaDpt3Calendar = jfDpt3.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaDpt3Calendar.param("message", "DPT 3 date is invalid");
 		JAnnotationUse jaDpt3Temporal = jfDpt3.annotate(javax.persistence.Temporal.class);
 		jaDpt3Temporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaDpt3Desc = jfDpt3.annotate(org.openhds.domain.annotations.Description.class);
@@ -234,6 +250,8 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		// measels
 		JFieldVar jfMeasels = jc.field(JMod.PRIVATE , java.util.Calendar.class, "measels");
 		jfMeasels.annotate(javax.validation.constraints.Past.class);
+		JAnnotationUse jaMeaselsCalendar = jfMeasels.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaMeaselsCalendar.param("message", "Measels date is invalid");
 		JAnnotationUse jaMeaselsTemporal = jfMeasels.annotate(javax.persistence.Temporal.class);
 		jaMeaselsTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaMeaselsDesc = jfMeasels.annotate(org.openhds.domain.annotations.Description.class);

@@ -51,7 +51,8 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		// extId
 		JFieldVar jfExtId = jc.field(JMod.PRIVATE , java.lang.String.class, "extId");
 		jfExtId.annotate(javax.validation.constraints.NotNull.class);
-		jfExtId.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		JAnnotationUse jfExtIdCheckBlank = jfExtId.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		jfExtIdCheckBlank.param("message", "Ext id cannot be left blank");
 		jfExtId.annotate(org.openhds.domain.constraint.Searchable.class);
 		JAnnotationUse jaExtIdDesc = jfExtId.annotate(org.openhds.domain.annotations.Description.class);
 		jaExtIdDesc.param("description", "External Id of the location. This id is used internally.");
@@ -69,7 +70,8 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		
 		// location name
 		JFieldVar jfLocationName = jc.field(JMod.PRIVATE , java.lang.String.class, "locationName");
-		jfLocationName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		JAnnotationUse jfLocationNameCheckBlank = jfLocationName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		jfLocationNameCheckBlank.param("message", "Location name cannot be blank");
 		jfLocationName.annotate(org.openhds.domain.constraint.Searchable.class);
 		JAnnotationUse jaLocationNameDesc = jfLocationName.annotate(org.openhds.domain.annotations.Description.class);
 		jaLocationNameDesc.param("description", "Name of the location.");

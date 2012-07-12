@@ -150,6 +150,8 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		// recordedDate
 		JFieldVar jfRecordedDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "recordedDate");
 		jfRecordedDate.annotate(javax.validation.constraints.NotNull.class);
+		JAnnotationUse jaRecordedDateCalendar = jfRecordedDate.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaRecordedDateCalendar.param("message", "Recorded date is invalid");
 		JAnnotationUse jaRecordedDateTemporal = jfRecordedDate.annotate(javax.persistence.Temporal.class);
 		jaRecordedDateTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaRecordedDateDesc = jfRecordedDate.annotate(org.openhds.domain.annotations.Description.class);

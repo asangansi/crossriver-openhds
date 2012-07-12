@@ -89,7 +89,8 @@ public class SocialGroupTemplateBuilder implements ExtensionTemplate {
 		// groupName
 		JFieldVar jfGroupName = jc.field(JMod.PRIVATE , java.lang.String.class, "groupName");
 		jfGroupName.annotate(org.openhds.domain.constraint.Searchable.class);
-		jfGroupName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		JAnnotationUse jfGroupNameCheckBlank = jfGroupName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		jfGroupNameCheckBlank.param("message", "Group name cannot be blank");
 		JAnnotationUse jaGroupNameDesc = jfGroupName.annotate(org.openhds.domain.annotations.Description.class);
 		jaGroupNameDesc.param("description", "Name of the social group.");
 		

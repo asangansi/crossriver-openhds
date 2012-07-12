@@ -256,6 +256,8 @@ public class ExtensionLoader {
 					ja.param("allowNull", true);
 				}
 				else if (type.equals("Calendar")) {
+					JAnnotationUse jaCheckCalendar = jf.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+					jaCheckCalendar.param("message", "Invalid value for date");
 					JAnnotationUse jaTemporal = jf.annotate(javax.persistence.Temporal.class);
 					jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 					if (constraint.equals("past"))

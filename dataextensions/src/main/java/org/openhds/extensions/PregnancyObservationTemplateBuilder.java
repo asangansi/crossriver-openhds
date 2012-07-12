@@ -112,6 +112,8 @@ public class PregnancyObservationTemplateBuilder implements ExtensionTemplate  {
 		// expectedDeliveryDate
 		JFieldVar jfExpectedDelivery = jc.field(JMod.PRIVATE , java.util.Calendar.class, "expectedDeliveryDate");
 		jfExpectedDelivery.annotate(javax.validation.constraints.NotNull.class);
+		JAnnotationUse jaEDDCalendar = jfExpectedDelivery.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaEDDCalendar.param("message", "Expected Delivery Date is invalid");
 		JAnnotationUse jaTemporal = jfExpectedDelivery.annotate(javax.persistence.Temporal.class);
 		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaExpectedDeliveryDesc = jfExpectedDelivery.annotate(org.openhds.domain.annotations.Description.class);
@@ -133,6 +135,8 @@ public class PregnancyObservationTemplateBuilder implements ExtensionTemplate  {
 		// recordedDate
 		JFieldVar jfRecordedDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "recordedDate");
 		jfRecordedDate.annotate(javax.validation.constraints.NotNull.class);
+		JAnnotationUse jaRecordedDateCalendar = jfRecordedDate.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaRecordedDateCalendar.param("message", "Recorded Date is invalid");
 		JAnnotationUse jaRecordedDateTemporal = jfRecordedDate.annotate(javax.persistence.Temporal.class);
 		jaRecordedDateTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaRecordedDateDesc = jfRecordedDate.annotate(org.openhds.domain.annotations.Description.class);

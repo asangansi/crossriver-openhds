@@ -1,5 +1,6 @@
 package org.openhds.extensions;
 
+import org.openhds.domain.constraint.CheckWorkStatusAndOccupation;
 import org.openhds.domain.util.CalendarAdapter;
 
 import com.sun.codemodel.JAnnotationArrayMember;
@@ -71,7 +72,8 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		
 		// first name
 		JFieldVar jfFirstName = jc.field(JMod.PRIVATE , java.lang.String.class, "firstName");
-		jfFirstName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		JAnnotationUse jaFirstNameCheckBlank = jfFirstName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		jaFirstNameCheckBlank.param("message", "First name cannot be blank");
 		jfFirstName.annotate(org.openhds.domain.constraint.Searchable.class);
 		JAnnotationUse jaFirstNameDesc = jfFirstName.annotate(org.openhds.domain.annotations.Description.class);
 		jaFirstNameDesc.param("description", "First name of the individual.");
@@ -106,7 +108,8 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		
 		// last name
 		JFieldVar jfLastName = jc.field(JMod.PRIVATE , java.lang.String.class, "lastName");
-		jfLastName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		JAnnotationUse jaLastNameCheckBlank = jfLastName.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
+		jaLastNameCheckBlank.param("message", "First name cannot be blank");
 		jfLastName.annotate(org.openhds.domain.constraint.Searchable.class);
 		JAnnotationUse jaLastNameDesc = jfLastName.annotate(org.openhds.domain.annotations.Description.class);
 		jaLastNameDesc.param("description", "Last name of the individual.");
@@ -146,6 +149,8 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		JFieldVar jfDob = jc.field(JMod.PRIVATE , java.util.Calendar.class, "dob");
 		JAnnotationUse jaDob = jfDob.annotate(javax.validation.constraints.Past.class);
 		jaDob.param("message", "Date of birth must a date in the past");
+		JAnnotationUse jaDobCalendar = jfDob.annotate(org.openhds.domain.constraint.CheckCalendar.class);
+		jaDobCalendar.param("message", "Date of birth is invalid");
 		JAnnotationUse jaTemporal = jfDob.annotate(javax.persistence.Temporal.class);
 		jaTemporal.param("value", javax.persistence.TemporalType.DATE);
 		JAnnotationUse jaDobDesc = jfDob.annotate(org.openhds.domain.annotations.Description.class);
@@ -397,6 +402,7 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 			"Residencies, Relationships, and Memberships.");
 		
 		jc.annotate(org.openhds.domain.constraint.CheckMotherFatherNotIndividual.class);
+		jc.annotate(org.openhds.domain.constraint.CheckWorkStatusAndOccupation.class);
 		
 		// create Entity annotation
 		jc.annotate(javax.persistence.Entity.class);
