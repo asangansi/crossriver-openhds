@@ -79,7 +79,7 @@
 	                	<h:message for="gender" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                         <h:outputText value="#{msg.deathPlace}:"/>
-                        <h:outputText />
+                        <img class="clickable" onclick="O$('popupWindowForPlaceOfDeath').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
                         <h:inputText tabindex="10" id="deathPlace" value="#{deathCrud.item.deathPlace}" converter="#{defaultConverter}" disabled="#{not deathCrud.householdIdChange}"/>
                         <h:message for="deathPlace" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
