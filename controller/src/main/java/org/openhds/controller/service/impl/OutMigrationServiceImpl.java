@@ -2,12 +2,14 @@ package org.openhds.controller.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
-import org.openhds.dao.service.GenericDao;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.OutMigrationService;
 import org.openhds.controller.service.ResidencyService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.OutMigration;
 import org.openhds.domain.model.Residency;
@@ -32,7 +34,7 @@ public class OutMigrationServiceImpl implements OutMigrationService {
 
 	@Transactional(readOnly=true)
 	public void evaluateOutMigration(OutMigration outMigration) throws ConstraintViolations {
-		if (individualService.getLatestEvent(outMigration.getIndividual()).equals("Death")) {
+		if (individualService.getLatestEvent(outMigration.getIndividual()) instanceof Death) {
     		throw new ConstraintViolations("An Out Migration cannot be created for an Individual who has a Death event.");		
 		}
 		

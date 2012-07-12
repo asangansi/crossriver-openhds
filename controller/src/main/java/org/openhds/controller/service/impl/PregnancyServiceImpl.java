@@ -4,12 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import org.openhds.dao.service.GenericDao;
-import org.openhds.dao.service.GenericDao.ValueProperty;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.PregnancyService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.dao.service.GenericDao.ValueProperty;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.PregnancyObservation;
@@ -46,7 +48,7 @@ public class PregnancyServiceImpl implements PregnancyService {
 			throw new ConstraintViolations("The Mother specified is younger than the minimum age required to have a Pregnancy Observation.");	
 		if (!checkDuplicatePregnancyObservation(entityItem.getMother())) 
     		throw new ConstraintViolations("The Mother specified already has a pending Pregnancy Observation.");	
-    	if (individualService.getLatestEvent(entityItem.getMother()).equals("Death"))
+    	if (individualService.getLatestEvent(entityItem.getMother()) instanceof Death)
     		throw new ConstraintViolations("A Pregnancy Observation cannot be created for a Mother who has a Death event.");	
     	
     	return entityItem;
@@ -83,7 +85,7 @@ public class PregnancyServiceImpl implements PregnancyService {
 	}
 
 	public PregnancyOutcome evaluatePregnancyOutcome(PregnancyOutcome entityItem) throws ConstraintViolations {
-    	if (individualService.getLatestEvent(entityItem.getMother()).equals("Death"))
+    	if (individualService.getLatestEvent(entityItem.getMother()) instanceof Death)
     		throw new ConstraintViolations("A Pregnancy Outcome cannot be created for a Mother who has a Death event.");	
 		return entityItem;
 	}

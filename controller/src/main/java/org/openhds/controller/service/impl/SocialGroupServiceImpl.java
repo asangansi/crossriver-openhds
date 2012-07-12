@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.openhds.dao.service.GenericDao;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.Generator;
 import org.openhds.controller.idgeneration.SocialGroupGenerator;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.SocialGroupService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.SocialGroup;
@@ -78,7 +80,7 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 		if (entityItem.getGroupHead().getExtId() == null) 
 			entityItem.setGroupHead(null);
 		
-	    if (individualService.getLatestEvent(entityItem.getGroupHead()).equals("Death"))
+	    if (individualService.getLatestEvent(entityItem.getGroupHead()) instanceof Death)
 	    	throw new ConstraintViolations("A Social Group cannot be created for an Individual who has a Death event.");	
 	        	
     	if (sgGen.generated && !overrideIdGeneration)	
@@ -125,8 +127,8 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	 * and the persisted item has a end type of death, the edit cannot be saved.
 	 */
 	public boolean compareDeathInSocialGroup(SocialGroup persistedItem, SocialGroup entityItem) {	
-		if (individualService.getLatestEvent(persistedItem.getGroupHead()).equals("Death") ||
-				individualService.getLatestEvent(entityItem.getGroupHead()).equals("Death"))		
+		if (individualService.getLatestEvent(persistedItem.getGroupHead()) instanceof Death ||
+				individualService.getLatestEvent(entityItem.getGroupHead()) instanceof Death)		
 			return false;
 
 		return true;

@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.openhds.dao.service.GenericDao;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.InMigrationService;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.MembershipService;
 import org.openhds.controller.service.ResidencyService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.InMigration;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
-import org.openhds.domain.model.MigrationType;
 import org.openhds.domain.model.Residency;
 import org.openhds.domain.service.SitePropertiesService;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,7 +81,7 @@ public class InMigrationServiceImpl implements InMigrationService {
 	}
 
 	private void checkIfIndividualIsDeceased(Individual indiv) throws ConstraintViolations {
-		if (individualService.getLatestEvent(indiv).equals("Death")) {
+		if (individualService.getLatestEvent(indiv) instanceof Death) {
     		throw new ConstraintViolations("An In Migration cannot be created for an Individual who has a Death event.");	
     	}
 	}

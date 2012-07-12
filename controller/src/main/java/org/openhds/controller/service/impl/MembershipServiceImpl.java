@@ -3,10 +3,12 @@ package org.openhds.controller.service.impl;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import org.openhds.dao.service.GenericDao;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.MembershipService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
@@ -29,7 +31,7 @@ public class MembershipServiceImpl implements MembershipService {
 		
 		if (!checkDuplicateMembership(entityItem.getIndividual(), entityItem.getSocialGroup())) 
     		throw new ConstraintViolations("A Membership for the specified Social Group already exists.");	
-    	if (individualService.getLatestEvent(entityItem.getIndividual()).equals("Death"))
+    	if (individualService.getLatestEvent(entityItem.getIndividual()) instanceof Death)
     		throw new ConstraintViolations("A Membership cannot be created for an Individual who has a Death event.");
         		
     	return entityItem;
@@ -69,7 +71,9 @@ public class MembershipServiceImpl implements MembershipService {
 	 */
 	public boolean checkEndEventTypeForMembershipOnEdit(Membership persistedItem, Membership entityItem) {
 		
-		if (entityItem.getEndType().equals(siteProperties.getDeathCode()) && !individualService.getLatestEvent(persistedItem.getIndividual()).equals("Death") && !individualService.getLatestEvent(persistedItem.getIndividual()).equals("Death")) 
+		if (entityItem.getEndType().equals(siteProperties.getDeathCode()) 
+				&& !(individualService.getLatestEvent(persistedItem.getIndividual()) instanceof Death) 
+				&& !(individualService.getLatestEvent(entityItem.getIndividual()) instanceof Death))
 			return false;
 		
 		return true;
@@ -82,7 +86,7 @@ public class MembershipServiceImpl implements MembershipService {
 	 */
 	public boolean compareDeathInMembership(Membership persistedItem, Membership entityItem) {
 		
-		if (individualService.getLatestEvent(persistedItem.getIndividual()).equals("Death"))		
+		if (individualService.getLatestEvent(persistedItem.getIndividual()) instanceof Death)
 			if (persistedItem.getEndType().equals(siteProperties.getDeathCode()) && !entityItem.getEndType().equals(siteProperties.getDeathCode()))
 				return false;
 		

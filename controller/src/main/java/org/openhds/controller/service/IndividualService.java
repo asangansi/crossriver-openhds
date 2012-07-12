@@ -1,11 +1,13 @@
 package org.openhds.controller.service;
 
 import java.util.List;
-import org.openhds.domain.annotations.Authorized;
+
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.domain.annotations.Authorized;
 import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.PrivilegeConstants;
+import org.openhds.domain.model.VisitableEntity;
 
 public interface IndividualService {
 	
@@ -19,7 +21,7 @@ public interface IndividualService {
 	String generateIdWithBound(Individual entityItem, int count) throws ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.ACCESS_BASELINE, PrivilegeConstants.ACCESS_UPDATE, PrivilegeConstants.CREATE_ENTITY, PrivilegeConstants.EDIT_ENTITY})
-	public String getLatestEvent(Individual individual);
+	public VisitableEntity getLatestEvent(Individual individual);
 	
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
 	public Individual validateIdLength(Individual entityItem) throws ConstraintViolations;

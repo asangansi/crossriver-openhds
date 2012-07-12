@@ -128,7 +128,7 @@ public class DeathServiceImpl implements DeathService {
             Iterator<Relationship> it = relationships.iterator();
             while (it.hasNext()) {
                 Relationship rel = it.next();
-                if (!individualService.getLatestEvent(rel.getIndividualB()).equals("Death") && rel.getEndType().equals(siteProperties.getDeathCode())) {
+                if (!(individualService.getLatestEvent(rel.getIndividualB()) instanceof Death) && rel.getEndType().equals(siteProperties.getDeathCode())) {
 	                rel.setEndDate(null);
 	                rel.setEndType(siteProperties.getNotApplicableCode());
                 }
@@ -140,7 +140,7 @@ public class DeathServiceImpl implements DeathService {
              Iterator<Relationship> it = relationships.iterator();
              while (it.hasNext()) {
                  Relationship rel = it.next();
-                 if (!individualService.getLatestEvent(rel.getIndividualA()).equals("Death") && rel.getEndType().equals(siteProperties.getDeathCode())) {
+                 if (!(individualService.getLatestEvent(rel.getIndividualA()) instanceof Death) && rel.getEndType().equals(siteProperties.getDeathCode())) {
 	                 rel.setEndDate(null);
 	                 rel.setEndType(siteProperties.getNotApplicableCode());
                  }

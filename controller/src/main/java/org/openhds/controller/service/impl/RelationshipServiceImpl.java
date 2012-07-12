@@ -1,10 +1,12 @@
 package org.openhds.controller.service.impl;
 
 import java.util.List;
-import org.openhds.dao.service.GenericDao;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.IndividualService;
 import org.openhds.controller.service.RelationshipService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.domain.model.Death;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.Relationship;
@@ -27,7 +29,7 @@ public class RelationshipServiceImpl implements RelationshipService {
     	
     	if (!checkValidRelationship(entityItem)) 
     		throw new ConstraintViolations("An Individual cannot have multiple relationships with the same person.");	
-    	if (individualService.getLatestEvent(entityItem.getIndividualA()).equals("Death") || individualService.getLatestEvent(entityItem.getIndividualB()).equals("Death") )
+    	if (individualService.getLatestEvent(entityItem.getIndividualA()) instanceof Death || individualService.getLatestEvent(entityItem.getIndividualB()) instanceof Death)
     		throw new ConstraintViolations("A Relationship cannot be created for an Individual who has a Death event.");	
     	if (!checkEndEventTypeForDeathOnCreate(entityItem))
 			throw new ConstraintViolations("A Relationship cannot be saved because the end event type of Death cannot apply to Individuals who do not have a Death event.");	
@@ -78,11 +80,11 @@ public class RelationshipServiceImpl implements RelationshipService {
 	 */
 	public boolean compareDeathInRelationship(Relationship persistedItem, Relationship entityItem) {
 		
-		if (individualService.getLatestEvent(persistedItem.getIndividualA()).equals("Death"))		
+		if (individualService.getLatestEvent(persistedItem.getIndividualA()) instanceof Death)		
 			if (persistedItem.getEndType().equals(siteProperties.getDeathCode()) && !entityItem.getEndType().equals(siteProperties.getDeathCode()))
 				return false;
 		
-		if (individualService.getLatestEvent(persistedItem.getIndividualB()).equals("Death"))		
+		if (individualService.getLatestEvent(persistedItem.getIndividualB()) instanceof Death)		
 			if (persistedItem.getEndType().equals(siteProperties.getDeathCode()) && !entityItem.getEndType().equals(siteProperties.getDeathCode()))
 				return false;
 		
@@ -97,8 +99,8 @@ public class RelationshipServiceImpl implements RelationshipService {
 	public boolean checkEndEventTypeForDeathOnEdit(Relationship persistedItem, Relationship entityItem) {
 		
 		if (entityItem.getEndType().equals(siteProperties.getDeathCode()) && 
-			!individualService.getLatestEvent(persistedItem.getIndividualA()).equals("Death") && 
-			!individualService.getLatestEvent(persistedItem.getIndividualB()).equals("Death")) 
+			!(individualService.getLatestEvent(persistedItem.getIndividualA()) instanceof Death) && 
+			!(individualService.getLatestEvent(persistedItem.getIndividualB()) instanceof Death)) 
 			return false;
 		
 		return true;
@@ -110,7 +112,7 @@ public class RelationshipServiceImpl implements RelationshipService {
 	 */
 	public boolean checkEndEventTypeForDeathOnCreate(Relationship entityItem) {
 		
-		if (entityItem.getEndType().equals(siteProperties.getDeathCode()) && !individualService.getLatestEvent(entityItem.getIndividualA()).equals("Death") && !individualService.getLatestEvent(entityItem.getIndividualB()).equals("Death")) 
+		if (entityItem.getEndType().equals(siteProperties.getDeathCode()) && !(individualService.getLatestEvent(entityItem.getIndividualA()) instanceof Death) && !(individualService.getLatestEvent(entityItem.getIndividualB()) instanceof Death)) 
 			return false;
 		
 		return true;

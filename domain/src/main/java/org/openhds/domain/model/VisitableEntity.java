@@ -10,9 +10,14 @@ import org.openhds.domain.annotations.Description;
  * This is used primarily on the core updates of the HDS
  */
 @MappedSuperclass
-public class VisitableEntity extends AuditableCollectedEntity {
+public abstract class VisitableEntity extends AuditableCollectedEntity {
 
 	private static final long serialVersionUID = -4321732774913442147L;
+
+	public static VisitableEntity NULL_VISITABLE_ENTITY = new VisitableEntity() {
+
+	};
+	
 	
 	@ManyToOne
 	@Description(description = "The visit for this event")
@@ -25,5 +30,4 @@ public class VisitableEntity extends AuditableCollectedEntity {
 	public void setVisit(Visit vist) {
 		this.visit = vist;
 	}
-
 }

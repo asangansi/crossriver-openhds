@@ -16,6 +16,7 @@ import org.openhds.domain.model.FieldWorker;
 import org.openhds.domain.model.InMigration;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.OutMigration;
+import org.openhds.domain.model.VisitableEntity;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -113,11 +114,11 @@ public class IndividualServiceImpl implements IndividualService {
     }    
 	
     @Transactional(readOnly=true)
-	public String getLatestEvent(Individual individual) {
+	public VisitableEntity getLatestEvent(Individual individual) {
 		// it's possible the individual passed in hasn't actually been persisted
 		// yet. This is a guard against throwing a Transient Object exception
 		if (findIndivById(individual.getExtId()) == null) {
-			return "";
+			return VisitableEntity.NULL_VISITABLE_ENTITY;
 		}
 		
 		// determine the latest event
@@ -125,29 +126,29 @@ public class IndividualServiceImpl implements IndividualService {
 		Death death = genericDao.findByProperty(Death.class, "individual", individual, true);
 		
 		if (death != null) {
-			return "Death";
+			return death;
 		}
 		// otherwise determine latest event
 		OutMigration om = genericDao.findUniqueByPropertyWithOrder(OutMigration.class, "individual", individual, "recordedDate", false);
 		InMigration in = genericDao.findUniqueByPropertyWithOrder(InMigration.class, "individual", individual, "recordedDate", false);
 		
 		if (om == null && in == null) {
-			return "";
+			return VisitableEntity.NULL_VISITABLE_ENTITY;
 		}
 		
 		if (om != null && in == null) {
-			return "Out Migration";
+			return om;
 		}
 		
 		if (in != null && om == null) {
-			return "In Migration";
+			return in;
 		}
 		
 		if (in.getRecordedDate().compareTo(om.getRecordedDate()) >= 0) {
-			return "In Migration";
+			return in;
 		}
 		
-		return "Out Migration";
+		return om;
 	}
 
 	@Transactional(rollbackFor=Exception.class)
