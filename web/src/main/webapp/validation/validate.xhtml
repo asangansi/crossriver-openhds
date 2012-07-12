@@ -81,52 +81,406 @@
                       <h:commandLink styleClass="validate" action="#{validationRoutineBean.validateDeaths}" value="#{msg.navBarDeath}" />
                       
                     </h:panelGrid>
-                    <br />
+                    
+                    <h3>View validation errors by entity</h3>
+                    
+                    <h:selectOneMenu id="entitySelect" value="#{validationRoutineBean.selectedEntity}" onchange="submit()" valueChangeListener="#{validationRoutineBean.entityChange}" >
+						<f:selectItem itemValue="Individual" itemLabel="Individual" selected="true" />
+					  	<f:selectItem itemValue="Location" itemLabel="Location"/>
+					  	<f:selectItem itemValue="Social Group" itemLabel="Social Group"/>
+					  	<f:selectItem itemValue="Relationship" itemLabel="Relationship" />
+					  	<f:selectItem itemValue="Membership" itemLabel="Membership"/>
+					  	<f:selectItem itemValue="Pregnancy Outcome" itemLabel="Pregnancy Outcome"/>
+					  	<f:selectItem itemValue="Pregnancy Observation" itemLabel="Pregnancy Observation" />
+					  	<f:selectItem itemValue="In Migration" itemLabel="In Migration"/>
+					  	<f:selectItem itemValue="Out Migration" itemLabel="Out Migration"/>
+					  	<f:selectItem itemValue="Residency" itemLabel="Residency" />
+					  	<f:selectItem itemValue="Visit" itemLabel="Visit"/>
+					  	<f:selectItem itemValue="Death" itemLabel="Death"/>
+					</h:selectOneMenu>
+					<br /><br />
                      
-                     <c:if test="#{fn:length(validationRoutineBean.errorKeys) eq 0 and validationRoutineBean.run}">
-                     	<h:outputText value="#{msg.validationRoutineEmpty}" />
-                     </c:if>
-	        		<br /><br />
-	        			
-	        		<h:dataTable value="#{validationRoutineBean.errorKeys}" rendered="#{fn:length(validationRoutineBean.errorKeys) > 0}" var="entry" 
-	        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
-				  			 <h:column>
-		                    <f:facet name="header">
-		                        <h:outputText value="#{msg.validationRoutineEntity}"/>
-		                    </f:facet>
-		                    <h:dataTable value="#{entry}" var="type" >
-		                        <h:column>
-		                            <h:outputText value="#{type.key}"/>
+                    <h:outputText value="#{msg.individualEmpty}" rendered="#{fn:length(validationRoutineBean.individuals) eq 0 and validationRoutineBean.selectedEntity == 'Individual'}" />
+                    <h:panelGroup rendered="#{fn:length(validationRoutineBean.individuals) > 0 and validationRoutineBean.selectedEntity == 'Individual'}">
+		        		<h:dataTable value="#{validationRoutineBean.individuals}" var="indiv" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Individual"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{indiv.extId}"/>
 		                        </h:column>
-		                    </h:dataTable>
-		                </h:column>
-		                <h:column>
-		                    <f:facet name="header">
-		                        <h:outputText value="#{msg.validationRoutineEntityErrors}"/>
-		                    </f:facet>
-		                    <h:dataTable value="#{entry}" var="values" styleClass="base-table-center" >
-		                        <h:column>
-		                            <h:dataTable value="#{values.value}" var="num" >
-		                                <h:column>
-		                                    <h:outputLink id="viewLink" value="/openhds/amendment/#{num}" >
-		       									<h:outputText value="#{msg.view}"/>   
-											</h:outputLink>
-		                                </h:column>
-		                            </h:dataTable>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{indiv.statusMessage}"/>
 		                        </h:column>
-		                    </h:dataTable>
-		                </h:column>
-            		</h:dataTable>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="indivViewLink" value="/openhds/amendment/individual/details/#{indiv.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
             		
-            	<script>
-					//<![CDATA[
-					(function() {
-						$('.validate').click(function(evt) {
-							$('#loading-div').css('visibility', 'visible');
-						});
-					})();
-					//]]>
-				</script>
+            		<h:outputText value="#{msg.locationEmpty}" rendered="#{fn:length(validationRoutineBean.locations) eq 0 and validationRoutineBean.selectedEntity == 'Location'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.locations) > 0 and validationRoutineBean.selectedEntity == 'Location'}">
+	            		<h:dataTable value="#{validationRoutineBean.locations}" var="loc" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Location"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{loc.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{loc.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="locViewLink" value="/openhds/amendment/location/details/#{loc.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.socialGroupEmpty}" rendered="#{fn:length(validationRoutineBean.socialGroups) eq 0 and validationRoutineBean.selectedEntity == 'Social Group'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.socialGroups) > 0 and validationRoutineBean.selectedEntity == 'Social Group'}">
+	            		<h:dataTable value="#{validationRoutineBean.socialGroups}" var="sg" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Social Group"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{sg.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{sg.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="sgViewLink" value="/openhds/amendment/socialgroup/details/#{sg.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.relationshipEmpty}" rendered="#{fn:length(validationRoutineBean.relationships) eq 0 and validationRoutineBean.selectedEntity == 'Relationship'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.relationships) > 0 and validationRoutineBean.selectedEntity == 'Relationship'}">
+	            		<h:dataTable value="#{validationRoutineBean.relationships}" var="rel" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Relationship"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual A ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{rel.individualA.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual B ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{rel.individualB.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{rel.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="relViewLink" value="/openhds/amendment/relationship/details/#{rel.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.membershipEmpty}" rendered="#{fn:length(validationRoutineBean.memberships) eq 0 and validationRoutineBean.selectedEntity == 'Membership'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.memberships) > 0 and validationRoutineBean.selectedEntity == 'Membership'}">
+	            		<h:dataTable value="#{validationRoutineBean.memberships}" var="mem" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Membership"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{mem.individual.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Group Head ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{mem.socialGroup.groupHead.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{mem.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="memViewLink" value="/openhds/amendment/membership/details/#{mem.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.pregnancyOutcomeEmpty}" rendered="#{fn:length(validationRoutineBean.pregnancyOutcomes) eq 0 and validationRoutineBean.selectedEntity == 'Pregnancy Outcome'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.pregnancyOutcomes) > 0 and validationRoutineBean.selectedEntity == 'Pregnancy Outcome'}">
+	            		<h:dataTable value="#{validationRoutineBean.pregnancyOutcomes}" var="po" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Pregnancy Outcomes"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Mother ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{po.mother.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{po.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="pregOutcomeViewLink" value="/openhds/amendment/pregnancyoutcome/details/#{po.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.pregnancyObservationEmpty}" rendered="#{fn:length(validationRoutineBean.pregnancyObservations) eq 0 and validationRoutineBean.selectedEntity == 'Pregnancy Observation'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.pregnancyObservations) > 0 and validationRoutineBean.selectedEntity == 'Pregnancy Observation'}">
+	            		<h:dataTable value="#{validationRoutineBean.pregnancyObservations}" var="po" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Pregnancy Observations"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Mother ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{po.mother.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{po.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="pregObservViewLink" value="/openhds/amendment/pregnancyobservation/details/#{po.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.inmigrationEmpty}" rendered="#{fn:length(validationRoutineBean.inMigrations) eq 0 and validationRoutineBean.selectedEntity == 'In Migration'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.inMigrations) > 0 and validationRoutineBean.selectedEntity == 'In Migration'}">
+	            		<h:dataTable value="#{validationRoutineBean.inMigrations}" var="img" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="In Migrations"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{img.individual.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{img.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="InMigViewLink" value="/openhds/amendment/inmigration/details/#{img.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.outmigrationEmpty}" rendered="#{fn:length(validationRoutineBean.outMigrations) eq 0 and validationRoutineBean.selectedEntity == 'Out Migration'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.outMigrations) > 0 and validationRoutineBean.selectedEntity == 'Out Migration'}">
+	            		<h:dataTable value="#{validationRoutineBean.outMigrations}" var="omg" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Out Migrations"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{omg.individual.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{omg.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="OutMigViewLink" value="/openhds/amendment/inmigration/details/#{omg.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.residencyEmpty}" rendered="#{fn:length(validationRoutineBean.residencies) eq 0 and validationRoutineBean.selectedEntity == 'Residency'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.residencies) > 0 and validationRoutineBean.selectedEntity == 'Residency'}">
+	            		<h:dataTable value="#{validationRoutineBean.residencies}" var="res" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Residencies"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{res.individual.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{res.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="ResidencyViewLink" value="/openhds/amendment/residency/details/#{res.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.visitEmpty}" rendered="#{fn:length(validationRoutineBean.visits) eq 0 and validationRoutineBean.selectedEntity == 'Visit'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.visits) > 0 and validationRoutineBean.selectedEntity == 'Visit'}">
+	            		<h:dataTable value="#{validationRoutineBean.visits}" var="visit" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Visits"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{visit.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{visit.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="VisitViewLink" value="/openhds/amendment/visit/details/#{visit.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+            		
+            		<h:outputText value="#{msg.deathEmpty}" rendered="#{fn:length(validationRoutineBean.deaths) eq 0 and validationRoutineBean.selectedEntity == 'Death'}" />
+            		<h:panelGroup rendered="#{fn:length(validationRoutineBean.deaths) > 0 and validationRoutineBean.selectedEntity == 'Death'}">
+	            		<h:dataTable value="#{validationRoutineBean.deaths}" var="death" 
+		        			styleClass="base-table" rowClasses=",alt" columnClasses="alt-col,">
+			                    <f:facet name="header">
+			                        <h:outputText value="Deaths"/>
+			                    </f:facet>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Individual ExtId" />
+		                        	</f:facet>
+		                            <h:outputText value="#{death.individual.extId}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Message" />
+		                        	</f:facet>
+		                            <h:outputText value="#{death.statusMessage}"/>
+		                        </h:column>
+		                        <h:column headerClass="width1">
+		                        	<f:facet name="header">
+		                        		<h:outputText value="Link" />
+		                        	</f:facet>
+									<h:outputLink  id="DeathViewLink" value="/openhds/amendment/death/details/#{death.uuid}" >
+				       					<h:outputText value="#{msg.view}"/>   
+									</h:outputLink>
+		                        </h:column>
+	            		</h:dataTable>
+	            	</h:panelGroup>
+ 
+	            	<script>
+						//<![CDATA[
+						(function() {
+							$('.validate').click(function(evt) {
+								$('#loading-div').css('visibility', 'visible');
+							});
+						})();
+						//]]>
+					</script>
     
                 </h:form>
             </ui:define>
