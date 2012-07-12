@@ -38,8 +38,7 @@ public class PregnancyObservReconciliationController implements PregnancyObservR
 		ModelAndView mv = new ModelAndView("pregnancyObservReconciliation");
 		Collection<PregObservReconciliationBean> beans = new ArrayList<PregObservReconciliationBean>();
 					
-		PregObservReconciliationBean bean = new PregObservReconciliationBean();
-		bean.setCurrentDate(calendarUtil.formatDate(Calendar.getInstance()));
+		PregObservReconciliationBean bean = null;
 		
 		// grab all Pregnancy Observations
 		List<PregnancyObservation> list = genericDao.findListByProperty(PregnancyObservation.class, "status", properties.getDataStatusPendingCode());
@@ -48,6 +47,8 @@ public class PregnancyObservReconciliationController implements PregnancyObservR
 		for(PregnancyObservation item : list) {
 			
 			if (item.getExpectedDeliveryDate().before(Calendar.getInstance())) {
+				bean = new PregObservReconciliationBean();
+				bean.setCurrentDate(calendarUtil.formatDate(Calendar.getInstance()));
 				bean.setDate(calendarUtil.formatDate(item.getRecordedDate()));
 				bean.setIndivId(item.getMother().getExtId());	
 				beans.add(bean);

@@ -176,6 +176,8 @@ public class DemographicRatesController implements DemographicRatesService {
 				record.setDenominatorMale(allGroup.getPdoMale());
 				record.setDenominatorFemale(allGroup.getPdoFemale());
 			}
+			allGroup.setDenominatorMale(allGroup.getPdoMale());
+			allGroup.setDenominatorFemale(allGroup.getPdoFemale());
 		}
 		
 		List<ReportRecordBean> data = calculationService.getReportRecords();

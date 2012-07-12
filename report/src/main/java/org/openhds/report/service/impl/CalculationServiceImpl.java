@@ -281,6 +281,10 @@ public class CalculationServiceImpl implements CalculationService {
 				if (ageAtBeg >= 100 || ageAtEnd >= 100)
 					continue;
 			}
+			else if (event.equals("InMigration")) {
+				if (ageAtBeg >= 100 || ageAtEnd >= 100)
+					continue;
+			}
 			
 			int firstGroup = determineAgeGroup(ageAtBeg);
 			int lastGroup = determineAgeGroup(ageAtEnd);
