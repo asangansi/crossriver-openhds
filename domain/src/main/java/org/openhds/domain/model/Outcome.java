@@ -34,7 +34,7 @@ public class Outcome implements Serializable {
 	public String type;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
-	@CheckEntityNotVoided(allowNull=true)
+	@CheckEntityNotVoided(message = "The child cannot be voided", allowNull=true)
     @CheckIndividualNotUnknown
 	@Description(description="The child that of the pregnancy, identified by external id.")
 	Individual child;

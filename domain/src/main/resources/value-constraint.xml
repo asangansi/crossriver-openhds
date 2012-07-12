@@ -529,4 +529,11 @@
 <value description="Deserted">D</value>
 <value description="Unoccupied">U</value>
 </constraint>
+<constraint id="placeOfDeathConstraint">
+<value description="Health Centre or Clinic">2</value>
+<value description="Home">3</value>
+<value description="Hospital">1</value>
+<value description="Other">5</value>
+<value description="Traditional Healer's House">4</value>
+</constraint>
 </value-constraints>

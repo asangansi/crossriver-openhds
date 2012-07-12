@@ -16,6 +16,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckInMigrationAfterDob;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -56,6 +57,7 @@ public class InMigration
     @Description(description = "Name of the social group.")
     private Integer reason;
     @NotNull
+    @CheckCalendar(message = "Recorded date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Recorded date of the inmigration.")
     private Calendar recordedDate;
@@ -78,6 +80,7 @@ public class InMigration
     @Description(description = "Moving to household.")
     private SocialGroup household;
     @Description(description = "Date of interview for the inmigration")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
@@ -110,7 +113,7 @@ public class InMigration
     @Description(description = "Old house name of the place where the migrant is moving from")
     private String houseNameMovingFrom;
     @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
-    private Boolean referencesTemporaryIndividual = false;
+    private Boolean referencesTemporaryIndividual;
     @Description(description = "Has the member ever been registered")
     @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for everRegistered", allowNull = true)
     private Integer everRegistered;

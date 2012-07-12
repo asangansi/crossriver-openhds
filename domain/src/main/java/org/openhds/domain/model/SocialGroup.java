@@ -15,6 +15,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.CheckHouseholdHeadAge;
@@ -71,6 +72,7 @@ public class SocialGroup
     @Description(description = "The set of all memberships of the social group.")
     private Set<Membership> memberships;
     @Description(description = "Date of interview")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;

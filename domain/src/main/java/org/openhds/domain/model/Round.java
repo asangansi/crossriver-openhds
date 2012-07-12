@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEndDateGreaterThanStartDate;
 import org.openhds.domain.constraint.CheckInteger;
 import org.openhds.domain.constraint.GenericStartEndDateConstraint;
@@ -33,10 +34,12 @@ public class Round implements Serializable, GenericStartEndDateConstraint {
 	@Description(description="Round number for the study.")
 	Integer roundNumber;
 	
+    @CheckCalendar(message = "Start date value is invalid")
 	@Temporal(javax.persistence.TemporalType.DATE)
 	@Description(description="Start date of the round.")
 	Calendar startDate;
 	
+    @CheckCalendar(message = "End date value is invalid")
 	@Temporal(javax.persistence.TemporalType.DATE)
 	@Description(description="End date of the round.")
 	Calendar endDate;

@@ -35,7 +35,7 @@ public class Location
 
     public final static long serialVersionUID = 169551578162260199L;
     @NotNull
-    @CheckFieldNotBlank(message = "Ext id cannot be blank")
+    @CheckFieldNotBlank(message = "Ext id cannot be left blank")
     @Searchable
     @Description(description = "External Id of the location. This id is used internally.")
     private String extId;

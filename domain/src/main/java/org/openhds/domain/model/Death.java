@@ -14,6 +14,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckDeathDateGreaterThanBirthDate;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
@@ -54,13 +55,15 @@ public class Death
     @ManyToOne
     @Description(description = "Household in which this Death took place.")
     private SocialGroup household = new SocialGroup();
-    @CheckFieldNotBlank(message = "Death place cannot be blank")
     @Searchable
     @Description(description = "Place where the death occurred.")
-    private String deathPlace;
+    @ExtensionIntegerConstraint(constraint = "placeOfDeathConstraint", message = "Invalid Value for deathPlace", allowNull = true)
+    private Integer deathPlace;
+    @CheckFieldNotBlank(message = "Cause of death cannot be blank")
     @Searchable
     @Description(description = "Cause of the death.")
     private String deathCause;
+    @CheckCalendar(message = "Death date is invalid")
     @NotNull(message = "You must provide a Death date")
     @Past(message = "Death date should be in the past")
     @Temporal(TemporalType.DATE)
@@ -81,6 +84,7 @@ public class Death
     @Description(description = "Specify the place of death if other")
     private String placeOfDeathOther;
     @Description(description = "Recorded date for the death")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar recordedDate;
@@ -109,11 +113,11 @@ public class Death
         household = place;
     }
 
-    public String getDeathPlace() {
+    public Integer getDeathPlace() {
         return deathPlace;
     }
 
-    public void setDeathPlace(String place) {
+    public void setDeathPlace(Integer place) {
         deathPlace = place;
     }
 

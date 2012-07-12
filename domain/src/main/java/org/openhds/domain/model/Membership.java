@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 //import javax.xml.bind.annotation.XmlRootElement;
 //import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEndDateAndEndEventType;
 import org.openhds.domain.constraint.CheckEndDateGreaterThanStartDate;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
@@ -39,7 +40,7 @@ public class Membership extends AuditableCollectedEntity implements GenericEndDa
 	private static final long serialVersionUID = 6200055042380700627L;
 		
 	@Searchable
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "The individual cannot be voided")
     @CheckIndividualNotUnknown
 	@ManyToOne
 	@Description(description="Individual the membership is associated with, identified by external id.")
@@ -50,6 +51,7 @@ public class Membership extends AuditableCollectedEntity implements GenericEndDa
 	@Description(description="The social group of the membership, identified by external id.")
 	SocialGroup socialGroup;
 	
+    @CheckCalendar(message = "Start date value is invalid")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="Start date of the membership.")
 	Calendar startDate;
@@ -58,6 +60,7 @@ public class Membership extends AuditableCollectedEntity implements GenericEndDa
     @Description(description="Start type of the membership.")
 	String startType;
 	
+    @CheckCalendar(message = "End date value is invalid")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="End date of the membership.")
 	Calendar endDate;

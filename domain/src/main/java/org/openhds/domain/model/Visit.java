@@ -18,6 +18,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckInteger;
 import org.openhds.domain.constraint.Searchable;
 
@@ -45,6 +46,7 @@ public class Visit
     private Location visitLocation;
     @NotNull(message = "You must provide a visit date")
     @Past(message = "Visit date should be in the past")
+    @CheckCalendar(message = "Visit date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Date of the visit.")
     private Calendar visitDate;

@@ -9,6 +9,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEndDateGreaterThanStartDate;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.GenericStartEndDateConstraint;
@@ -35,6 +36,7 @@ public class Residency extends AuditableCollectedEntity implements GenericStartE
     Location location;
     
     @NotNull
+    @CheckCalendar(message = "Start date value is invalid")
     @Past(message = "Insert date should be in the past")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="Residency start date.")
@@ -44,6 +46,7 @@ public class Residency extends AuditableCollectedEntity implements GenericStartE
     @Description(description="Residency start type.")
     String startType;
     
+    @CheckCalendar(message = "End date value is invalid")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="Residency end date.")
     Calendar endDate;

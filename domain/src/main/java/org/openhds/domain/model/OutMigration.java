@@ -14,6 +14,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -66,6 +67,7 @@ public class OutMigration
     @Description(description = "The visit associated with the outmigration, identified by external id.")
     private Visit visit;
     @NotNull
+    @CheckCalendar(message = "Recorded Date is invalid")
     @Temporal(TemporalType.DATE)
     @Past(message = "The date of the migration must be in the past")
     @Description(description = "Recorded date of the inmigration.")
@@ -76,6 +78,7 @@ public class OutMigration
     @ExtensionIntegerConstraint(constraint = "placeMovedToConstraint", message = "Invalid Value for placeMovedTo", allowNull = true)
     private Integer placeMovedTo;
     @Description(description = "Date of interview for the outmigration")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;

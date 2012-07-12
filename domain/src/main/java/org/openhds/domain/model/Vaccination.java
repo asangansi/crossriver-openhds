@@ -12,6 +12,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -39,38 +40,47 @@ public class Vaccination
     @Description(description = "Individual receiving the vaccination, identified by the external id.")
     private Individual child;
     @Past
+    @CheckCalendar(message = "BCG date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Bcg Date.")
     private Calendar bcg;
     @Past
+    @CheckCalendar(message = "Polio 1 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "1st polio.")
     private Calendar polio1;
     @Past
+    @CheckCalendar(message = "Polio 2 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "2nd polio.")
     private Calendar polio2;
     @Past
+    @CheckCalendar(message = "Polio 3 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "3rd polio.")
     private Calendar polio3;
     @Past
+    @CheckCalendar(message = "Polio 4 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "4th polio.")
     private Calendar polio4;
     @Past
+    @CheckCalendar(message = "DPT 1 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "1st dpt.")
     private Calendar dpt1;
     @Past
+    @CheckCalendar(message = "DPT 2 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "2nd dpt.")
     private Calendar dpt2;
     @Past
+    @CheckCalendar(message = "DPT 3 date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "3rd dpt.")
     private Calendar dpt3;
     @Past
+    @CheckCalendar(message = "Measels date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "First child measels.")
     private Calendar measels;

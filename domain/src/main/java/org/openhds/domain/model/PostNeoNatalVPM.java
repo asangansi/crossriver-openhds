@@ -13,6 +13,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -49,6 +50,7 @@ public class PostNeoNatalVPM
     @Description(description = "Visit that is associated with the verbal autopsy, identified by the external id.")
     private Visit visit;
     @Past(message = "Death date should be in the past")
+    @CheckCalendar(message = "Child Death Date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Date of the Death.")
     private Calendar childDeathDate;
@@ -160,6 +162,7 @@ public class PostNeoNatalVPM
     @Description(description = "The name of the facility where the individual died")
     private String whereDiedFacilityName;
     @Description(description = "Date of birth of child")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar childDob;
@@ -266,6 +269,7 @@ public class PostNeoNatalVPM
     @Description(description = "When symptom 5 ended")
     private Integer symptom5End;
     @Description(description = "Certified correct date")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar certifiedCorrectDate;
@@ -303,6 +307,7 @@ public class PostNeoNatalVPM
     @Description(description = "Specify where the abdominal pain location is")
     private String abdominalPainLocationOther;
     @Description(description = "Date of interview")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;

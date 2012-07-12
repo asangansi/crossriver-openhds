@@ -10,6 +10,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualGenderFemale;
 import org.openhds.domain.constraint.CheckIndividualGenderMale;
@@ -42,6 +43,7 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     @Description(description="Total number of live births.")
     private Integer numberOfLiveBirths = 0;
    
+    @CheckCalendar(message = "Recorded date value is invalid")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Past
     @Description(description="Date of the pregnancy outcome.")
@@ -51,14 +53,14 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     @ManyToOne
     @CheckIndividualGenderFemale(allowNull = false)
     @CheckIndividualNotUnknown
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "The mother cannot be voided")
     @Description(description="Mother of the pregnancy outcome.")
     private Individual mother;
     
     @Searchable
     @ManyToOne
     @CheckIndividualGenderMale(allowNull = false)
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "The father cannot be voided")
     @Description(description="Father of the pregnancy outcome.")
     private Individual father;
     
@@ -72,6 +74,7 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     @Description(description="Household in which this Pregnancy Outcome took place.")
     private SocialGroup household;
    
+    @CheckCalendar(message = "Date of birth value for child is invalid")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Past
     @Description(description="Date of birth for the child.")
@@ -79,7 +82,7 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     
     @Searchable
     @ManyToOne
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "The child cannot be voided")
     @Description(description="Child one of the pregnancy outcome.")
     private Individual child1;
     

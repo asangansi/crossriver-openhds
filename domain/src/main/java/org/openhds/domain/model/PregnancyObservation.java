@@ -14,6 +14,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualGenderFemale;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
@@ -54,10 +55,12 @@ public class PregnancyObservation
     @Description(description = "Household in which this Pregnancy Observation took place.")
     private SocialGroup household;
     @NotNull
+    @CheckCalendar(message = "Expected Delivery Date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Expected delivery date.")
     private Calendar expectedDeliveryDate;
     @NotNull
+    @CheckCalendar(message = "Recorded Date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Recorded date of the pregnancy observation.")
     private Calendar recordedDate;
@@ -71,6 +74,7 @@ public class PregnancyObservation
     @Description(description = "If other, please specify the health facility")
     private String healthFacilityOther;
     @Description(description = "Estimated date of conception of the pregnancy observation")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar estimatedDateOfConception;

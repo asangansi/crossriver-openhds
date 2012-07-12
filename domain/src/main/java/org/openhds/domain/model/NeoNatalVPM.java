@@ -13,6 +13,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -49,6 +50,7 @@ public class NeoNatalVPM
     @Description(description = "Visit that is associated with the verbal autopsy, identified by the external id.")
     private Visit visit;
     @Past(message = "Death date should be in the past")
+    @CheckCalendar(message = "Child Death Date is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Date of the Death.")
     private Calendar childDeathDate;
@@ -153,6 +155,7 @@ public class NeoNatalVPM
     @ExtensionIntegerConstraint(constraint = "childBirthSizeConstraint", message = "Invalid Value for childSize", allowNull = true)
     private Integer childSize;
     @Description(description = "Date of birth of child")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar childDob;
@@ -249,6 +252,7 @@ public class NeoNatalVPM
     @ExtensionIntegerConstraint(constraint = "relationshipOfRespondentConstraint", message = "Invalid Value for relationshipOfRespondent", allowNull = true)
     private Integer relationshipOfRespondent;
     @Description(description = "Date corrected on")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar certifiedCorrectDate;
@@ -290,6 +294,7 @@ public class NeoNatalVPM
     @Description(description = "How many days did the child have a cough during the illness that led to death")
     private Integer haveCoughNumDays;
     @Description(description = "Date of interview for the verbal autopsy")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;

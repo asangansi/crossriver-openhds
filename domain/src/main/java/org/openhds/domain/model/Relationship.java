@@ -10,6 +10,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEndDateAndEndEventType;
 import org.openhds.domain.constraint.CheckEndDateGreaterThanStartDate;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
@@ -38,7 +39,7 @@ public class Relationship extends AuditableCollectedEntity implements GenericEnd
     static final long serialVersionUID = 19L;
         
     @Searchable
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "Individual A cannot be voided")
     @CheckIndividualNotUnknown
     @CheckRelationshipAge(allowNull = false, message="Individual A is younger than the minimum age required in order to be in a relationship")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -46,7 +47,7 @@ public class Relationship extends AuditableCollectedEntity implements GenericEnd
     Individual individualA;
     
     @Searchable
-    @CheckEntityNotVoided
+    @CheckEntityNotVoided(message = "Individual B cannot be voided")
     @CheckIndividualNotUnknown
     @CheckRelationshipAge(allowNull = false, message="Individual B is younger than the minimum age required in order to be in a relationship")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -59,11 +60,13 @@ public class Relationship extends AuditableCollectedEntity implements GenericEnd
     String aIsToB;
        
 	@NotNull
+    @CheckCalendar(message = "Start date value is invalid")
     @Past(message = "Start date should be in the past")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="Start date of the relationship.")
     Calendar startDate;
     
+    @CheckCalendar(message = "End date value is invalid")
     @Past(message = "End date should be in the past")
     @Temporal(javax.persistence.TemporalType.DATE)
     @Description(description="End date of the relationship.")

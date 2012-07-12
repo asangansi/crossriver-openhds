@@ -19,12 +19,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.CheckIndividualGenderFemale;
 import org.openhds.domain.constraint.CheckIndividualGenderMale;
 import org.openhds.domain.constraint.CheckIndividualParentAge;
 import org.openhds.domain.constraint.CheckMotherFatherNotIndividual;
+import org.openhds.domain.constraint.CheckWorkStatusAndOccupation;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
 import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
@@ -36,6 +38,7 @@ import org.openhds.domain.constraint.Searchable;
  */
 @Description(description = "An Individual represents one who is a part of the study. Each Individual is identified by a uniquely generated external identifier which the system uses internally. Information about the Individual such as name, gender, date of birth, and parents are stored here. An Individual may be associated with many Residencies, Relationships, and Memberships.")
 @CheckMotherFatherNotIndividual
+@CheckWorkStatusAndOccupation
 @Entity
 @Table(name = "individual")
 @XmlRootElement(name = "individual")
@@ -55,7 +58,7 @@ public class Individual
     @Searchable
     @Description(description = "Middle name of the individual.")
     private String middleName;
-    @CheckFieldNotBlank(message = "Last name cannot be blank")
+    @CheckFieldNotBlank(message = "First name cannot be blank")
     @Searchable
     @Description(description = "Last name of the individual.")
     private String lastName;
@@ -63,6 +66,7 @@ public class Individual
     @Description(description = "The gender of the individual.")
     private String gender;
     @Past(message = "Date of birth must a date in the past")
+    @CheckCalendar(message = "Date of birth is invalid")
     @Temporal(TemporalType.DATE)
     @Description(description = "Birth date of the individual.")
     private Calendar dob;

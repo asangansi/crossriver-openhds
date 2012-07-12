@@ -13,6 +13,7 @@ import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.openhds.domain.annotations.Description;
+import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
@@ -161,6 +162,7 @@ public class AdultVPM
     @ExtensionIntegerConstraint(constraint = "symptomSeverityConstraint", message = "Invalid Value for symptom6Severity", allowNull = true)
     private Integer symptom6Severity;
     @Description(description = "Date of birth of child.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar childDob;
@@ -174,6 +176,7 @@ public class AdultVPM
     @ExtensionIntegerConstraint(constraint = "loseWeightSeverityConstraint", message = "Invalid Value for abdominalPainSeverity", allowNull = true)
     private Integer abdominalPainSeverity;
     @Description(description = "Date the individual used hospital facility 3.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar hospitalFacility3Date;
@@ -294,6 +297,7 @@ public class AdultVPM
     @ExtensionIntegerConstraint(constraint = "relationshipOfRespondentConstraint", message = "Invalid Value for relationshipOfRespondent", allowNull = true)
     private Integer relationshipOfRespondent;
     @Description(description = "Data corrected on.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar certifiedCorrectDate;
@@ -319,6 +323,7 @@ public class AdultVPM
     @Description(description = "Which other drugs did the individual consume")
     private String didOtherDrugs;
     @Description(description = "Date of interview for the verbal autopsy.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar dateOfInterview;
@@ -664,6 +669,7 @@ public class AdultVPM
     @Description(description = "Specify the occupation of the deceased individual")
     private String occupationOfDeceasedOther;
     @Description(description = "Date the individual used hospital facility 1.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar hospitalFacility1Date;
@@ -706,6 +712,7 @@ public class AdultVPM
     @ExtensionIntegerConstraint(constraint = "yesNoDontKnowConstraint", message = "Invalid Value for causeOfDeath", allowNull = true)
     private Integer causeOfDeath;
     @Description(description = "Date the individual used hospital facility 2.")
+    @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar hospitalFacility2Date;
