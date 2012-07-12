@@ -42,7 +42,7 @@ public class SocialGroup
     @Description(description = "External Id of the social group. This id is used internally.")
     private String extId;
     @Searchable
-    @CheckFieldNotBlank(message = "Group name cannot be blank")
+    @CheckFieldNotBlank(message = "")
     @Description(description = "Name of the social group.")
     private String groupName;
     @Searchable

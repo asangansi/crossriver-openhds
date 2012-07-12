@@ -29,7 +29,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "neonatalvpm")
 @XmlRootElement(name = "neonatalvpm")
 public class NeoNatalVPM
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -46,9 +46,6 @@ public class NeoNatalVPM
     @ManyToOne
     @Description(description = "Location of the deceased individual.")
     private Location house;
-    @ManyToOne
-    @Description(description = "Visit that is associated with the verbal autopsy, identified by the external id.")
-    private Visit visit;
     @Past(message = "Death date should be in the past")
     @CheckCalendar(message = "Child Death Date is invalid")
     @Temporal(TemporalType.DATE)
@@ -382,14 +379,6 @@ public class NeoNatalVPM
 
     public void setHouse(Location location) {
         house = location;
-    }
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit vis) {
-        visit = vis;
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)

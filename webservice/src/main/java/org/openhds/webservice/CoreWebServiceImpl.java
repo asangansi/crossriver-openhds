@@ -601,7 +601,7 @@ public class CoreWebServiceImpl {
 		@Override
 		protected void buildReferentialFields(Death entity, FieldBuilder builder) {
 			builder.referenceField(entity.getIndividual(), INDIVIDUAL_ID_NOT_FOUND)
-					.referenceField(entity.getVisitDeath()).referenceField(entity.getCollectedBy())
+					.referenceField(entity.getVisit()).referenceField(entity.getCollectedBy())
 					.referenceField(entity.getHouse()).referenceField(entity.getHousehold());
 		}
 
@@ -609,7 +609,7 @@ public class CoreWebServiceImpl {
 		protected void setReferentialFields(Death entity, FieldBuilder builder) {
 			entity.setIndividual(builder.individuals.get(0));
 			entity.setCollectedBy(builder.fw);
-			entity.setVisitDeath(builder.visit);
+			entity.setVisit(builder.visit);
 			entity.setHouse(builder.loc);
 			entity.setHousehold(builder.sg);
 		}

@@ -30,7 +30,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "adultvpm")
 @XmlRootElement(name = "adultvpm")
 public class AdultVPM
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -47,10 +47,6 @@ public class AdultVPM
     @ManyToOne
     @Description(description = "Location of the deceased individual.")
     private Location house;
-    @Searchable
-    @ManyToOne
-    @Description(description = "Visit that is associated with the verbal autopsy, identified by the external id.")
-    private Visit visit;
     @Description(description = "Reason for admission of hospital facility 2")
     private String hospitalFacility2Reason;
     @Description(description = "How many days did the individual have swelling on their ankle")
@@ -805,14 +801,6 @@ public class AdultVPM
 
     public void setHouse(Location location) {
         house = location;
-    }
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit vis) {
-        visit = vis;
     }
 
     public String getHospitalFacility2Reason() {

@@ -247,12 +247,6 @@
 </attribute>
 <attribute>
 <constraint>none</constraint>
-<name>referencesTemporaryIndividual</name>
-<description>Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.</description>
-<type>Boolean</type>
-</attribute>
-<attribute>
-<constraint>none</constraint>
 <name>formalEducationYears</name>
 <description>Number of years of formal education</description>
 <type>Integer</type>

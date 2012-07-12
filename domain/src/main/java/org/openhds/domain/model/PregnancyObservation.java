@@ -31,7 +31,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "pregnancyobservation")
 @XmlRootElement(name = "pregnancyobservation")
 public class PregnancyObservation
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -64,11 +64,6 @@ public class PregnancyObservation
     @Temporal(TemporalType.DATE)
     @Description(description = "Recorded date of the pregnancy observation.")
     private Calendar recordedDate;
-    @Searchable
-    @NotNull
-    @ManyToOne
-    @Description(description = "The visit this pregnancy observation was registered during.")
-    private Visit visit;
     @Description(description = "Name of the household in which this pregnany observation occurred")
     private String householdName;
     @Description(description = "If other, please specify the health facility")
@@ -138,14 +133,6 @@ public class PregnancyObservation
 
     public void setRecordedDate(Calendar date) {
         recordedDate = date;
-    }
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit vis) {
-        visit = vis;
     }
 
     public String getHouseholdName() {

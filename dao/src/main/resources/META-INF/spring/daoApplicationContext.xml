@@ -62,6 +62,7 @@
 				<value>org.openhds.domain.model.User</value>
 				<value>org.openhds.domain.model.Vaccination</value>
 				<value>org.openhds.domain.model.Visit</value>
+                <value>org.openhds.domain.model.VisitableEntity</value>
 				<value>org.openhds.domain.model.Whitelist</value>
 			</list>
 		</property>

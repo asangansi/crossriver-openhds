@@ -51,7 +51,7 @@ public class Individual
     @Searchable
     @Description(description = "External Id of the individual. This id is used internally.")
     private String extId;
-    @CheckFieldNotBlank(message = "First name cannot be blank")
+    @CheckFieldNotBlank(message = "")
     @Searchable
     @Description(description = "First name of the individual.")
     private String firstName;

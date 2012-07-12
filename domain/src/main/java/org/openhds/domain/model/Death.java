@@ -33,7 +33,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "death")
 @XmlRootElement(name = "death")
 public class Death
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -69,13 +69,6 @@ public class Death
     @Temporal(TemporalType.DATE)
     @Description(description = "Date of the Death.")
     private Calendar deathDate;
-    @Searchable
-    @ManyToOne(cascade = {
-        CascadeType.MERGE,
-        CascadeType.PERSIST
-    })
-    @Description(description = "Visit associated with the death, identified by external id.")
-    private Visit visitDeath;
     @Description(description = "Age of death in number of data.")
     private Long ageAtDeath;
     @Description(description = "Who reported this death")
@@ -136,14 +129,6 @@ public class Death
 
     public void setDeathDate(Calendar date) {
         deathDate = date;
-    }
-
-    public Visit getVisitDeath() {
-        return visitDeath;
-    }
-
-    public void setVisitDeath(Visit visit) {
-        visitDeath = visit;
     }
 
     public Long getAgeAtDeath() {

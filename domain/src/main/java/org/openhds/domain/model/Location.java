@@ -39,7 +39,7 @@ public class Location
     @Searchable
     @Description(description = "External Id of the location. This id is used internally.")
     private String extId;
-    @CheckFieldNotBlank(message = "Location name cannot be blank")
+    @CheckFieldNotBlank(message = "")
     @Searchable
     @Description(description = "Name of the location.")
     private String locationName;

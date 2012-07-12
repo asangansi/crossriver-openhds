@@ -33,7 +33,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "inmigration")
 @XmlRootElement(name = "inmigration")
 public class InMigration
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -61,11 +61,6 @@ public class InMigration
     @Temporal(TemporalType.DATE)
     @Description(description = "Recorded date of the inmigration.")
     private Calendar recordedDate;
-    @Searchable
-    @NotNull
-    @ManyToOne
-    @Description(description = "The visit associated with the inmigration, identified by external id.")
-    private Visit visit;
     @Enumerated(EnumType.STRING)
     @Description(description = "The migration type.")
     private MigrationType migType = MigrationType.INTERNAL_INMIGRATION;
@@ -79,6 +74,8 @@ public class InMigration
     @ManyToOne
     @Description(description = "Moving to household.")
     private SocialGroup household;
+    @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
+    private Boolean referencesTemporaryIndividual = false;
     @Description(description = "Date of interview for the inmigration")
     @CheckCalendar(message = "Invalid value for date")
     @Temporal(TemporalType.DATE)
@@ -112,8 +109,6 @@ public class InMigration
     private String householdNameFirstReg;
     @Description(description = "Old house name of the place where the migrant is moving from")
     private String houseNameMovingFrom;
-    @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
-    private Boolean referencesTemporaryIndividual;
     @Description(description = "Has the member ever been registered")
     @ExtensionIntegerConstraint(constraint = "yesNoConstraint", message = "Invalid Value for everRegistered", allowNull = true)
     private Integer everRegistered;
@@ -165,14 +160,6 @@ public class InMigration
         recordedDate = date;
     }
 
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit vis) {
-        visit = vis;
-    }
-
     public MigrationType getMigType() {
         return migType;
     }
@@ -203,6 +190,14 @@ public class InMigration
 
     public void setHousehold(SocialGroup place) {
         household = place;
+    }
+
+    public Boolean isReferencesTemporaryIndividual() {
+        return referencesTemporaryIndividual;
+    }
+
+    public void setReferencesTemporaryIndividual(Boolean referencesTemporaryIndividual) {
+        this.referencesTemporaryIndividual = referencesTemporaryIndividual;
     }
 
     public void setMigTypeInternal() {
@@ -332,14 +327,6 @@ public class InMigration
 
     public void setHouseNameMovingFrom(String data) {
         houseNameMovingFrom = data;
-    }
-
-    public Boolean isReferencesTemporaryIndividual() {
-        return referencesTemporaryIndividual;
-    }
-
-    public void setReferencesTemporaryIndividual(Boolean data) {
-        referencesTemporaryIndividual = data;
     }
 
     public Integer getEverRegistered() {

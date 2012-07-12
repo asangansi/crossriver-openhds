@@ -29,7 +29,7 @@ public class AggregateServiceImpl implements AggregateService {
 		
 		for (Death death : deaths) {
 			
-			if (hierarchyIds.contains(death.getVisitDeath().getVisitLocation().getLocationLevel().getExtId())) {
+			if (hierarchyIds.contains(death.getVisit().getVisitLocation().getLocationLevel().getExtId())) {
 
 				long ageInDays = death.getAgeAtDeath();
 				long ageInYears = (long) (ageInDays / 365.25);
@@ -217,9 +217,9 @@ public class AggregateServiceImpl implements AggregateService {
 	
 	private void processGroupForDeath(RecordGroup group, Death death, int index) {
 		if (death.getIndividual().getGender().equals(siteProperties.getMaleCode()))
-			group.getRecord().addMaleCountForLocationAndAgeGroup(death.getVisitDeath().getVisitLocation().getLocationLevel().getExtId(), index);
+			group.getRecord().addMaleCountForLocationAndAgeGroup(death.getVisit().getVisitLocation().getLocationLevel().getExtId(), index);
 		else if (death.getIndividual().getGender().equals(siteProperties.getFemaleCode()))
-			group.getRecord().addFemaleCountForLocationAndAgeGroup(death.getVisitDeath().getVisitLocation().getLocationLevel().getExtId(), index);
+			group.getRecord().addFemaleCountForLocationAndAgeGroup(death.getVisit().getVisitLocation().getLocationLevel().getExtId(), index);
 	}
 	
     private void processGroupForIndividual(RecordGroup group, Individual indiv, int index) {

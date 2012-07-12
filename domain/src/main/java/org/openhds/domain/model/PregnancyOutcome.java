@@ -27,14 +27,10 @@ import org.openhds.domain.util.CalendarAdapter;
 @Entity
 @Table(name="pregnancyoutcome")
 @XmlRootElement(name = "pregnancyoutcome")
-public class PregnancyOutcome extends AuditableCollectedEntity implements Serializable {
+public class PregnancyOutcome extends VisitableEntity implements Serializable {
 
     private static final long serialVersionUID = -8901037436653805795L;
         
-    @ManyToOne
-    @Description(description="Visit that is associated with the pregnancy outcome, identified by the external id.")
-    private Visit visit;
-   
     @CheckInteger
     @Description(description="Total number of children born from recent pregnancy.")
     private Integer totalChildrenBorn = 0;
@@ -114,14 +110,6 @@ public class PregnancyOutcome extends AuditableCollectedEntity implements Serial
     private Integer firstLiveBirth;
     @Description(description="Number of live births from recent pregnancy.")
     private Integer numLiveBirths;
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit visit) {
-        this.visit = visit;
-    }
 
     public Individual getMother() {
         return mother;

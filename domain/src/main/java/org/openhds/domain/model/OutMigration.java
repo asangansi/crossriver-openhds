@@ -30,7 +30,7 @@ import org.openhds.domain.constraint.Searchable;
 @Table(name = "outmigration")
 @XmlRootElement(name = "outmigration")
 public class OutMigration
-    extends AuditableCollectedEntity
+    extends VisitableEntity
     implements Serializable
 {
 
@@ -61,11 +61,6 @@ public class OutMigration
     @ExtensionIntegerConstraint(constraint = "reasonForOutmigrationConstraint", message = "Invalid Value for reason", allowNull = true)
     @Description(description = "Reason for outmigrating.")
     private Integer reason;
-    @Searchable
-    @NotNull
-    @ManyToOne
-    @Description(description = "The visit associated with the outmigration, identified by external id.")
-    private Visit visit;
     @NotNull
     @CheckCalendar(message = "Recorded Date is invalid")
     @Temporal(TemporalType.DATE)
@@ -139,14 +134,6 @@ public class OutMigration
 
     public void setReason(Integer name) {
         reason = name;
-    }
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit vis) {
-        visit = vis;
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)
