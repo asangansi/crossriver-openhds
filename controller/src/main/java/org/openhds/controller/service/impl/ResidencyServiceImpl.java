@@ -172,22 +172,26 @@ public class ResidencyServiceImpl implements ResidencyService {
 	 * org.openhds.service.ResidencyService#getIndividualsByLocation(org.openhds
 	 * .model.Location)
 	 */
-	public List<Individual> getIndividualsByLocation(Location location) {
+	public List<Individual> getIndividualsByLocation(Location location, boolean includeEndedResidency) {
 		// get a list of all residencies for a given location
 		List<Residency> residencies = genericDao.findListByProperty(
 				Residency.class, "location", location);
 
 		/** Filter out residencies that have already ended */
-		List<Residency> unendedResidencies = new ArrayList<Residency>();
-		for (Residency residency : residencies) {
-			if (residency.getEndDate() == null) {
-				unendedResidencies.add(residency);
+		List<Residency> filteredResidencies = new ArrayList<Residency>();
+		if (includeEndedResidency) {
+			filteredResidencies.addAll(residencies);
+		} else {
+			for (Residency residency : residencies) {
+				if (residency.getEndDate() == null) {
+					filteredResidencies.add(residency);
+				}
 			}
 		}
 		Set<Individual> individuals = new TreeSet<Individual>(
 				new IndividualComparator());
 
-		for (Residency residency : unendedResidencies) {
+		for (Residency residency : filteredResidencies) {
 			if (!residency.getIndividual().isDeleted())
 				individuals.add(residency.getIndividual());
 		}

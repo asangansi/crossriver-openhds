@@ -67,7 +67,7 @@ public interface ResidencyService {
 	@Authorized({ PrivilegeConstants.VIEW_ENTITY,
 			PrivilegeConstants.ACCESS_UPDATE,
 			PrivilegeConstants.ACCESS_BASELINE })
-	List<Individual> getIndividualsByLocation(Location location);
+	List<Individual> getIndividualsByLocation(Location location, boolean includeEndedResidency);
 
 	/**
 	 * Determine if an Individual has a current open residency. An open

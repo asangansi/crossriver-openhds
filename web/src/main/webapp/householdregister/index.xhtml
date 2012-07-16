@@ -1,0 +1,28 @@
+<ui:composition template="/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<ui:define name="title">OpenHDS - Household Registeration</ui:define>
+
+	<ui:define name="display">
+		<h:outputText value="#{navController.breadcrumbTrail}" />
+
+		<h1>Household Registration</h1>
+		<h:messages id="errors" globalOnly="false" />
+		<h:form id="form">
+			<h:panelGrid columns="2">
+				<h:outputText value="Report will use round:" />
+				<h:outputText value="#{householdRegCrud.round}" />
+				
+				<h:outputText value="Select a Village" />
+				<h:selectOneListbox size="1" value="#{householdRegCrud.selectedLocation}">
+					<f:selectItems value="#{householdRegCrud.locations}" />
+				</h:selectOneListbox>
+			</h:panelGrid>
+			<h:commandButton action="#{householdRegCrud.generateReport}" value="Generate Report" />
+		</h:form>
+	</ui:define>
+</ui:composition>

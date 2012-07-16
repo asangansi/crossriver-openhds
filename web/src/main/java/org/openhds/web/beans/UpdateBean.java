@@ -94,7 +94,7 @@ public class UpdateBean implements Serializable {
 		}
 		
 		if (residentIndividuals == null) {
-			residentIndividuals = residencyService.getIndividualsByLocation(currentVisit.getVisitLocation());
+			residentIndividuals = residencyService.getIndividualsByLocation(currentVisit.getVisitLocation(), false);
 		}
 		
 		return residentIndividuals;

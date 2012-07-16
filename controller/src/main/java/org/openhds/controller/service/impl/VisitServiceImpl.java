@@ -3,14 +3,17 @@ package org.openhds.controller.service.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.openhds.dao.service.GenericDao;
-import org.openhds.dao.service.GenericDao.ValueProperty;
+
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.VisitGenerator;
 import org.openhds.controller.service.VisitService;
+import org.openhds.dao.service.GenericDao;
+import org.openhds.dao.service.GenericDao.ValueProperty;
+import org.openhds.dao.service.GenericDao.ValuePropertyBuilder;
 import org.openhds.domain.model.ClassExtension;
 import org.openhds.domain.model.EntityType;
 import org.openhds.domain.model.Extension;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Round;
 import org.openhds.domain.model.Visit;
 
@@ -146,5 +149,14 @@ public class VisitServiceImpl implements VisitService {
 		};  	
     	
     	return genericDao.findListByMultiProperty(ClassExtension.class, roundNumber, indivType);
-    } 
+    }
+
+	@Override
+	public List<Visit> getAllVisitsAtLocationForRound(Location location, Integer roundNumber) {
+		ValueProperty vp1 = ValuePropertyBuilder.build("visitLocation", location);
+		ValueProperty vp2 = ValuePropertyBuilder.build("roundNumber", roundNumber);
+		ValueProperty vp3 = ValuePropertyBuilder.build("deleted", false);
+		
+		return genericDao.findListByMultiProperty(Visit.class, vp1, vp2, vp3);
+	} 
 }

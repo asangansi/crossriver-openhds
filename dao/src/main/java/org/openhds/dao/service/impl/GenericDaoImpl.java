@@ -203,4 +203,21 @@ public class GenericDaoImpl implements GenericDao {
 		
 		return (List<T>)crit.add(Restrictions.like(propertyName, prefix, MatchMode.START)).list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T, S> T findUniqueByInPropertyWithOrder(Class<T> entityType, String property, Object value, 
+			String inProperty, List<S> inValues, OrderProperty orderProp, boolean filterDeleted) {
+		Criteria crit = getSession().createCriteria(entityType);
+		crit.add(Restrictions.eq(property, value));
+		addOrderPropertiesToCriteria(crit, orderProp);
+		
+		if (filterDeleted) {
+			crit.add(Restrictions.eq("deleted", false));
+		}
+		
+		crit.add(Restrictions.in(inProperty, inValues)).setMaxResults(1);
+		
+		return (T) crit.uniqueResult();
+	}
 }

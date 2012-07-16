@@ -79,7 +79,7 @@ public class IdentificationBookController implements IdentificationBookService {
 		
 		// for each location grab the individuals who have their last known residency there
 		for(Location loc : locations) {
-			List<Individual> individuals = residencyService.getIndividualsByLocation(loc);
+			List<Individual> individuals = residencyService.getIndividualsByLocation(loc, false);
 			
 			for(Individual individual : individuals) {
 				IdentificationBookBean bean = new IdentificationBookBean();

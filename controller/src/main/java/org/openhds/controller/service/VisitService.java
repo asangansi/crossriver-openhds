@@ -1,10 +1,12 @@
 package org.openhds.controller.service;
 
 import java.util.List;
-import org.openhds.domain.annotations.Authorized;
+
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.domain.annotations.Authorized;
 import org.openhds.domain.model.ClassExtension;
 import org.openhds.domain.model.EntityType;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.PrivilegeConstants;
 import org.openhds.domain.model.Visit;
 
@@ -35,5 +37,8 @@ public interface VisitService {
 	List<ClassExtension> getExtensionsByEntityClassAndRoundNumber(EntityType entityType, int roundNum);
 
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
-	void validateGeneralVisit(Visit visit) throws ConstraintViolations; 
+	void validateGeneralVisit(Visit visit) throws ConstraintViolations;
+	
+	@Authorized({PrivilegeConstants.VIEW_ENTITY})
+	List<Visit> getAllVisitsAtLocationForRound(Location location, Integer roundNumber);
 }

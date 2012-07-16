@@ -15,8 +15,9 @@ public class HouseholdRegisterBean {
 	String gender;
 	String father;
 	String mother;
-	String lowestLevelName;
 	String lowestLevelValue;
+	String husbId;
+	String eventCode;
 	
 	public String getHouseNumber() {
 		return houseNumber;
@@ -90,14 +91,6 @@ public class HouseholdRegisterBean {
 		this.mother = mother;
 	}
 
-	public String getLowestLevelName() {
-		return lowestLevelName;
-	}
-
-	public void setLowestLevelName(String lowestLevelName) {
-		this.lowestLevelName = lowestLevelName;		
-	}
-
 	public String getLowestLevelValue() {
 		return lowestLevelValue;
 	}
@@ -105,4 +98,20 @@ public class HouseholdRegisterBean {
 	public void setLowestLevelValue(String parentLocation) {
 		this.lowestLevelValue = parentLocation;
 	}
+
+	public void setHusbId(String extId) {
+		this.husbId = extId;
+	}
+	
+	public String getHusbId() {
+		return this.husbId;
+	}
+
+	public String getEventCode() {
+		return eventCode;
+	}
+
+	public void setEventCode(String eventCode) {
+		this.eventCode = eventCode;
+	}	
 }

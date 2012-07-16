@@ -392,6 +392,11 @@
         <property name="service" ref="fieldWorkerService" />
     </bean>
     
+    <bean id="householdRegCrud" class="org.openhds.web.crud.impl.HouseholdRegisterCrudImpl">
+      <constructor-arg ref="genericDao" />
+      <constructor-arg ref="locationHierarchyService" />
+    </bean>
+    
     <bean id="individualCrud" parent="baseCrud" class="org.openhds.web.crud.impl.IndividualCrudImpl">
         <constructor-arg value="org.openhds.domain.model.Individual" />
         <property name="dao" ref="individualDao" />

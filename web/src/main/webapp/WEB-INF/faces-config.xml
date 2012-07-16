@@ -27,6 +27,11 @@
 			<to-view-id>/demographic.report</to-view-id>
 			<redirect />
 		</navigation-case>
+        <navigation-case>
+          <from-outcome>household_reg</from-outcome>
+          <to-view-id>/householdregister/index.faces</to-view-id>
+          <redirect />
+        </navigation-case>
 		<navigation-case>
 			<from-outcome>demowelcome</from-outcome>
 			<to-view-id>/demowelcome.faces</to-view-id>

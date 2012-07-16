@@ -69,7 +69,7 @@
 		        	<c:if test="#{navController.showReports}" >
 		        	<ul>
 			            <li><h:commandLink value="Demographic Rates" action="#{demRatesCrud.createSetup}" /></li>
-			            <li><a href="/openhds/household-register.report" target="_blank">Household Register</a></li>
+			            <li><h:commandLink value="Household Register" action="#{householdRegCrud.startHouseholdRegistration}" /></li>
 			            <li><a href="/openhds/migration-ent-reconciliation.report" target="_blank">Migration Ent Reconciliation</a></li>
 			            <li><a href="/openhds/pregnancy-observ-reconciliation.report" target="_blank">Preg Observ Reconciliation</a></li>
 			        	<li><a href="/openhds/identification-book.report" target="_blank">Identification Book</a></li>

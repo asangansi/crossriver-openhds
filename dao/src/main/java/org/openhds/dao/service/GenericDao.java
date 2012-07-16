@@ -21,6 +21,22 @@ public interface GenericDao {
 
         boolean isAscending();
     }
+    
+    static class OrderPropertyBuilder {
+    	public static OrderProperty build(final String propertyName, final boolean isAscending) {
+    		return new OrderProperty() {
+				@Override
+				public String getPropertyName() {
+					return propertyName;
+				}
+
+				@Override
+				public boolean isAscending() {
+					return isAscending;
+				}
+    		};
+    	}
+    }
 
     interface ValueProperty {
 
@@ -90,5 +106,8 @@ public interface GenericDao {
     
     Session getSession();
     
-    <T> List<T> findListByPropertyPrefix(Class<T> entityType, String propertyName, String prefix, int limit, boolean filterDeleted);    
+    <T> List<T> findListByPropertyPrefix(Class<T> entityType, String propertyName, String prefix, int limit, boolean filterDeleted);
+    
+    <T, S> T findUniqueByInPropertyWithOrder(Class<T> entityType, String property, Object value, String inProperty, List<S> inValues, 
+    		OrderProperty orderProp, boolean filterDeleted);
 }

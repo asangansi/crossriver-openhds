@@ -141,7 +141,7 @@ public class BaselineFlowBean implements Serializable {
         if (currentLocation == null) {
             return null;
         }
-        return residencyService.getIndividualsByLocation(currentLocation);
+        return residencyService.getIndividualsByLocation(currentLocation, false);
     }
 
     public Integer getMembershipListSize() {
