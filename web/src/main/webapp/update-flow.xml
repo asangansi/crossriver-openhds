@@ -324,7 +324,7 @@
             <evaluate expression="navController.addItemToTrail('Death Create')" />
             <set name="flowScope.currentView" value="'death'" />
             <set name="deathCrud.item.individual" value="updateBean.currentIndividual" />
-            <set name="deathCrud.item.visitDeath" value="updateBean.currentVisit" />
+            <set name="deathCrud.item.visit" value="updateBean.currentVisit" />
             <set name="deathCrud.item.house" value="updateBean.currentVisit.visitLocation" />
             <set name="deathCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
             <set name="deathCrud.item.recordedDate" value="updateBean.currentVisit.visitDate" />
