@@ -24,6 +24,8 @@
   	<module>domain</module>
     <module>dao</module>
     <module>controller</module>
+    <module>community</module>
+    <module>ddi</module>
     <module>web</module>
     <module>report</module>
     <module>webservice</module>
