@@ -42,8 +42,8 @@ public class IndividualDTO extends AppContextAware {
 		this.firstName = individual.getFirstName();
 		this.lastName = individual.getLastName();
 		this.dob = individual.getDob();
-		this.mother = individual.getMother().getUuid();
-		this.father = individual.getFather().getUuid();	
+		this.mother = individual.getMother().getExtId();
+		this.father = individual.getFather().getExtId();
 		this.status = individual.getStatus();
 		this.currentResidence = individual.getCurrentResidency().getLocation().getUuid();
 		
