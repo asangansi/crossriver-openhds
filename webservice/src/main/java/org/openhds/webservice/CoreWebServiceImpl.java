@@ -66,6 +66,7 @@ import org.openhds.webservice.dto.FieldWorkerDTO;
 import org.openhds.webservice.dto.IndividualDTO;
 import org.openhds.webservice.dto.LocationDTO;
 import org.openhds.webservice.dto.LocationHierarchyDTO;
+import org.openhds.webservice.dto.RelationshipDTO;
 import org.openhds.webservice.dto.RoundDTO;
 import org.openhds.webservice.dto.SocialGroupDTO;
 import org.openhds.webservice.dto.VisitDTO;
@@ -73,6 +74,7 @@ import org.openhds.webservice.dto.wrapper.FieldWorkerDTOWrapper;
 import org.openhds.webservice.dto.wrapper.IndividualDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationDTOWrapper;
 import org.openhds.webservice.dto.wrapper.LocationHierarchyDTOWrapper;
+import org.openhds.webservice.dto.wrapper.RelationshipDTOWrapper;
 import org.openhds.webservice.dto.wrapper.RoundDTOWrapper;
 import org.openhds.webservice.dto.wrapper.SocialGroupDTOWrapper;
 import org.openhds.webservice.dto.wrapper.VisitDTOWrapper;
@@ -873,6 +875,24 @@ public class CoreWebServiceImpl {
         	if (LocationDTO.isValid(loc)) {
         		LocationDTO dto = new LocationDTO(loc);
         		wrapper.getLocation().add(dto);
+        		count++;
+        	}
+        }     
+        wrapper.setCount(count);
+        return wrapper;
+    }
+    
+    @GET
+    @Path("/relationship")
+    public RelationshipDTOWrapper getAllRelationships() {  
+    	RelationshipDTOWrapper wrapper = new RelationshipDTOWrapper();
+        List<Relationship> rels = genericDao.findAll(Relationship.class, true);
+        
+        int count = 0;
+        for (Relationship rel : rels) {
+        	if (RelationshipDTO.isValid(rel)) {
+        		RelationshipDTO dto = new RelationshipDTO(rel);
+        		wrapper.getRelationship().add(dto);
         		count++;
         	}
         }     

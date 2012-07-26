@@ -1,11 +1,7 @@
 package org.openhds.webservice.dto;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.h2.util.StringUtils;
 import org.openhds.domain.constraint.AppContextAware;
@@ -45,15 +41,15 @@ public class IndividualDTO extends AppContextAware {
 		this.mother = individual.getMother().getExtId();
 		this.father = individual.getFather().getExtId();
 		this.status = individual.getStatus();
-		this.currentResidence = individual.getCurrentResidency().getLocation().getUuid();
+		this.currentResidence = individual.getCurrentResidency().getLocation().getExtId();
 		
 		if (groups != null) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < groups.size(); i++) {
 				if ((i+1) >= groups.size()) 
-					sb.append(groups.get(i).getUuid());
+					sb.append(groups.get(i).getExtId());
 				else 
-					sb.append(groups.get(i).getUuid() + ",");
+					sb.append(groups.get(i).getExtId() + ",");
 			}
 			this.groups = sb.toString();
 		}
