@@ -16,7 +16,7 @@ import org.openhds.domain.constaint.impl.CheckWorkStatusAndOccupationImpl;
 @Documented
 public @interface CheckWorkStatusAndOccupation {
 
-	String message() default "Work Status and Occupation contradict one another";
+	String message() default "Individual with work status: 1 can not have an occupational status of: 1 or 8";
 	
 	Class<?>[] groups() default{};
 	

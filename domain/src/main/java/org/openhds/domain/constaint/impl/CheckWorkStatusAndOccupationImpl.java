@@ -15,8 +15,7 @@ public class CheckWorkStatusAndOccupationImpl implements ConstraintValidator<Che
 		if (indiv.getWorkStatus() == null || indiv.getOccupationalStatus() == null)
 			return true;
 		
-		if (indiv.getWorkStatus() == 2 && 
-				indiv.getOccupationalStatus() != 1 || indiv.getOccupationalStatus() != 8)
+		if (indiv.getWorkStatus() == 1 && (indiv.getOccupationalStatus() == 1 || indiv.getOccupationalStatus() == 8))
 			return false;
 		return true;
 	}
