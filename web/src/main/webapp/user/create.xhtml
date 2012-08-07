@@ -41,7 +41,7 @@
                         <h:message for="user" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 
                         <h:outputText value="#{msg.userPassword}:"/>
-                        <h:inputSecret id="pass" value="#{userCrud.item.password}" converter="#{defaultStringConverter}" />
+                        <h:inputSecret id="pass" value="#{userCrud.password}" converter="#{defaultStringConverter}" />
                         <h:message for="pass" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
  
  						<h:outputText value="#{msg.userConfirmPassword}:"/>
