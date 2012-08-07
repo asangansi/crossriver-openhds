@@ -111,13 +111,11 @@ public class SocialGroupServiceImpl implements SocialGroupService {
      */
     public List<String> getSocialGroupExtIds(String term) {
     	List<String> ids = new ArrayList<String>();
-    	List<SocialGroup> list = genericDao.findAll(SocialGroup.class, true);
-    	Iterator<SocialGroup> itr = list.iterator();
-    	while(itr.hasNext()) {
-    		SocialGroup item = itr.next();
-    		if (item.getExtId().toLowerCase().contains(term.toLowerCase())) 
-    			ids.add(item.getExtId());
+    	List<SocialGroup> list = genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", term, 10, true);
+    	for(SocialGroup sg : list) {
+    		ids.add(sg.getExtId());
     	}
+    	
     	return ids;
     }
     
