@@ -433,6 +433,11 @@ public class PostNeoNatalVPM
         childDeathDate = date;
     }
 
+    @Override
+    public String toString() {
+        return "Post Neonatal VPM";
+    }
+
     public Integer getSkinFlakeoff() {
         return skinFlakeoff;
     }

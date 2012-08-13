@@ -264,4 +264,9 @@ public class PregnancyOutcome extends VisitableEntity implements Serializable {
     public void setNumberOfLiveBirths(Integer numberOfLiveBirths) {
         this.numberOfLiveBirths = numberOfLiveBirths;
     }
+    
+    @Override
+    public String toString() {
+    	return "Pregnancy Outcome";
+    }
 }

@@ -98,4 +98,9 @@ public class Visit
         extensions = list;
     }
 
+    @Override
+    public String toString() {
+        return "Visit";
+    }
+
 }

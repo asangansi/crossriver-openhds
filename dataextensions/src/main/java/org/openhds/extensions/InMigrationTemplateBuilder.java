@@ -257,6 +257,12 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarReferencesTemp = jmsReferencesTemp.param(Boolean.class, "referencesTemporaryIndividual");
 		JBlock jmsReferencesTempBlock = jmsReferencesTemp.body();
 		jmsReferencesTempBlock.assign(JExpr.refthis("referencesTemporaryIndividual"), jvarReferencesTemp);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("In Migration"));
 	}
 
 	@Override

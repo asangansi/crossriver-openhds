@@ -145,6 +145,11 @@ public class OutMigration
         recordedDate = date;
     }
 
+    @Override
+    public String toString() {
+        return "Out Migration";
+    }
+
     public String getPlaceMovedToOther() {
         return placeMovedToOther;
     }

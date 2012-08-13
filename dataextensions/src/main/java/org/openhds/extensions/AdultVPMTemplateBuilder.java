@@ -82,6 +82,12 @@ public class AdultVPMTemplateBuilder implements ExtensionTemplate {
 		JVar jvarLocation = jmsLocation.param(org.openhds.domain.model.Location.class, "location");
 		JBlock jmsLocationBlock = jmsLocation.body();
 		jmsLocationBlock.assign(jfLocation, jvarLocation);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Adult VPM"));
 	}
 
 	@Override

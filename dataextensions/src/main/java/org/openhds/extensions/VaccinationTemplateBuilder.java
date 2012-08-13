@@ -269,6 +269,12 @@ public class VaccinationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarMeasels = jmsMeasels.param(java.util.Calendar.class, "date");
 		JBlock jmsMeaselsBlock = jmsMeasels.body();
 		jmsMeaselsBlock.assign(jfMeasels, jvarMeasels);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Vaccination"));
 	}
 
 	@Override

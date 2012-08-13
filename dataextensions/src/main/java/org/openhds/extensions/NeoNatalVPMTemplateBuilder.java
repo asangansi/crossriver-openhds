@@ -108,6 +108,12 @@ public class NeoNatalVPMTemplateBuilder implements ExtensionTemplate {
 		JVar jvarDeathDate = jmsDeathDate.param(java.util.Calendar.class, "date");
 		JBlock jmsDeathDateBlock = jmsDeathDate.body();
 		jmsDeathDateBlock.assign(jfDeathDate, jvarDeathDate);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Neonatal VPM"));
 	}
 
 	@Override

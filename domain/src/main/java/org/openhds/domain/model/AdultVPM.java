@@ -803,6 +803,11 @@ public class AdultVPM
         house = location;
     }
 
+    @Override
+    public String toString() {
+        return "Adult VPM";
+    }
+
     public String getHospitalFacility2Reason() {
         return hospitalFacility2Reason;
     }

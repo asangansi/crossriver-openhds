@@ -51,7 +51,7 @@ public class Individual
     @Searchable
     @Description(description = "External Id of the individual. This id is used internally.")
     private String extId;
-    @CheckFieldNotBlank(message = "")
+    @CheckFieldNotBlank(message = "First name cannot be blank")
     @Searchable
     @Description(description = "First name of the individual.")
     private String firstName;
@@ -225,6 +225,11 @@ public class Individual
 
     public void setAllMemberships(Set<Membership> list) {
         allMemberships = list;
+    }
+
+    @Override
+    public String toString() {
+        return "Individual";
     }
 
     public Residency getCurrentResidency() {

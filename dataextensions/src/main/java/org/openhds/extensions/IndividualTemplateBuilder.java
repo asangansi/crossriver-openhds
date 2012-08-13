@@ -346,6 +346,12 @@ public class IndividualTemplateBuilder implements ExtensionTemplate {
 		JVar jvarMembership = jmsMembership.param(basicSetMemberships, "list");
 		JBlock jmsMembershipBlock = jmsMembership.body();
 		jmsMembershipBlock.assign(jfMemberships, jvarMembership);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Individual"));
 	}
 	
 	public void buildAdditionalMethods(JDefinedClass jc) {

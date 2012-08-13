@@ -189,6 +189,12 @@ public class DeathTemplateBuilder implements ExtensionTemplate {
 		JVar jvarAge = jmsAge.param(java.lang.Long.class, "age");
 		JBlock jmsAgeBlock = jmsAge.body();
 		jmsAgeBlock.assign(jfAge, jvarAge);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Death"));
 	}
 
 	@Override

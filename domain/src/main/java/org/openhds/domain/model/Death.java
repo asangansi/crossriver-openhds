@@ -139,6 +139,11 @@ public class Death
         ageAtDeath = age;
     }
 
+    @Override
+    public String toString() {
+        return "Death";
+    }
+
     public Integer getReportedBy() {
         return reportedBy;
     }

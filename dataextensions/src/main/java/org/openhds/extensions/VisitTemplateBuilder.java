@@ -171,5 +171,11 @@ public class VisitTemplateBuilder implements ExtensionTemplate {
 		JVar jvarExtensions = jmsExtensions.param(basicListExtensions, "list");
 		JBlock jmsExtensionsBlock = jmsExtensions.body();
 		jmsExtensionsBlock.assign(jfExtensions, jvarExtensions);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Visit"));
 	}
 }

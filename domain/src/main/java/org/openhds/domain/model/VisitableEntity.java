@@ -15,7 +15,10 @@ public abstract class VisitableEntity extends AuditableCollectedEntity {
 	private static final long serialVersionUID = -4321732774913442147L;
 
 	public static VisitableEntity NULL_VISITABLE_ENTITY = new VisitableEntity() {
-
+		@Override
+		public String toString() {
+			return "";
+		}
 	};
 	
 	

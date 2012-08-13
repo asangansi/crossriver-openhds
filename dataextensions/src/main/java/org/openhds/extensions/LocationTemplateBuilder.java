@@ -228,6 +228,12 @@ public class LocationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarLocationResidencies = jmsLocationResidencies.param(basicListResidencies, "list");
 		JBlock jmsLocationResidenciesBlock = jmsLocationResidencies.body();
 		jmsLocationResidenciesBlock.assign(jfResidencies, jvarLocationResidencies);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Location"));
 	}
 	
 	public void buildClassAnnotations(JDefinedClass jc) {

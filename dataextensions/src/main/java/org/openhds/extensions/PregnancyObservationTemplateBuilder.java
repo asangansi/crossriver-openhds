@@ -154,6 +154,12 @@ public class PregnancyObservationTemplateBuilder implements ExtensionTemplate  {
 		JVar jvarRecordedDate = jmsRecordedDate.param(java.util.Calendar.class, "date");
 		JBlock jmsRecordedDateBlock = jmsRecordedDate.body();
 		jmsRecordedDateBlock.assign(jfRecordedDate, jvarRecordedDate);
+		
+		// toString
+		JMethod toString = jc.method(JMod.PUBLIC, java.lang.String.class, "toString");
+		toString.annotate(Override.class);
+		JBlock toStringBlock = toString.body();
+		toStringBlock._return(JExpr.lit("Pregnancy Observation"));
 	}
 
 	@Override

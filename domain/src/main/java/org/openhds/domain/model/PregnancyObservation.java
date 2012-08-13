@@ -135,6 +135,11 @@ public class PregnancyObservation
         recordedDate = date;
     }
 
+    @Override
+    public String toString() {
+        return "Pregnancy Observation";
+    }
+
     public String getHouseholdName() {
         return householdName;
     }

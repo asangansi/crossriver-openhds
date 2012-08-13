@@ -390,6 +390,11 @@ public class NeoNatalVPM
         childDeathDate = date;
     }
 
+    @Override
+    public String toString() {
+        return "Neonatal VPM";
+    }
+
     public Integer getNumMonthsPregnant() {
         return numMonthsPregnant;
     }

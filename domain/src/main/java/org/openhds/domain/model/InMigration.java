@@ -200,6 +200,11 @@ public class InMigration
         this.referencesTemporaryIndividual = referencesTemporaryIndividual;
     }
 
+    @Override
+    public String toString() {
+        return "In Migration";
+    }
+
     public void setMigTypeInternal() {
         setMigType(MigrationType.INTERNAL_INMIGRATION);
     }

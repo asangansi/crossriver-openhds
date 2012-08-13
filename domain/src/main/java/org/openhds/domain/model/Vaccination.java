@@ -183,6 +183,11 @@ public class Vaccination
         measels = date;
     }
 
+    @Override
+    public String toString() {
+        return "Vaccination";
+    }
+
     public Integer getDropInMouth() {
         return dropInMouth;
     }

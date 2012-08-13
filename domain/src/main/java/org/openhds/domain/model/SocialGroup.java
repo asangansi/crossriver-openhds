@@ -42,7 +42,7 @@ public class SocialGroup
     @Description(description = "External Id of the social group. This id is used internally.")
     private String extId;
     @Searchable
-    @CheckFieldNotBlank(message = "")
+    @CheckFieldNotBlank(message = "Group name cannot be blank")
     @Description(description = "Name of the social group.")
     private String groupName;
     @Searchable
@@ -126,6 +126,11 @@ public class SocialGroup
 
     public void setMemberships(Set<Membership> list) {
         memberships = list;
+    }
+
+    @Override
+    public String toString() {
+        return "Social Group";
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)

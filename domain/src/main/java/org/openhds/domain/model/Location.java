@@ -39,7 +39,7 @@ public class Location
     @Searchable
     @Description(description = "External Id of the location. This id is used internally.")
     private String extId;
-    @CheckFieldNotBlank(message = "")
+    @CheckFieldNotBlank(message = "Location name cannot be blank")
     @Searchable
     @Description(description = "Name of the location.")
     private String locationName;
@@ -146,6 +146,11 @@ public class Location
 
     public void setResidencies(List<Residency> list) {
         residencies = list;
+    }
+
+    @Override
+    public String toString() {
+        return "Location";
     }
 
     public Integer getNumberOfHouseholds() {
