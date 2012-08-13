@@ -377,9 +377,7 @@
             <set name="outMigrationCrud.item.dateOfInterview" value="updateBean.currentVisit.visitDate" />
         </on-entry>
         <transition on="cancel" to="home" />
-        <transition on="outmigration_list" to="home" >
-            <evaluate expression="updateBean.removeIndividualFromResidentList()" />
-        </transition>
+        <transition on="outmigration_list" to="home" />
         <transition on="outmigration_detail" to="outmigration-detail" />
         <transition on="outmigration_edit" to="outmigration-edit" />
         <transition on="outmigration_create" to="outmigration" />
