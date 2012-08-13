@@ -374,6 +374,7 @@
             <set name="outMigrationCrud.item.visit" value="updateBean.currentVisit" />
             <set name="outMigrationCrud.item.collectedBy" value="updateBean.currentVisit.collectedBy" />
             <set name="outMigrationCrud.item.house" value="updateBean.currentVisit.visitLocation" />
+            <set name="outMigrationCrud.item.houseName" value="updateBean.currentVisit.visitLocation.locationName" />
             <set name="outMigrationCrud.item.dateOfInterview" value="updateBean.currentVisit.visitDate" />
         </on-entry>
         <transition on="cancel" to="home" />

@@ -307,6 +307,24 @@
 <description>The house moved to</description>
 <type>String</type>
 </attribute>
+<attribute>
+<constraint>none</constraint>
+<name>nameOfMigrant</name>
+<description>The name of the migrant</description>
+<type>String</type>
+</attribute>
+<attribute>
+<constraint>genderConstraint</constraint>
+<name>gender</name>
+<description>The gender of the migrant</description>
+<type>String</type>
+</attribute>
+<attribute>
+<constraint>none</constraint>
+<name>householdName</name>
+<description>Name of the household</description>
+<type>String</type>
+</attribute>
 </attributes>
 	</entity>
 	<entity name="Death">

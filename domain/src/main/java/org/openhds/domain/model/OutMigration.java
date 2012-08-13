@@ -18,6 +18,7 @@ import org.openhds.domain.constraint.CheckCalendar;
 import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
+import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
 
 
@@ -67,6 +68,8 @@ public class OutMigration
     @Past(message = "The date of the migration must be in the past")
     @Description(description = "Recorded date of the inmigration.")
     private Calendar recordedDate;
+    @Description(description = "Name of the household")
+    private String householdName;
     @Description(description = "If place moved to is other, please specify")
     private String placeMovedToOther;
     @Description(description = "Where the migrant moved to")
@@ -83,10 +86,15 @@ public class OutMigration
     private String phoneNumber;
     @Description(description = "Village the migrant moved to")
     private String village;
+    @Description(description = "The gender of the migrant")
+    @ExtensionStringConstraint(constraint = "genderConstraint", message = "Invalid Value for gender", allowNull = true)
+    private String gender;
     @Description(description = "If reason for migration is other, please specify")
     private String reasonForMigrationOther;
     @Description(description = "Section the migrant moved to")
     private String section;
+    @Description(description = "The name of the migrant")
+    private String nameOfMigrant;
 
     public Individual getIndividual() {
         return individual;
@@ -150,6 +158,14 @@ public class OutMigration
         return "Out Migration";
     }
 
+    public String getHouseholdName() {
+        return householdName;
+    }
+
+    public void setHouseholdName(String data) {
+        householdName = data;
+    }
+
     public String getPlaceMovedToOther() {
         return placeMovedToOther;
     }
@@ -199,6 +215,14 @@ public class OutMigration
         village = data;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String data) {
+        gender = data;
+    }
+
     public String getReasonForMigrationOther() {
         return reasonForMigrationOther;
     }
@@ -213,6 +237,14 @@ public class OutMigration
 
     public void setSection(String data) {
         section = data;
+    }
+
+    public String getNameOfMigrant() {
+        return nameOfMigrant;
+    }
+
+    public void setNameOfMigrant(String data) {
+        nameOfMigrant = data;
     }
 
 }
