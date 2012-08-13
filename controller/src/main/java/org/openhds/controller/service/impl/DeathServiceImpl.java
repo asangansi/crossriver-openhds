@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.service.DeathService;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class DeathServiceImpl implements DeathService {
 	
+	private static final Logger logger = Logger.getLogger(DeathServiceImpl.class);
+	
 	private static final int MILLISECONDS_IN_DAY = 86400000;
 	private EntityService entityService;
 	private GenericDao genericDao;
@@ -36,7 +40,6 @@ public class DeathServiceImpl implements DeathService {
 	}
 
 	public Death evaluateDeath(Death entityItem) throws ConstraintViolations {
-		
 		if (!checkDuplicateIndividual(entityItem.getIndividual())) 
     		throw new ConstraintViolations("The Individual Id specified already exists.");	
 		if (!checkHeadOfSocialGroup(entityItem.getIndividual())) 
@@ -198,14 +201,33 @@ public class DeathServiceImpl implements DeathService {
 	
 	/**
 	 * Checks if the Individual is the head of any Social Group
+	 * Do not allow a death event for an individual who is the head of a social group with more than
+	 * 1 member in the social group. If this is the case, the user will need to re-establish the relationships
+	 * with the new head of house
 	 */
 	public boolean checkHeadOfSocialGroup(Individual indiv) {
-		
 		List<SocialGroup> list = genericDao.findListByProperty(SocialGroup.class, "groupHead", indiv);		
 		
-		if (list.size() == 0)
-			return true;
-		return false;
+		for(SocialGroup sg : list) {
+			Set<Membership> memberships = sg.getMemberships();
+			if (memberships.size() > 1) {
+				// social group has multiple memberships so user will need to re-establish the memberships
+				return false;
+			} else if (memberships.size() == 0) {
+				// this should never be the case - but account for it anyway
+				logger.warn("Found a social group with no memberhips when evaluating a death");
+			} else {
+				// if the household has only 1 membership, it should belong to the head of house
+				// we double check here
+				Membership[] mems = memberships.toArray(new Membership[]{});
+				if (!mems[0].getIndividual().getExtId().equals(indiv.getExtId())) {
+					logger.warn("Found a single membership to a household and it's not the head of house when evaluating a death");
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	public List<Death> getDeathsByIndividual(Individual individual) {
