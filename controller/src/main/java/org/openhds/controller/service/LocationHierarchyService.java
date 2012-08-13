@@ -14,7 +14,7 @@ public interface LocationHierarchyService {
 	Location evaluateLocation(Location entityItem, boolean overrideIdGeneration) throws ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	LocationHierarchy evaluateLocationHierarchy(LocationHierarchy entityItem) throws ConstraintViolations;
+	LocationHierarchy evaluateLocationHierarchy(LocationHierarchy entityItem, boolean overrideIdGeneration) throws ConstraintViolations;
 		
 	@Authorized({PrivilegeConstants.EDIT_ENTITY})
 	LocationHierarchy checkLocationHierarchy(LocationHierarchy persistedItem, LocationHierarchy entityItem) throws ConstraintViolations;

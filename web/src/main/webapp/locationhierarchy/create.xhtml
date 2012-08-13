@@ -33,14 +33,32 @@
                			<h:outputText value="#{msg.locationHierarchyChildName}:"/>
                			<h:inputText id="childName" value="#{locationHierarchyCrud.item.name}" converter="#{defaultConverter}" />
                   		<h:message for="childName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-    				
+                  		
+		               	<h:outputText value="Manual Location Hierarchy Id:" />
+	                	<h:selectBooleanCheckbox styleClass="handle-change" id="manualId" immediate="true" valueChangeListener="#{locationHierarchyCrud.updateManualId}" value="#{locationHierarchyCrud.manualId}" />
+						<h:message for="manualId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+               			<h:outputText value="Location Hierarchy Id:"/>
+               			<h:inputText id="hierarchyId" value="#{locationHierarchyCrud.locationHierarchyId}" disabled="#{not locationHierarchyCrud.manualId}" converter="#{defaultConverter}" />
+                  		<h:message for="hierarchyId" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
                     </h:panelGrid>
-                    <script>
-  						document.getElementById('form:parentName').focus();
-  					</script>
                     <br />
 	            	<h:commandButton action="#{locationHierarchyCrud.create}" value="#{msg.lblCreate}"/>
                 </h:form>
+		        <script type="text/javascript">
+				   	document.getElementById('form:parentName').focus();
+		          
+				    (function() {
+		              function submitForm() {
+		                  $('#loading-div').css('visibility', 'visible');
+		                  setTimeout("$('#form').submit()", 200);
+		              }
+		              
+		              $('.handle-change').change(function(evt) {
+		                  submitForm();
+		              });
+		          })();
+		        </script>
             </ui:define>
         </ui:composition>
     </body>

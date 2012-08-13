@@ -24,7 +24,7 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 		this.locationHierarchyGenerator = locationHierarchyGenerator;
 	}
 
-	public LocationHierarchy evaluateLocationHierarchy(LocationHierarchy entityItem) throws ConstraintViolations {
+	public LocationHierarchy evaluateLocationHierarchy(LocationHierarchy entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
 		
 		LocationHierarchy item = null;
 		
@@ -46,7 +46,9 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 		}
     	    		
 		// set the external id on the hierarchy item
-		generateId(entityItem);
+		if (!overrideIdGeneration) {
+			generateId(entityItem);
+		}
 		
 		// the Parent item is the root so this Hierarchy item may or may not be at the highest level
 		if (item == null) {

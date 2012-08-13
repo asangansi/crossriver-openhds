@@ -88,6 +88,10 @@
     
     <bean id="dateValidator" class="org.openhds.web.vld.DateValidator" />
     
+    <bean id="defaultConverter" class="org.openhds.web.cvt.DefaultConverter">
+        <constructor-arg value="true" />
+    </bean>    
+    
     <!-- Autocomplete converters -->
     <bean id="fieldWorkerExtIdConverter" class="org.openhds.web.cvt.EntityPropertyConverterImpl">
         <constructor-arg ref="fieldWorkerDao" />

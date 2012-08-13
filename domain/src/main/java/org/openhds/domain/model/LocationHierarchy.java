@@ -35,7 +35,7 @@ public class LocationHierarchy implements Serializable {
     @Column(length=32)
 	String uuid;
 	
-	@CheckFieldNotBlank(message = "Ext id canot be blank")
+	@CheckFieldNotBlank(message = "Location Hiearchy Id cannot be blank")
 	@NotNull
 	@Searchable
 	@Description(description="External Id of the location hierarchy. This id is used internally.")
