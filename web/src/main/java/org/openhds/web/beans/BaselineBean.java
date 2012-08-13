@@ -27,6 +27,7 @@ import org.openhds.domain.model.Location;
 import org.openhds.domain.model.LocationHierarchy;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.Relationship;
+import org.openhds.domain.model.Residency;
 import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.service.SitePropertiesService;
 
@@ -272,49 +273,22 @@ public class BaselineBean implements Serializable {
 
 			individual = indiv;
 			individual.setCollectedBy(collectedBy);
-
+			Residency residency = createResidencyForIndividual(individual);
+			
 			if (individual.getExtId().equals(headOfHousehold.getExtId())) {
-				
-				// create Membership
-				Membership membership = new Membership();
-				membership.setEndType(properties.getNotApplicableCode());
-				membership.setStartType(properties.getEnumerationCode());
-				baselineService.createMembershipForIndividual(individual, 
-						membership, currentSocialGroup, 
-						collectedBy, convertedEntryDate(entryDate));
-				baselineService.createResidencyForIndividual(individual,
-						currentLocation, collectedBy,
-						convertedEntryDate(entryDate));
+				Membership membership = createMembershipForHeadOfHouse(individual);
+				baselineService.registerHouseholdMember(individual, residency, membership);
 			} else {
-				currentSocialGroup = genericDao.findByProperty(SocialGroup.class,
-						"extId", currentSocialGroup.getExtId());
-
 				Membership membership = memberships[individualCount - 1];
-				membership.setIndividual(individual);
-				membership.setSocialGroup(currentSocialGroup);
-				membership.setCollectedBy(collectedBy);
-				membership.setStartDate(convertedEntryDate(entryDate));
-				membership.setStartType(properties.getEnumerationCode());
-				membership.setEndType(properties.getNotApplicableCode());
-
+				setFieldsOnHouseholdMembership(individual, membership);
 				Relationship relationship = relationships[individualCount - 1];
 
-				if (relationship.getIndividualB().getExtId().equals(
-						TEMPORARY_RELATIONSHIP_EXT_ID)) {
-					baselineService.createResidencyAndMembershipForIndividual(
-							individual, membership, currentLocation,
-							collectedBy, convertedEntryDate(entryDate));
+				if (relationship.getIndividualB().getExtId().equals(TEMPORARY_RELATIONSHIP_EXT_ID)) {
+					baselineService.registerHouseholdMember(individual, residency, membership);
 				} else {
-					relationship.setIndividualA(individual);
-					relationship.setStartDate(convertedEntryDate(entryDate));
-					relationship.setCollectedBy(collectedBy);
-					relationship.setaIsToB("2");
-					relationship.setEndType(properties.getNotApplicableCode());
-					baselineService
-							.createResidencyMembershipAndRelationshipForIndividual(
-									individual, membership, relationship,
-									currentLocation, collectedBy,
-									convertedEntryDate(entryDate));
+					createRelationship(individual, relationship);
+					baselineService.registerHouseholdMemberWithRelationship(individual, residency, membership,
+							relationship);
 				}
 			}
 		}
@@ -328,6 +302,50 @@ public class BaselineBean implements Serializable {
 		}
 
 		return true;
+	}
+
+	private void createRelationship(Individual individual, Relationship relationship) {
+		relationship.setIndividualA(individual);
+		relationship.setStartDate(convertedEntryDate(entryDate));
+		relationship.setCollectedBy(collectedBy);
+		relationship.setaIsToB("2");
+		relationship.setEndType(properties.getNotApplicableCode());
+	}
+
+	private void setFieldsOnHouseholdMembership(Individual individual, Membership membership) {
+		membership.setIndividual(individual);
+		membership.setSocialGroup(currentSocialGroup);
+		membership.setCollectedBy(collectedBy);
+		membership.setStartDate(convertedEntryDate(entryDate));
+		membership.setStartType(properties.getEnumerationCode());
+		membership.setEndType(properties.getNotApplicableCode());
+	}
+
+	private Residency createResidencyForIndividual(Individual individual) {
+		Residency residency = new Residency();
+		residency.setIndividual(individual);
+		residency.setLocation(currentLocation);
+		residency.setStartType(properties.getEnumerationCode());
+		residency.setEndType(properties.getNotApplicableCode());
+		residency.setStartDate(convertedEntryDate(entryDate));
+		residency.setCollectedBy(collectedBy);
+		residency.setInsertDate(Calendar.getInstance());
+		
+		return residency;
+	}
+
+	private Membership createMembershipForHeadOfHouse(Individual individual) {
+		Membership membership = new Membership();
+		membership.setEndType(properties.getNotApplicableCode());
+		membership.setStartType(properties.getEnumerationCode());
+		membership.setIndividual(individual);
+		membership.setbIsToA("01");
+		membership.setCollectedBy(collectedBy);
+		membership.setInsertDate(Calendar.getInstance());
+		membership.setSocialGroup(currentSocialGroup);
+		membership.setStartDate(convertedEntryDate(entryDate));
+		
+		return membership;
 	}
 
 	private void checkDuplicateIndividual(Individual indiv)

@@ -13,6 +13,7 @@ import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.PrivilegeConstants;
 import org.openhds.domain.model.Relationship;
+import org.openhds.domain.model.Residency;
 import org.openhds.domain.model.SocialGroup;
 
 public interface BaselineService {
@@ -24,14 +25,11 @@ public interface BaselineService {
 	public void createSocialGroupAndResidencyForIndividual(Individual individual, SocialGroup socialGroup, Location currentLocation, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException, ConstraintViolations;
 
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createResidencyForIndividual(Individual individual, Location currentLocation, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException, ConstraintViolations;
+	public void registerHouseholdMember(Individual individual, Residency residency, Membership membership) throws IllegalArgumentException, ConstraintViolations, SQLException;
 
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createResidencyMembershipAndRelationshipForIndividual(Individual individual, Membership membership, Relationship relationship, Location currentLocation, FieldWorker collectedBy, Calendar convertedEntryDate) throws SQLException, ConstraintViolations, IllegalArgumentException, ConstraintViolations;
+	public void registerHouseholdMemberWithRelationship(Individual individual, Residency residency, Membership membership, Relationship relationship) throws IllegalArgumentException, ConstraintViolations, SQLException;
 
-	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	public void createMembershipForIndividual(Individual individual, Membership membership, SocialGroup socialgroup, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException, ConstraintViolations;
-	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	public void createEntities(List<AuditableCollectedEntity> list) throws IllegalArgumentException, ConstraintViolations, SQLException;
 }

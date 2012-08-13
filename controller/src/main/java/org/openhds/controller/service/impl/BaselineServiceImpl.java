@@ -70,31 +70,16 @@ public class BaselineServiceImpl implements BaselineService {
 		}
 	}
 		
-	public void createResidencyForIndividual(Individual individual, Location currentLocation, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException {
-		Residency residency = createResidency(individual, currentLocation, collectedBy, startDate);		
-	
+	public void registerHouseholdMember(Individual individual, Residency residency, Membership membership) throws IllegalArgumentException, ConstraintViolations, SQLException {
 		entityService.create(individual);
 		entityService.create(residency);
-	}
-	
-	public void createMembershipForIndividual(Individual individual, Membership membership, SocialGroup socialgroup, FieldWorker collectedBy, Calendar startDate) throws SQLException, ConstraintViolations, IllegalArgumentException {
-			
-		membership.setIndividual(individual);
-		membership.setbIsToA("01");
-		membership.setCollectedBy(collectedBy);
-		membership.setInsertDate(Calendar.getInstance());
-		membership.setSocialGroup(socialgroup);
-		membership.setStartDate(startDate);
-
 		entityService.create(membership);
 	}
 
-	public void createResidencyMembershipAndRelationshipForIndividual(Individual individual, Membership membership, 
-				Relationship relationship, Location currentLocation, FieldWorker collectedBy, Calendar convertedEntryDate)
-				throws SQLException, ConstraintViolations, IllegalArgumentException {
-
-		createResidencyAndMembershipForIndividual(individual, membership, currentLocation, collectedBy, convertedEntryDate);
-		
+	public void registerHouseholdMemberWithRelationship(Individual individual, Residency residency,
+			Membership membership, Relationship relationship) throws IllegalArgumentException, ConstraintViolations,
+			SQLException {
+		registerHouseholdMember(individual, residency, membership);
 		entityService.create(relationship);
 	}
 }
