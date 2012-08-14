@@ -41,7 +41,7 @@ public class LocationGenerator extends Generator<Location> {
 				
 				for (String name : locs) {
 					if (name.equals(location.getLocationLevel().getExtId())) {
-						sb.append(item.getExtId().toUpperCase());
+						sb.append(item.getExtId().toUpperCase() + location.getLocationLevel().getParent().getExtId());
 					}
 				}
 			}
