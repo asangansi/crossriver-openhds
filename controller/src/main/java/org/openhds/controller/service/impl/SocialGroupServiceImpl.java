@@ -2,6 +2,7 @@ package org.openhds.controller.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import org.openhds.domain.model.Death;
 import org.openhds.domain.model.Individual;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.SocialGroup;
+import org.openhds.domain.service.SitePropertiesService;
 import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("unchecked")
@@ -25,13 +27,15 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	private EntityService service;
 	private GenericDao genericDao;
 	private IndividualService individualService;
-	private Generator generator;
+	private Generator<SocialGroup> generator;
+	private SitePropertiesService properties;
 	
-	public SocialGroupServiceImpl(GenericDao genericDao, IndividualService individualService, EntityService service, Generator generator) {
+	public SocialGroupServiceImpl(GenericDao genericDao, IndividualService individualService, EntityService service, Generator<SocialGroup> generator, SitePropertiesService properties) {
 		this.genericDao = genericDao;
 		this.individualService = individualService;
 		this.service = service;
 		this.generator = generator;
+		this.properties = properties;
 	}
 	
 	/**
@@ -67,12 +71,28 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 		
 		entityItem.setGroupHead(targetHead);
 		entityItem.setRespondent(targetRespondent);
+		Membership membership = createGroupHeadMembership(entityItem);
 		
 		service.create(entityItem);
+		service.create(membership);
 		
 		return entityItem;
 	}
 	
+	private Membership createGroupHeadMembership(SocialGroup sg) {
+		Membership membership = new Membership();
+		membership.setEndType(properties.getNotApplicableCode());
+		membership.setStartType(properties.getEnumerationCode());
+		membership.setIndividual(sg.getGroupHead());
+		membership.setbIsToA("01");
+		membership.setCollectedBy(sg.getCollectedBy());
+		membership.setInsertDate(Calendar.getInstance());
+		membership.setSocialGroup(sg);
+		membership.setStartDate(sg.getDateOfInterview());
+		
+		return membership;
+	}
+
 	public SocialGroup evaluateSocialGroup(SocialGroup entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
 		
 		SocialGroupGenerator sgGen = (SocialGroupGenerator)generator;

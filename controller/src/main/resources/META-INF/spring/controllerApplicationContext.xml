@@ -246,6 +246,7 @@
     			<constructor-arg ref="individualService" />
     			<constructor-arg ref="entityService"/>
     			<constructor-arg ref="socialGroupIdGenerator" />
+    			<constructor-arg ref="siteProperties" />
 		    </bean>
 	    </property>
     </bean>
