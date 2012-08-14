@@ -7,6 +7,7 @@ public class LocationDTO {
 	
 	String uuid;
 	String extId;
+	String head;
 	String name;
 	String latitude;
 	String longitude;
@@ -20,8 +21,9 @@ public class LocationDTO {
 	public LocationDTO(Location location) {		
 		this.uuid = location.getUuid();
 		this.extId = location.getExtId();
+		this.head = location.getLocationHead().getExtId();
 		this.name = location.getLocationName();
-		this.hierarchy = location.getLocationLevel().getUuid();
+		this.hierarchy = location.getLocationLevel().getExtId();
 		this.status = location.getStatus();
 		
 		if (location.getLatitude() == null)
@@ -37,6 +39,7 @@ public class LocationDTO {
 	public static boolean isValid(Location location) {			
 		if (StringUtils.isNullOrEmpty(location.getUuid()) || 
 			StringUtils.isNullOrEmpty(location.getExtId()) ||
+			StringUtils.isNullOrEmpty(location.getLocationHead().getExtId()) ||
 			StringUtils.isNullOrEmpty(location.getLocationName()) ||
 			location.getLocationLevel() == null ||
 			StringUtils.isNullOrEmpty(location.getLocationLevel().getUuid()))
@@ -58,6 +61,14 @@ public class LocationDTO {
 	
 	public void setExtId(String extId) {
 		this.extId = extId;
+	}
+	
+	public String getHead() {
+		return head;
+	}
+
+	public void setHead(String head) {
+		this.head = head;
 	}
 	
 	public String getName() {
