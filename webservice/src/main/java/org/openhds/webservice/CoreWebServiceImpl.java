@@ -59,6 +59,7 @@ import org.openhds.domain.model.Relationship;
 import org.openhds.domain.model.Residency;
 import org.openhds.domain.model.Round;
 import org.openhds.domain.model.SocialGroup;
+import org.openhds.domain.model.Vaccination;
 import org.openhds.domain.model.Visit;
 import org.openhds.domain.service.SitePropertiesService;
 import org.openhds.domain.util.CalendarUtil;
@@ -772,6 +773,32 @@ public class CoreWebServiceImpl {
 		protected void saveEntity(PregnancyOutcome entity) throws ConstraintViolations, Exception {
 			pregnancyService.evaluatePregnancyOutcome(entity);
 			pregnancyService.createPregnancyOutcome(entity);
+		}
+	}
+	
+	@POST
+	@Path("/vaccination")
+	public Response createVaccination(Vaccination vaccination) {
+		return new VaccinationInsert().insertForResponse(vaccination);
+	}
+	
+	class VaccinationInsert extends InsertTemplate<Vaccination> {
+
+		@Override
+		protected void buildReferentialFields(Vaccination entity, FieldBuilder builder) {
+			builder.referenceField(entity.getChild(), INDIVIDUAL_ID_NOT_FOUND);
+			builder.referenceField(entity.getCollectedBy());
+		}
+
+		@Override
+		protected void setReferentialFields(Vaccination entity, FieldBuilder builder) {
+			entity.setChild(builder.individuals.get(0));
+			entity.setCollectedBy(builder.fw);
+		}
+
+		@Override
+		protected void saveEntity(Vaccination entity) throws ConstraintViolations, Exception {
+			entityService.create(entity);
 		}
 	}
 
