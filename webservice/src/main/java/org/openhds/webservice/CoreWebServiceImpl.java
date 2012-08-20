@@ -390,6 +390,27 @@ public class CoreWebServiceImpl {
 
 		return Response.status(Status.OK).build();
 	}
+	
+	@GET
+	@Path("/individual/{indivId}")
+	public Response individualExists(@PathParam("indivId") String indivId) {
+		if (!authenticateOrigin()) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		currentUser.setProxyUser("webservice", "test", new String[]{PrivilegeConstants.VIEW_ENTITY});
+		
+		if (StringUtils.isBlank(indivId)) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		Individual indiv = individualService.findIndivById(indivId);
+		if (indiv == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+		return Response.status(Status.OK).build();
+	}
 
 	@POST
 	@Path("/membership")
