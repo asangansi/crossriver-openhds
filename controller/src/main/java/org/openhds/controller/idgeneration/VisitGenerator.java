@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.openhds.controller.exception.ConstraintViolations;
-import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Visit;
 
 /**
@@ -49,7 +48,6 @@ public class VisitGenerator extends Generator<Visit> {
 		String locId = entityItem.getVisitLocation().getExtId();
 		String houseNumber = locId.substring(locId.length()-3, locId.length());
 		sb.append(houseNumber);
-		entityItem.setExtId(sb.toString());
 		
 		if (scheme.getIncrementBound() > 0) {
 			entityItem.setExtId(sb.toString());
@@ -68,27 +66,26 @@ public class VisitGenerator extends Generator<Visit> {
 	@Override
 	public String buildNumberWithBound(Visit entityItem, IdScheme scheme) throws ConstraintViolations {
 		
-		int locationIdLength = scheme.getFields().get(IdGeneratedFields.VISIT_LOCID.toString());
-		int prefixLength = scheme.getPrefix().length() + locationIdLength-3;
-		if (scheme.getFields().get(IdGeneratedFields.VISIT_ROUND.toString()) > 0) {
-			prefixLength += 1;
-		}
+		StringBuilder builder = null;
+		int increment = 0;
+		boolean result = false;
+		String visitId = entityItem.getExtId();
 		
-		String prefix = entityItem.getExtId().substring(0, prefixLength);
-		String suffix = entityItem.getExtId().substring(prefixLength);
-		int maxNumberOfVisits = scheme.getIncrementBound();
-		int currentVisitNumber = 1;
-		
-		Visit previousVisit = genericDao.findByProperty(Visit.class, "extId", prefix + currentVisitNumber + suffix, true);
-		while(previousVisit != null) {
-			if (currentVisitNumber >= maxNumberOfVisits) {
-				throw new ConstraintViolations("The number of visits for this round has been exceed. The max number of visits per round is set to: " + maxNumberOfVisits);
-			}
-			currentVisitNumber += 1;
-			previousVisit = genericDao.findByProperty(Visit.class, "extId", prefix + currentVisitNumber + suffix, true);
-		}
-		
-		return prefix + currentVisitNumber + suffix;
+		do {
+			builder = new StringBuilder();
+			increment++;
+			String prefix = visitId.substring(0, 11);
+			String suffix = visitId.substring(11, 14);
+			
+			builder.append(prefix + increment + suffix);
+			Visit visit = genericDao.findByProperty(Visit.class, "extId", builder.toString(), true);
+			
+			if (visit == null)
+				result = true;
+			
+		} while(!result);
+				
+		return builder.toString();
 	}
 	
 	public IdScheme getIdScheme() {
