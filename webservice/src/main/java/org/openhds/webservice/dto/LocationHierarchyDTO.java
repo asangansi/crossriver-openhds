@@ -16,7 +16,7 @@ public class LocationHierarchyDTO {
 		this.uuid = hierarchy.getUuid();
 		this.extId = hierarchy.getExtId();
 		this.name = hierarchy.getName();
-		this.parent = hierarchy.getParent().getUuid();
+		this.parent = hierarchy.getParent().getExtId();
 		this.level = hierarchy.getLevel().getName();
 	}
 	
