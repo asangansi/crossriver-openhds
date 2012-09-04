@@ -87,11 +87,6 @@
 	                    <h:inputText id="placeOfDeathOther" value="#{deathCrud.item.placeOfDeathOther}" converter="#{defaultConverter}" />
 	                    <h:message for="placeOfDeathOther" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
 	
-                        <h:outputText value="#{msg.deathCause}:"/>
-                        <h:outputText />
-                        <h:inputText id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}"/>
-                        <h:message for="deathCause" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-
                         <h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat})" />
                         <h:outputText />
                         <o:dateChooser id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" />

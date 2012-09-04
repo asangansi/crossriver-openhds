@@ -150,11 +150,12 @@ public class CoreWebServiceImpl {
 				new LocationInsert().insert(entity.getVisitLocation());
 			}
 			
-			if (entity.getExtId() == null || entity.getExtId().isEmpty()) {
-				entity = visitService.generateId(entity);
+			boolean overrideIdGeneration = false;
+			if (StringUtils.isNotBlank(entity.getExtId())) {
+				overrideIdGeneration = true;
 			}
 			
-			visitService.evaluateVisit(entity);
+			visitService.evaluateVisit(entity, overrideIdGeneration);
 			entity.setStatus(siteProperties.getDataStatusValidCode());
 			entityService.create(entity);
 		}

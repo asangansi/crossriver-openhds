@@ -59,10 +59,6 @@ public class Death
     @Description(description = "Place where the death occurred.")
     @ExtensionIntegerConstraint(constraint = "placeOfDeathConstraint", message = "Invalid Value for deathPlace", allowNull = true)
     private Integer deathPlace;
-    @CheckFieldNotBlank(message = "Cause of death cannot be blank")
-    @Searchable
-    @Description(description = "Cause of the death.")
-    private String deathCause;
     @CheckCalendar(message = "Death date is invalid")
     @NotNull(message = "You must provide a Death date")
     @Past(message = "Death date should be in the past")
@@ -112,14 +108,6 @@ public class Death
 
     public void setDeathPlace(Integer place) {
         deathPlace = place;
-    }
-
-    public String getDeathCause() {
-        return deathCause;
-    }
-
-    public void setDeathCause(String cause) {
-        deathCause = cause;
     }
 
     @XmlJavaTypeAdapter(org.openhds.domain.util.CalendarAdapter.class)

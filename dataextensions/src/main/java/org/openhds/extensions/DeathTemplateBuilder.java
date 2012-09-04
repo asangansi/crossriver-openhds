@@ -128,25 +128,6 @@ public class DeathTemplateBuilder implements ExtensionTemplate {
 		JVar jvarDeathPlace = jmsDeathPlace.param(java.lang.Integer.class, "place");
 		JBlock jmsDeathPlaceBlock = jmsDeathPlace.body();
 		jmsDeathPlaceBlock.assign(jfDeathPlace, jvarDeathPlace);
-		
-		// deathCause
-		JFieldVar jfDeathCause = jc.field(JMod.PRIVATE , java.lang.String.class, "deathCause");
-		JAnnotationUse jaDeathCauseCheckBlank = jfDeathCause.annotate(org.openhds.domain.constraint.CheckFieldNotBlank.class);
-		jaDeathCauseCheckBlank.param("message", "Cause of death cannot be blank");
-		jfDeathCause.annotate(org.openhds.domain.constraint.Searchable.class);
-		JAnnotationUse jaDeathCauseDesc = jfDeathCause.annotate(org.openhds.domain.annotations.Description.class);
-		jaDeathCauseDesc.param("description", "Cause of the death.");
-		
-		// getter
-		JMethod jmgDeathCause = jc.method(JMod.PUBLIC, java.lang.String.class, "getDeathCause");
-		JBlock jmgDeathCauseBlock = jmgDeathCause.body();
-		jmgDeathCauseBlock._return(jfDeathCause);
-		
-		// setter
-		JMethod jmsDeathCause = jc.method(JMod.PUBLIC, void.class, "setDeathCause");
-		JVar jvarDeathCause = jmsDeathCause.param(java.lang.String.class, "cause");
-		JBlock jmsDeathCauseBlock = jmsDeathCause.body();
-		jmsDeathCauseBlock.assign(jfDeathCause, jvarDeathCause);
 				
 		// deathDate
 		JFieldVar jfDeathDate = jc.field(JMod.PRIVATE , java.util.Calendar.class, "deathDate");

@@ -13,7 +13,7 @@ import org.openhds.domain.model.Visit;
 public interface VisitService {
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
-	Visit evaluateVisit(Visit entityItem) throws ConstraintViolations;
+	Visit evaluateVisit(Visit entityItem, boolean overrideIdGeneration) throws ConstraintViolations;
 	
 	@Authorized({PrivilegeConstants.CREATE_ENTITY})
 	Visit generateId(Visit entityItem) throws ConstraintViolations;

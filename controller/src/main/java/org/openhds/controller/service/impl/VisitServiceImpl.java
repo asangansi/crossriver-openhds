@@ -28,14 +28,14 @@ public class VisitServiceImpl implements VisitService {
 		this.generator = generator;
 	}
 
-	public Visit evaluateVisit(Visit entityItem) throws ConstraintViolations {
+	public Visit evaluateVisit(Visit entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
 		
 		VisitGenerator visitGen = (VisitGenerator)generator;
 				
 		if (!checkValidRoundNumber(entityItem.getRoundNumber())) 
     		throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");	
 		
-		if (generator.isGenerated())
+		if (generator.isGenerated() && !overrideIdGeneration)
 			return generateId(entityItem);
 		
 		generator.validateIdLength(entityItem.getExtId(), visitGen.getIdScheme());

@@ -187,7 +187,7 @@ public class VisitCrudImpl extends EntityCrudImpl<Visit, String> {
     public String create() {
 
         try {
-            service.evaluateVisit(entityItem);
+            service.evaluateVisit(entityItem, false);
             extensionService.evaluateExtensions(entityItem);
             return super.create();
         } catch (ConstraintViolations e) {
@@ -220,7 +220,7 @@ public class VisitCrudImpl extends EntityCrudImpl<Visit, String> {
     @Override
     public boolean commit(MessageContext messageContext) {
         try {
-            service.evaluateVisit(entityItem);
+            service.evaluateVisit(entityItem, false);
             extensionService.evaluateExtensions(entityItem);
             return super.commit(messageContext);
         } catch (ConstraintViolations e) {
