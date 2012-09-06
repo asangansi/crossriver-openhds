@@ -13,14 +13,10 @@
         <logout logout-url="/static/j_spring_security_logout"/>
         
         <!-- Configure these elements to secure URIs in your application -->
-        <intercept-url pattern="/choice/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/socialgroup/**" access="isAuthenticated()" />
-        <intercept-url pattern="/individual/**" access="isAuthenticated()" />
-        <intercept-url pattern="/visit/**" access="isAuthenticated()" />
-        <intercept-url pattern="/location/**" access="isAuthenticated()" />
         <intercept-url pattern="/resources/**" access="permitAll" />
         <intercept-url pattern="/static/**" access="permitAll" />
-        <intercept-url pattern="/**" access="permitAll" />
+        <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
     </http>
     
     <beans:bean id="sessionAuthenticationStrategy" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />

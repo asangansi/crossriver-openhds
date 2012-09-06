@@ -23,7 +23,7 @@
 		then be used within application context files in the form of
 		${propertyKey}.
 	-->
-	<context:property-placeholder location="classpath*:META-INF/spring/*.properties"/>
+	<context:property-placeholder location="classpath*:application.properties"/>
 	
 	<!--
 		Turn on AspectJ @Configurable support. As a result, any time you
@@ -95,6 +95,11 @@
     <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="dataSource" ref="dataSource"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${database.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl}</prop>
+            </props>
+        </property>
     </bean>
-    
 </beans>

@@ -85,5 +85,18 @@
                 </li>
             </ul>
         </li>
+    <li >
+            <h2>
+                Configuration
+            </h2>
+            <ul>
+                <li>
+                    <spring:url value="/database-configuration" var="config_url"/>
+                    <a href="${config_url}">
+						Configure Special Study
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>

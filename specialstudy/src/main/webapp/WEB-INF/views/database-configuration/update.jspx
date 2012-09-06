@@ -1,0 +1,89 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <script type="text/javascript">dojo.require('dijit.TitlePane');dojo.require('dijit.form.FilteringSelect');</script>
+   
+  	<input id="backBtn" type="button" value="Back" onclick="goBack()"/>
+      
+    <br /><br />
+    
+    <div id="_title_div">
+        <spring:message arguments="Database Configuration" code="entity.update" var="title_msg"/>
+        <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_title_div', widgetType : 'dijit.TitlePane', widgetAttrs : {title: '${title_msg}'}})); </script>
+        <form:form action="${form_url}" method="POST" modelAttribute="databaseConfig">
+            <form:errors cssClass="errors" delimiter="&lt;p/&gt;"/>
+
+            <div>
+                <label for="database_user">Database user:</label>
+                <form:input cssStyle="width:250px" id="database_user" path="databaseUser" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="database_error_user" path="databaseUser"/>
+                <spring:message arguments="Database User" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'database_user', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            <div>
+                <label for="database_password">Database Password:</label>
+                <form:input cssStyle="width:250px" id="database_password" path="databasePassword" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="database_error_password" path="databasePassword"/>
+                <spring:message arguments="Database Password" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'database_password', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            <div >
+                <label for="database_user">Database Name:</label>
+                <form:input cssStyle="width:250px" id="database_name" path="databaseName" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="database_error_name" path="databaseName"/>
+                <spring:message arguments="Database Name" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'database_name', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>
+            <div>
+                <label for="database_user">OpenHDS Database Name:</label>
+                <form:input cssStyle="width:250px" id="openhds_database_name" path="openhdsDatabaseName" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="openhds_database_error_name" path="openhdsDatabaseName"/>
+                <spring:message arguments="OpenHDS Database Name" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'openhds_database_name', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br />
+            <div>
+                <label for="database_user">OpenHDS Application URL:</label>
+                <form:input cssStyle="width:250px" id="openhds_url" path="openHdsWebServiceUrl" size="0"/>
+                <br/>
+                <form:errors cssClass="errors" id="openhds_error_url" path="openHdsWebServiceUrl"/>
+                <spring:message arguments="OpenHDS Application URL" code="field.invalid" var="field_invalid"/>
+                <spring:message code="field.required" var="field_required"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'openhds_url', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${field_validation}', invalidMessage: '${field_invalid}', required : true}})); </script>
+            </div>
+            <br/>                        
+            <div>
+            	<form:checkbox path="createDatabase" /> Create a fresh database? (NOTE: This will delete an existing database if it has the same name specified)
+            </div>
+            <br />
+                        
+            <div class="submit" id="roo_socialgroup_submit">
+                <spring:message code="button.update" var="update_button"/>
+                <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+                <input id="proceed" type="submit" value="${update_button}"/>
+
+            	<input id="backBtn" type="button" value="Back" onclick="goBack()" style="margin-right:1em"/>
+            </div>
+        </form:form>
+      	<c:if test="${configUpdated != null}">
+			<div style="font-weight:bold;color:green;">${configUpdated}</div>		
+		</c:if>
+
+        <script type="text/javascript">
+			function goBack()
+			{
+				window.history.back()
+			}
+		</script>
+    </div>
+</div>
