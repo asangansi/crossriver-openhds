@@ -46,7 +46,6 @@
                 <module>webservice</module>
                 <module>ddi</module>
                 <module>community</module>
-                <module>specialstudy</module>
             </modules>
         </profile>
     </profiles>
