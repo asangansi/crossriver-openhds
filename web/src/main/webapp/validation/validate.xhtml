@@ -57,7 +57,7 @@
            		<h:outputText value="#{navController.breadcrumbTrail} > #{msg.validationRoutineName}" />
            		
            		<div id="loading-div">
-					<img src="/openhds/resources/images/ajax-loader.gif" /> #{msg.working}
+					<img src="#{request.contextPath}/resources/images/ajax-loader.gif" /> #{msg.working}
 				</div>
            
                 <h1>#{msg.validationRoutineName}</h1>
@@ -123,7 +123,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="indivViewLink" value="/openhds/amendment/individual/details/#{indiv.uuid}" >
+									<h:outputLink  id="indivViewLink" value="#{request.contextPath}/amendment/individual/details/#{indiv.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -153,7 +153,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="locViewLink" value="/openhds/amendment/location/details/#{loc.uuid}" >
+									<h:outputLink  id="locViewLink" value="#{request.contextPath}/amendment/location/details/#{loc.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -183,7 +183,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="sgViewLink" value="/openhds/amendment/socialgroup/details/#{sg.uuid}" >
+									<h:outputLink  id="sgViewLink" value="#{request.contextPath}/amendment/socialgroup/details/#{sg.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -219,7 +219,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="relViewLink" value="/openhds/amendment/relationship/details/#{rel.uuid}" >
+									<h:outputLink  id="relViewLink" value="#{request.contextPath}/amendment/relationship/details/#{rel.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -255,7 +255,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="memViewLink" value="/openhds/amendment/membership/details/#{mem.uuid}" >
+									<h:outputLink  id="memViewLink" value="#{request.contextPath}/amendment/membership/details/#{mem.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -285,7 +285,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="pregOutcomeViewLink" value="/openhds/amendment/pregnancyoutcome/details/#{po.uuid}" >
+									<h:outputLink  id="pregOutcomeViewLink" value="#{request.contextPath}/amendment/pregnancyoutcome/details/#{po.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -315,7 +315,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="pregObservViewLink" value="/openhds/amendment/pregnancyobservation/details/#{po.uuid}" >
+									<h:outputLink  id="pregObservViewLink" value="#{request.contextPath}/amendment/pregnancyobservation/details/#{po.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -345,7 +345,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="InMigViewLink" value="/openhds/amendment/inmigration/details/#{img.uuid}" >
+									<h:outputLink  id="InMigViewLink" value="#{request.contextPath}/amendment/inmigration/details/#{img.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -375,7 +375,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="OutMigViewLink" value="/openhds/amendment/inmigration/details/#{omg.uuid}" >
+									<h:outputLink  id="OutMigViewLink" value="#{request.contextPath}/amendment/inmigration/details/#{omg.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -405,7 +405,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="ResidencyViewLink" value="/openhds/amendment/residency/details/#{res.uuid}" >
+									<h:outputLink  id="ResidencyViewLink" value="#{request.contextPath}/amendment/residency/details/#{res.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -435,7 +435,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="VisitViewLink" value="/openhds/amendment/visit/details/#{visit.uuid}" >
+									<h:outputLink  id="VisitViewLink" value="#{request.contextPath}/amendment/visit/details/#{visit.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
@@ -465,7 +465,7 @@
 		                        	<f:facet name="header">
 		                        		<h:outputText value="Link" />
 		                        	</f:facet>
-									<h:outputLink  id="DeathViewLink" value="/openhds/amendment/death/details/#{death.uuid}" >
+									<h:outputLink  id="DeathViewLink" value="#{request.contextPath}/amendment/death/details/#{death.uuid}" >
 				       					<h:outputText value="#{msg.view}"/>   
 									</h:outputLink>
 		                        </h:column>
