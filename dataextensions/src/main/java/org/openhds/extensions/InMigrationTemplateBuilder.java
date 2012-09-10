@@ -222,6 +222,22 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarHouse = jmsHouse.param(org.openhds.domain.model.Location.class, "place");
 		JBlock jmsHouseBlock = jmsHouse.body();
 		jmsHouseBlock.assign(jfHouse, jvarHouse);
+
+		// house name
+		JFieldVar jfHouseName = jc.field(JMod.PRIVATE , java.lang.String.class, "houseName");
+		JAnnotationUse jaHouseNameDesc = jfHouseName.annotate(org.openhds.domain.annotations.Description.class);
+		jaHouseNameDesc.param("description", "Moving to house name");
+		
+		// getter
+		JMethod jmgHouseName = jc.method(JMod.PUBLIC, java.lang.String.class, "getHouseName");
+		JBlock jmgHouseNameBlock = jmgHouseName.body();
+		jmgHouseNameBlock._return(jfHouseName);
+		
+		// setter
+		JMethod jmsHouseName = jc.method(JMod.PUBLIC, void.class, "setHouseName");
+		JVar jvarHouseName = jmsHouseName.param(java.lang.String.class, "houseName");
+		JBlock jmsHouseNameBlock = jmsHouseName.body();
+		jmsHouseNameBlock.assign(JExpr.refthis("houseName"), jvarHouseName);
 		
 		// household
 		JFieldVar jfHousehold = jc.field(JMod.PRIVATE , org.openhds.domain.model.SocialGroup.class, "household");
@@ -240,6 +256,22 @@ public class InMigrationTemplateBuilder implements ExtensionTemplate {
 		JVar jvarHousehold = jmsHousehold.param(org.openhds.domain.model.SocialGroup.class, "place");
 		JBlock jmsHouseholdBlock = jmsHousehold.body();
 		jmsHouseholdBlock.assign(jfHousehold, jvarHousehold);
+		
+		// household name
+		JFieldVar jfHouseholdName = jc.field(JMod.PRIVATE , java.lang.String.class, "householdName");
+		JAnnotationUse jaHouseholdNameDesc = jfHouseholdName.annotate(org.openhds.domain.annotations.Description.class);
+		jaHouseholdNameDesc.param("description", "Moving to house name");
+		
+		// getter
+		JMethod jmgHouseholdName = jc.method(JMod.PUBLIC, java.lang.String.class, "getHouseholdName");
+		JBlock jmgHouseholdNameBlock = jmgHouseholdName.body();
+		jmgHouseholdNameBlock._return(jfHouseholdName);
+		
+		// setter
+		JMethod jmsholdHouseName = jc.method(JMod.PUBLIC, void.class, "setHouseholdName");
+		JVar jvarholdHouseName = jmsholdHouseName.param(java.lang.String.class, "householdName");
+		JBlock jmsHouseholdNameBlock = jmsholdHouseName.body();
+		jmsHouseholdNameBlock.assign(JExpr.refthis("householdName"), jvarholdHouseName);
 		
 		// referencesTemporaryIndividual
 		JFieldVar jfReferencesTempIndividual = jc.field(JMod.PRIVATE , Boolean.class, "referencesTemporaryIndividual");

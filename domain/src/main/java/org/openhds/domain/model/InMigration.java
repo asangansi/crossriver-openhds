@@ -70,10 +70,14 @@ public class InMigration
     @ManyToOne
     @Description(description = "Moving to house.")
     private Location house;
+    @Description(description = "Moving to house name")
+    private String houseName;
     @Searchable
     @ManyToOne
     @Description(description = "Moving to household.")
     private SocialGroup household;
+    @Description(description = "Moving to house name")
+    private String householdName;
     @Description(description = "Flag that indicates whether the inmigration references a temporary individual. A temporary individual is an individual who was once registered in the HDS but does not know their permanent id. In this situation, a temporary id (and individual) is created which should be reconciled later.")
     private Boolean referencesTemporaryIndividual = false;
     @Description(description = "Date of interview for the inmigration")
@@ -184,12 +188,28 @@ public class InMigration
         house = place;
     }
 
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
+    }
+
     public SocialGroup getHousehold() {
         return household;
     }
 
     public void setHousehold(SocialGroup place) {
         household = place;
+    }
+
+    public String getHouseholdName() {
+        return householdName;
+    }
+
+    public void setHouseholdName(String householdName) {
+        this.householdName = householdName;
     }
 
     public Boolean isReferencesTemporaryIndividual() {
