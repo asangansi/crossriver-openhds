@@ -73,6 +73,14 @@ public class BaseDaoImpl<T, PK extends Serializable> implements Dao<T, PK>, Find
     public void delete(T persistentObject) {
         getSession().delete(persistentObject);
     }
+    
+    protected Criteria criteria() {
+        return criteria(entityType);
+    }
+    
+    protected Criteria criteria(Class<?> clazz) {
+        return getSession().createCriteria(clazz);
+    }
 
     public T findByProperty(String propertyName, Object value) {
         Criteria criteria = getSession().createCriteria(entityType).add(Restrictions.eq(propertyName, value));
