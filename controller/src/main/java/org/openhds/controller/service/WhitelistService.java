@@ -4,5 +4,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface WhitelistService {
 
-	boolean evaluateAddress(HttpServletRequest request); 
+    boolean evaluateAddress(HttpServletRequest request);
 }

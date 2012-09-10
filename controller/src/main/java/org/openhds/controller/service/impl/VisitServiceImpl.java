@@ -1,7 +1,6 @@
 package org.openhds.controller.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.openhds.controller.exception.ConstraintViolations;
@@ -17,74 +16,72 @@ import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Round;
 import org.openhds.domain.model.Visit;
 
-@SuppressWarnings("unchecked")
 public class VisitServiceImpl implements VisitService {
 
-	private GenericDao genericDao;
-	private VisitGenerator generator;
-	
-	public VisitServiceImpl(GenericDao genericDao, VisitGenerator generator) {
-		this.genericDao = genericDao;
-		this.generator = generator;
-	}
+    private GenericDao genericDao;
+    private VisitGenerator generator;
 
-	public Visit evaluateVisit(Visit entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
-		
-		VisitGenerator visitGen = (VisitGenerator)generator;
-				
-		if (!checkValidRoundNumber(entityItem.getRoundNumber())) 
-    		throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");	
-		
-		if (generator.isGenerated() && !overrideIdGeneration)
-			return generateId(entityItem);
-		
-		generator.validateIdLength(entityItem.getExtId(), visitGen.getIdScheme());
-		
+    public VisitServiceImpl(GenericDao genericDao, VisitGenerator generator) {
+        this.genericDao = genericDao;
+        this.generator = generator;
+    }
+
+    public Visit evaluateVisit(Visit entityItem, boolean overrideIdGeneration) throws ConstraintViolations {
+
+        VisitGenerator visitGen = (VisitGenerator) generator;
+
+        if (!checkValidRoundNumber(entityItem.getRoundNumber()))
+            throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");
+
+        if (generator.isGenerated() && !overrideIdGeneration)
+            return generateId(entityItem);
+
+        generator.validateIdLength(entityItem.getExtId(), visitGen.getIdScheme());
+
         return entityItem;
     }
-	
-	public Visit generateId(Visit entityItem) throws ConstraintViolations {
-		entityItem.setExtId(generator.generateId(entityItem));
-		return entityItem;
-	}
-	
-	public Visit checkVisit(Visit persistedItem, Visit entityItem) throws ConstraintViolations {
-		
-		if (!checkValidRoundNumber(entityItem.getRoundNumber())) 
-    		throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");			
-		return entityItem;
-	}
-	
-	public void validateGeneralVisit(Visit visit) throws ConstraintViolations {
-		if (!checkValidRoundNumber(visit.getRoundNumber())) 
-    		throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");			
-	}
-	
-	/**
-	 * Checks if the provided round number exists
-	 */
-	public boolean checkValidRoundNumber(Integer roundNumber) {
-		
-		Round round = genericDao.findByProperty(Round.class, "roundNumber", roundNumber);
-		if (round != null)
-			return true;
-		return false;
-	}
-    
+
+    public Visit generateId(Visit entityItem) throws ConstraintViolations {
+        entityItem.setExtId(generator.generateId(entityItem));
+        return entityItem;
+    }
+
+    public Visit checkVisit(Visit persistedItem, Visit entityItem) throws ConstraintViolations {
+
+        if (!checkValidRoundNumber(entityItem.getRoundNumber()))
+            throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");
+        return entityItem;
+    }
+
+    public void validateGeneralVisit(Visit visit) throws ConstraintViolations {
+        if (!checkValidRoundNumber(visit.getRoundNumber()))
+            throw new ConstraintViolations("The Round Number specified is not a valid Round Number.");
+    }
+
     /**
-     * Retrieves all Visit extId's that contain the term provided.
-     * Used in performing autocomplete.
+     * Checks if the provided round number exists
+     */
+    public boolean checkValidRoundNumber(Integer roundNumber) {
+
+        Round round = genericDao.findByProperty(Round.class, "roundNumber", roundNumber);
+        if (round != null)
+            return true;
+        return false;
+    }
+
+    /**
+     * Retrieves all Visit extId's that contain the term provided. Used in performing autocomplete.
      */
     public List<String> getVisitExtIds(String term) {
-    	List<String> ids = new ArrayList<String>();
-    	List<Visit> list = genericDao.findListByPropertyPrefix(Visit.class, "extId", term, 10, true);
-    	for(Visit visit : list) {
-    		ids.add(visit.getExtId());
-    	}
-    	
-    	return ids;
+        List<String> ids = new ArrayList<String>();
+        List<Visit> list = genericDao.findListByPropertyPrefix(Visit.class, "extId", term, 10, true);
+        for (Visit visit : list) {
+            ids.add(visit.getExtId());
+        }
+
+        return ids;
     }
-    
+
     public Visit findVisitById(String visitId, String msg) throws Exception {
         Visit visit = genericDao.findByProperty(Visit.class, "extId", visitId);
         if (visit == null) {
@@ -92,69 +89,71 @@ public class VisitServiceImpl implements VisitService {
         }
         return visit;
     }
-    
-    
+
     /**
-     * The following extension methods are called from the Crud in retrieving 
-     * the associated extensions, grouped by entity 
+     * The following extension methods are called from the Crud in retrieving the associated extensions, grouped by
+     * entity
      */
     public Visit initializeExtensions(Visit entityItem) {
-    	List<ClassExtension> list = genericDao.findListByProperty(ClassExtension.class, "roundNumber", entityItem.getRoundNumber());
-    	
-    	for (ClassExtension ce : list) {    		
-    		Extension extension = new Extension();
-    		extension.setEntity(entityItem);
-    		extension.setClassExtension(ce);
-    		entityItem.getExtensions().add(extension);
-    	}
-    	return entityItem;
-    }
-    
-    public Visit addExtensions(Visit entityItem, EntityType name) {
-    	    	
-    	List<ClassExtension> list = getExtensionsByEntityClassAndRoundNumber(name, entityItem.getRoundNumber());
-    	
-    	for (ClassExtension ce : list) {    		
-    		Extension extension = new Extension();
-    		extension.setEntity(entityItem);
-    		extension.setClassExtension(ce);
-    		entityItem.getExtensions().add(extension);
-    	}
-    	return entityItem;
-    }
-    
-    public List<ClassExtension> getExtensionsByEntityClassAndRoundNumber(EntityType entityType, int roundNum) {
-    	
-    	final EntityType entityName = entityType;
-    	final int visitRoundNum = roundNum;
-    	
-    	ValueProperty roundNumber = new ValueProperty() {
-			public String getPropertyName() {
-				return "roundNumber";
-			}
-			public Object getValue() {
-				return visitRoundNum;
-			}	
-		};
-		
-		ValueProperty indivType = new ValueProperty() {
-			public String getPropertyName() {
-				return "entityClass";
-			}
-			public Object getValue() {
-				return entityName;
-			}	
-		};  	
-    	
-    	return genericDao.findListByMultiProperty(ClassExtension.class, roundNumber, indivType);
+        List<ClassExtension> list = genericDao.findListByProperty(ClassExtension.class, "roundNumber",
+                entityItem.getRoundNumber());
+
+        for (ClassExtension ce : list) {
+            Extension extension = new Extension();
+            extension.setEntity(entityItem);
+            extension.setClassExtension(ce);
+            entityItem.getExtensions().add(extension);
+        }
+        return entityItem;
     }
 
-	@Override
-	public List<Visit> getAllVisitsAtLocationForRound(Location location, Integer roundNumber) {
-		ValueProperty vp1 = ValuePropertyBuilder.build("visitLocation", location);
-		ValueProperty vp2 = ValuePropertyBuilder.build("roundNumber", roundNumber);
-		ValueProperty vp3 = ValuePropertyBuilder.build("deleted", false);
-		
-		return genericDao.findListByMultiProperty(Visit.class, vp1, vp2, vp3);
-	} 
+    public Visit addExtensions(Visit entityItem, EntityType name) {
+
+        List<ClassExtension> list = getExtensionsByEntityClassAndRoundNumber(name, entityItem.getRoundNumber());
+
+        for (ClassExtension ce : list) {
+            Extension extension = new Extension();
+            extension.setEntity(entityItem);
+            extension.setClassExtension(ce);
+            entityItem.getExtensions().add(extension);
+        }
+        return entityItem;
+    }
+
+    public List<ClassExtension> getExtensionsByEntityClassAndRoundNumber(EntityType entityType, int roundNum) {
+
+        final EntityType entityName = entityType;
+        final int visitRoundNum = roundNum;
+
+        ValueProperty roundNumber = new ValueProperty() {
+            public String getPropertyName() {
+                return "roundNumber";
+            }
+
+            public Object getValue() {
+                return visitRoundNum;
+            }
+        };
+
+        ValueProperty indivType = new ValueProperty() {
+            public String getPropertyName() {
+                return "entityClass";
+            }
+
+            public Object getValue() {
+                return entityName;
+            }
+        };
+
+        return genericDao.findListByMultiProperty(ClassExtension.class, roundNumber, indivType);
+    }
+
+    @Override
+    public List<Visit> getAllVisitsAtLocationForRound(Location location, Integer roundNumber) {
+        ValueProperty vp1 = ValuePropertyBuilder.build("visitLocation", location);
+        ValueProperty vp2 = ValuePropertyBuilder.build("roundNumber", roundNumber);
+        ValueProperty vp3 = ValuePropertyBuilder.build("deleted", false);
+
+        return genericDao.findListByMultiProperty(Visit.class, vp1, vp2, vp3);
+    }
 }
