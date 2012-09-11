@@ -200,9 +200,8 @@
         <constructor-arg value="org.openhds.domain.model.Relationship" />
     </bean>
 
-    <bean id="residencyDao" parent="baseDao" class="org.openhds.dao.service.impl.ResidencyDaoImpl">
+    <bean id="residencyDao" parent="baseDao">
         <constructor-arg value="org.openhds.domain.model.Residency" />
-        <constructor-arg ref="siteProperties" />
     </bean>
 
     <bean id="roleDao" parent="baseDao" class="org.openhds.dao.service.impl.RoleDaoImpl">
