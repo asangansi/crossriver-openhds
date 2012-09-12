@@ -48,27 +48,10 @@
         <module>dao</module>
         <module>controller</module>
         <module>community</module>
-        <module>ddi</module>
         <module>web</module>
         <module>report</module>
         <module>webservice</module>
     </modules>
-
-    <profiles>
-        <profile>
-            <id>buildFull</id>
-            <modules>
-                <module>domain</module>
-                <module>dao</module>
-                <module>controller</module>
-                <module>web</module>
-                <module>report</module>
-                <module>webservice</module>
-                <module>ddi</module>
-                <module>community</module>
-            </modules>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>

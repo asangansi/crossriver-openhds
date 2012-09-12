@@ -96,16 +96,6 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>ddiGenerator</servlet-name>
-		<servlet-class>org.openhds.ddi.servlet.DDIGeneratorServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>ddiGenerator</servlet-name>
-		<url-pattern>/webservice/ddiGenerator</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>dhisGenerator</servlet-name>
 		<servlet-class>org.openhds.community.servlet.DHISGeneratorServlet</servlet-class>
     </servlet>
