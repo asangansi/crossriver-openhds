@@ -226,7 +226,6 @@
 		    <bean class="org.openhds.controller.service.impl.RoleServiceImpl">
 		    	<constructor-arg ref="roleDao" />
 		    	<constructor-arg ref="genericDao" />
-		    	<constructor-arg ref="entityService" />
 		    </bean>
 	    </property>
     </bean>
