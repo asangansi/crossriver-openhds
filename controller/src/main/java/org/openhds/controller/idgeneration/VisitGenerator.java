@@ -70,8 +70,8 @@ public class VisitGenerator extends Generator<Visit> {
         do {
             builder = new StringBuilder();
             increment++;
-            String prefix = visitId.substring(0, 11);
-            String suffix = visitId.substring(11, 14);
+            String prefix = visitId.substring(0, 8);
+            String suffix = visitId.substring(8, visitId.length());
 
             builder.append(prefix + increment + suffix);
             Visit visit = genericDao.findByProperty(Visit.class, "extId", builder.toString(), true);

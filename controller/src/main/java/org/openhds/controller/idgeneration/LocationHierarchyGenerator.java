@@ -1,10 +1,11 @@
 package org.openhds.controller.idgeneration;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.dao.service.GenericDao.ValueProperty;
+import org.openhds.dao.service.GenericDao.ValuePropertyBuilder;
+import org.openhds.dao.service.LocationHierarchyDao;
 import org.openhds.domain.model.LocationHierarchy;
 
 /**
@@ -13,75 +14,61 @@ import org.openhds.domain.model.LocationHierarchy;
  */
 
 public class LocationHierarchyGenerator extends Generator<LocationHierarchy> {
+    
+    private LocationHierarchyDao locationHierarchyDao;
 
     @Override
     public String generateId(LocationHierarchy location) throws ConstraintViolations {
         StringBuilder sb = new StringBuilder();
 
-        IdScheme scheme = getIdScheme();
-        HashMap<String, Integer> fields = scheme.getFields();
-        Iterator<String> itr = fields.keySet().iterator();
-
-        sb.append(scheme.getPrefix().toUpperCase());
-
-        while (itr.hasNext()) {
-            String key = itr.next();
-            Integer filter = fields.get(key);
-
-            if (key.equals(IdGeneratedFields.CHILD_LOC_NAME.toString())) {
-                String name = location.getName();
-
-                if (name.length() >= filter) {
-
-                    String locNameFirstKey = itr.next();
-                    Integer locNameFirstFilter = fields.get(locNameFirstKey);
-
-                    String locNameLastKey = itr.next();
-                    Integer locNameLastFilter = fields.get(locNameLastKey);
-
-                    try {
-
-                        if (filter > 0 && name.length() >= filter) {
-
-                            // break down the location name into its parts
-                            String[] parts = name.split(" ");
-
-                            // form id using first and last filters
-                            if (parts.length > 1) {
-
-                                String locNameFirst = parts[0];
-                                String locNameLast = parts[1];
-
-                                sb.append(formatProperString(locNameFirst, locNameFirstFilter));
-                                sb.append(formatProperString(locNameLast, locNameLastFilter));
-                            } else
-                                sb.append(formatProperString(name, filter));
-                        } else if (filter == 0 || name.length() < filter)
-                            sb.append(formatProperString(name, name.length()));
-                    } catch (Exception e) {
-                        throw new ConstraintViolations("An error occurred while attempting to generate "
-                                + "the id on the field specified as '" + name + "'");
-                    }
-                } else
-                    throw new ConstraintViolations(
-                            "Unable to generate the id. Make sure the Child Location Name field is of the required length "
-                                    + "specified in the id configuration.");
-            }
+        if (isFirstLevelLocation(location)) {
+            sb.append(generateFirstLevelId(location));
+        } else {
+            sb.append(generateLowerThanFirstLevelId(location));
         }
-
-        if (scheme.isCheckDigit())
-            sb.append(generateCheckCharacter(sb.toString()));
-
-        if (!checkValidId(sb.toString()))
+        if (!checkValidId(sb.toString(), location.getParent()))
             throw new ConstraintViolations("An id was generated that already exists in the Location Hierarchy.");
-
-        validateIdLength(sb.toString(), scheme);
 
         return sb.toString();
     }
 
-    private boolean checkValidId(String extId) {
-        LocationHierarchy item = genericDao.findByProperty(LocationHierarchy.class, "extId", extId);
+    private Object generateLowerThanFirstLevelId(LocationHierarchy location) {
+        StringBuilder sb = new StringBuilder();
+        LocationHierarchy parent = location.getParent();
+        sb.append(parent.getExtId());
+
+        LocationHierarchy highId = locationHierarchyDao.findLocationHierarchyWithHighestIdAtLevel(parent.getExtId(), parent);
+
+        if (highId == null) {
+            sb.append("01");
+        } else {
+            String highest = highId.getExtId();
+            int lastDigitCnt = Integer.parseInt(highest.substring(highest.length() - 2));
+            int nextDigitCnt = lastDigitCnt + 1;
+            String digitCnt = String.format("%02d", nextDigitCnt);
+            sb.append(digitCnt);
+        }
+
+        return sb.toString();
+    }
+
+    private String generateFirstLevelId(LocationHierarchy location) throws ConstraintViolations {
+        // use the first 3 letters of the name
+        if (location.getName().length() < 3) {
+            throw new ConstraintViolations("Name must be at least 3 characters");
+        }
+
+        return location.getName().substring(0, 3).toUpperCase();
+    }
+
+    private boolean isFirstLevelLocation(LocationHierarchy location) {
+        return "HIERARCHY_ROOT".equalsIgnoreCase(location.getParent().getExtId());
+    }
+
+    private boolean checkValidId(String extId, LocationHierarchy parent) {
+        ValueProperty property1 = ValuePropertyBuilder.build("parent", parent);
+        ValueProperty property2 = ValuePropertyBuilder.build("extId", extId);
+        LocationHierarchy item = genericDao.findByMultiProperty(LocationHierarchy.class, property1, property2);
         if (item != null)
             return false;
         return true;
@@ -96,5 +83,9 @@ public class LocationHierarchyGenerator extends Generator<LocationHierarchy> {
     public IdScheme getIdScheme() {
         int index = Collections.binarySearch(resource.getIdScheme(), new IdScheme("LocationHierarchy"));
         return resource.getIdScheme().get(index);
+    }
+
+    public void setLocationHierarchyDao(LocationHierarchyDao locationHierarchyDao) {
+        this.locationHierarchyDao = locationHierarchyDao;
     }
 }

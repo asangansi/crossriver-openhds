@@ -68,7 +68,7 @@ public class EAVTest {
 		 currentUser.setProxyUser("admin", "test", new String[] {"VIEW_ENTITY", "CREATE_ENTITY"});
 		 
 		 fieldWorker = genericDao.findByProperty(FieldWorker.class, "extId", "FWEK1D");
-		 location = genericDao.findByProperty(Location.class, "extId", "TANAKPMBI001");
+		 location = genericDao.findByProperty(Location.class, "extId", "AKP0101003");
 	 }
 	 
 	 @Test

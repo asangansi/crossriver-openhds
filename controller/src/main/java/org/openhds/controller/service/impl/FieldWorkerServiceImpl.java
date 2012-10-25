@@ -45,7 +45,7 @@ public class FieldWorkerServiceImpl implements FieldWorkerService {
      */
     public List<String> getFieldWorkerExtIds(String term) {
         List<String> ids = new ArrayList<String>();
-        List<FieldWorker> list = genericDao.findListByPropertyPrefix(FieldWorker.class, "extId", term, 10, true);
+        List<FieldWorker> list = genericDao.findListByPropertyPrefix(FieldWorker.class, "extId", term, 10, true, true);
         for (FieldWorker fw : list) {
             ids.add(fw.getExtId());
         }

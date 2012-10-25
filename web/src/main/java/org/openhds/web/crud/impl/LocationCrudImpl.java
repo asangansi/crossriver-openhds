@@ -1,9 +1,12 @@
 package org.openhds.web.crud.impl;
 
 import javax.faces.context.FacesContext;
+
+import org.apache.commons.lang.StringUtils;
 import org.openhds.controller.exception.AuthorizationException;
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.domain.model.Location;
+import org.openhds.domain.model.LocationHierarchy;
 import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.domain.service.SitePropertiesService;
 import org.springframework.binding.message.MessageContext;
@@ -19,7 +22,20 @@ public class LocationCrudImpl extends EntityCrudImpl<Location, String> {
     
     @Override
     public String create() {
-
+        LocationHierarchy level = entityItem.getLocationLevel();
+        if (StringUtils.isBlank(level.getExtId())) {
+            jsfService.addError("You must provide the external id of the village");
+            return null;
+        }
+        
+        // location hierarchy item needs to be looked up so a transient instance exception is not thrown
+        LocationHierarchy hierarchy = genericDao.findByProperty(LocationHierarchy.class, "extId", entityItem.getLocationLevel().getExtId());
+        if (hierarchy == null) {
+            jsfService.addError("Cannot create location because the village id: " + level.getExtId() + " cannot be found");
+            return null;
+        }
+        
+        entityItem.setLocationLevel(hierarchy);
         try {
             service.evaluateLocation(entityItem, false);
             super.create();

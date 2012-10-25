@@ -129,7 +129,7 @@ public class SocialGroupServiceImpl implements SocialGroupService {
      */
     public List<String> getSocialGroupExtIds(String term) {
         List<String> ids = new ArrayList<String>();
-        List<SocialGroup> list = genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", term, 10, true);
+        List<SocialGroup> list = genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", term, 10, true, true);
         for (SocialGroup sg : list) {
             ids.add(sg.getExtId());
         }
@@ -232,6 +232,6 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 
     @Transactional(readOnly = true)
     public List<SocialGroup> getSocialGroupsPrefixedWith(String substring) {
-        return genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", substring, 0, true);
+        return genericDao.findListByPropertyPrefix(SocialGroup.class, "extId", substring, 0, true, true);
     }
 }

@@ -1101,8 +1101,9 @@
     	<property name="generated"><value>${openhds.locationIdUseGenerator}</value></property>
     </bean>
     
-    <bean id="locationHierarchyIdGenerator" class="org.openhds.controller.idgeneration.LocationHierarchyGenerator" parent="idGenerator"/>
-   
+    <bean id="locationHierarchyIdGenerator" class="org.openhds.controller.idgeneration.LocationHierarchyGenerator" parent="idGenerator">
+        <property name="locationHierarchyDao" ref="locationHierarchyDao" />
+    </bean>   
     <bean id="individualIdGenerator" class="org.openhds.controller.idgeneration.IndividualGenerator" parent="idGenerator" >
     	<property name="generated"><value>${openhds.individualIdUseGenerator}</value></property>
     </bean>

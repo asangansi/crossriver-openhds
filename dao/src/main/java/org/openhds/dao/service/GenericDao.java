@@ -108,7 +108,7 @@ public interface GenericDao {
     Session getSession();
 
     <T> List<T> findListByPropertyPrefix(Class<T> entityType, String propertyName, String prefix, int limit,
-            boolean filterDeleted);
+            boolean ascendingOrder, boolean filterDeleted);
 
     <T, S> T findUniqueByInPropertyWithOrder(Class<T> entityType, String property, Object value, String inProperty,
             List<S> inValues, OrderProperty orderProp, boolean filterDeleted);

@@ -21,69 +21,25 @@ public class LocationGenerator extends Generator<Location> {
     @Override
     public String generateId(Location location) throws ConstraintViolations {
         StringBuilder sb = new StringBuilder();
-
         IdScheme scheme = getIdScheme();
-        HashMap<String, Integer> fields = scheme.getFields();
-        Iterator<String> itr = fields.keySet().iterator();
+        sb.append(location.getLocationLevel().getExtId());
 
-        if (scheme.getPrefix() != null) {
-            LocationHierarchyLevel level = genericDao.findByProperty(LocationHierarchyLevel.class, "name",
-                    scheme.getPrefix());
-            List<LocationHierarchy> hierarchyItems = genericDao.findListByProperty(LocationHierarchy.class, "level",
-                    level);
-
-            for (LocationHierarchy item : hierarchyItems) {
-                List<String> locs = getValidLocationsInHierarchy(item.getExtId());
-
-                for (String name : locs) {
-                    if (name.equals(location.getLocationLevel().getExtId())) {
-                        sb.append(item.getExtId().toUpperCase() + location.getLocationLevel().getParent().getExtId());
-                    }
-                }
-            }
+        // the last portion of the id is a 3 digit count, e.g. 001
+        // to be efficient, retrieve all locations that start with the current prefix (calculated above)
+        // and order them in descending order.
+        List<Location> locations = genericDao.findListByPropertyPrefix(Location.class, "extId", sb.toString(), 1,
+                false, true);
+        if (locations.size() == 0) {
+            // this is the first location within this hierarchy path
+            sb.append("001");
+        } else {
+            // otherwise increment the last 3 digits by 1
+            int prefixCnt = sb.length();
+            int lastDigitCnt = Integer.parseInt(locations.get(0).getExtId().substring(prefixCnt));
+            int nextDigitCnt = lastDigitCnt + 1;
+            String digitCnt = String.format("%03d", nextDigitCnt);
+            sb.append(digitCnt);
         }
-
-        while (itr.hasNext()) {
-            String key = itr.next();
-            Integer filter = fields.get(key);
-
-            if (filter != null) {
-
-                if (key.equals(IdGeneratedFields.LOCATION_HIERARCHY_ID.toString())) {
-                    String locId = location.getLocationLevel().getExtId();
-                    if (filter > 0 && locId.length() >= filter)
-                        sb.append(formatProperString(locId, filter));
-                    else if (filter == 0 || locId.length() < filter)
-                        sb.append(formatProperString(locId, locId.length()));
-                    else
-                        throw new ConstraintViolations("An error occurred while attempting to generate "
-                                + "the id on the field specified as '" + locId + "'");
-                } else if (key.equals(IdGeneratedFields.LOCATION_NAME.toString())) {
-                    String locationName = location.getLocationName();
-
-                    if (locationName.length() >= filter) {
-
-                        if (filter > 0 && location.getLocationName().length() >= filter)
-                            sb.append(formatProperString(locationName, filter));
-                        else if (filter == 0 || locationName.length() < filter)
-                            sb.append(formatProperString(locationName, locationName.length()));
-                        else
-                            throw new ConstraintViolations("An error occurred while attempting to generate "
-                                    + "the id on the field specified as '" + locationName + "'");
-                    } else
-                        throw new ConstraintViolations(
-                                "Unable to generate the id. Make sure the field Location Name is of the required length "
-                                        + "specified in the id configuration.");
-                }
-            }
-        }
-
-        extId = sb.toString();
-        if (scheme.getIncrementBound() > 0)
-            sb.append(buildNumberWithBound(location, scheme));
-        else
-            sb.append(buildNumber(Location.class, sb.toString(), scheme.isCheckDigit()));
-
         validateIdLength(sb.toString(), scheme);
 
         return sb.toString();

@@ -74,7 +74,7 @@ public class VisitServiceImpl implements VisitService {
      */
     public List<String> getVisitExtIds(String term) {
         List<String> ids = new ArrayList<String>();
-        List<Visit> list = genericDao.findListByPropertyPrefix(Visit.class, "extId", term, 10, true);
+        List<Visit> list = genericDao.findListByPropertyPrefix(Visit.class, "extId", term, 10, true, true);
         for (Visit visit : list) {
             ids.add(visit.getExtId());
         }

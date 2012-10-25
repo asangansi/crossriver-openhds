@@ -85,7 +85,7 @@ public class IndividualServiceImpl implements IndividualService {
      */
     public List<String> getIndividualExtIds(String term) {
         List<String> ids = new ArrayList<String>();
-        List<Individual> list = genericDao.findListByPropertyPrefix(Individual.class, "extId", term, 10, true);
+        List<Individual> list = genericDao.findListByPropertyPrefix(Individual.class, "extId", term, 10, true, true);
         for (Individual indiv : list) {
             ids.add(indiv.getExtId());
         }

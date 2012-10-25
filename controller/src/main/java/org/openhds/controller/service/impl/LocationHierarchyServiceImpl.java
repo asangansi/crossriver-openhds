@@ -47,22 +47,23 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
             item = genericDao.findByProperty(LocationHierarchy.class, "name", entityItem.getParent().getName());
         }
 
-        // set the external id on the hierarchy item
-        if (!overrideIdGeneration) {
-            generateId(entityItem);
-        }
-
         // the Parent item is the root so this Hierarchy item may or may not be at the highest level
         if (item == null) {
 
             // set the level to the highest specified
             entityItem.setLevel(getHeighestLevel());
             entityItem.setParent(getHierarchyRoot());
+        } else {
+            // if the Parent item is not the root, then we can determine the level of the Hierarchy item from the Parent
+            entityItem.setLevel(determineParentLevel(item.getLevel()));
+        }
+        
+        // set the external id on the hierarchy item
+        if (!overrideIdGeneration) {
+            generateId(entityItem);
         }
 
-        // if the Parent item is not the root, then we can determine the level of the Hierarchy item from the Parent
-        else
-            entityItem.setLevel(determineParentLevel(item.getLevel()));
+
 
         return item;
     }
@@ -148,10 +149,6 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
         if (!checkValidLocationEntry(entityItem.getLocationLevel().getExtId()))
             throw new ConstraintViolations("The " + getLowestLevel().getName()
                     + " specified is not the lowest level in the Location Hierarchy.");
-
-        LocationHierarchy item = genericDao.findByProperty(LocationHierarchy.class, "extId", entityItem
-                .getLocationLevel().getExtId());
-        entityItem.setLocationLevel(item);
 
         if (locationGenerator.generated && !overrideIdGeneration)
             return generateId(entityItem);
@@ -319,7 +316,7 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
      */
     public List<String> getLocationExtIds(String term) {
         List<String> ids = new ArrayList<String>();
-        List<Location> locs = genericDao.findListByPropertyPrefix(Location.class, "extId", term, 10, true);
+        List<Location> locs = genericDao.findListByPropertyPrefix(Location.class, "extId", term, 10, true, true);
         for (Location loc : locs) {
             ids.add(loc.getExtId());
         }
@@ -332,7 +329,7 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
     public List<String> getLocationNames(String term) {
         List<String> names = new ArrayList<String>();
         List<LocationHierarchy> list = genericDao.findListByPropertyPrefix(LocationHierarchy.class, "name", term, 10,
-                false);
+                true, false);
         Iterator<LocationHierarchy> itr = list.iterator();
         while (itr.hasNext()) {
             LocationHierarchy item = itr.next();

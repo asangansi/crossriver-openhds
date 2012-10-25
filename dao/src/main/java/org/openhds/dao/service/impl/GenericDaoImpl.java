@@ -190,12 +190,15 @@ public class GenericDaoImpl implements GenericDao {
     @SuppressWarnings("unchecked")
     @Override
     public <T> List<T> findListByPropertyPrefix(Class<T> entityType, String propertyName, String prefix, int limit,
-            boolean filterDeleted) {
+            boolean ascendingOrder, boolean filterDeleted) {
         Criteria crit = getSession().createCriteria(entityType);
         if (filterDeleted) {
             crit = crit.add(Restrictions.eq("deleted", false));
         }
-
+        
+        OrderProperty prop = OrderPropertyBuilder.build(propertyName, ascendingOrder);
+        addOrderPropertiesToCriteria(crit, prop);
+        
         if (limit > 0) {
             crit = crit.setMaxResults(limit);
         }
