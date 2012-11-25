@@ -20,6 +20,7 @@ import org.openhds.domain.constraint.CheckEntityNotVoided;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.CheckIndividualNotUnknown;
 import org.openhds.domain.constraint.ExtensionIntegerConstraint;
+import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
 
 
@@ -77,6 +78,11 @@ public class Death
     @Temporal(TemporalType.DATE)
     @Past
     private Calendar recordedDate;
+    @Description(description = "Deceased Name")
+    private String deceasedName;
+    @ExtensionStringConstraint(constraint = "genderConstraint", message = "Invalid Value for gender", allowNull = true)
+    @Description(description = "The gender of the deceased.")
+    private String gender;
 
     public Individual getIndividual() {
         return individual;
@@ -155,6 +161,22 @@ public class Death
 
     public void setRecordedDate(Calendar data) {
         recordedDate = data;
+    }
+
+    public String getDeceasedName() {
+        return deceasedName;
+    }
+
+    public void setDeceasedName(String deceasedName) {
+        this.deceasedName = deceasedName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 }

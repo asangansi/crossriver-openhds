@@ -26,83 +26,68 @@
 		             
 		            <h:outputText styleClass="error" value="#{deathCrud.item.statusMessage}" />
 		    
-		            <h:panelGrid columns="3">
-		            	<f:verbatim><h3>Basic Information</h3></f:verbatim>
+                    <h:panelGrid columns="3">
+                    
+                        <f:verbatim><h3>Basic Information</h3></f:verbatim>
 	            		<h:outputText />
 	            		<h:outputText />
-	            		
-	            		<h:outputText value="#{msg.fieldWorkerId}:"/>
-                		<h:outputText />
-                		<h:outputText value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
-                
-                		<h:outputText value="Date of Interview (#{siteProperties.dateFormat}):" />
-	                	<h:outputText />
-	                	<h:outputText value="#{deathCrud.item.recordedDate}" converter="#{calendarConverter}" />
-	           			
-		            	<h:outputText value="#{msg.individualId}:" />
+                    
+                    	<h:outputText value="#{msg.fieldWorkerId}:"/>
+                    	<h:outputText />
+                        <h:outputText value="#{deathCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}" />
+                        
+	                   	<h:outputText value="#{msg.visitId}:"/>
+	                   	<h:outputText />
+	                   	<h:outputText value="#{deathCrud.item.visit}" converter="#{visitExtIdConverter}" />
+                    
+                    	<h:outputText value="Date of Interview: (#{siteProperties.dateFormat}):" />
+                        <h:outputText />
+                        <h:outputText value="#{deathCrud.item.recordedDate}" converter="#{calendarConverter}" />
+                    	
+		            	<h:outputText value="Permanent Id:"/>
 		            	<h:outputText />
-		            	<h:outputText value="#{deathCrud.item.individual}" converter="#{individualExtIdConverter}"/>
-		            	
-		            	<h:outputText value="House Id:"/>
-			           	<h:outputText />
-			            <h:outputText value="#{deathCrud.item.house}" converter="#{locationExtIdConverter}" />
-							
+		                <h:outputText value="#{deathCrud.item.individual}" converter="#{individualExtIdConverter}" />
+
+						<h:outputText value="House Id:"/>
+		            	<h:outputText />
+		                <h:outputText value="#{deathCrud.item.house}" converter="#{locationExtIdConverter}" />
+						
 						<h:outputText value="Household Id:"/>
-			            <h:outputText />
-			            <h:outputText value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}" autocomplete="off"/>
-			            
-			            <h:outputText value="Household Name:" />
+		            	<h:outputText />
+		                <h:outputText value="#{deathCrud.item.household}" converter="#{socialGroupExtIdConverter}"/>
+
+						<h:outputText value="Household Name:" />
 						<h:outputText />
 						<h:outputText value="#{deathCrud.item.household.groupName}" />
 						
-						<h:outputText value="Deceased First Name:" />
+                        <h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat})" />
+                        <h:outputText />
+                        <h:outputText value="#{deathCrud.item.deathDate}" converter="#{calendarConverter}" />
+
+						<h:outputText value="Deceased Name:" />
 						<h:outputText />
-						<h:outputText id="deceasedFName" value="#{deathCrud.item.individual.firstName}" />
+						<h:outputText value="#{deathCrud.item.deceasedName}" />
 						
-						<h:outputText value="Deceased Last Name:" />
+						<h:outputText value="Sex:"/>
+	                	<img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+	                	<h:outputText value="#{deathCrud.item.gender}" /> 
+
+                        <h:outputText value="#{msg.deathPlace}:"/>
+                        <img class="clickable" onclick="O$('popupWindowForPlaceOfDeath').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
+                        <h:outputText value="#{deathCrud.item.deathPlace}" />
+
+						<h:outputText value="Other:"/>
+	                    <h:outputText />
+	                    <h:outputText value="#{deathCrud.item.placeOfDeathOther}" />
+
+	            		<f:verbatim><h3>Source of Information</h3></f:verbatim>
 						<h:outputText />
-						<h:outputText id="deceasedLName" value="#{deathCrud.item.individual.lastName}" />
-						
-						<h:outputText value="Deceased Gender:"/>
-		                <img class="clickable" onclick="O$('popupWindowForSex').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-		                <h:outputText value="#{deathCrud.item.individual.gender}" /> 	
-		                
-		                <h:outputText value="#{msg.deathPlace}:"/>
-		                <img class="clickable" onclick="O$('popupWindowForPlaceOfDeath').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-		                <h:outputText value="#{deathCrud.item.deathPlace}"/>
-		                
-		                <h:outputText value="Other:"/>
-		                <h:outputText />
-		                <h:outputText value="#{deathCrud.item.placeOfDeathOther}" />
-	                	
-	                	<h:outputText value="#{msg.deathDate}:" />
-		                <h:outputText />
-		                <h:outputText value= "#{deathCrud.item.deathDate}" converter="#{calendarConverter}" />
-		               
-	           			<h:outputText value="#{msg.visitId}:"/>
-		                <h:outputText />
-		                <h:outputText value="#{deathCrud.item.visit}" converter="#{visitExtIdConverter}"/>
-						
-						<f:verbatim><h3>Source of Information</h3></f:verbatim>
-		            	<h:outputText />
-		            	<h:outputText />
-		            	
-		            	<h:outputText value="Reported By:"/>
+						<h:outputText />
+
+                    	<h:outputText value="Reported By:"/>
                 		<img class="clickable" onclick="O$('popupWindowForReportedBy').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-                		<h:outputText id="reportedBy" value="#{deathCrud.item.reportedBy}" converter="#{defaultConverter}" />
-                	
-						<h:outputText value="#{msg.insertDate}:"/>
-	                	<h:outputText />
-	                	<h:outputText value="#{deathCrud.item.insertDate}" converter="#{calendarConverter}" />
-						
-						<h:outputText value="#{msg.insertBy}:"/>
-						<h:outputText />
-						<h:outputText value="#{deathCrud.item.insertBy.fullName}" />
-						
-						<h:outputText value="#{msg.dataStatus}:"/>
-			    		<img class="clickable" onclick="O$('popupWindowForDataStatus').showCentered();" src="#{request.contextPath}/resources/images/question.png" />
-						<h:outputText value="#{deathCrud.item.status}" />	
-					</h:panelGrid>
+                		<h:outputText value="#{deathCrud.item.reportedBy}" />
+                    </h:panelGrid>
 					<br />
 					<h:commandButton value="Cancel" immediate="true" action="cancel" rendered="#{flowScope.updating}" />
 					<h:commandButton action="#{deathCrud.editSetup}" value="#{msg.lblEdit}" rendered="#{flowScope == null}">
