@@ -89,11 +89,6 @@
 	                <td><h:message for="deathPlace" errorClass="error" errorStyle="color: red" infoStyle="color: green"/></td>
 				</tr>
 				<tr>
-	                <td><h:outputText value="#{msg.deathCause}: "/></td>
-	                <td><h:inputText id="deathCause" value="#{deathCrud.item.deathCause}" converter="#{defaultConverter}" disabled="#{flowScope.deathIsSet}"/></td>
-	                <td><h:message for="deathCause" errorClass="error" errorStyle="color: red" infoStyle="color: green"/></td>
-				</tr>
-				<tr>
 	                <td><h:outputText value="#{msg.deathDate} (#{siteProperties.dateFormat}) "/></td>
 	                <td><o:dateChooser id="deathDate" value="#{deathCrud.deathDate}" pattern="#{siteProperties.dateFormat}" disabled="#{flowScope.deathIsSet}" /></td>
 	                <td><h:message for="deathDate" errorClass="error" errorStyle="color: red" infoStyle="color: green"/></td>
@@ -105,7 +100,7 @@
 	            </tr>
 	            <tr>
 	               	<td><h:outputText value="#{msg.visitId}:"/></td>
-	               	<td><h:inputText styleClass="visit" autocomplete="off" id="visit" value="#{deathCrud.item.visitDeath}" converter="#{visitExtIdConverter}" disabled="#{flowScope.deathIsSet}" /></td>
+	               	<td><h:inputText styleClass="visit" autocomplete="off" id="visit" value="#{deathCrud.item.visit}" converter="#{visitExtIdConverter}" disabled="#{flowScope.deathIsSet}" /></td>
 	        		<td><h:message for="visit" errorClass="error" errorStyle="color: red" infoStyle="color: green"/></td>
 	            </tr>
 	            <script>
