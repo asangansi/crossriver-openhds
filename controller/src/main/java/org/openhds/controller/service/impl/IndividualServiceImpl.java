@@ -1,6 +1,7 @@
 package org.openhds.controller.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openhds.controller.exception.ConstraintViolations;
@@ -157,6 +158,9 @@ public class IndividualServiceImpl implements IndividualService {
         head.setFather(findIndivById(properties.getUnknownIdentifier()));
         head.setGender(properties.getUnknownIdentifier());
         head.setCollectedBy(collectedBy);
+        Calendar dateOfBirth = Calendar.getInstance();
+        dateOfBirth.set(Calendar.YEAR, 1950);
+        head.setDob(dateOfBirth);
 
         entityService.create(head);
         return head;
